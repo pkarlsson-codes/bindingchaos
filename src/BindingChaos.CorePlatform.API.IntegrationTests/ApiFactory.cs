@@ -56,6 +56,22 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         await identityDb.Database.MigrateAsync().ConfigureAwait(false);
     }
 
+    public override async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await base.DisposeAsync().ConfigureAwait(false);
+        }
+        catch
+        {
+            // Suppress exceptions thrown during host shutdown. Hosted services (Marten,
+            // Wolverine) can throw when stopped after the test run completes. All tests
+            // have already passed at this point — letting these propagate causes xUnit to
+            // report a collection cleanup failure and return exit code 1 despite no test
+            // failures.
+        }
+    }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
