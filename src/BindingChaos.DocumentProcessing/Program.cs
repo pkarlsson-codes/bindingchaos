@@ -1,26 +1,38 @@
-﻿using Microsoft.Extensions.Hosting;
+using BindingChaos.DocumentProcessing;
+using BindingChaos.DocumentProcessing.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Minio;
 using Wolverine;
 using Wolverine.RabbitMQ;
-using Minio;
-
-using BindingChaos.DocumentProcessing;
 
 var builder = Host.CreateApplicationBuilder(args);
 
+var minioOptions = builder.Configuration.GetSection("Minio").Get<MinioOptions>() ?? new MinioOptions();
+var rabbitMqOptions = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>() ?? new RabbitMqOptions();
+var messagingOptions = builder.Configuration.GetSection("Messaging").Get<MessagingOptions>() ?? new MessagingOptions();
+
 builder.Services.AddMinio(configure => configure
-    .WithEndpoint("localhost:9000")
-    .WithCredentials("minioadmin", "minioadmin")
+    .WithEndpoint(minioOptions.Endpoint)
+    .WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey)
+    .WithSSL(minioOptions.UseSsl)
     .Build());
 
 builder.UseWolverine(opts =>
 {
-    // Tell Wolverine to listen to the specific RabbitMQ queue MinIO hits
-    opts.ListenToRabbitQueue("minio-attachments")
+    opts.UseRabbitMq(rabbit =>
+    {
+        rabbit.HostName = rabbitMqOptions.Host;
+        rabbit.Port = rabbitMqOptions.Port;
+        rabbit.UserName = rabbitMqOptions.Username;
+        rabbit.Password = rabbitMqOptions.Password;
+    });
+
+    opts.ListenToRabbitQueue(messagingOptions.AttachmentsQueue)
         .ProcessInline();
 
-    // Optionally, send a 'ThumbnailCreated' message back to your Core API
     opts.PublishMessage<ThumbnailCreated>()
-        .ToRabbitExchange("platform-events");
+        .ToRabbitExchange(messagingOptions.EventsExchange);
 });
 
 var host = builder.Build();

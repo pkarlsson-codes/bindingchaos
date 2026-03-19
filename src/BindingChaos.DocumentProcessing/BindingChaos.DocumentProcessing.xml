@@ -24,6 +24,71 @@
             <param name="bus">The message context used to publish notifications to the Core API. Must not be null.</param>
             <returns>A task that represents the asynchronous operation of handling the notification.</returns>
         </member>
+        <member name="T:BindingChaos.DocumentProcessing.Configuration.MessagingOptions">
+            <summary>
+            Strongly-typed options for messaging queue and exchange names.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MessagingOptions.AttachmentsQueue">
+            <summary>
+            The RabbitMQ queue to consume MinIO attachment notifications from.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MessagingOptions.EventsExchange">
+            <summary>
+            The RabbitMQ exchange to publish platform events to.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.Configuration.MinioOptions">
+            <summary>
+            Strongly-typed options for the MinIO object storage client.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MinioOptions.Endpoint">
+            <summary>
+            MinIO server endpoint (host:port).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MinioOptions.AccessKey">
+            <summary>
+            MinIO access key (username).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MinioOptions.SecretKey">
+            <summary>
+            MinIO secret key (password).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.MinioOptions.UseSsl">
+            <summary>
+            Whether to use SSL for MinIO connections.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.Configuration.RabbitMqOptions">
+            <summary>
+            Strongly-typed options for the RabbitMQ message broker connection.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.RabbitMqOptions.Host">
+            <summary>
+            RabbitMQ host name or IP address.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.RabbitMqOptions.Port">
+            <summary>
+            RabbitMQ AMQP port.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.RabbitMqOptions.Username">
+            <summary>
+            RabbitMQ username.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.Configuration.RabbitMqOptions.Password">
+            <summary>
+            RabbitMQ password.
+            </summary>
+        </member>
         <member name="T:BindingChaos.DocumentProcessing.DTOs.MinioNotification">
             <summary>
             A Minio notification.
