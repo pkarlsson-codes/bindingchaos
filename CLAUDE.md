@@ -51,6 +51,7 @@ Browser → Web (3000) → Web.Gateway/BFF (4000) → CorePlatform.API (5000)
 - **BindingChaos.Web**: React + TypeScript + Vite frontend. Uses generated TypeScript client (`src/api/`) from the Gateway's OpenAPI spec. TanStack Query for server state. Tailwind + Radix UI + shadcn/ui components.
 - **BindingChaos.Web.Gateway**: ASP.NET Core BFF. Handles OIDC auth with Keycloak, issues internal JWTs to Core API, aggregates/maps requests. Frontend proxies all API calls here.
 - **BindingChaos.CorePlatform.API**: Main backend. Validates internal JWTs, hosts all bounded context controllers, dispatches commands/queries via Wolverine.
+- **BindingChaos.DocumentProcessing**: Standalone worker service. Listens for Minio object-created events via RabbitMQ and generates attachment thumbnails.
 
 ### Bounded Context Structure
 
@@ -74,17 +75,17 @@ BindingChaos.<BoundedContext>.Tests/       # Unit tests mirroring Domain/ and Ap
 - **SignalAwareness** — signals, amplifications, suggested actions
 - **Ideation** — ideas, amendments, amendment voting
 - **CommunityDiscourse** — threaded discussion posts
-- **LocalityManagement** — geographic locality hierarchy
+- **Societies** — societies, social contracts, membership
 - **Tagging** — tag management
 - **Pseudonymity** — privacy-preserving participant pseudonyms (uses EF Core)
 - **IdentityProfile** — identity storage (uses EF Core)
 
-> **Note:** `LocalityManagement`, `Pseudonymity`, and `IdentityProfile` are supporting service contexts, not DDD domain contexts. They use `Application/Services/` instead of the `Commands/`/`Queries/`/`ReadModels/` CQRS structure. This is intentional.
+> **Note:** `Pseudonymity` and `IdentityProfile` are supporting service contexts, not DDD domain contexts. They use `Application/Services/` instead of the `Commands/`/`Queries/`/`ReadModels/` CQRS structure. This is intentional.
 
 ### Shared Kernel (`BindingChaos.SharedKernel`)
 
 Contains CQRS primitives and DDD base types used across all bounded contexts:
-- `AggregateRoot`, `Entity`, `ValueObject`, `EntityId`, `ParticipantId`, `LocalityId`
+- `AggregateRoot`, `Entity`, `ValueObject`, `EntityId`, `ParticipantId`, `SocietyId`
 - `IUncommittedEvents` / `UncommittedEvents` for domain event tracking
 - `IUnitOfWork` and repository patterns
 
@@ -131,5 +132,5 @@ npm run frontend:generate
 
 ### Frontend
 - Feature-based folder structure under `src/features/` (signals, ideas, amendments, auth, locality, etc.)
-- All routes are locality-scoped under `/l/:localityPath/...`
+- Flat routing: `/signals`, `/ideas`, `/societies`, etc. (no locality prefix)
 - React Query for data fetching; generated API client from `src/api/`
