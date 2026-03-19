@@ -17,7 +17,7 @@
 
     <!-- Generate documentation file -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile>
+    <DocumentationFile>obj/$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
 
   <!-- Test projects: relaxed rules -->
