@@ -2,11 +2,13 @@
 
 A software platform implementing the governance and coordination concepts from Heather Marsh's [*Binding Chaos*](https://georgiebc.wordpress.com/binding-chaos/) (2013).
 
-The system enables locality-scoped, stigmergic participation: participants raise signals, propose ideas, amend them collectively, and coordinate real-world actions — all under pseudonymous identity with no personality-driven amplification.
+The system enables stigmergic participation within voluntary, self-governing societies: participants raise signals, propose ideas, amend them collectively, and coordinate real-world actions — all under pseudonymous identity with no personality-driven amplification.
 
 ## Status
 
-Under active development. Core bounded contexts (signals, ideation, discourse, locality, tagging, pseudonymity) are functional. The reputation/epistemic community layer described in the book is not yet built.
+Under active development. Core bounded contexts (signals, ideation, discourse, societies, tagging, pseudonymity) are functional. The reputation/epistemic community layer described in the book is not yet built.
+
+This is one developer's interpretation of Marsh's proposals, not an authoritative implementation. The domain modelling reflects a surface reading of the book and will contain misunderstandings — contributions and corrections from people with deeper familiarity with the ideas are welcome.
 
 ## Architecture
 
@@ -63,17 +65,24 @@ src/
   BindingChaos.Web/                  # React frontend
   BindingChaos.Web.Gateway/          # ASP.NET Core BFF
   BindingChaos.CorePlatform.API/     # Main backend
+  BindingChaos.CorePlatform.Clients/ # Typed HTTP clients for inter-service calls
+  BindingChaos.CorePlatform.Contracts/ # Shared API contracts
   BindingChaos.SignalAwareness/      # Signals, amplification, suggested actions
   BindingChaos.Ideation/             # Ideas, amendments, amendment voting
   BindingChaos.CommunityDiscourse/   # Threaded discussion
-  BindingChaos.LocalityManagement/   # Geographic locality hierarchy
+  BindingChaos.Societies/            # Voluntary societies, social contracts, membership
   BindingChaos.Tagging/              # Tag management
   BindingChaos.Pseudonymity/         # Privacy-preserving participant pseudonyms
   BindingChaos.IdentityProfile/      # Identity storage
+  BindingChaos.DocumentProcessing/   # Document ingestion and processing
+  BindingChaos.Infrastructure/       # Shared infrastructure concerns
   BindingChaos.SharedKernel/         # DDD base types, CQRS primitives
 docs/
+  01-vision/                         # Vision, features, and philosophy
+  02-architecture/                   # Architecture diagrams, bounded context maps, request lifecycle
+  07-development-process/            # Coding standards, workflow guides, how-to docs
   binding-chaos-concepts.md          # Concept reference grounded in the book
-  design-notes.md                    # Recorded decisions and known gaps
+  testing-guide.md                   # Testing conventions and structure
 ```
 
 ## Philosophy
