@@ -1,0 +1,255 @@
+{
+  "realm": "bindingchaos-dev",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": true,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "resetPasswordAllowed": true,
+
+  "accessTokenLifespan": 900,
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
+
+  "attributes": {
+    "frontendUrl": "http://localhost:7080/",
+    "clientOfflineSessionMaxLifespan": "0"
+  },
+
+  "internationalizationEnabled": false,
+  "webAuthnPolicyRpEntityName": "BindingChaos Dev",
+  "webAuthnPolicyRpId": "localhost",
+  "webAuthnPolicyAttestationConveyancePreference": "not specified",
+  "webAuthnPolicyAuthenticatorAttachment": "not specified",
+  "webAuthnPolicyRequireResidentKey": "not specified",
+  "webAuthnPolicyUserVerificationRequirement": "preferred",
+  "webAuthnPolicyCreateTimeout": 0,
+  "webAuthnPolicyAvoidSameAuthenticatorRegister": false,
+  "webAuthnPolicyAcceptableAaguids": [],
+
+  "clientScopes": [
+    {
+      "id": "openid",
+      "name": "openid",
+      "description": "OpenID Connect built-in scope: openid",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "subject-mapper",
+          "name": "subject",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "subject",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "sub",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "profile",
+      "name": "profile", 
+      "description": "OpenID Connect built-in scope: profile",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "${profileScopeConsentText}"
+      },
+      "protocolMappers": [
+        {
+          "id": "username-mapper",
+          "name": "username",
+          "protocol": "openid-connect", 
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "username",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "preferred_username",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "given-name-mapper",
+          "name": "given name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper", 
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "firstName",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "given_name",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "family-name-mapper",
+          "name": "family name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "lastName", 
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "family_name",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "name": "email",
+      "description": "OpenID Connect built-in scope: email",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "${emailScopeConsentText}"
+      },
+      "protocolMappers": [
+        {
+          "id": "email-mapper",
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "email",
+            "id.token.claim": "true", 
+            "access.token.claim": "true",
+            "claim.name": "email",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "email-verified-mapper",
+          "name": "email verified",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "emailVerified",
+            "id.token.claim": "true",
+            "access.token.claim": "true", 
+            "claim.name": "email_verified",
+            "jsonType.label": "boolean"
+          }
+        }
+      ]
+    },
+    {
+      "id": "offline_access",
+      "name": "offline_access",
+      "description": "OpenID Connect built-in scope: offline_access",
+      "protocol": "openid-connect",
+      "attributes": {
+        "consent.screen.text": "${offlineAccessScopeConsentText}",
+        "display.on.consent.screen": "true"
+      }
+    }
+  ],
+
+  "clients": [
+    {
+      "clientId": "gateway-bff",
+      "name": "Gateway BFF",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "dev-gateway-bff-secret-change-me",
+      "redirectUris": [
+        "http://localhost:4000/auth/callback",
+        "https://localhost:4001/auth/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:4000",
+        "https://localhost:4000",
+        "http://localhost:4001", 
+        "https://localhost:4001"
+      ],
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": true,
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "post.logout.redirect.uris": "http://localhost:4000/auth/signedout-callback##https://localhost:4001/auth/signedout-callback"
+      },
+      "defaultClientScopes": [
+        "openid",
+        "profile", 
+        "email",
+        "web-origins",
+        "role_list"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access", 
+        "microprofile-jwt"
+      ],
+      "protocolMappers": [
+        {
+          "id": "sub-mapper",
+          "name": "Subject ID Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-sub-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+
+  "identityProviders": [
+    {
+      "alias": "github",
+      "displayName": "GitHub",
+      "providerId": "github",
+      "enabled": false,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "CHANGE_ME",
+        "clientSecret": "CHANGE_ME", 
+        "scope": "user:email",
+        "useJwksUrl": "true"
+      }
+    }
+  ],
+
+  "browserFlow": "browser",
+  "registrationFlow": "registration", 
+  "resetCredentialsFlow": "reset credentials",
+  "directGrantFlow": "direct grant",
+  "dockerAuthenticationFlow": "docker auth"
+}

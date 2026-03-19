@@ -1,0 +1,1322 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.Societies</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.Societies.Application.Commands.CreateSociety">
+            <summary>
+            Command to create a new society along with its initial social contract.
+            </summary>
+            <param name="CreatedBy">The participant creating the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="RatificationThreshold">The decision protocol ratification threshold.</param>
+            <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
+            <param name="AllowVeto">Whether veto is allowed in the decision protocol.</param>
+            <param name="RequiredVerificationWeight">The required verification weight for epistemic rules.</param>
+            <param name="GeographicBounds">Optional geographic bounds for the society.</param>
+            <param name="Center">Optional center coordinates for the society.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.CreateSociety.#ctor(BindingChaos.SharedKernel.Domain.ParticipantId,System.String,System.String,System.String[],System.Double,System.Double,System.Boolean,System.Double,BindingChaos.SharedKernel.Domain.Geography.GeographicArea,BindingChaos.SharedKernel.Domain.Geography.Coordinates)">
+            <summary>
+            Command to create a new society along with its initial social contract.
+            </summary>
+            <param name="CreatedBy">The participant creating the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="RatificationThreshold">The decision protocol ratification threshold.</param>
+            <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
+            <param name="AllowVeto">Whether veto is allowed in the decision protocol.</param>
+            <param name="RequiredVerificationWeight">The required verification weight for epistemic rules.</param>
+            <param name="GeographicBounds">Optional geographic bounds for the society.</param>
+            <param name="Center">Optional center coordinates for the society.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.CreatedBy">
+            <summary>The participant creating the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.Name">
+            <summary>The name of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.Description">
+            <summary>The description of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.Tags">
+            <summary>The initial tags for the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.RatificationThreshold">
+            <summary>The decision protocol ratification threshold.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.ReviewWindowHours">
+            <summary>The decision protocol review window in hours.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.AllowVeto">
+            <summary>Whether veto is allowed in the decision protocol.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.RequiredVerificationWeight">
+            <summary>The required verification weight for epistemic rules.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.GeographicBounds">
+            <summary>Optional geographic bounds for the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.CreateSociety.Center">
+            <summary>Optional center coordinates for the society.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Commands.CreateSocietyHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Commands.CreateSociety"/> command by creating a <see cref="T:BindingChaos.Societies.Domain.Societies.Society"/> and its initial <see cref="T:BindingChaos.Societies.Domain.SocialContracts.SocialContract"/>.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.CreateSocietyHandler.Handle(BindingChaos.Societies.Application.Commands.CreateSociety,BindingChaos.Societies.Domain.Societies.ISocietyRepository,BindingChaos.Societies.Domain.SocialContracts.ISocialContractRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Handles a <see cref="T:BindingChaos.Societies.Application.Commands.CreateSociety"/> command, persisting both the society and its initial social contract.
+            </summary>
+            <param name="command">The command to handle.</param>
+            <param name="societyRepository">Repository for staging the society.</param>
+            <param name="socialContractRepository">Repository for staging the social contract.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The identifier of the newly created society.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Commands.JoinSociety">
+            <summary>
+            Command to join a society.
+            </summary>
+            <param name="SocietyId">The society to join.</param>
+            <param name="ParticipantId">The participant joining the society.</param>
+            <param name="SocialContractId">The social contract the participant is agreeing to.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.JoinSociety.#ctor(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.Societies.Domain.SocialContracts.SocialContractId)">
+            <summary>
+            Command to join a society.
+            </summary>
+            <param name="SocietyId">The society to join.</param>
+            <param name="ParticipantId">The participant joining the society.</param>
+            <param name="SocialContractId">The social contract the participant is agreeing to.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.JoinSociety.SocietyId">
+            <summary>The society to join.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.JoinSociety.ParticipantId">
+            <summary>The participant joining the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.JoinSociety.SocialContractId">
+            <summary>The social contract the participant is agreeing to.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Commands.JoinSocietyHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Commands.JoinSociety"/> command.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.JoinSocietyHandler.Handle(BindingChaos.Societies.Application.Commands.JoinSociety,BindingChaos.Societies.Domain.Societies.ISocietyRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Handles a <see cref="T:BindingChaos.Societies.Application.Commands.JoinSociety"/> command, adding a participant membership to the society.
+            </summary>
+            <param name="command">The command to handle.</param>
+            <param name="societyRepository">Repository for loading and staging the society.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The identifier of the newly created membership.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Commands.LeaveSociety">
+            <summary>
+            Command for a participant to leave a society.
+            </summary>
+            <param name="SocietyId">The society to leave.</param>
+            <param name="ParticipantId">The participant leaving the society.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.LeaveSociety.#ctor(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Command for a participant to leave a society.
+            </summary>
+            <param name="SocietyId">The society to leave.</param>
+            <param name="ParticipantId">The participant leaving the society.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.LeaveSociety.SocietyId">
+            <summary>The society to leave.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Commands.LeaveSociety.ParticipantId">
+            <summary>The participant leaving the society.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Commands.LeaveSocietyHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Commands.LeaveSociety"/> command.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Commands.LeaveSocietyHandler.Handle(BindingChaos.Societies.Application.Commands.LeaveSociety,BindingChaos.Societies.Domain.Societies.ISocietyRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Handles a <see cref="T:BindingChaos.Societies.Application.Commands.LeaveSociety"/> command, removing the participant's active membership.
+            </summary>
+            <param name="command">The command to handle.</param>
+            <param name="societyRepository">Repository for loading and staging the society.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractId">
+            <summary>
+            Query to retrieve the current social contract ID for a society.
+            </summary>
+            <param name="SocietyId">The ID of the society.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractId.#ctor(BindingChaos.SharedKernel.Domain.SocietyId)">
+            <summary>
+            Query to retrieve the current social contract ID for a society.
+            </summary>
+            <param name="SocietyId">The ID of the society.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractId.SocietyId">
+            <summary>The ID of the society.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractIdHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractId"/> query.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetCurrentSocialContractIdHandler.Handle(BindingChaos.Societies.Application.Queries.GetCurrentSocialContractId,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Returns the current social contract ID for the given society, or <see langword="null"/> if none exists.
+            </summary>
+            <param name="request">The query containing the society ID.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The social contract ID string, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIds">
+            <summary>
+            Query to retrieve the IDs of all societies a participant is an active member of.
+            </summary>
+            <param name="ParticipantId">The participant whose memberships to look up.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIds.#ctor(BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Query to retrieve the IDs of all societies a participant is an active member of.
+            </summary>
+            <param name="ParticipantId">The participant whose memberships to look up.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIds.ParticipantId">
+            <summary>The participant whose memberships to look up.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIdsHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIds"/> query.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetParticipantSocietyIdsHandler.Handle(BindingChaos.Societies.Application.Queries.GetParticipantSocietyIds,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Returns the society IDs of all societies the participant is currently an active member of.
+            </summary>
+            <param name="request">The query containing the participant ID.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>An array of society ID strings.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSocieties">
+            <summary>
+            Query to retrieve a paginated list of societies with optional filtering.
+            </summary>
+            <param name="QuerySpec">The pagination and filter specification.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSocieties.#ctor(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter})">
+            <summary>
+            Query to retrieve a paginated list of societies with optional filtering.
+            </summary>
+            <param name="QuerySpec">The pagination and filter specification.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetSocieties.QuerySpec">
+            <summary>The pagination and filter specification.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSocietiesHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Queries.GetSocieties"/> query.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSocietiesHandler.Handle(BindingChaos.Societies.Application.Queries.GetSocieties,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of societies matching the query criteria.
+            </summary>
+            <param name="request">The query containing pagination and filter specification.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A paginated response of society list items.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSociety">
+            <summary>
+            Query to retrieve a single society by ID.
+            </summary>
+            <param name="SocietyId">The ID of the society to retrieve.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSociety.#ctor(BindingChaos.SharedKernel.Domain.SocietyId)">
+            <summary>
+            Query to retrieve a single society by ID.
+            </summary>
+            <param name="SocietyId">The ID of the society to retrieve.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetSociety.SocietyId">
+            <summary>The ID of the society to retrieve.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSocietyHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Queries.GetSociety"/> query.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSocietyHandler.Handle(BindingChaos.Societies.Application.Queries.GetSociety,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Returns the society view for the given ID, or <see langword="null"/> if not found.
+            </summary>
+            <param name="request">The query containing the society ID.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The society view, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSocietyMembers">
+            <summary>
+            Query to retrieve a paginated list of active members for a society.
+            </summary>
+            <param name="SocietyId">The ID of the society.</param>
+            <param name="QuerySpec">The pagination specification.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSocietyMembers.#ctor(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.EmptyFilter})">
+            <summary>
+            Query to retrieve a paginated list of active members for a society.
+            </summary>
+            <param name="SocietyId">The ID of the society.</param>
+            <param name="QuerySpec">The pagination specification.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetSocietyMembers.SocietyId">
+            <summary>The ID of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.Queries.GetSocietyMembers.QuerySpec">
+            <summary>The pagination specification.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.Queries.GetSocietyMembersHandler">
+            <summary>
+            Handles the <see cref="T:BindingChaos.Societies.Application.Queries.GetSocietyMembers"/> query.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Application.Queries.GetSocietyMembersHandler.Handle(BindingChaos.Societies.Application.Queries.GetSocietyMembers,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of active members for the specified society.
+            </summary>
+            <param name="request">The query containing the society ID and pagination spec.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A paginated response of society member views.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.ReadModels.SocialContractView">
+            <summary>
+            Lightweight read model for a social contract, used to look up the current contract for a society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocialContractView.Id">
+            <summary>
+            Gets or sets the unique identifier of the social contract.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocialContractView.SocietyId">
+            <summary>
+            Gets or sets the ID of the society this contract belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocialContractView.EstablishedAt">
+            <summary>
+            Gets or sets when this social contract was established.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.ReadModels.SocietyListItemView">
+            <summary>
+            Read model for a society in a paginated list.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.Id">
+            <summary>
+            Gets or sets the unique identifier of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.Name">
+            <summary>
+            Gets or sets the name of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.Description">
+            <summary>
+            Gets or sets the description of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.CreatedAt">
+            <summary>
+            Gets or sets when this society was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.Tags">
+            <summary>
+            Gets or sets the tags associated with this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.HasGeographicBounds">
+            <summary>
+            Gets or sets a value indicating whether this society has geographic bounds.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyListItemView.ActiveMemberCount">
+            <summary>
+            Gets or sets the number of active members.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.ReadModels.SocietyMemberView">
+            <summary>
+            Read model for a single active member of a society, keyed by membership ID.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.Id">
+            <summary>
+            Gets or sets the membership identifier (used as the document key).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.SocietyId">
+            <summary>
+            Gets or sets the society identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.ParticipantId">
+            <summary>
+            Gets or sets the participant identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.SocialContractId">
+            <summary>
+            Gets or sets the social contract identifier agreed to at join time.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.JoinedAt">
+            <summary>
+            Gets or sets when the participant joined.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.IsActive">
+            <summary>
+            Gets or sets whether this membership is currently active.
+            Set to <see langword="false"/> when the participant leaves.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.ReadModels.SocietyRelationshipView">
+            <summary>
+            Read model for a society relationship embedded in <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyView"/>.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyRelationshipView.TargetSocietyId">
+            <summary>
+            Gets or sets the target society ID.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyRelationshipView.RelationshipType">
+            <summary>
+            Gets or sets the relationship type name.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Application.ReadModels.SocietyView">
+            <summary>
+            Full read model for a single society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.Id">
+            <summary>
+            Gets or sets the unique identifier of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.Name">
+            <summary>
+            Gets or sets the name of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.Description">
+            <summary>
+            Gets or sets the description of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.CreatedBy">
+            <summary>
+            Gets or sets the participant ID of the creator.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.CreatedAt">
+            <summary>
+            Gets or sets when this society was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.Tags">
+            <summary>
+            Gets or sets the tags associated with this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.HasGeographicBounds">
+            <summary>
+            Gets or sets a value indicating whether this society has geographic bounds.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.GeographicBoundsJson">
+            <summary>
+            Gets or sets the geographic bounds JSON, if applicable.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.CenterJson">
+            <summary>
+            Gets or sets the center coordinates JSON, if applicable.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.Relationships">
+            <summary>
+            Gets or sets the relationships to other societies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Application.ReadModels.SocietyView.ActiveMemberCount">
+            <summary>
+            Gets or sets the number of active members.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol">
+            <summary>
+            Value object representing the decision-making protocol for a social contract.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol.#ctor(System.Double,System.TimeSpan,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol"/> class.
+            </summary>
+            <param name="ratificationThreshold">The percentage of total weight required to ratify a decision (e.g., 0.5 for 50%).</param>
+            <param name="reviewWindow">The duration an amendment must remain open for feedback or objection.</param>
+            <param name="allowVeto">If true, a single principled objection can block a decision regardless of weight.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol.RatificationThreshold">
+            <summary>
+            Gets the percentage of total participant weight required to ratify an amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol.ReviewWindow">
+            <summary>
+            Gets the duration an amendment must remain open for feedback or objection.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol.AllowVeto">
+            <summary>
+            Gets a value indicating whether a single principled objection can block a decision.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol.GetEqualityComponents">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.EpistemicRules">
+            <summary>
+            Value object representing the epistemic rules that govern signal verification within a social contract.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.EpistemicRules.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Domain.SocialContracts.EpistemicRules"/> class.
+            </summary>
+            <param name="requiredVerificationWeight">The minimum verification weight required for signals.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.EpistemicRules.RequiredVerificationWeight">
+            <summary>
+            Gets the minimum verification weight required for signals to be considered valid.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.EpistemicRules.GetEqualityComponents">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended">
+            <summary>
+            Domain event raised when a social contract is amended.
+            </summary>
+            <param name="AggregateId">The ID of the social contract.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="AmendedBy">The participant ID who made the amendment.</param>
+            <param name="RatificationThreshold">The new ratification threshold, or null if unchanged.</param>
+            <param name="ReviewWindowTicks">The new review window in ticks, or null if unchanged.</param>
+            <param name="AllowVeto">The new veto flag, or null if unchanged.</param>
+            <param name="RequiredVerificationWeight">The new required verification weight, or null if unchanged.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.#ctor(System.String,System.Int64,System.String,System.Nullable{System.Double},System.Nullable{System.Int64},System.Nullable{System.Boolean},System.Nullable{System.Double})">
+            <summary>
+            Domain event raised when a social contract is amended.
+            </summary>
+            <param name="AggregateId">The ID of the social contract.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="AmendedBy">The participant ID who made the amendment.</param>
+            <param name="RatificationThreshold">The new ratification threshold, or null if unchanged.</param>
+            <param name="ReviewWindowTicks">The new review window in ticks, or null if unchanged.</param>
+            <param name="AllowVeto">The new veto flag, or null if unchanged.</param>
+            <param name="RequiredVerificationWeight">The new required verification weight, or null if unchanged.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.AmendedBy">
+            <summary>The participant ID who made the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.RatificationThreshold">
+            <summary>The new ratification threshold, or null if unchanged.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.ReviewWindowTicks">
+            <summary>The new review window in ticks, or null if unchanged.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.AllowVeto">
+            <summary>The new veto flag, or null if unchanged.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractAmended.RequiredVerificationWeight">
+            <summary>The new required verification weight, or null if unchanged.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished">
+            <summary>
+            Domain event raised when a social contract is established for a society.
+            </summary>
+            <param name="AggregateId">The ID of the social contract.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="SocietyId">The ID of the society this contract belongs to.</param>
+            <param name="EstablishedBy">The participant ID who established this contract.</param>
+            <param name="RatificationThreshold">The ratification threshold from the decision protocol.</param>
+            <param name="ReviewWindowTicks">The review window duration in ticks.</param>
+            <param name="AllowVeto">Whether veto is allowed.</param>
+            <param name="RequiredVerificationWeight">The required verification weight from the epistemic rules.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.#ctor(System.String,System.Int64,System.String,System.String,System.Double,System.Int64,System.Boolean,System.Double)">
+            <summary>
+            Domain event raised when a social contract is established for a society.
+            </summary>
+            <param name="AggregateId">The ID of the social contract.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="SocietyId">The ID of the society this contract belongs to.</param>
+            <param name="EstablishedBy">The participant ID who established this contract.</param>
+            <param name="RatificationThreshold">The ratification threshold from the decision protocol.</param>
+            <param name="ReviewWindowTicks">The review window duration in ticks.</param>
+            <param name="AllowVeto">Whether veto is allowed.</param>
+            <param name="RequiredVerificationWeight">The required verification weight from the epistemic rules.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.SocietyId">
+            <summary>The ID of the society this contract belongs to.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.EstablishedBy">
+            <summary>The participant ID who established this contract.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.RatificationThreshold">
+            <summary>The ratification threshold from the decision protocol.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.ReviewWindowTicks">
+            <summary>The review window duration in ticks.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.AllowVeto">
+            <summary>Whether veto is allowed.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished.RequiredVerificationWeight">
+            <summary>The required verification weight from the epistemic rules.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.ISocialContractRepository">
+            <summary>
+            Repository interface for the <see cref="T:BindingChaos.Societies.Domain.SocialContracts.SocialContract"/> aggregate.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.SocialContract">
+            <summary>
+            Aggregate root representing a social contract — the rules of governance for a society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.SocialContract.SocietyId">
+            <summary>
+            Gets the ID of the society this social contract belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.SocialContract.EstablishedBy">
+            <summary>
+            Gets the participant who established this social contract.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.SocialContract.EstablishedAt">
+            <summary>
+            Gets the timestamp when this social contract was established.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.SocialContract.Protocol">
+            <summary>
+            Gets the decision protocol for this social contract.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.SocialContracts.SocialContract.EpistemicRules">
+            <summary>
+            Gets the epistemic rules for this social contract.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.SocialContract.Establish(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol,BindingChaos.Societies.Domain.SocialContracts.EpistemicRules)">
+            <summary>
+            Establishes a new social contract for a society.
+            </summary>
+            <param name="societyId">The society this contract governs.</param>
+            <param name="establishedBy">The participant establishing the contract.</param>
+            <param name="protocol">The decision protocol.</param>
+            <param name="epistemicRules">The epistemic rules.</param>
+            <returns>A new <see cref="T:BindingChaos.Societies.Domain.SocialContracts.SocialContract"/> instance.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.SocialContract.Amend(BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.Societies.Domain.SocialContracts.DecisionProtocol,BindingChaos.Societies.Domain.SocialContracts.EpistemicRules)">
+            <summary>
+            Amends the social contract. At least one of <paramref name="newProtocol"/> or <paramref name="newEpistemicRules"/> must be non-null.
+            </summary>
+            <param name="amendedBy">The participant making the amendment.</param>
+            <param name="newProtocol">The new decision protocol, or null to keep the current one.</param>
+            <param name="newEpistemicRules">The new epistemic rules, or null to keep the current ones.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.SocialContracts.SocialContract.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.SocialContracts.SocialContractId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.Societies.Domain.SocialContracts.SocialContract"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.MemberJoined">
+            <summary>
+            Domain event raised when a participant joins a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="MembershipId">The new membership identifier.</param>
+            <param name="ParticipantId">The ID of the participant who joined.</param>
+            <param name="SocialContractId">The ID of the social contract agreed to.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.MemberJoined.#ctor(System.String,System.Int64,System.String,System.String,System.String)">
+            <summary>
+            Domain event raised when a participant joins a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="MembershipId">The new membership identifier.</param>
+            <param name="ParticipantId">The ID of the participant who joined.</param>
+            <param name="SocialContractId">The ID of the social contract agreed to.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.MemberJoined.MembershipId">
+            <summary>The new membership identifier.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.MemberJoined.ParticipantId">
+            <summary>The ID of the participant who joined.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.MemberJoined.SocialContractId">
+            <summary>The ID of the social contract agreed to.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.MemberLeft">
+            <summary>
+            Domain event raised when a participant leaves a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="MembershipId">The membership identifier of the leaving participant.</param>
+            <param name="ParticipantId">The ID of the participant who left.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.MemberLeft.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Domain event raised when a participant leaves a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="MembershipId">The membership identifier of the leaving participant.</param>
+            <param name="ParticipantId">The ID of the participant who left.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.MemberLeft.MembershipId">
+            <summary>The membership identifier of the leaving participant.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.MemberLeft.ParticipantId">
+            <summary>The ID of the participant who left.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated">
+            <summary>
+            Domain event raised when a new society is created.
+            </summary>
+            <param name="AggregateId">The ID of the created society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedBy">The participant ID of the creator.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="GeographicBoundsJson">The geographic bounds as a JSON string, or null if not geographic.</param>
+            <param name="CenterJson">The center coordinates as a JSON string, or null if not geographic.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.#ctor(System.String,System.Int64,System.String,System.String,System.String,System.Collections.Generic.IReadOnlyList{System.String},System.String,System.String)">
+            <summary>
+            Domain event raised when a new society is created.
+            </summary>
+            <param name="AggregateId">The ID of the created society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedBy">The participant ID of the creator.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="GeographicBoundsJson">The geographic bounds as a JSON string, or null if not geographic.</param>
+            <param name="CenterJson">The center coordinates as a JSON string, or null if not geographic.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.Name">
+            <summary>The name of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.Description">
+            <summary>The description of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.CreatedBy">
+            <summary>The participant ID of the creator.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.Tags">
+            <summary>The initial tags for the society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.GeographicBoundsJson">
+            <summary>The geographic bounds as a JSON string, or null if not geographic.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated.CenterJson">
+            <summary>The center coordinates as a JSON string, or null if not geographic.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated">
+            <summary>
+            Domain event raised when a society's description is updated.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="NewDescription">The new description of the society.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated.#ctor(System.String,System.Int64,System.String)">
+            <summary>
+            Domain event raised when a society's description is updated.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="NewDescription">The new description of the society.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated.NewDescription">
+            <summary>The new description of the society.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded">
+            <summary>
+            Domain event raised when a relationship to another society is added.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="TargetSocietyId">The ID of the target society.</param>
+            <param name="RelationshipType">The name of the relationship type.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Domain event raised when a relationship to another society is added.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="TargetSocietyId">The ID of the target society.</param>
+            <param name="RelationshipType">The name of the relationship type.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded.TargetSocietyId">
+            <summary>The ID of the target society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded.RelationshipType">
+            <summary>The name of the relationship type.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved">
+            <summary>
+            Domain event raised when a relationship to another society is removed.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="TargetSocietyId">The ID of the target society.</param>
+            <param name="RelationshipType">The name of the relationship type that was removed.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Domain event raised when a relationship to another society is removed.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="TargetSocietyId">The ID of the target society.</param>
+            <param name="RelationshipType">The name of the relationship type that was removed.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved.TargetSocietyId">
+            <summary>The ID of the target society.</summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved.RelationshipType">
+            <summary>The name of the relationship type that was removed.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded">
+            <summary>
+            Domain event raised when a tag is added to a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Tag">The tag that was added.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded.#ctor(System.String,System.Int64,System.String)">
+            <summary>
+            Domain event raised when a tag is added to a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Tag">The tag that was added.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded.Tag">
+            <summary>The tag that was added.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved">
+            <summary>
+            Domain event raised when a tag is removed from a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Tag">The tag that was removed.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved.#ctor(System.String,System.Int64,System.String)">
+            <summary>
+            Domain event raised when a tag is removed from a society.
+            </summary>
+            <param name="AggregateId">The ID of the society.</param>
+            <param name="Version">The aggregate version when this event was raised.</param>
+            <param name="Tag">The tag that was removed.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved.Tag">
+            <summary>The tag that was removed.</summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.ISocietyRepository">
+            <summary>
+            Repository interface for the <see cref="T:BindingChaos.Societies.Domain.Societies.Society"/> aggregate.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Membership">
+            <summary>
+            Represents a participant's membership in a society.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Membership.#ctor(BindingChaos.Societies.Domain.Societies.MembershipId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.Societies.Domain.SocialContracts.SocialContractId,System.DateTimeOffset)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Domain.Societies.Membership"/> class.
+            </summary>
+            <param name="id">The membership identifier.</param>
+            <param name="participantId">The participant who joined.</param>
+            <param name="socialContractId">The social contract agreed to at join time.</param>
+            <param name="joinedAt">The timestamp when the participant joined.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Membership.ParticipantId">
+            <summary>
+            Gets the participant who holds this membership.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Membership.SocialContractId">
+            <summary>
+            Gets the social contract agreed to when joining.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Membership.JoinedAt">
+            <summary>
+            Gets the timestamp when the participant joined.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Membership.IsActive">
+            <summary>
+            Gets a value indicating whether this membership is currently active.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Membership.Deactivate">
+            <summary>
+            Deactivates this membership.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.MembershipId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.Societies.Domain.Societies.Membership"/> entity.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.Society">
+            <summary>
+            Aggregate root representing a society — a self-governing group of participants.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Name">
+            <summary>
+            Gets the name of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Description">
+            <summary>
+            Gets the description of the society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.CreatedBy">
+            <summary>
+            Gets the participant who created this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.CreatedAt">
+            <summary>
+            Gets the timestamp when this society was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.GeographicBounds">
+            <summary>
+            Gets the optional geographic bounds of this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Center">
+            <summary>
+            Gets the optional center coordinates of this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Tags">
+            <summary>
+            Gets the tags associated with this society.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Relationships">
+            <summary>
+            Gets the relationships this society has with other societies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.Society.Memberships">
+            <summary>
+            Gets the memberships in this society.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.Create(BindingChaos.SharedKernel.Domain.ParticipantId,System.String,System.String,System.String[],BindingChaos.SharedKernel.Domain.Geography.GeographicArea,BindingChaos.SharedKernel.Domain.Geography.Coordinates)">
+            <summary>
+            Creates a new society.
+            </summary>
+            <param name="createdBy">The participant creating the society.</param>
+            <param name="name">The name of the society.</param>
+            <param name="description">The description of the society.</param>
+            <param name="tags">The initial tags.</param>
+            <param name="geographicBounds">Optional geographic bounds.</param>
+            <param name="center">Optional center coordinates.</param>
+            <returns>A new <see cref="T:BindingChaos.Societies.Domain.Societies.Society"/> instance.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.UpdateDescription(System.String)">
+            <summary>
+            Updates the society's description.
+            </summary>
+            <param name="newDescription">The new description.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.AddTag(System.String)">
+            <summary>
+            Adds a tag to this society.
+            </summary>
+            <param name="tag">The tag to add.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.RemoveTag(System.String)">
+            <summary>
+            Removes a tag from this society.
+            </summary>
+            <param name="tag">The tag to remove.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.AddRelationship(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.Societies.Domain.Societies.SocietyRelationshipType)">
+            <summary>
+            Adds a relationship to another society.
+            </summary>
+            <param name="targetSocietyId">The target society.</param>
+            <param name="relationshipType">The type of relationship.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.RemoveRelationship(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.Societies.Domain.Societies.SocietyRelationshipType)">
+            <summary>
+            Removes a relationship to another society.
+            </summary>
+            <param name="targetSocietyId">The target society.</param>
+            <param name="relationshipType">The type of relationship to remove.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.Join(BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.Societies.Domain.SocialContracts.SocialContractId)">
+            <summary>
+            Adds a member to this society.
+            </summary>
+            <param name="participantId">The participant joining.</param>
+            <param name="socialContractId">The social contract being agreed to.</param>
+            <returns>The new membership identifier.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.Leave(BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Removes a member from this society.
+            </summary>
+            <param name="participantId">The participant leaving.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.Society.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.SocietyRelationship">
+            <summary>
+            Value object representing a directed relationship from one society to another.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.SocietyRelationship.#ctor(BindingChaos.SharedKernel.Domain.SocietyId,BindingChaos.Societies.Domain.Societies.SocietyRelationshipType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Domain.Societies.SocietyRelationship"/> class.
+            </summary>
+            <param name="targetSocietyId">The target society of the relationship.</param>
+            <param name="relationshipType">The type of relationship.</param>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.SocietyRelationship.TargetSocietyId">
+            <summary>
+            Gets the target society of this relationship.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Domain.Societies.SocietyRelationship.RelationshipType">
+            <summary>
+            Gets the type of this relationship.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Domain.Societies.SocietyRelationship.GetEqualityComponents">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.Societies.Domain.Societies.SocietyRelationshipType">
+            <summary>
+            Defines the type of relationship between two societies.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.Societies.Domain.Societies.SocietyRelationshipType.PartOf">
+            <summary>
+            The society is a part of another society.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.Societies.Domain.Societies.SocietyRelationshipType.Affiliated">
+            <summary>
+            The society is affiliated with another society.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.Societies.Domain.Societies.SocietyRelationshipType.Federated">
+            <summary>
+            The society is federated with another society.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.SocietiesAssemblyReference">
+            <summary>
+            Marker surface for Wolverine assembly registration for Societies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.Societies.Infrastructure.SocietiesAssemblyReference.Assembly">
+            <summary>
+            Gets the assembly that contains Wolverine handlers for the Societies bounded context.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.SocietiesServiceCollectionExtensions">
+            <summary>
+            Dependency injection configuration for the Societies bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.SocietiesServiceCollectionExtensions.AddSocieties(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds Societies services to the service collection.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="configuration">The configuration instance.</param>
+            <returns>The service collection for method chaining.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Persistence.SocialContractRepository">
+            <summary>
+            Marten implementation of the SocialContract repository for event sourcing.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Persistence.SocialContractRepository"/> class.
+            </remarks>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Persistence.SocialContractRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.Societies.Domain.SocialContracts.SocialContract,BindingChaos.Societies.Domain.SocialContracts.SocialContractId}})">
+            <summary>
+            Marten implementation of the SocialContract repository for event sourcing.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Persistence.SocialContractRepository"/> class.
+            </remarks>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Persistence.SocietiesMartenConfiguration">
+            <summary>
+            Configuration for Marten projections and read models in the Societies bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Persistence.SocietiesMartenConfiguration.Configure(Marten.StoreOptions)">
+            <summary>
+            Configures Marten for the Societies bounded context.
+            </summary>
+            <param name="options">The Marten store options to configure.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Persistence.SocietyRepository">
+            <summary>
+            Marten implementation of the Society repository for event sourcing.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Persistence.SocietyRepository"/> class.
+            </remarks>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Persistence.SocietyRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.Societies.Domain.Societies.Society,BindingChaos.SharedKernel.Domain.SocietyId}})">
+            <summary>
+            Marten implementation of the Society repository for event sourcing.
+            </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Persistence.SocietyRepository"/> class.
+            </remarks>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Projections.SocialContractViewProjection">
+            <summary>
+            Marten projection that builds <see cref="T:BindingChaos.Societies.Application.ReadModels.SocialContractView"/> from SocialContract events.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocialContractViewProjection.Create(JasperFx.Events.IEvent{BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished})">
+            <summary>
+            Creates the initial <see cref="T:BindingChaos.Societies.Application.ReadModels.SocialContractView"/> from a <see cref="T:BindingChaos.Societies.Domain.SocialContracts.Events.SocialContractEstablished"/> event.
+            </summary>
+            <param name="e">The social contract established event.</param>
+            <returns>The initialized social contract view.</returns>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection">
+            <summary>
+            Marten projection that builds <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyListItemView"/> from Society events.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Create(JasperFx.Events.IEvent{BindingChaos.Societies.Domain.Societies.Events.SocietyCreated})">
+            <summary>
+            Creates the initial <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyListItemView"/> from a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated"/> event.
+            </summary>
+            <param name="e">The society created event.</param>
+            <returns>The initialized society list item view.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyListItemView,BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyListItemView,BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyListItemView,BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyListItemView,BindingChaos.Societies.Domain.Societies.Events.MemberJoined)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberJoined"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyListItemViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyListItemView,BindingChaos.Societies.Domain.Societies.Events.MemberLeft)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberLeft"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Projections.SocietyMemberViewProjection">
+            <summary>
+            Marten multi-stream projection that builds <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyMemberView"/> keyed by membership ID.
+            Members are marked inactive (<see cref="P:BindingChaos.Societies.Application.ReadModels.SocietyMemberView.IsActive"/> = false) when they leave.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyMemberViewProjection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Projections.SocietyMemberViewProjection"/> class,
+            configuring event identity mappings.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyMemberViewProjection.Create(BindingChaos.Societies.Domain.Societies.Events.MemberJoined)">
+            <summary>
+            Creates a new <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyMemberView"/> from a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberJoined"/> event.
+            </summary>
+            <param name="e">The event containing member details.</param>
+            <returns>A new <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyMemberView"/>.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyMemberViewProjection.Apply(BindingChaos.Societies.Domain.Societies.Events.MemberLeft,BindingChaos.Societies.Application.ReadModels.SocietyMemberView)">
+            <summary>
+            Marks the membership as inactive when a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberLeft"/> event is received.
+            </summary>
+            <param name="e">The leave event.</param>
+            <param name="view">The existing membership view to update.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection">
+            <summary>
+            Marten projection that builds <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyView"/> from Society events.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Create(JasperFx.Events.IEvent{BindingChaos.Societies.Domain.Societies.Events.SocietyCreated})">
+            <summary>
+            Creates the initial <see cref="T:BindingChaos.Societies.Application.ReadModels.SocietyView"/> from a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyCreated"/> event.
+            </summary>
+            <param name="e">The society created event.</param>
+            <returns>The initialized society view.</returns>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyDescriptionUpdated"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagAdded"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyTagRemoved"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipAdded"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.SocietyRelationshipRemoved"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.MemberJoined)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberJoined"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Projections.SocietyViewProjection.Apply(BindingChaos.Societies.Application.ReadModels.SocietyView,BindingChaos.Societies.Domain.Societies.Events.MemberLeft)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.Societies.Domain.Societies.Events.MemberLeft"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event.</param>
+        </member>
+        <member name="T:BindingChaos.Societies.Infrastructure.Seeding.SocietiesInitialData">
+            <summary>
+            Development-only initial data seeding for the Societies bounded context.
+            Seeds a single society with a social contract and participant memberships using domain aggregates.
+            Seed content is loaded from the embedded seed-data.json resource.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Seeding.SocietiesInitialData.#ctor(BindingChaos.SharedKernel.Domain.ParticipantId[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.Societies.Infrastructure.Seeding.SocietiesInitialData"/> class.
+            </summary>
+            <param name="participants">The ordered participant array shared across all seeders.</param>
+        </member>
+        <member name="M:BindingChaos.Societies.Infrastructure.Seeding.SocietiesInitialData.Populate(Marten.IDocumentStore,System.Threading.CancellationToken)">
+            <summary>
+            Populates initial development data for Societies.
+            </summary>
+            <param name="store">The Marten document store.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+    </members>
+</doc>

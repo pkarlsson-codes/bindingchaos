@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.DocumentProcessing</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.DocumentProcessing.AttachmentThumbnailHandler">
+            <summary>
+            Creates thumbnails for attachments.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.AttachmentThumbnailHandler.#ctor(Minio.IMinioClient)">
+            <summary>
+            Creates thumbnails for attachments.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.AttachmentThumbnailHandler.Handle(BindingChaos.DocumentProcessing.DTOs.MinioNotification,Wolverine.IMessageContext)">
+            <summary>
+            Processes a MinIO notification by generating a thumbnail for a JPEG image and saving it to the storage service.
+            Publishes a notification upon successful thumbnail creation.
+            </summary>
+            <param name="message">The MinIO notification message containing information about the S3 object that triggered the event. Must not be
+            null.</param>
+            <param name="bus">The message context used to publish notifications to the Core API. Must not be null.</param>
+            <returns>A task that represents the asynchronous operation of handling the notification.</returns>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.DTOs.MinioNotification">
+            <summary>
+            A Minio notification.
+            </summary>
+            <param name="Records"></param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.DTOs.MinioNotification.#ctor(BindingChaos.DocumentProcessing.DTOs.MinioRecord[])">
+            <summary>
+            A Minio notification.
+            </summary>
+            <param name="Records"></param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.MinioNotification.Records">
+            <summary></summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.DTOs.MinioRecord">
+            <summary>
+            A Minio record.
+            </summary>
+            <param name="S3">The S3 data</param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.DTOs.MinioRecord.#ctor(BindingChaos.DocumentProcessing.DTOs.S3Data)">
+            <summary>
+            A Minio record.
+            </summary>
+            <param name="S3">The S3 data</param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.MinioRecord.S3">
+            <summary>The S3 data</summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.DTOs.S3Bucket">
+            <summary>
+            An S3 bucket.
+            </summary>
+            <param name="Name">The name of the bucket.</param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.DTOs.S3Bucket.#ctor(System.String)">
+            <summary>
+            An S3 bucket.
+            </summary>
+            <param name="Name">The name of the bucket.</param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.S3Bucket.Name">
+            <summary>The name of the bucket.</summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.DTOs.S3Data">
+            <summary>
+            An S3 data record.
+            </summary>
+            <param name="Object">An S3 object.</param>
+            <param name="Bucket">An S3 bucket.</param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.DTOs.S3Data.#ctor(BindingChaos.DocumentProcessing.DTOs.S3Object,BindingChaos.DocumentProcessing.DTOs.S3Bucket)">
+            <summary>
+            An S3 data record.
+            </summary>
+            <param name="Object">An S3 object.</param>
+            <param name="Bucket">An S3 bucket.</param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.S3Data.Object">
+            <summary>An S3 object.</summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.S3Data.Bucket">
+            <summary>An S3 bucket.</summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.DTOs.S3Object">
+            <summary>
+            
+            </summary>
+            <param name="Key"></param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.DTOs.S3Object.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="Key"></param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.DTOs.S3Object.Key">
+            <summary></summary>
+        </member>
+        <member name="T:BindingChaos.DocumentProcessing.ThumbnailCreated">
+            <summary>
+            Event representing that a thumbnail was created.
+            </summary>
+            <param name="OriginalId"></param>
+            <param name="ThumbnailId"></param>
+        </member>
+        <member name="M:BindingChaos.DocumentProcessing.ThumbnailCreated.#ctor(System.String,System.String)">
+            <summary>
+            Event representing that a thumbnail was created.
+            </summary>
+            <param name="OriginalId"></param>
+            <param name="ThumbnailId"></param>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.ThumbnailCreated.OriginalId">
+            <summary></summary>
+        </member>
+        <member name="P:BindingChaos.DocumentProcessing.ThumbnailCreated.ThumbnailId">
+            <summary></summary>
+        </member>
+    </members>
+</doc>

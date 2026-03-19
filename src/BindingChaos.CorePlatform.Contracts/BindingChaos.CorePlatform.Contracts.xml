@@ -1,0 +1,1915 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.CorePlatform.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Filters.AmendmentsQueryFilter">
+            <summary>
+            Filter for querying amendments.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.AmendmentsQueryFilter.IdeaId">
+            <summary>
+            Gets or sets the unique identifier of the idea associated with the amendments.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.AmendmentsQueryFilter.StatusFilter">
+            <summary>
+            Gets or sets the status filter for amendments.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Filters.EmptyFilter">
+            <summary>
+            An empty filter used for paginated queries that require no filtering criteria.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter">
+            <summary>
+            Filter for querying ideas.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter.SocietyIds">
+            <summary>
+            Optional list of society IDs to scope the ideas to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter.SearchTerm">
+            <summary>
+            Search term to filter ideas by title or description.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter.Tags">
+            <summary>
+            Filter by the tags associated with the idea.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter">
+            <summary>
+            Filter for querying signals.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter.TimeRange">
+            <summary>
+            Optional time window to filter signals, for example "24h" or "7d".
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter.AmplificationLevel">
+            <summary>
+            Optional amplification level filter (e.g., "low", "medium", "high").
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter.SearchTerm">
+            <summary>
+            Optional free-text search term to match against signal content.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter.Tags">
+            <summary>
+            Optional collection of tags to filter results by.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter">
+            <summary>
+            Filter for querying societies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter.Tag">
+            <summary>
+            Gets or sets a tag to filter societies by; only societies with this tag are returned.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter.HasGeographicBounds">
+            <summary>
+            Gets or sets a value indicating whether to filter to only societies that have geographic bounds.
+            When null, no geographic filtering is applied.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata">
+            <summary>
+            Represents metadata for a document in the system.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.#ctor(System.String,System.String,System.String,System.Int64,System.DateTimeOffset,System.String)">
+            <summary>
+            Initializes a new instance of the DocumentMetadata class.
+            </summary>
+            <param name="id">The unique identifier of the document.</param>
+            <param name="fileName">The name of the document file.</param>
+            <param name="contentType">The MIME type of the document.</param>
+            <param name="sizeBytes">The size of the document in bytes.</param>
+            <param name="createdAt">When the document was created.</param>
+            <param name="createdBy">Who created the document.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.Id">
+            <summary>
+            Gets the unique identifier of the document.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.FileName">
+            <summary>
+            Gets the name of the document file.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.ContentType">
+            <summary>
+            Gets the MIME type of the document.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.SizeBytes">
+            <summary>
+            Gets the size of the document in bytes.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.CreatedAt">
+            <summary>
+            Gets when the document was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.CreatedBy">
+            <summary>
+            Gets who created the document.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.IsImage">
+            <summary>
+            Gets a value indicating whether this document represents an image file.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.IsPdf">
+            <summary>
+            Gets a value indicating whether this document represents a PDF file.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata.IsText">
+            <summary>
+            Gets a value indicating whether this document represents a text file.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria">
+            <summary>
+            Represents search criteria for finding documents.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Int32,System.Int32,System.String,BindingChaos.CorePlatform.Contracts.Models.SortDirection)">
+            <summary>
+            Initializes a new instance of the DocumentSearchCriteria class.
+            </summary>
+            <param name="query">The search query string.</param>
+            <param name="contentTypes">Filter by specific content types.</param>
+            <param name="createdAfter">Filter documents created after this date.</param>
+            <param name="createdBefore">Filter documents created before this date.</param>
+            <param name="createdBy">Filter documents created by a specific user.</param>
+            <param name="properties">Filter by custom properties.</param>
+            <param name="pageNumber">The page number for pagination (1-based).</param>
+            <param name="pageSize">The number of documents per page.</param>
+            <param name="sortBy">The field to sort by.</param>
+            <param name="sortDirection">The sort direction.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.Query">
+            <summary>
+            Gets the search query string for full-text search.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.ContentTypes">
+            <summary>
+            Gets the content types to filter by.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.CreatedAfter">
+            <summary>
+            Gets the date to filter documents created after.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.CreatedBefore">
+            <summary>
+            Gets the date to filter documents created before.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.CreatedBy">
+            <summary>
+            Gets the user to filter documents created by.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.Properties">
+            <summary>
+            Gets custom properties to filter by.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.PageNumber">
+            <summary>
+            Gets the page number for pagination (1-based).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.PageSize">
+            <summary>
+            Gets the number of documents per page.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.SortBy">
+            <summary>
+            Gets the field to sort by.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.SortDirection">
+            <summary>
+            Gets the sort direction.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchCriteria.Skip">
+            <summary>
+            Gets the number of documents to skip for pagination.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Models.SortDirection">
+            <summary>
+            Represents the direction for sorting.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.CorePlatform.Contracts.Models.SortDirection.Ascending">
+            <summary>
+            Sort in ascending order.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.CorePlatform.Contracts.Models.SortDirection.Descending">
+            <summary>
+            Sort in descending order.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult">
+            <summary>
+            Represents the result of a document search operation.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.#ctor(System.Collections.Generic.IEnumerable{BindingChaos.CorePlatform.Contracts.Models.DocumentMetadata},System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the DocumentSearchResult class.
+            </summary>
+            <param name="documents">The documents matching the search criteria.</param>
+            <param name="totalCount">The total number of documents matching the criteria.</param>
+            <param name="pageNumber">The current page number.</param>
+            <param name="pageSize">The number of documents per page.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.Documents">
+            <summary>
+            Gets the documents matching the search criteria.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.TotalCount">
+            <summary>
+            Gets the total number of documents matching the search criteria.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.PageNumber">
+            <summary>
+            Gets the current page number.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.PageSize">
+            <summary>
+            Gets the number of documents per page.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.TotalPages">
+            <summary>
+            Gets the total number of pages.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.HasNextPage">
+            <summary>
+            Gets a value indicating whether there are more pages available.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentSearchResult.HasPreviousPage">
+            <summary>
+            Gets a value indicating whether there are previous pages available.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion">
+            <summary>
+            Represents a version of a document.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.#ctor(System.String,System.String,System.String,System.String,System.Int64,System.DateTimeOffset,System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the DocumentVersion class.
+            </summary>
+            <param name="versionNumber">The version number.</param>
+            <param name="documentId">The document identifier this version belongs to.</param>
+            <param name="fileName">The name of the document file.</param>
+            <param name="contentType">The MIME type of the document.</param>
+            <param name="sizeBytes">The size of the document in bytes.</param>
+            <param name="createdAt">When this version was created.</param>
+            <param name="createdBy">Who created this version.</param>
+            <param name="comment">Optional comment for this version.</param>
+            <param name="isCurrentVersion">Whether this is the current version.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.VersionNumber">
+            <summary>
+            Gets the version number (e.g., "1.0", "2.1").
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.DocumentId">
+            <summary>
+            Gets the document identifier this version belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.FileName">
+            <summary>
+            Gets the name of the document file.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.ContentType">
+            <summary>
+            Gets the MIME type of the document.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.SizeBytes">
+            <summary>
+            Gets the size of the document in bytes.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.CreatedAt">
+            <summary>
+            Gets when this version was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.CreatedBy">
+            <summary>
+            Gets who created this version.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.Comment">
+            <summary>
+            Gets the optional comment for this version.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Models.DocumentVersion.IsCurrentVersion">
+            <summary>
+            Gets a value indicating whether this is the current version.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.AddEvidenceRequest">
+            <summary>
+            Request model for adding evidence to a signal.
+            </summary>
+            <param name="DocumentIds">Unique identifiers of the documents that are part of the evidence.</param>
+            <param name="Description">Textual description of evidence.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.AddEvidenceRequest.#ctor(System.String[],System.String)">
+            <summary>
+            Request model for adding evidence to a signal.
+            </summary>
+            <param name="DocumentIds">Unique identifiers of the documents that are part of the evidence.</param>
+            <param name="Description">Textual description of evidence.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AddEvidenceRequest.DocumentIds">
+            <summary>Unique identifiers of the documents that are part of the evidence.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AddEvidenceRequest.Description">
+            <summary>Textual description of evidence.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest">
+            <summary>
+            Request model for amplifying a signal.
+            </summary>
+            <param name="Reason">The reason for amplifying the signal.</param>
+            <param name="Commentary">Optional commentary about the amplification.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest.#ctor(System.String,System.String)">
+            <summary>
+            Request model for amplifying a signal.
+            </summary>
+            <param name="Reason">The reason for amplifying the signal.</param>
+            <param name="Commentary">Optional commentary about the amplification.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest.Reason">
+            <summary>The reason for amplifying the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest.Commentary">
+            <summary>Optional commentary about the amplification.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest">
+            <summary>
+            Request model for creating an idea.
+            </summary>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The description of the idea.</param>
+            <param name="SocietyId">The ID of the society where the idea is proposed.</param>
+            <param name="SourceSignalIds">The source signal IDs that this idea is based on.</param>
+            <param name="Tags">The tags for the idea.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.#ctor(System.String,System.String,System.String,System.String[],System.String[])">
+            <summary>
+            Request model for creating an idea.
+            </summary>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The description of the idea.</param>
+            <param name="SocietyId">The ID of the society where the idea is proposed.</param>
+            <param name="SourceSignalIds">The source signal IDs that this idea is based on.</param>
+            <param name="Tags">The tags for the idea.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.Title">
+            <summary>The title of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.Body">
+            <summary>The description of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.SocietyId">
+            <summary>The ID of the society where the idea is proposed.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.SourceSignalIds">
+            <summary>The source signal IDs that this idea is based on.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest.Tags">
+            <summary>The tags for the idea.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest">
+            <summary>
+            Request model for creating a signal.
+            </summary>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="Tags">The tags for the signal, comma-separated.</param>
+            <param name="Attachments">The attachments associated with the signal.</param>
+            <param name="Latitude">Optional latitude coordinate of the signal's location.</param>
+            <param name="Longitude">Optional longitude coordinate of the signal's location.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.#ctor(System.String,System.String,System.String[],BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachment[],System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            Request model for creating a signal.
+            </summary>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="Tags">The tags for the signal, comma-separated.</param>
+            <param name="Attachments">The attachments associated with the signal.</param>
+            <param name="Latitude">Optional latitude coordinate of the signal's location.</param>
+            <param name="Longitude">Optional longitude coordinate of the signal's location.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Title">
+            <summary>The title of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Description">
+            <summary>The description of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Tags">
+            <summary>The tags for the signal, comma-separated.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachments">
+            <summary>The attachments associated with the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Latitude">
+            <summary>Optional latitude coordinate of the signal's location.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Longitude">
+            <summary>Optional longitude coordinate of the signal's location.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachment">
+            <summary>
+            Represents an attachment associated with a document, including its identifier and an optional caption.
+            </summary>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption describing the attachment. This value can be null.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachment.#ctor(System.String,System.String)">
+            <summary>
+            Represents an attachment associated with a document, including its identifier and an optional caption.
+            </summary>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption describing the attachment. This value can be null.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachment.DocumentId">
+            <summary>The unique identifier of the document associated with the attachment. This value cannot be null.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest.Attachment.Caption">
+            <summary>An optional caption describing the attachment. This value can be null.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest">
+            <summary>
+            Request model for creating a new society.
+            </summary>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="RatificationThreshold">The decision protocol ratification threshold (e.g., 0.5 for 50%).</param>
+            <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
+            <param name="AllowVeto">Whether a single principled objection can block a decision.</param>
+            <param name="RequiredVerificationWeight">The minimum verification weight required for signals.</param>
+            <param name="GeographicBounds">Optional geographic bounds for the society.</param>
+            <param name="Center">Optional center coordinates for the society.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.#ctor(System.String,System.String,System.String[],System.Double,System.Double,System.Boolean,System.Double,BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest,BindingChaos.CorePlatform.Contracts.Requests.CoordinatesRequest)">
+            <summary>
+            Request model for creating a new society.
+            </summary>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="Tags">The initial tags for the society.</param>
+            <param name="RatificationThreshold">The decision protocol ratification threshold (e.g., 0.5 for 50%).</param>
+            <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
+            <param name="AllowVeto">Whether a single principled objection can block a decision.</param>
+            <param name="RequiredVerificationWeight">The minimum verification weight required for signals.</param>
+            <param name="GeographicBounds">Optional geographic bounds for the society.</param>
+            <param name="Center">Optional center coordinates for the society.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.Name">
+            <summary>The name of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.Description">
+            <summary>The description of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.Tags">
+            <summary>The initial tags for the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.RatificationThreshold">
+            <summary>The decision protocol ratification threshold (e.g., 0.5 for 50%).</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.ReviewWindowHours">
+            <summary>The decision protocol review window in hours.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.AllowVeto">
+            <summary>Whether a single principled objection can block a decision.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.RequiredVerificationWeight">
+            <summary>The minimum verification weight required for signals.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.GeographicBounds">
+            <summary>Optional geographic bounds for the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest.Center">
+            <summary>Optional center coordinates for the society.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest">
+            <summary>
+            Represents geographic bounding box coordinates in a request.
+            </summary>
+            <param name="North">The northern boundary in degrees.</param>
+            <param name="South">The southern boundary in degrees.</param>
+            <param name="East">The eastern boundary in degrees.</param>
+            <param name="West">The western boundary in degrees.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Represents geographic bounding box coordinates in a request.
+            </summary>
+            <param name="North">The northern boundary in degrees.</param>
+            <param name="South">The southern boundary in degrees.</param>
+            <param name="East">The eastern boundary in degrees.</param>
+            <param name="West">The western boundary in degrees.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest.North">
+            <summary>The northern boundary in degrees.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest.South">
+            <summary>The southern boundary in degrees.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest.East">
+            <summary>The eastern boundary in degrees.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.GeographicBoundsRequest.West">
+            <summary>The western boundary in degrees.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CoordinatesRequest">
+            <summary>
+            Represents geographic coordinates in a request.
+            </summary>
+            <param name="Latitude">The latitude in degrees (-90 to 90).</param>
+            <param name="Longitude">The longitude in degrees (-180 to 180).</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.CoordinatesRequest.#ctor(System.Double,System.Double)">
+            <summary>
+            Represents geographic coordinates in a request.
+            </summary>
+            <param name="Latitude">The latitude in degrees (-90 to 90).</param>
+            <param name="Longitude">The longitude in degrees (-180 to 180).</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CoordinatesRequest.Latitude">
+            <summary>The latitude in degrees (-90 to 90).</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CoordinatesRequest.Longitude">
+            <summary>The longitude in degrees (-180 to 180).</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.JoinSocietyRequest">
+            <summary>
+            Request model for joining a society.
+            </summary>
+            <param name="SocialContractId">The ID of the social contract the participant is agreeing to.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.JoinSocietyRequest.#ctor(System.String)">
+            <summary>
+            Request model for joining a society.
+            </summary>
+            <param name="SocialContractId">The ID of the social contract the participant is agreeing to.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.JoinSocietyRequest.SocialContractId">
+            <summary>The ID of the social contract the participant is agreeing to.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.OpposeAmendmentRequest">
+            <summary>
+            Request model for opposing an amendment.
+            </summary>
+            <param name="Reason">The reason provided by the participant for opposing the amendment.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.OpposeAmendmentRequest.#ctor(System.String)">
+            <summary>
+            Request model for opposing an amendment.
+            </summary>
+            <param name="Reason">The reason provided by the participant for opposing the amendment.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.OpposeAmendmentRequest.Reason">
+            <summary>The reason provided by the participant for opposing the amendment.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest">
+            <summary>
+            Request model for posting a contribution to a discourse thread.
+            </summary>
+            <param name="Content">The content of the contribution.</param>
+            <param name="ParentContributionId">The ID of the parent contribution if this is a reply (optional).</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest.#ctor(System.String,System.String)">
+            <summary>
+            Request model for posting a contribution to a discourse thread.
+            </summary>
+            <param name="Content">The content of the contribution.</param>
+            <param name="ParentContributionId">The ID of the parent contribution if this is a reply (optional).</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest.Content">
+            <summary>The content of the contribution.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest.ParentContributionId">
+            <summary>The ID of the parent contribution if this is a reply (optional).</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest">
+            <summary>
+            Request model for proposing an amendment to an existing idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest.TargetIdeaVersion">
+            <summary>
+            Gets or sets the version number of the target idea this amendment applies to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest.ProposedTitle">
+            <summary>
+            Gets or sets the proposed title for the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest.ProposedBody">
+            <summary>
+            Gets or sets the proposed body/content for the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest.AmendmentTitle">
+            <summary>
+            Gets or sets the title of the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest.AmendmentDescription">
+            <summary>
+            Gets or sets the description of the amendment.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.StoreDocumentRequest">
+            <summary>
+            Request model for storing a document.
+            </summary>
+            <param name="FileName">The name of the document, including its extension.</param>
+            <param name="ContentType">The MIME type of the document, such as "application/pdf" or "image/png".</param>
+            <param name="SizeBytes">The size of the document in bytes.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.StoreDocumentRequest.#ctor(System.String,System.String,System.Int64)">
+            <summary>
+            Request model for storing a document.
+            </summary>
+            <param name="FileName">The name of the document, including its extension.</param>
+            <param name="ContentType">The MIME type of the document, such as "application/pdf" or "image/png".</param>
+            <param name="SizeBytes">The size of the document in bytes.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.StoreDocumentRequest.FileName">
+            <summary>The name of the document, including its extension.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.StoreDocumentRequest.ContentType">
+            <summary>The MIME type of the document, such as "application/pdf" or "image/png".</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.StoreDocumentRequest.SizeBytes">
+            <summary>The size of the document in bytes.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest">
+            <summary>
+            Request model for suggesting a structured action on a signal.
+            </summary>
+            <param name="ActionType">
+            The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).
+            Must match the <c>Name</c> of a value returned by <c>GET /api/action-types</c>.
+            </param>
+            <param name="PhoneNumber">The phone number to call. Required when <paramref name="ActionType"/> is <c>MakeACall</c>.</param>
+            <param name="Url">The URL to visit. Required when <paramref name="ActionType"/> is <c>VisitAWebpage</c>.</param>
+            <param name="Details">Optional free-text context applicable to any action type.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Request model for suggesting a structured action on a signal.
+            </summary>
+            <param name="ActionType">
+            The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).
+            Must match the <c>Name</c> of a value returned by <c>GET /api/action-types</c>.
+            </param>
+            <param name="PhoneNumber">The phone number to call. Required when <paramref name="ActionType"/> is <c>MakeACall</c>.</param>
+            <param name="Url">The URL to visit. Required when <paramref name="ActionType"/> is <c>VisitAWebpage</c>.</param>
+            <param name="Details">Optional free-text context applicable to any action type.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest.ActionType">
+            <summary>
+            The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).
+            Must match the <c>Name</c> of a value returned by <c>GET /api/action-types</c>.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest.PhoneNumber">
+            <summary>The phone number to call. Required when <paramref name="ActionType"/> is <c>MakeACall</c>.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest.Url">
+            <summary>The URL to visit. Required when <paramref name="ActionType"/> is <c>VisitAWebpage</c>.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest.Details">
+            <summary>Optional free-text context applicable to any action type.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.SupportAmendmentRequest">
+            <summary>
+            Request model for supporting an amendment.
+            </summary>
+            <param name="Reason">The reason provided by the participant for supporting the amendment.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.SupportAmendmentRequest.#ctor(System.String)">
+            <summary>
+            Request model for supporting an amendment.
+            </summary>
+            <param name="Reason">The reason provided by the participant for supporting the amendment.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.SupportAmendmentRequest.Reason">
+            <summary>The reason provided by the participant for supporting the amendment.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.WithdrawOppositionRequest">
+            <summary>
+            Request model for withdrawing opposition to an amendment.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.WithdrawOppositionRequest.#ctor">
+            <summary>
+            Request model for withdrawing opposition to an amendment.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.WithdrawSupportRequest">
+            <summary>
+            Request model for withdrawing support for an amendment.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Requests.WithdrawSupportRequest.#ctor">
+            <summary>
+            Request model for withdrawing support for an amendment.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.ActionTypeResponse">
+            <summary>
+            Response model representing an available action type in the catalog.
+            </summary>
+            <param name="Id">The stable integer identifier used in events and API calls.</param>
+            <param name="Name">
+            The code name of the action type (e.g. <c>MakeACall</c>).
+            Use this value as <c>ActionType</c> when submitting a suggested action.
+            Display labels for this name are the responsibility of the presentation layer.
+            </param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.ActionTypeResponse.#ctor(System.Int32,System.String)">
+            <summary>
+            Response model representing an available action type in the catalog.
+            </summary>
+            <param name="Id">The stable integer identifier used in events and API calls.</param>
+            <param name="Name">
+            The code name of the action type (e.g. <c>MakeACall</c>).
+            Use this value as <c>ActionType</c> when submitting a suggested action.
+            Display labels for this name are the responsibility of the presentation layer.
+            </param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ActionTypeResponse.Id">
+            <summary>The stable integer identifier used in events and API calls.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ActionTypeResponse.Name">
+            <summary>
+            The code name of the action type (e.g. <c>MakeACall</c>).
+            Use this value as <c>ActionType</c> when submitting a suggested action.
+            Display labels for this name are the responsibility of the presentation layer.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentOpponentResponse">
+            <summary>
+            Response model for an amendment opponent.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentOpponentResponse.Id">
+            <summary>
+            Gets the unique identifier of the opponent record.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentOpponentResponse.Pseudonym">
+            <summary>
+            Gets the pseudonym of the opponent.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentOpponentResponse.Reason">
+            <summary>
+            Gets the reason provided by the opponent for opposing the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentOpponentResponse.OpposedAt">
+            <summary>
+            Gets when the opposition was added.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse">
+            <summary>
+            Response model for a full amendment details.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.Id">
+            <summary>
+            Gets the unique identifier of the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.TargetIdeaId">
+            <summary>
+            Gets the ID of the target idea being amended.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.TargetVersionNumber">
+            <summary>
+            Gets the target version number of the idea this amendment applies to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.CreatorPseudonym">
+            <summary>
+            Gets the ID of the creator of this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.CreatedByCurrentUser">
+            <summary>
+            Gets a value indicating whether the current user is the creator of the associated entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.Status">
+            <summary>
+            Gets the current status of this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.ProposedTitle">
+            <summary>
+            Gets the proposed title for the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.ProposedBody">
+            <summary>
+            Gets the proposed body for the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.AmendmentTitle">
+            <summary>
+            Gets the amendment title.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.AmendmentDescription">
+            <summary>
+            Gets the amendment description.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.CreatedAt">
+            <summary>
+            Gets when the amendment was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.AcceptedAt">
+            <summary>
+            Gets when the amendment was accepted, if applicable.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.RejectedAt">
+            <summary>
+            Gets when the amendment was rejected, if applicable.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.SupporterCount">
+            <summary>
+            Gets the number of supporters for this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.OpponentCount">
+            <summary>
+            Gets the number of opponents for this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.IsOpen">
+            <summary>
+            Gets a value indicating whether this amendment is open for voting.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.IsResolved">
+            <summary>
+            Gets a value indicating whether this amendment has been resolved (accepted, rejected, or withdrawn).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.SupportedByCurrentUser">
+            <summary>
+            Gets a value indicating whether the current user has supported this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentResponse.OpposedByCurrentUser">
+            <summary>
+            Gets a value indicating whether the current user has opposed this amendment.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse">
+            <summary>
+            Represents a response for an amendments list item.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.Id">
+            <summary>
+            Gets the amendment identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.IdeaId">
+            <summary>
+            Gets the identifier of the idea this amendment belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.AuthoredByCurrentUser">
+            <summary>
+            Gets a value indicating whether the content was authored by the current user.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.AuthorPseudonym">
+            <summary>
+            Gets the author identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.AmendmentTitle">
+            <summary>
+            Gets the amendment title.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.AmendmentDescription">
+            <summary>
+            Gets the amendment description.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.Status">
+            <summary>
+            Gets the status of the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.OpponentCount">
+            <summary>
+            Gets the number of opponents for this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.OpposedByCurrentUser">
+            <summary>
+            Gets a value indicating whether the current user has opposed the item.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.SupporterCount">
+            <summary>
+            Gets the number of supporters for this amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.SupportedByCurrentUser">
+            <summary>
+            Gets the number of items or features supported by the current user.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentsListItemResponse.CreatedAt">
+            <summary>
+            Gets when the amendment was created.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupportCounts">
+            <summary>
+            Represents the support and opposition counts for an amendment.
+            </summary>
+            <param name="SupporterCount">The number of participants supporting the amendment.</param>
+            <param name="OpponentCount">The number of participants opposing the amendment.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupportCounts.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Represents the support and opposition counts for an amendment.
+            </summary>
+            <param name="SupporterCount">The number of participants supporting the amendment.</param>
+            <param name="OpponentCount">The number of participants opposing the amendment.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupportCounts.SupporterCount">
+            <summary>The number of participants supporting the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupportCounts.OpponentCount">
+            <summary>The number of participants opposing the amendment.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupporterResponse">
+            <summary>
+            Response model for an amendment supporter.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupporterResponse.Id">
+            <summary>
+            Gets the unique identifier of the supporter record.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupporterResponse.Pseudonym">
+            <summary>
+            Gets the pseudonym of the supporter.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupporterResponse.Reason">
+            <summary>
+            Gets the reason provided by the supporter for supporting the amendment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentSupporterResponse.SupportedAt">
+            <summary>
+            Gets when the support was added.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentTrendResponse">
+            <summary>
+            Response model for amendment support trend data.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentTrendResponse.AmendmentId">
+            <summary>
+            Gets the amendment identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentTrendResponse.DataPoints">
+            <summary>
+            Gets the collection of trend data points showing supporter/opponent counts over time.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmendmentVoteResponse">
+            <summary>
+            Response model for amendment voting operations (support, oppose, withdraw support, withdraw opposition).
+            </summary>
+            <param name="SupporterCount">The updated number of supporters for this amendment.</param>
+            <param name="OpponentCount">The updated number of opponents for this amendment.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.AmendmentVoteResponse.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Response model for amendment voting operations (support, oppose, withdraw support, withdraw opposition).
+            </summary>
+            <param name="SupporterCount">The updated number of supporters for this amendment.</param>
+            <param name="OpponentCount">The updated number of opponents for this amendment.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentVoteResponse.SupporterCount">
+            <summary>The updated number of supporters for this amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AmendmentVoteResponse.OpponentCount">
+            <summary>The updated number of opponents for this amendment.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AmplifySignalResponse">
+            <summary>
+            Response model for amplifying a signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.AmplifySignalResponse.#ctor(System.Int32)">
+            <summary>
+            Response model for amplifying a signal.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.CaptureSignalResponse">
+            <summary>
+            Response model for signal creation.
+            </summary>
+            <param name="SignalId">The ID of the created signal.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.CaptureSignalResponse.#ctor(System.String)">
+            <summary>
+            Response model for signal creation.
+            </summary>
+            <param name="SignalId">The ID of the created signal.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.CaptureSignalResponse.SignalId">
+            <summary>The ID of the created signal.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.DeamplifySignalResponse">
+            <summary>
+            Response model for deamplifying a signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.DeamplifySignalResponse.#ctor(System.Int32)">
+            <summary>
+            Response model for deamplifying a signal.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse">
+            <summary>
+            Response model for getting contributions for an entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.EntityType">
+            <summary>
+            Gets or sets the type of entity this discourse is about.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.EntityId">
+            <summary>
+            Gets or sets the ID of the entity this discourse is about.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.ThreadId">
+            <summary>
+            Gets or sets the thread ID for this discourse.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.TotalContributionCount">
+            <summary>
+            Gets or sets the total number of all contributions for this entity (includes replies).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.TotalRootContributionCount">
+            <summary>
+            Gets or sets the total number of root contributions for this entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.TotalParticipants">
+            <summary>
+            Gets or sets the total number of unique participants.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.LastActivityAt">
+            <summary>
+            Gets or sets when the last contribution was posted.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionsResponse.Contributions">
+            <summary>
+            Gets or sets the cursor-paginated root contributions for this entity.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse">
+            <summary>
+            Response model for an individual contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.Id">
+            <summary>
+            Gets or sets the unique identifier for this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.AuthorId">
+            <summary>
+            Gets or sets the ID of the participant who authored this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.AuthorPseudonym">
+            <summary>
+            Gets or sets the pseudonym of the author.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.Content">
+            <summary>
+            Gets or sets the content of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.CreatedAt">
+            <summary>
+            Gets or sets when the contribution was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.ReplyCount">
+            <summary>
+            Gets or sets the total number of direct replies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.LastReplyAt">
+            <summary>
+            Gets or sets when the last reply was posted.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionResponse.HasReplies">
+            <summary>
+            Gets whether this contribution has replies.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.PostContributionResponse">
+            <summary>
+            Response model for posting a contribution.
+            </summary>
+            <param name="ContributionId">The ID of the created contribution.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.PostContributionResponse.#ctor(System.String)">
+            <summary>
+            Response model for posting a contribution.
+            </summary>
+            <param name="ContributionId">The ID of the created contribution.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.PostContributionResponse.ContributionId">
+            <summary>The ID of the created contribution.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.GetContributionRepliesResponse">
+            <summary>
+            Response model for getting replies to a contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionRepliesResponse.ContributionId">
+            <summary>
+            Gets or sets the ID of the parent contribution these replies belong to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.GetContributionRepliesResponse.Replies">
+            <summary>
+            Gets or sets the cursor-paginated replies to this contribution.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse">
+            <summary>
+            Response model for an individual reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.Id">
+            <summary>
+            Gets or sets the unique identifier for this reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.AuthorId">
+            <summary>
+            Gets or sets the ID of the participant who authored this reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.AuthorPseudonym">
+            <summary>
+            Gets or sets the pseudonym of the author.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.Content">
+            <summary>
+            Gets or sets the content of the reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.CreatedAt">
+            <summary>
+            Gets or sets when the reply was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.ParentContributionId">
+            <summary>
+            Gets or sets the ID of the contribution this reply responds to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.ReplyCount">
+            <summary>
+            Gets or sets the total number of nested replies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ContributionReplyResponse.HasMoreReplies">
+            <summary>
+            Gets or sets whether there are nested replies.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse">
+            <summary>
+            Response model for a list item of an idea.
+            </summary>
+            <param name="Id">The unique identifier of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The body content describing the idea.</param>
+            <param name="SocietyContext">The ID of the society where this idea is proposed.</param>
+            <param name="SourceSignalIds">The collection of signal IDs that this idea was derived from or references.</param>
+            <param name="OpenAmendmentCount">The number of amendments that are currently open for voting on this idea.</param>
+            <param name="CreatedAt">The timestamp when the idea was originally created.</param>
+            <param name="LastUpdatedAt">The timestamp when the idea was last modified or updated.</param>
+            <param name="Tags">The collection of tags associated with this idea for categorization and discovery.</param>
+            <param name="Status">The current status of the idea (e.g., "published", "archived").</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.#ctor(System.String,System.String,System.String,System.String,System.Collections.Generic.IReadOnlyCollection{System.String},System.Int32,System.DateTimeOffset,System.DateTimeOffset,System.Collections.Generic.IReadOnlyCollection{System.String},System.String)">
+            <summary>
+            Response model for a list item of an idea.
+            </summary>
+            <param name="Id">The unique identifier of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The body content describing the idea.</param>
+            <param name="SocietyContext">The ID of the society where this idea is proposed.</param>
+            <param name="SourceSignalIds">The collection of signal IDs that this idea was derived from or references.</param>
+            <param name="OpenAmendmentCount">The number of amendments that are currently open for voting on this idea.</param>
+            <param name="CreatedAt">The timestamp when the idea was originally created.</param>
+            <param name="LastUpdatedAt">The timestamp when the idea was last modified or updated.</param>
+            <param name="Tags">The collection of tags associated with this idea for categorization and discovery.</param>
+            <param name="Status">The current status of the idea (e.g., "published", "archived").</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.Id">
+            <summary>The unique identifier of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.Title">
+            <summary>The title of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.Body">
+            <summary>The body content describing the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.SocietyContext">
+            <summary>The ID of the society where this idea is proposed.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.SourceSignalIds">
+            <summary>The collection of signal IDs that this idea was derived from or references.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.OpenAmendmentCount">
+            <summary>The number of amendments that are currently open for voting on this idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.CreatedAt">
+            <summary>The timestamp when the idea was originally created.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.LastUpdatedAt">
+            <summary>The timestamp when the idea was last modified or updated.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.Tags">
+            <summary>The collection of tags associated with this idea for categorization and discovery.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaListItemResponse.Status">
+            <summary>The current status of the idea (e.g., "published", "archived").</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse">
+            <summary>
+            Response model for idea information.
+            </summary>
+            <param name="Id">The ID of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The description of the idea.</param>
+            <param name="SocietyContext">The ID of the society where this idea is proposed.</param>
+            <param name="SourceSignals">The source signals associated with this idea.</param>
+            <param name="AuthorPseudonym">The pseudonym of the author who created the idea.</param>
+            <param name="OpenAmendmentCount">The number of amendments made to this idea.</param>
+            <param name="CreatedAt">When the idea was created.</param>
+            <param name="LastUpdatedAt">When the idea was last updated.</param>
+            <param name="Tags">The tags associated with this idea.</param>
+            <param name="Status">The status of the idea.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.#ctor(System.String,System.String,System.String,System.String,BindingChaos.CorePlatform.Contracts.Responses.IdeaSourceSignal[],System.String,System.Int32,System.DateTimeOffset,System.DateTimeOffset,System.String[],System.String)">
+            <summary>
+            Response model for idea information.
+            </summary>
+            <param name="Id">The ID of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The description of the idea.</param>
+            <param name="SocietyContext">The ID of the society where this idea is proposed.</param>
+            <param name="SourceSignals">The source signals associated with this idea.</param>
+            <param name="AuthorPseudonym">The pseudonym of the author who created the idea.</param>
+            <param name="OpenAmendmentCount">The number of amendments made to this idea.</param>
+            <param name="CreatedAt">When the idea was created.</param>
+            <param name="LastUpdatedAt">When the idea was last updated.</param>
+            <param name="Tags">The tags associated with this idea.</param>
+            <param name="Status">The status of the idea.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Id">
+            <summary>The ID of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Title">
+            <summary>The title of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Body">
+            <summary>The description of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.SocietyContext">
+            <summary>The ID of the society where this idea is proposed.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.SourceSignals">
+            <summary>The source signals associated with this idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.AuthorPseudonym">
+            <summary>The pseudonym of the author who created the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.OpenAmendmentCount">
+            <summary>The number of amendments made to this idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.CreatedAt">
+            <summary>When the idea was created.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.LastUpdatedAt">
+            <summary>When the idea was last updated.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Tags">
+            <summary>The tags associated with this idea.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Status">
+            <summary>The status of the idea.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.IdeaSourceSignal">
+            <summary>
+            Represents a source signal associated with an idea.
+            </summary>
+            <param name="Id">The unique identifier of the source signal.</param>
+            <param name="Title">The title of the source signal.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.IdeaSourceSignal.#ctor(System.String,System.String)">
+            <summary>
+            Represents a source signal associated with an idea.
+            </summary>
+            <param name="Id">The unique identifier of the source signal.</param>
+            <param name="Title">The title of the source signal.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaSourceSignal.Id">
+            <summary>The unique identifier of the source signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaSourceSignal.Title">
+            <summary>The title of the source signal.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.ProposeAmendmentResponse">
+            <summary>
+            Response model for amendment proposal.
+            </summary>
+            <param name="AmendmentId">The ID of the created amendment.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.ProposeAmendmentResponse.#ctor(System.String)">
+            <summary>
+            Response model for amendment proposal.
+            </summary>
+            <param name="AmendmentId">The ID of the created amendment.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.ProposeAmendmentResponse.AmendmentId">
+            <summary>The ID of the created amendment.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationTrendResponse">
+            <summary>
+            Response model for signal amplification trend data.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationTrendResponse.SignalId">
+            <summary>
+            Gets the signal identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationTrendResponse.DataPoints">
+            <summary>
+            Gets the collection of trend data points showing amplification events over time.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse">
+            <summary>
+            Response model for signal information with pseudonym privacy protection.
+            </summary>
+            <param name="SignalId">The ID of the signal.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="AuthorId">The id of the author who created the signal.</param>
+            <param name="Status">The status of the signal.</param>
+            <param name="CapturedAt">When the signal was captured.</param>
+            <param name="Latitude">Optional latitude of the signal's location.</param>
+            <param name="Longitude">Optional longitude of the signal's location.</param>
+            <param name="AmplificationCount">The amplifications for this signal.</param>
+            <param name="Tags">The tags associated with this signal.</param>
+            <param name="IsAmplifiedByCurrentUser">Whether the current user has amplified this signal.</param>
+            <param name="IsOriginator">Whether the current user is the originator of this signal.</param>
+            <param name="Attachments">The attachments associated with this signal.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTimeOffset,System.Nullable{System.Double},System.Nullable{System.Double},System.Int32,System.String[],System.Boolean,System.Boolean,BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse[])">
+            <summary>
+            Response model for signal information with pseudonym privacy protection.
+            </summary>
+            <param name="SignalId">The ID of the signal.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="AuthorId">The id of the author who created the signal.</param>
+            <param name="Status">The status of the signal.</param>
+            <param name="CapturedAt">When the signal was captured.</param>
+            <param name="Latitude">Optional latitude of the signal's location.</param>
+            <param name="Longitude">Optional longitude of the signal's location.</param>
+            <param name="AmplificationCount">The amplifications for this signal.</param>
+            <param name="Tags">The tags associated with this signal.</param>
+            <param name="IsAmplifiedByCurrentUser">Whether the current user has amplified this signal.</param>
+            <param name="IsOriginator">Whether the current user is the originator of this signal.</param>
+            <param name="Attachments">The attachments associated with this signal.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.SignalId">
+            <summary>The ID of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Title">
+            <summary>The title of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Description">
+            <summary>The description of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.AuthorId">
+            <summary>The id of the author who created the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Status">
+            <summary>The status of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.CapturedAt">
+            <summary>When the signal was captured.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Latitude">
+            <summary>Optional latitude of the signal's location.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Longitude">
+            <summary>Optional longitude of the signal's location.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.AmplificationCount">
+            <summary>The amplifications for this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Tags">
+            <summary>The tags associated with this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.IsAmplifiedByCurrentUser">
+            <summary>Whether the current user has amplified this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.IsOriginator">
+            <summary>Whether the current user is the originator of this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalListItemResponse.Attachments">
+            <summary>The attachments associated with this signal.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse">
+            <summary>
+            Response model for signal attachment information.
+            </summary>
+            <param name="Id">The unique identifier for the attachment.</param>
+            <param name="DocumentId">The document ID stored in the document service.</param>
+            <param name="Caption">Optional caption for the attachment.</param>
+            <param name="CreatedAt">When the attachment was added.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse.#ctor(System.String,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Response model for signal attachment information.
+            </summary>
+            <param name="Id">The unique identifier for the attachment.</param>
+            <param name="DocumentId">The document ID stored in the document service.</param>
+            <param name="Caption">Optional caption for the attachment.</param>
+            <param name="CreatedAt">When the attachment was added.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse.Id">
+            <summary>The unique identifier for the attachment.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse.DocumentId">
+            <summary>The document ID stored in the document service.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse.Caption">
+            <summary>Optional caption for the attachment.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse.CreatedAt">
+            <summary>When the attachment was added.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse">
+            <summary>
+            Response model for detailed signal information.
+            </summary>
+            <param name="SignalId">The ID of the signal.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="OriginatorPseudonym">The pseudonym of the signal originator.</param>
+            <param name="Status">The status of the signal.</param>
+            <param name="CapturedAt">When the signal was captured.</param>
+            <param name="Latitude">Optional latitude of the signal's location.</param>
+            <param name="Longitude">Optional longitude of the signal's location.</param>
+            <param name="Amplifications">The list of amplifications for this signal.</param>
+            <param name="IsAmplifiedByCurrentUser">Whether the current user has amplified this signal.</param>
+            <param name="IsOriginator">Whether the current user is the originator of this signal.</param>
+            <param name="Attachments">The attachments associated with this signal.</param>
+            <param name="SuggestedActions">The suggested actions for this signal.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTimeOffset,System.Nullable{System.Double},System.Nullable{System.Double},System.Collections.Generic.IReadOnlyCollection{BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification},System.Boolean,System.Boolean,System.Collections.Generic.IReadOnlyCollection{BindingChaos.CorePlatform.Contracts.Responses.AttachmentResponse},System.Collections.Generic.IReadOnlyCollection{BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction})">
+            <summary>
+            Response model for detailed signal information.
+            </summary>
+            <param name="SignalId">The ID of the signal.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="OriginatorPseudonym">The pseudonym of the signal originator.</param>
+            <param name="Status">The status of the signal.</param>
+            <param name="CapturedAt">When the signal was captured.</param>
+            <param name="Latitude">Optional latitude of the signal's location.</param>
+            <param name="Longitude">Optional longitude of the signal's location.</param>
+            <param name="Amplifications">The list of amplifications for this signal.</param>
+            <param name="IsAmplifiedByCurrentUser">Whether the current user has amplified this signal.</param>
+            <param name="IsOriginator">Whether the current user is the originator of this signal.</param>
+            <param name="Attachments">The attachments associated with this signal.</param>
+            <param name="SuggestedActions">The suggested actions for this signal.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SignalId">
+            <summary>The ID of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Title">
+            <summary>The title of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Description">
+            <summary>The description of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.OriginatorPseudonym">
+            <summary>The pseudonym of the signal originator.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Status">
+            <summary>The status of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.CapturedAt">
+            <summary>When the signal was captured.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Latitude">
+            <summary>Optional latitude of the signal's location.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Longitude">
+            <summary>Optional longitude of the signal's location.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplifications">
+            <summary>The list of amplifications for this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.IsAmplifiedByCurrentUser">
+            <summary>Whether the current user has amplified this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.IsOriginator">
+            <summary>Whether the current user is the originator of this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Attachments">
+            <summary>The attachments associated with this signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedActions">
+            <summary>The suggested actions for this signal.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification">
+            <summary>
+            Response model for signal amplification with pseudonym privacy protection.
+            </summary>
+            <param name="AmplificationId">The ID of the amplification.</param>
+            <param name="AmplifierPseudonym">The pseudonym of the participant who amplified the signal.</param>
+            <param name="Reason">The reason for the amplification.</param>
+            <param name="Commentary">Optional commentary provided with the amplification.</param>
+            <param name="AmplifiedAt">When the amplification occurred.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.#ctor(System.String,System.String,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Response model for signal amplification with pseudonym privacy protection.
+            </summary>
+            <param name="AmplificationId">The ID of the amplification.</param>
+            <param name="AmplifierPseudonym">The pseudonym of the participant who amplified the signal.</param>
+            <param name="Reason">The reason for the amplification.</param>
+            <param name="Commentary">Optional commentary provided with the amplification.</param>
+            <param name="AmplifiedAt">When the amplification occurred.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.AmplificationId">
+            <summary>The ID of the amplification.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.AmplifierPseudonym">
+            <summary>The pseudonym of the participant who amplified the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.Reason">
+            <summary>The reason for the amplification.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.Commentary">
+            <summary>Optional commentary provided with the amplification.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplification.AmplifiedAt">
+            <summary>When the amplification occurred.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction">
+            <summary>
+            Response model for a structured suggested action on a signal.
+            </summary>
+            <param name="ActionId">The ID of the suggested action.</param>
+            <param name="ActionType">The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).</param>
+            <param name="PhoneNumber">The phone number to call. Present for <c>MakeACall</c> actions.</param>
+            <param name="Url">The URL to visit. Present for <c>VisitAWebpage</c> actions.</param>
+            <param name="Details">Optional free-text context provided by the suggester.</param>
+            <param name="SuggestedByPseudonym">The pseudonym of the participant who suggested the action.</param>
+            <param name="SuggestedAt">When the action was suggested.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Response model for a structured suggested action on a signal.
+            </summary>
+            <param name="ActionId">The ID of the suggested action.</param>
+            <param name="ActionType">The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).</param>
+            <param name="PhoneNumber">The phone number to call. Present for <c>MakeACall</c> actions.</param>
+            <param name="Url">The URL to visit. Present for <c>VisitAWebpage</c> actions.</param>
+            <param name="Details">Optional free-text context provided by the suggester.</param>
+            <param name="SuggestedByPseudonym">The pseudonym of the participant who suggested the action.</param>
+            <param name="SuggestedAt">When the action was suggested.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.ActionId">
+            <summary>The ID of the suggested action.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.ActionType">
+            <summary>The action type name (e.g. <c>MakeACall</c>, <c>VisitAWebpage</c>).</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.PhoneNumber">
+            <summary>The phone number to call. Present for <c>MakeACall</c> actions.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.Url">
+            <summary>The URL to visit. Present for <c>VisitAWebpage</c> actions.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.Details">
+            <summary>Optional free-text context provided by the suggester.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.SuggestedByPseudonym">
+            <summary>The pseudonym of the participant who suggested the action.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SuggestedAction.SuggestedAt">
+            <summary>When the action was suggested.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse">
+            <summary>
+            Response model for a single society.
+            </summary>
+            <param name="Id">The unique identifier of the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedByPseudonym">The pseudonym of the creator.</param>
+            <param name="CreatedAt">When the society was created.</param>
+            <param name="Tags">The tags associated with the society.</param>
+            <param name="HasGeographicBounds">Whether this society has geographic bounds.</param>
+            <param name="GeographicBoundsJson">The geographic bounds as JSON, or null.</param>
+            <param name="CenterJson">The center coordinates as JSON, or null.</param>
+            <param name="Relationships">The relationships to other societies.</param>
+            <param name="ActiveMemberCount">The number of active members.</param>
+            <param name="CurrentSocialContractId">The ID of the current active social contract, or null if not yet available.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.#ctor(System.String,System.String,System.String,System.String,System.DateTimeOffset,System.String[],System.Boolean,System.String,System.String,BindingChaos.CorePlatform.Contracts.Responses.SocietyRelationshipResponse[],System.Int32,System.String)">
+            <summary>
+            Response model for a single society.
+            </summary>
+            <param name="Id">The unique identifier of the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedByPseudonym">The pseudonym of the creator.</param>
+            <param name="CreatedAt">When the society was created.</param>
+            <param name="Tags">The tags associated with the society.</param>
+            <param name="HasGeographicBounds">Whether this society has geographic bounds.</param>
+            <param name="GeographicBoundsJson">The geographic bounds as JSON, or null.</param>
+            <param name="CenterJson">The center coordinates as JSON, or null.</param>
+            <param name="Relationships">The relationships to other societies.</param>
+            <param name="ActiveMemberCount">The number of active members.</param>
+            <param name="CurrentSocialContractId">The ID of the current active social contract, or null if not yet available.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.Id">
+            <summary>The unique identifier of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.Name">
+            <summary>The name of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.Description">
+            <summary>The description of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.CreatedByPseudonym">
+            <summary>The pseudonym of the creator.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.CreatedAt">
+            <summary>When the society was created.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.Tags">
+            <summary>The tags associated with the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.HasGeographicBounds">
+            <summary>Whether this society has geographic bounds.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.GeographicBoundsJson">
+            <summary>The geographic bounds as JSON, or null.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.CenterJson">
+            <summary>The center coordinates as JSON, or null.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.Relationships">
+            <summary>The relationships to other societies.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.ActiveMemberCount">
+            <summary>The number of active members.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyResponse.CurrentSocialContractId">
+            <summary>The ID of the current active social contract, or null if not yet available.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SocietyRelationshipResponse">
+            <summary>
+            Response model for a society relationship.
+            </summary>
+            <param name="TargetSocietyId">The target society ID.</param>
+            <param name="RelationshipType">The type of relationship as a string (e.g. "PartOf", "Affiliated", "Federated").</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SocietyRelationshipResponse.#ctor(System.String,System.String)">
+            <summary>
+            Response model for a society relationship.
+            </summary>
+            <param name="TargetSocietyId">The target society ID.</param>
+            <param name="RelationshipType">The type of relationship as a string (e.g. "PartOf", "Affiliated", "Federated").</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyRelationshipResponse.TargetSocietyId">
+            <summary>The target society ID.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyRelationshipResponse.RelationshipType">
+            <summary>The type of relationship as a string (e.g. "PartOf", "Affiliated", "Federated").</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse">
+            <summary>
+            Response model for a society in a list.
+            </summary>
+            <param name="Id">The unique identifier of the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedAt">When the society was created.</param>
+            <param name="Tags">The tags associated with the society.</param>
+            <param name="HasGeographicBounds">Whether this society has geographic bounds.</param>
+            <param name="ActiveMemberCount">The number of active members.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.#ctor(System.String,System.String,System.String,System.DateTimeOffset,System.String[],System.Boolean,System.Int32)">
+            <summary>
+            Response model for a society in a list.
+            </summary>
+            <param name="Id">The unique identifier of the society.</param>
+            <param name="Name">The name of the society.</param>
+            <param name="Description">The description of the society.</param>
+            <param name="CreatedAt">When the society was created.</param>
+            <param name="Tags">The tags associated with the society.</param>
+            <param name="HasGeographicBounds">Whether this society has geographic bounds.</param>
+            <param name="ActiveMemberCount">The number of active members.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.Id">
+            <summary>The unique identifier of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.Name">
+            <summary>The name of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.Description">
+            <summary>The description of the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.CreatedAt">
+            <summary>When the society was created.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.Tags">
+            <summary>The tags associated with the society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.HasGeographicBounds">
+            <summary>Whether this society has geographic bounds.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyListItemResponse.ActiveMemberCount">
+            <summary>The number of active members.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse">
+            <summary>
+            Response model for a society member.
+            </summary>
+            <param name="MembershipId">The membership identifier.</param>
+            <param name="Pseudonym">The pseudonym of the member, scoped to this society.</param>
+            <param name="SocialContractId">The social contract ID agreed to at join time.</param>
+            <param name="JoinedAt">When the participant joined.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse.#ctor(System.String,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Response model for a society member.
+            </summary>
+            <param name="MembershipId">The membership identifier.</param>
+            <param name="Pseudonym">The pseudonym of the member, scoped to this society.</param>
+            <param name="SocialContractId">The social contract ID agreed to at join time.</param>
+            <param name="JoinedAt">When the participant joined.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse.MembershipId">
+            <summary>The membership identifier.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse.Pseudonym">
+            <summary>The pseudonym of the member, scoped to this society.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse.SocialContractId">
+            <summary>The social contract ID agreed to at join time.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SocietyMemberResponse.JoinedAt">
+            <summary>When the participant joined.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.Tags.TagResponse">
+            <summary>
+            A tag response.
+            </summary>
+            <param name="TagId">The id of the tag.</param>
+            <param name="Label">The label of the tag.</param>
+            <param name="UsageCount">The number of entities using the tag in its locality.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.Tags.TagResponse.#ctor(System.String,System.String,System.Int32)">
+            <summary>
+            A tag response.
+            </summary>
+            <param name="TagId">The id of the tag.</param>
+            <param name="Label">The label of the tag.</param>
+            <param name="UsageCount">The number of entities using the tag in its locality.</param>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.Tags.TagResponse.TagId">
+            <summary>The id of the tag.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.Tags.TagResponse.Label">
+            <summary>The label of the tag.</summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.Tags.TagResponse.UsageCount">
+            <summary>The number of entities using the tag in its locality.</summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.TrendPointResponse">
+            <summary>
+            Generic response model for a single data point in any trend.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.TrendPointResponse.Date">
+            <summary>
+            Gets the date and time of this trend point in ISO 8601 format.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.TrendPointResponse.EventType">
+            <summary>
+            Gets the type of event that occurred at this point in time.
+            The specific values depend on the context (e.g., "support", "oppose", "amplify", "attenuate").
+            </summary>
+        </member>
+    </members>
+</doc>

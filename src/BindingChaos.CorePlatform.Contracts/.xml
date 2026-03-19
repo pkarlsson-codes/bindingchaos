@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.CorePlatform.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest">
+            <summary>
+            Request model for amplifying a signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest.Reason">
+            <summary>
+            The reason for amplifying the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest.Commentary">
+            <summary>
+            Optional commentary about the amplification.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CreateIdeaRequest">
+            <summary>
+            Request model for creating an idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateIdeaRequest.Title">
+            <summary>
+            The title of the idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateIdeaRequest.Description">
+            <summary>
+            The description of the idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateIdeaRequest.Tags">
+            <summary>
+            The tags for the idea, comma-separated.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateIdeaRequest.SourceSignalId">
+            <summary>
+            The source signal ID that this idea is based on.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Requests.CreateSignalRequest">
+            <summary>
+            Request model for creating a signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSignalRequest.Title">
+            <summary>
+            The title of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSignalRequest.Description">
+            <summary>
+            The description of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSignalRequest.Tags">
+            <summary>
+            The tags for the signal, comma-separated.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Requests.CreateSignalRequest.LocalityId">
+            <summary>
+            The locality ID where the signal should be created.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.CreateSignalResponse">
+            <summary>
+            Response model for signal creation.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.CreateSignalResponse.SignalId">
+            <summary>
+            The ID of the created signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.CreateSignalResponse.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the CreateSignalResponse class.
+            </summary>
+            <param name="signalId">The ID of the created signal.</param>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse">
+            <summary>
+            Response model for idea information.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Id">
+            <summary>
+            The ID of the idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Title">
+            <summary>
+            The title of the idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Description">
+            <summary>
+            The description of the idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.SourceSignalId">
+            <summary>
+            The source signal ID that this idea is based on.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.SourceSignalTitle">
+            <summary>
+            The title of the source signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Contributors">
+            <summary>
+            The number of contributors to this idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Amendments">
+            <summary>
+            The number of amendments made to this idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.CreatedAt">
+            <summary>
+            When the idea was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.UpdatedAt">
+            <summary>
+            When the idea was last updated.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Tags">
+            <summary>
+            The tags associated with this idea.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.Status">
+            <summary>
+            The status of the idea.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.IdeaResponse.#ctor(System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.DateTimeOffset,System.DateTimeOffset,System.Collections.Generic.IReadOnlyCollection{System.String},System.String)">
+            <summary>
+            Initializes a new instance of the IdeaResponse class.
+            </summary>
+            <param name="id">The idea ID.</param>
+            <param name="title">The idea title.</param>
+            <param name="description">The idea description.</param>
+            <param name="sourceSignalId">The source signal ID.</param>
+            <param name="sourceSignalTitle">The source signal title.</param>
+            <param name="contributors">The number of contributors.</param>
+            <param name="amendments">The number of amendments.</param>
+            <param name="createdAt">When the idea was created.</param>
+            <param name="updatedAt">When the idea was last updated.</param>
+            <param name="tags">The idea tags.</param>
+            <param name="status">The idea status.</param>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse">
+            <summary>
+            Response model for signal information with pseudonym privacy protection.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.SignalId">
+            <summary>
+            The ID of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Title">
+            <summary>
+            The title of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Description">
+            <summary>
+            The description of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.OriginatorPseudonym">
+            <summary>
+            The pseudonym of the signal originator.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Status">
+            <summary>
+            The status of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.CapturedOn">
+            <summary>
+            When the signal was captured.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.LocalityId">
+            <summary>
+            The locality ID where this signal is relevant.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.Amplifications">
+            <summary>
+            The amplifications for this signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalResponse.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTimeOffset,System.String,System.Collections.Generic.IReadOnlyCollection{BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse})">
+            <summary>
+            Initializes a new instance of the SignalResponse class.
+            </summary>
+            <param name="signalId">The signal ID.</param>
+            <param name="title">The signal title.</param>
+            <param name="description">The signal description.</param>
+            <param name="originatorPseudonym">The originator's pseudonym.</param>
+            <param name="status">The signal status.</param>
+            <param name="capturedOn">When the signal was captured.</param>
+            <param name="localityId">The locality ID.</param>
+            <param name="amplifications">The signal amplifications.</param>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse">
+            <summary>
+            Response model for signal amplification with pseudonym privacy protection.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.AmplificationId">
+            <summary>
+            The ID of the amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.AmplifierPseudonym">
+            <summary>
+            The pseudonym of the participant who amplified the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.Reason">
+            <summary>
+            The reason for the amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.Commentary">
+            <summary>
+            Optional commentary provided with the amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.AmplifiedOn">
+            <summary>
+            When the amplification occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.IsActive">
+            <summary>
+            Whether the amplification is active (not withdrawn).
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Contracts.Responses.SignalAmplificationResponse.#ctor(System.String,System.String,System.String,System.String,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Initializes a new instance of the SignalAmplificationResponse class.
+            </summary>
+            <param name="amplificationId">The amplification ID.</param>
+            <param name="amplifierPseudonym">The amplifier's pseudonym.</param>
+            <param name="reason">The amplification reason.</param>
+            <param name="commentary">Optional commentary.</param>
+            <param name="amplifiedOn">When the amplification occurred.</param>
+            <param name="isActive">Whether the amplification is active.</param>
+        </member>
+    </members>
+</doc>

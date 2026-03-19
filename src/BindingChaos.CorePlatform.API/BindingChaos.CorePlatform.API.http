@@ -1,0 +1,6 @@
+@BindingChaos.CorePlatform.API_HostAddress = http://localhost:5265
+
+GET {{BindingChaos.CorePlatform.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

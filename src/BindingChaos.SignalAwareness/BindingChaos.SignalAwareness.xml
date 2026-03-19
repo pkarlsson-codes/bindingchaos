@@ -1,0 +1,1930 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.SignalAwareness</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.AddEvidence">
+            <summary>
+            Represents a request to associate one or more evidence documents with a specific signal.
+            </summary>
+            <remarks>This record is immutable. All parameters must be provided when creating an instance.</remarks>
+            <param name="SignalId">The unique identifier of the signal to which the evidence is being added.</param>
+            <param name="DocumentIds">An array of document identifiers representing the evidence to associate with the signal. Cannot be null or contain
+            null elements.</param>
+            <param name="Description">A description providing context or details about the evidence being added.</param>
+            <param name="AddedBy">The identifier of the participant who is adding the evidence.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.AddEvidence.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId,System.String[],System.String,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Represents a request to associate one or more evidence documents with a specific signal.
+            </summary>
+            <remarks>This record is immutable. All parameters must be provided when creating an instance.</remarks>
+            <param name="SignalId">The unique identifier of the signal to which the evidence is being added.</param>
+            <param name="DocumentIds">An array of document identifiers representing the evidence to associate with the signal. Cannot be null or contain
+            null elements.</param>
+            <param name="Description">A description providing context or details about the evidence being added.</param>
+            <param name="AddedBy">The identifier of the participant who is adding the evidence.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AddEvidence.SignalId">
+            <summary>The unique identifier of the signal to which the evidence is being added.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AddEvidence.DocumentIds">
+            <summary>An array of document identifiers representing the evidence to associate with the signal. Cannot be null or contain
+            null elements.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AddEvidence.Description">
+            <summary>A description providing context or details about the evidence being added.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AddEvidence.AddedBy">
+            <summary>The identifier of the participant who is adding the evidence.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.AddEvidenceHandler">
+            <summary>
+            Provides functionality to add evidence to the system based on the specified command and repositories.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.AddEvidenceHandler.Handle(BindingChaos.SignalAwareness.Application.Commands.AddEvidence,BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository,BindingChaos.SignalAwareness.Domain.Evidence.IEvidenceRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Handles an <see cref="T:BindingChaos.SignalAwareness.Application.Commands.AddEvidence"/> command.
+            </summary>
+            <param name="request">The command to handle.</param>
+            <param name="signalRepository">A repository for <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/> aggregates.</param>
+            <param name="evidenceRepository">A repository for <see cref="T:BindingChaos.SignalAwareness.Domain.Evidence.Evidence"/> aggregates.</param>
+            <param name="unitOfWork">A <see cref="T:BindingChaos.SharedKernel.Persistence.IUnitOfWork"/>.</param>
+            <param name="cancellationToken">A token used to cancel the action.</param>
+            <returns>A task.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal">
+            <summary>
+            Represents an amplification action performed on a signal by a participant, including the reason and optional
+            commentary.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal being amplified.</param>
+            <param name="AmplifierId">The unique identifier of the participant performing the amplification.</param>
+            <param name="Reason">The reason for amplifying the signal.</param>
+            <param name="Commentary">Optional commentary or additional context provided for the amplification. Can be <see langword="null"/>.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason,System.String)">
+            <summary>
+            Represents an amplification action performed on a signal by a participant, including the reason and optional
+            commentary.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal being amplified.</param>
+            <param name="AmplifierId">The unique identifier of the participant performing the amplification.</param>
+            <param name="Reason">The reason for amplifying the signal.</param>
+            <param name="Commentary">Optional commentary or additional context provided for the amplification. Can be <see langword="null"/>.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal.SignalId">
+            <summary>The unique identifier of the signal being amplified.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal.AmplifierId">
+            <summary>The unique identifier of the participant performing the amplification.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal.Reason">
+            <summary>The reason for amplifying the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal.Commentary">
+            <summary>Optional commentary or additional context provided for the amplification. Can be <see langword="null"/>.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.AmplifySignalHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Commands.AmplifySignal"/> command.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.AmplifySignalHandler.Handle(BindingChaos.SignalAwareness.Application.Commands.AmplifySignal,BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>Amplifies a signal and returns the updated active amplification count.</summary>
+            <param name="request">The amplify signal command.</param>
+            <param name="signalRepository">Repository for loading and staging the signal.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated active amplification count.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal">
+            <summary>
+            Represents a signal captured within the system, including its metadata and associated details.
+            </summary>
+            <param name="Title">The title of the signal. This value cannot be null or empty.</param>
+            <param name="Description">A detailed description of the signal. This value cannot be null or empty.</param>
+            <param name="OriginatorId">The unique identifier of the participant who originated the signal.</param>
+            <param name="Location">The optional geographic location where this signal occurred.</param>
+            <param name="Tags">A collection of tags associated with the signal. This collection may be empty but cannot be null.</param>
+            <param name="Attachments">A collection of attachments related to the signal. This collection may be empty but cannot be null.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.#ctor(System.String,System.String,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SharedKernel.Domain.Geography.Coordinates,System.String[],BindingChaos.SignalAwareness.Application.DTOs.AttachmentDto[])">
+            <summary>
+            Represents a signal captured within the system, including its metadata and associated details.
+            </summary>
+            <param name="Title">The title of the signal. This value cannot be null or empty.</param>
+            <param name="Description">A detailed description of the signal. This value cannot be null or empty.</param>
+            <param name="OriginatorId">The unique identifier of the participant who originated the signal.</param>
+            <param name="Location">The optional geographic location where this signal occurred.</param>
+            <param name="Tags">A collection of tags associated with the signal. This collection may be empty but cannot be null.</param>
+            <param name="Attachments">A collection of attachments related to the signal. This collection may be empty but cannot be null.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.Title">
+            <summary>The title of the signal. This value cannot be null or empty.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.Description">
+            <summary>A detailed description of the signal. This value cannot be null or empty.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.OriginatorId">
+            <summary>The unique identifier of the participant who originated the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.Location">
+            <summary>The optional geographic location where this signal occurred.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.Tags">
+            <summary>A collection of tags associated with the signal. This collection may be empty but cannot be null.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal.Attachments">
+            <summary>A collection of attachments related to the signal. This collection may be empty but cannot be null.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.CaptureSignalCommandHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Commands.CaptureSignal"/> command.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.CaptureSignalCommandHandler.Handle(BindingChaos.SignalAwareness.Application.Commands.CaptureSignal,BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>Captures a new signal and returns its identifier.</summary>
+            <param name="command">The capture signal command.</param>
+            <param name="signalRepository">Repository for staging the new signal.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The identifier of the newly captured signal.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal">
+            <summary>
+            Represents a request to deamplify a signal that was previously amplified by a specific participant.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal to be deamplified.</param>
+            <param name="AmplifierId">The unique identifier of the participant who amplified the signal.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Represents a request to deamplify a signal that was previously amplified by a specific participant.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal to be deamplified.</param>
+            <param name="AmplifierId">The unique identifier of the participant who amplified the signal.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal.SignalId">
+            <summary>The unique identifier of the signal to be deamplified.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal.AmplifierId">
+            <summary>The unique identifier of the participant who amplified the signal.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignalCommandHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal"/> command.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.DeamplifySignalCommandHandler.Handle(BindingChaos.SignalAwareness.Application.Commands.DeamplifySignal,BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>Deamplifies a signal and returns the updated active amplification count.</summary>
+            <param name="command">The deamplify signal command.</param>
+            <param name="signalRepository">Repository for loading and staging the signal.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated active amplification count.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.SuggestAction">
+            <summary>
+            Represents a structured action suggestion submitted by a participant on a signal.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal.</param>
+            <param name="SuggestedBy">The unique identifier of the participant suggesting the action.</param>
+            <param name="Parameters">
+            The typed parameters describing the action. The concrete subtype determines the action type.
+            </param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.SuggestAction.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionParameters)">
+            <summary>
+            Represents a structured action suggestion submitted by a participant on a signal.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal.</param>
+            <param name="SuggestedBy">The unique identifier of the participant suggesting the action.</param>
+            <param name="Parameters">
+            The typed parameters describing the action. The concrete subtype determines the action type.
+            </param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.SuggestAction.SignalId">
+            <summary>The unique identifier of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.SuggestAction.SuggestedBy">
+            <summary>The unique identifier of the participant suggesting the action.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.Commands.SuggestAction.Parameters">
+            <summary>
+            The typed parameters describing the action. The concrete subtype determines the action type.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Commands.SuggestActionHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Commands.SuggestAction"/> command.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Commands.SuggestActionHandler.Handle(BindingChaos.SignalAwareness.Application.Commands.SuggestAction,BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository,BindingChaos.SignalAwareness.Domain.SuggestedActions.ISignalActionRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>Records a suggested action on a signal.</summary>
+            <param name="request">The suggest action command.</param>
+            <param name="signalRepository">Repository for loading and staging the signal.</param>
+            <param name="signalActionRepository">Repository for <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/>.</param>
+            <param name="unitOfWork">Unit of work for committing the transaction.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated count of suggested actions on the signal.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.DTOs.AttachmentDto">
+            <summary>
+            Represents an attachment associated with a signal, including its document identifier and an optional caption.
+            </summary>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption describing the attachment. This value can be null.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.DTOs.AttachmentDto.#ctor(System.String,System.String)">
+            <summary>
+            Represents an attachment associated with a signal, including its document identifier and an optional caption.
+            </summary>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption describing the attachment. This value can be null.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.DTOs.AttachmentDto.DocumentId">
+            <summary>The unique identifier of the document associated with the attachment. This value cannot be null.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.DTOs.AttachmentDto.Caption">
+            <summary>An optional caption describing the attachment. This value can be null.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignal">
+            <summary>
+            Query to retrieve a signal by its ID.
+            This query is internal to the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignal.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId)">
+            <summary>
+            Query to retrieve a signal by its ID.
+            This query is internal to the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Queries.GetSignal"/> query.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalHandler.Handle(BindingChaos.SignalAwareness.Application.Queries.GetSignal,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>Returns the signal view for the given ID, or <see langword="null"/> if not found.</summary>
+            <param name="request">The query containing the signal ID.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The signal view, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrend">
+            <summary>
+            Query to retrieve amplification trend data for a specific signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrend.#ctor(System.String)">
+            <summary>
+            Query to retrieve amplification trend data for a specific signal.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrendHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrend"/> query.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrendHandler.Handle(BindingChaos.SignalAwareness.Application.Queries.GetSignalAmplificationTrend,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>Returns the amplification trend data for the specified signal, or <see langword="null"/> if not found.</summary>
+            <param name="request">The query containing the signal ID.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The signal amplification trend view, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignals">
+            <summary>
+            Query to retrieve signals with optional filtering and pagination.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignals.#ctor(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter})">
+            <summary>
+            Query to retrieve signals with optional filtering and pagination.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalsHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Queries.GetSignals"/> query.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalsHandler.Handle(BindingChaos.SignalAwareness.Application.Queries.GetSignals,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>Returns a paginated list of signals matching the query criteria.</summary>
+            <param name="request">The query containing the filter specification.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A paginated response of signals matching the query criteria.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIds">
+            <summary>
+            Query to retrieve signal names by their identifiers.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIds.#ctor(System.String[])">
+            <summary>
+            Query to retrieve signal names by their identifiers.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIdsHandler">
+            <summary>Handles the <see cref="T:BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIds"/> query.</summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIdsHandler.Handle(BindingChaos.SignalAwareness.Application.Queries.GetSignalTitlesByIds,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>Returns the titles for the given signal IDs.</summary>
+            <param name="request">The query containing the signal identifiers.</param>
+            <param name="querySession">Marten query session for read-model access.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A list of signal titles matching the provided IDs.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendPoint">
+            <summary>
+            Represents a single amplification event in the signal amplification trend.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendPoint.Date">
+            <summary>
+            The date and time of this amplification event.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendPoint.EventType">
+            <summary>
+            The type of amplification event: "amplify" or "attenuate".
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView">
+            <summary>
+            View used to project signal amplification trend information over time.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView.Id">
+            <summary>
+            The unique identifier for this trend view (same as SignalId).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView.SignalId">
+            <summary>
+            The signal identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView.DataPoints">
+            <summary>
+            The collection of trend data points showing amplification events over time.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView">
+            <summary>
+            Read model entity for signal amplifications optimized for querying.
+            This is populated from EventStoreDB events via projections.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.Id">
+            <summary>
+            The unique identifier for the signal amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.SignalId">
+            <summary>
+            The identifier of the signal being amplified.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.AmplifierId">
+            <summary>
+            The pseudonym of the participant who amplified the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.Reason">
+            <summary>
+            The reason for amplifying the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.Commentary">
+            <summary>
+            Optional commentary provided with the amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.AmplifiedAt">
+            <summary>
+            When the signal was amplified.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.IsActive">
+            <summary>
+            Whether this amplification is currently active.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.Version">
+            <summary>
+            The version number for optimistic concurrency control.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationView.Signal">
+            <summary>
+            Navigation property to the associated signal.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView">
+            <summary>
+            Lightweight read model optimized for signal listing and feeds.
+            Contains only essential data for list displays and filtering.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.SortMappings">
+            <summary>
+            Logical sort mappings for list queries.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Id">
+            <summary>
+            The unique identifier for the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Title">
+            <summary>
+            The title of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Description">
+            <summary>
+            The description of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.OriginatorId">
+            <summary>
+            The identifier of the participant who originated the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.LastAmplifiedAt">
+            <summary>
+            When the signal was last amplified (for sorting purposes).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.LastUpdatedAt">
+            <summary>
+            When the signal was last updated.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Latitude">
+            <summary>
+            The optional latitude of the location where this signal occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Longitude">
+            <summary>
+            The optional longitude of the location where this signal occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Status">
+            <summary>
+            The current status of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.CapturedAt">
+            <summary>
+            When the signal was captured.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.AmplificationCount">
+            <summary>
+            Cached count of amplifications for efficient sorting/filtering.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Tags">
+            <summary>
+            Collection of tags associated with the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.AmplifierIds">
+            <summary>
+            Collection of participant IDs who have amplified this signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView.Attachments">
+            <summary>
+            Collection of attachments associated with this signal for list view display.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.AttachmentListItem">
+            <summary>
+            Lightweight attachment information for list views.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.AttachmentListItem.Id">
+            <summary>
+            The unique identifier for the attachment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.AttachmentListItem.DocumentId">
+            <summary>
+            The document ID stored in the document service.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.AttachmentListItem.Caption">
+            <summary>
+            Optional caption for the attachment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.AttachmentListItem.CreatedAt">
+            <summary>
+            When the attachment was added.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalTitle">
+            <summary>
+            Represents the title of a signal, including its unique identifier and descriptive title.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal. This value cannot be null or empty.</param>
+            <param name="Title">The descriptive title of the signal. This value cannot be null or empty.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.ReadModels.SignalTitle.#ctor(System.String,System.String)">
+            <summary>
+            Represents the title of a signal, including its unique identifier and descriptive title.
+            </summary>
+            <param name="SignalId">The unique identifier of the signal. This value cannot be null or empty.</param>
+            <param name="Title">The descriptive title of the signal. This value cannot be null or empty.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalTitle.SignalId">
+            <summary>The unique identifier of the signal. This value cannot be null or empty.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalTitle.Title">
+            <summary>The descriptive title of the signal. This value cannot be null or empty.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalView">
+            <summary>
+            Read model entity for signals optimized for querying.
+            This is populated from EventStoreDB events via projections.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Id">
+            <summary>
+            The unique identifier for the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Title">
+            <summary>
+            The title of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Description">
+            <summary>
+            The description of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.OriginatorId">
+            <summary>
+            The identifier of the participant who originated the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Latitude">
+            <summary>
+            The optional latitude of the location where this signal occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Longitude">
+            <summary>
+            The optional longitude of the location where this signal occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Status">
+            <summary>
+            The current status of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.CapturedAt">
+            <summary>
+            When the signal was captured.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Version">
+            <summary>
+            The version number for optimistic concurrency control.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.AmplificationCount">
+            <summary>
+            Cached count of amplifications to support efficient sorting/filtering.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Tags">
+            <summary>
+            Collection of tags associated with the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Amplifications">
+            <summary>
+            Collection of amplifications for this signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachments">
+            <summary>
+            Gets or sets the collection of attachments associated with the entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.SuggestedActions">
+            <summary>
+            Collection of suggested actions for this signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.LastUpdatedAt">
+            <summary>
+            When the signal was last updated.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachment">
+            <summary>
+            Represents an attachment associated with a signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachment.Id">
+            <summary>
+            The unique identifier for the attachment.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachment.Caption">
+            <summary>
+            Gets or sets the caption text associated with the object.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachment.CreatedAt">
+            <summary>
+            Gets or sets the date and time when the entity was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SignalView.Attachment.DocumentId">
+            <summary>
+            Gets or sets the unique identifier for the document.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView">
+            <summary>
+            Read model for a suggested action on a signal, optimized for querying.
+            Populated from domain events via projections.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.Id">
+            <summary>The unique identifier for the suggested action.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.ActionTypeId">
+            <summary>The integer value of the <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType"/> enumeration.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.ActionTypeName">
+            <summary>The display name of the action type, denormalized at projection time.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.PhoneNumber">
+            <summary>The phone number to call. Populated for <c>MakeACall</c> actions.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.Url">
+            <summary>The URL to visit. Populated for <c>VisitAWebpage</c> actions.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.Details">
+            <summary>Optional free-text context provided by the suggester.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.SuggestedById">
+            <summary>The identifier of the participant who suggested the action.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Application.ReadModels.SuggestedActionView.SuggestedAt">
+            <summary>When the action was suggested.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsCapturedSinceSpecification">
+            <summary>
+            Matches signals captured at or after a cutoff timestamp.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsCapturedSinceSpecification.#ctor(System.DateTimeOffset)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsCapturedSinceSpecification"/> class.
+            </summary>
+            <param name="cutoffDate">The capture timestamp lower bound.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsCapturedSinceSpecification.Optional(System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Creates an optional captured-since specification.
+            </summary>
+            <param name="cutoffDate">The optional cutoff timestamp.</param>
+            <returns>A captured-since specification when provided; otherwise, an identity specification.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsCapturedSinceSpecification.ToExpression">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsMatchingSearchTermSpecification">
+            <summary>
+            Matches signals whose title, description, or tags contain a search term.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsMatchingSearchTermSpecification.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsMatchingSearchTermSpecification"/> class.
+            </summary>
+            <param name="searchTerm">The search term to match.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsMatchingSearchTermSpecification.Optional(System.String)">
+            <summary>
+            Creates an optional search-term specification.
+            </summary>
+            <param name="searchTerm">The optional search term.</param>
+            <returns>A search-term specification when provided; otherwise, an identity specification.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsMatchingSearchTermSpecification.ToExpression">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsWithAnyTagsSpecification">
+            <summary>
+            Matches signals that contain at least one requested tag.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsWithAnyTagsSpecification.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsWithAnyTagsSpecification"/> class.
+            </summary>
+            <param name="tags">The tags to match.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsWithAnyTagsSpecification.Optional(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates an optional tag filter specification.
+            </summary>
+            <param name="tags">The optional tag list.</param>
+            <returns>A tag-filter specification when valid tags are provided; otherwise, an identity specification.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsWithAnyTagsSpecification.ToExpression">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsByAmplificationRangeSpecification">
+            <summary>
+            Matches signals whose amplification count falls within a range.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsByAmplificationRangeSpecification.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Application.Specifications.SignalsByAmplificationRangeSpecification"/> class.
+            </summary>
+            <param name="min">Minimum amplification count.</param>
+            <param name="max">Maximum amplification count.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsByAmplificationRangeSpecification.Optional(System.Nullable{System.ValueTuple{System.Int32,System.Int32}})">
+            <summary>
+            Creates an optional amplification-range specification.
+            </summary>
+            <param name="range">The optional amplification range.</param>
+            <returns>A range specification when provided; otherwise, an identity specification.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Application.Specifications.SignalsByAmplificationRangeSpecification.ToExpression">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded">
+            <summary>
+            Represents an event indicating that evidence has been added to a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the evidence.</param>
+            <param name="Version">0</param>
+            <param name="SignalId">The unique identifier of the added evidence.</param>
+            <param name="DocumentIds">The unique identifiers of any documents associated with the evidence.</param>
+            <param name="Description">A textual description of the evidence.</param>
+            <param name="AddedBy">Id of the participant that added the evidence.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded.#ctor(System.String,System.Int64,System.String,System.String[],System.String,System.String)">
+            <summary>
+            Represents an event indicating that evidence has been added to a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the evidence.</param>
+            <param name="Version">0</param>
+            <param name="SignalId">The unique identifier of the added evidence.</param>
+            <param name="DocumentIds">The unique identifiers of any documents associated with the evidence.</param>
+            <param name="Description">A textual description of the evidence.</param>
+            <param name="AddedBy">Id of the participant that added the evidence.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded.SignalId">
+            <summary>The unique identifier of the added evidence.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded.DocumentIds">
+            <summary>The unique identifiers of any documents associated with the evidence.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded.Description">
+            <summary>A textual description of the evidence.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Evidence.Events.EvidenceAdded.AddedBy">
+            <summary>Id of the participant that added the evidence.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Evidence.Evidence">
+            <summary>
+            A piece of evidence about a signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Evidence.Evidence.#ctor(BindingChaos.SignalAwareness.Domain.Evidence.EvidenceId,BindingChaos.SignalAwareness.Domain.Signals.SignalId,System.String[],System.String,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Initializes a new instance of the Evidence class with the specified identifiers, related documents, description,
+            and participant information.
+            </summary>
+            <param name="id">The unique identifier for the evidence instance.</param>
+            <param name="signalId">The identifier of the signal associated with this evidence.</param>
+            <param name="documentIds">An array of document identifiers that are related to the evidence. Cannot be null.</param>
+            <param name="description">A brief description of the evidence.</param>
+            <param name="addedBy">The identifier of the participant who added the evidence.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Evidence.Evidence.Add(BindingChaos.SignalAwareness.Domain.Signals.SignalId,System.String[],System.String,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Creates a new Evidence instance associated with the specified signal and documents.
+            </summary>
+            <param name="signalId">The identifier of the signal to which the evidence is related.</param>
+            <param name="documentIds">An array of document identifiers that are linked to the evidence. Cannot be null.</param>
+            <param name="description">A description that provides context or details about the evidence.</param>
+            <param name="addedBy">The identifier of the participant who is adding the evidence.</param>
+            <returns>An Evidence object representing the newly created evidence entry.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Evidence.Evidence.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Evidence.EvidenceId">
+            <summary>
+            Unique identifier for an <see cref="T:BindingChaos.SignalAwareness.Domain.Evidence.Evidence"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Evidence.IEvidenceRepository">
+            <summary>
+            Defines a contract for managing and accessing evidence entities within a repository pattern implementation.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason">
+            <summary>
+            Represents the participant's motivation for amplifying a signal.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.HighRelevance">
+            <summary>
+            Signal is highly relevant to the participant's interests or concerns.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.PersonalExperience">
+            <summary>
+            Participant has direct personal experience with the signal's topic.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.ExpertKnowledge">
+            <summary>
+            Participant has expert knowledge in the signal's domain.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.LocalImpact">
+            <summary>
+            Signal has significant local impact on the participant's community.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.UrgentAction">
+            <summary>
+            Signal requires urgent action or attention.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.CommunityBenefit">
+            <summary>
+            Signal would benefit the broader community if addressed.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the AmplificationReason class.
+            </summary>
+            <param name="id">The unique identifier for this reason.</param>
+            <param name="name">The name of this reason.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded">
+            <summary>
+            Represents an event indicating that an attachment has been added to a document.
+            </summary>
+            <param name="AggregateId">The unique identifier of the aggregate to which the attachment belongs.</param>
+            <param name="Version">The version of the aggregate at the time the attachment was added.</param>
+            <param name="AttachmentId">The unique identifier of the added attachment.</param>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment.</param>
+            <param name="Caption">An optional caption or description for the attachment. Can be <see langword="null"/> if no caption is provided.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded.#ctor(System.String,System.Int64,System.String,System.String,System.String)">
+            <summary>
+            Represents an event indicating that an attachment has been added to a document.
+            </summary>
+            <param name="AggregateId">The unique identifier of the aggregate to which the attachment belongs.</param>
+            <param name="Version">The version of the aggregate at the time the attachment was added.</param>
+            <param name="AttachmentId">The unique identifier of the added attachment.</param>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment.</param>
+            <param name="Caption">An optional caption or description for the attachment. Can be <see langword="null"/> if no caption is provided.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded.AttachmentId">
+            <summary>The unique identifier of the added attachment.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded.DocumentId">
+            <summary>The unique identifier of the document associated with the attachment.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded.Caption">
+            <summary>An optional caption or description for the attachment. Can be <see langword="null"/> if no caption is provided.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated">
+            <summary>
+            Domain event raised when a signal amplification is attenuated by a participant.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="AmplificationId">The amplification identifier being attenuated.</param>
+            <param name="AmplifierId">The participant who attenuated their amplification.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Domain event raised when a signal amplification is attenuated by a participant.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="AmplificationId">The amplification identifier being attenuated.</param>
+            <param name="AmplifierId">The participant who attenuated their amplification.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated.AmplificationId">
+            <summary>The amplification identifier being attenuated.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated.AmplifierId">
+            <summary>The participant who attenuated their amplification.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified">
+            <summary>
+            Domain event raised when a signal is amplified by a participant.
+            </summary>
+            <param name="AggregateId">The ID of the signal being amplified.</param>
+            <param name="Version">The version of the signal when this event occurred.</param>
+            <param name="AmplificationId">The unique ID of the amplification action.</param>
+            <param name="AmplifierId">The ID of the participant who amplified the signal.</param>
+            <param name="Reason">The reason for amplification, represented as an integer code.</param>
+            <param name="Commentary">Optional commentary provided by the amplifier.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified.#ctor(System.String,System.Int64,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Domain event raised when a signal is amplified by a participant.
+            </summary>
+            <param name="AggregateId">The ID of the signal being amplified.</param>
+            <param name="Version">The version of the signal when this event occurred.</param>
+            <param name="AmplificationId">The unique ID of the amplification action.</param>
+            <param name="AmplifierId">The ID of the participant who amplified the signal.</param>
+            <param name="Reason">The reason for amplification, represented as an integer code.</param>
+            <param name="Commentary">Optional commentary provided by the amplifier.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified.AmplificationId">
+            <summary>The unique ID of the amplification action.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified.AmplifierId">
+            <summary>The ID of the participant who amplified the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified.Reason">
+            <summary>The reason for amplification, represented as an integer code.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified.Commentary">
+            <summary>Optional commentary provided by the amplifier.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured">
+            <summary>
+            Domain event emitted when a new signal is captured in the system.
+            </summary>
+            <param name="AggregateId">The unique identifier of the captured signal.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="OriginatorId">The identifier of the participant who captured the signal.</param>
+            <param name="Latitude">The optional latitude of the location where this signal occurred.</param>
+            <param name="Longitude">The optional longitude of the location where this signal occurred.</param>
+            <param name="Tags">Optional tags associated with the signal.</param>
+            <param name="Attachments">Optional attachments added to the signal.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.#ctor(System.String,System.Int64,System.String,System.String,System.String,System.Nullable{System.Double},System.Nullable{System.Double},System.String[],BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord[])">
+            <summary>
+            Domain event emitted when a new signal is captured in the system.
+            </summary>
+            <param name="AggregateId">The unique identifier of the captured signal.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="Title">The title of the signal.</param>
+            <param name="Description">The description of the signal.</param>
+            <param name="OriginatorId">The identifier of the participant who captured the signal.</param>
+            <param name="Latitude">The optional latitude of the location where this signal occurred.</param>
+            <param name="Longitude">The optional longitude of the location where this signal occurred.</param>
+            <param name="Tags">Optional tags associated with the signal.</param>
+            <param name="Attachments">Optional attachments added to the signal.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Title">
+            <summary>The title of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Description">
+            <summary>The description of the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.OriginatorId">
+            <summary>The identifier of the participant who captured the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Latitude">
+            <summary>The optional latitude of the location where this signal occurred.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Longitude">
+            <summary>The optional longitude of the location where this signal occurred.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Tags">
+            <summary>Optional tags associated with the signal.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.Attachments">
+            <summary>Optional attachments added to the signal.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord">
+            <summary>
+            Represents a record of an attachment, including its associated document identifier and an optional caption.
+            </summary>
+            <param name="AttachmentId">The unique identifier of the attachment.</param>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption for the attachment, providing additional context or description.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Represents a record of an attachment, including its associated document identifier and an optional caption.
+            </summary>
+            <param name="AttachmentId">The unique identifier of the attachment.</param>
+            <param name="DocumentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="Caption">An optional caption for the attachment, providing additional context or description.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord.AttachmentId">
+            <summary>The unique identifier of the attachment.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord.DocumentId">
+            <summary>The unique identifier of the document associated with the attachment. This value cannot be null.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured.AttachmentRecord.Caption">
+            <summary>An optional caption for the attachment, providing additional context or description.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated">
+            <summary>
+            Event raised when a signal's content is updated.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="Title">The new title.</param>
+            <param name="Description">The new description.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Event raised when a signal's content is updated.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="Title">The new title.</param>
+            <param name="Description">The new description.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated.Title">
+            <summary>The new title.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated.Description">
+            <summary>The new description.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged">
+            <summary>
+            Event raised when a signal's status is changed.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="NewStatus">The new status value.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged.#ctor(System.String,System.Int64,System.Int32)">
+            <summary>
+            Event raised when a signal's status is changed.
+            </summary>
+            <param name="AggregateId">The signal identifier.</param>
+            <param name="Version">Aggregate version at the time of the event.</param>
+            <param name="NewStatus">The new status value.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged.NewStatus">
+            <summary>The new status value.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Events.TagsAddedToSignal">
+            <summary>
+            Represents a domain event that occurs when tags are added to a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the aggregate to which the tags were added.</param>
+            <param name="Version">The version of the aggregate at the time the event occurred.</param>
+            <param name="Tags">An array of tags that were added to the signal. This array cannot be null or empty.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Events.TagsAddedToSignal.#ctor(System.String,System.Int64,System.String[])">
+            <summary>
+            Represents a domain event that occurs when tags are added to a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the aggregate to which the tags were added.</param>
+            <param name="Version">The version of the aggregate at the time the event occurred.</param>
+            <param name="Tags">An array of tags that were added to the signal. This array cannot be null or empty.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Events.TagsAddedToSignal.Tags">
+            <summary>An array of tags that were added to the signal. This array cannot be null or empty.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.ISignalRepository">
+            <summary>
+            Repository interface for Signal aggregate persistence operations.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.Signal">
+            <summary>
+            Aggregate root representing a community observation that may be relevant for coordination.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.#ctor(BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SignalAwareness.Domain.Signals.SignalContent,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SharedKernel.Domain.Geography.Coordinates,System.String[],BindingChaos.SignalAwareness.Domain.Signals.AttachmentSpec[])">
+            <summary>
+            Initializes a new instance of the Signal class.
+            </summary>
+            <param name="id">The unique identifier for this signal.</param>
+            <param name="content">The content of this signal.</param>
+            <param name="originatorId">The originator of this signal.</param>
+            <param name="location">The optional geographic location where this signal occurred.</param>
+            <param name="tags">Optional tags associated with the signal.</param>
+            <param name="attachments">Optional attachments associated with the signal.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.OriginatorId">
+            <summary>
+            Gets the participant who originated the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.CapturedAt">
+            <summary>
+            Gets the timestamp when the signal was captured.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.Location">
+            <summary>
+            Gets the optional geographic location where this signal occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.Content">
+            <summary>
+            Gets the current content of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.Status">
+            <summary>
+            Gets the current status of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.Amplifications">
+            <summary>
+            Gets all amplifications associated with this signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.ActiveAmplifications">
+            <summary>
+            Gets the subset of active (non-attenuated) amplifications.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.Signal.Attachments">
+            <summary>
+            Gets a read-only collection of signal attachments associated with the current instance.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.Amplify(BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason,System.String)">
+            <summary>
+            Amplifies the signal by a participant.
+            </summary>
+            <param name="amplifierId">The participant amplifying the signal.</param>
+            <param name="reason">The reason for amplification.</param>
+            <param name="commentary">Optional commentary about the amplification.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.Attenuate(BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Attenuates an amplification by a participant.
+            </summary>
+            <param name="amplifierId">The participant attenuating their amplification.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.Capture(BindingChaos.SignalAwareness.Domain.Signals.SignalContent,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SharedKernel.Domain.Geography.Coordinates,System.String[],BindingChaos.SignalAwareness.Domain.Signals.AttachmentSpec[])">
+            <summary>
+            Creates a new signal.
+            </summary>
+            <param name="content">The content of the signal.</param>
+            <param name="originatorId">The originator of the signal.</param>
+            <param name="location">The optional geographic location where this signal occurred.</param>
+            <param name="tags">Optional tags associated with the signal.</param>
+            <param name="attachments">Optional attachments associated with the signal.</param>
+            <returns>A new signal instance.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.AddAttachment(BindingChaos.SignalAwareness.Domain.Signals.AttachmentSpec)">
+            <summary>
+            Adds an attachment to the signal.
+            </summary>
+            <param name="attachment">The attachment to add, including its document ID and caption. Cannot be <see langword="null"/>.</param>
+            <exception cref="T:BindingChaos.SharedKernel.Domain.Exceptions.BusinessRuleViolationException">Thrown if the signal's status is not <see cref="F:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus.Active"/>.</exception>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.UpdateContent(BindingChaos.SignalAwareness.Domain.Signals.SignalContent)">
+            <summary>
+            Updates the content of the signal.
+            </summary>
+            <param name="newContent">The new signal content.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.AddEvidence(BindingChaos.SignalAwareness.Domain.Signals.EvidenceSpec)">
+            <summary>
+            Adds the specified evidence to the current instance.
+            </summary>
+            <param name="evidence">The evidence to add. This parameter cannot be null.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <summary>
+            Applies a domain event to mutate aggregate state.
+            </summary>
+            <param name="domainEvent">The domain event to apply.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.ContentMustHaveTitleAndDescription">
+            <summary>
+            Invariant: content must include a title and description.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.OriginatorMustBeSpecified">
+            <summary>
+            Invariant: the signal must have a non-null originator.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.StatusMustBeDefined">
+            <summary>
+            Invariant: the signal status must be defined.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.ParticipantsMustHaveUniqueActiveAmplifications">
+            <summary>
+            Invariant: each participant can have at most one active amplification.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.Signal.OriginatorCannotAmplifyOwnSignal">
+            <summary>
+            Invariant: the originator cannot amplify their own signal.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification">
+            <summary>
+            Entity representing a single participant's amplification of a signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.SignalId">
+            <summary>
+            Gets the associated signal identifier.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.AmplifierId">
+            <summary>
+            Gets the participant who amplified the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.Reason">
+            <summary>
+            Gets the reason selected for amplification.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.Commentary">
+            <summary>
+            Gets optional commentary provided by the participant.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.AmplifiedAt">
+            <summary>
+            Gets the timestamp when amplification occurred.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.IsWithdrawn">
+            <summary>
+            Gets a value indicating whether the amplification has been withdrawn.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.WithdrawnAt">
+            <summary>
+            Gets the timestamp when the amplification was withdrawn, if withdrawn.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.IsActive">
+            <summary>
+            Gets a value indicating whether this amplification is active (not withdrawn).
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.Create(BindingChaos.SignalAwareness.Domain.Signals.SignalAmplificationId,BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.SignalAwareness.Domain.Signals.AmplificationReason,System.String,System.DateTimeOffset)">
+            <summary>
+            Creates a new instance of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification"/> class with the specified parameters.
+            </summary>
+            <param name="signalAmplificationId">The unique identifier for the signal amplification.</param>
+            <param name="signalId">The identifier of the signal being amplified.</param>
+            <param name="amplifierId">The identifier of the participant performing the amplification.</param>
+            <param name="reason">The reason for the amplification.</param>
+            <param name="commentary">Optional commentary or additional information about the amplification. Can be <see langword="null"/>.</param>
+            <param name="amplifiedAt">The date and time when the amplification occurred.</param>
+            <returns>A new <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification"/> instance initialized with the provided parameters.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification.Attenuate(System.DateTimeOffset)">
+            <summary>
+            Marks this amplification as withdrawn.
+            </summary>
+            <param name="attenuatedAt">The timestamp when withdrawal occurred.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplificationId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAmplification"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment">
+            <summary>
+            Represents an attachment associated with a signal, identified by a unique string key.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment.Caption">
+            <summary>
+            Gets the caption text associated with the object.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment.CreatedAt">
+            <summary>
+            Gets the date and time when the entity was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment.DocumentId">
+            <summary>
+            Gets the unique identifier for the document.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment.Create(BindingChaos.SignalAwareness.Domain.Signals.SignalAttachmentId,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Creates a new instance of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment"/> class with the specified identifier.
+            </summary>
+            <param name="id">The unique identifier for the signal attachment.</param>
+            <param name="documentId">The unique identifier of the document associated with the attachment. This value cannot be null.</param>
+            <param name="caption">An optional caption describing the attachment. This value can be null.</param>
+            <param name="createdAt">The date and time when the attachment was created.</param>
+            <returns>A new <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment"/> instance initialized with the specified identifier.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachmentId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.SignalAttachment"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalContent">
+            <summary>
+            Value object representing the content of a signal.
+            This value object is internal to the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalContent.Title">
+            <summary>
+            Gets the title of the signal.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.Signals.SignalContent.Description">
+            <summary>
+            Gets the description of the signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalContent.Create(System.String,System.String)">
+            <summary>
+            Creates a new SignalContent instance with the specified title and description.
+            </summary>
+            <param name="title">The title of the signal. Must not be null or empty and cannot exceed 200 characters.</param>
+            <param name="description">The description of the signal. Must not be null or empty and cannot exceed 2000 characters.</param>
+            <returns>A new SignalContent instance.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when title or description validation fails.</exception>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalContent.ToString">
+            <summary>
+            Returns a string representation of the signal content.
+            </summary>
+            <returns>A string in the format "Title: Description".</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalContent.GetEqualityComponents">
+            <summary>
+            Gets the components that make up the value of this object for equality comparison.
+            </summary>
+            <returns>An enumerable of objects that represent the value components.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus">
+            <summary>
+            Represents the current status of a signal.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus.Active">
+            <summary>
+            Signal is active and visible to participants.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus.Expired">
+            <summary>
+            Signal has expired due to age or inactivity.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus.Archived">
+            <summary>
+            Signal has been archived and is no longer visible.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.Signals.SignalStatus.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the SignalStatus class.
+            </summary>
+            <param name="id">The unique identifier for this status.</param>
+            <param name="name">The name of this status.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionParameters">
+            <summary>
+            Base value object for the structured parameters of a suggested action.
+            Each subtype corresponds to exactly one <see cref="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionParameters.ActionType"/> and carries
+            only the fields relevant to that type, making mismatches impossible.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionParameters.ActionType">
+            <summary>
+            The action type these parameters belong to.
+            Derived from the concrete subtype — no separate argument needed.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters">
+            <summary>
+            Parameters for a <see cref="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.MakeACall"/> suggested action.
+            </summary>
+            <param name="phoneNumber">The phone number to call.</param>
+            <param name="details">Optional context about the call (e.g. what to ask about).</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters.#ctor(System.String,System.String)">
+            <summary>
+            Parameters for a <see cref="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.MakeACall"/> suggested action.
+            </summary>
+            <param name="phoneNumber">The phone number to call.</param>
+            <param name="details">Optional context about the call (e.g. what to ask about).</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters.PhoneNumber">
+            <summary>Gets the phone number to call.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters.Details">
+            <summary>Gets optional context about the call.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters.ActionType">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters.GetEqualityComponents">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters">
+            <summary>
+            Parameters for a <see cref="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.VisitAWebpage"/> suggested action.
+            </summary>
+            <param name="url">The URL to visit.</param>
+            <param name="details">Optional context about what to do on the page.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters.#ctor(System.String,System.String)">
+            <summary>
+            Parameters for a <see cref="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.VisitAWebpage"/> suggested action.
+            </summary>
+            <param name="url">The URL to visit.</param>
+            <param name="details">Optional context about what to do on the page.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters.Url">
+            <summary>Gets the URL to visit.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters.Details">
+            <summary>Gets optional context about what to do on the page.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters.ActionType">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters.GetEqualityComponents">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType">
+            <summary>
+            Represents the category of a suggested action on a signal.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.MakeACall">
+            <summary>
+            Suggests calling a phone number related to the signal.
+            </summary>
+        </member>
+        <member name="F:BindingChaos.SignalAwareness.Domain.SuggestedActions.ActionType.VisitAWebpage">
+            <summary>
+            Suggests visiting a relevant webpage.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.ActionReported">
+            <summary>
+            Represents a domain event that records the reporting of an action, including details about the action and its origin
+            within the aggregate.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal aggregate.</param>
+            <param name="Version">The version number of the aggregate at the time the action was reported.</param>
+            <param name="ActionId">The unique identifier of the action that has been reported.</param>
+            <param name="ReportedBy">The identifier of the user or entity that reported the action.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.ActionReported.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Represents a domain event that records the reporting of an action, including details about the action and its origin
+            within the aggregate.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal aggregate.</param>
+            <param name="Version">The version number of the aggregate at the time the action was reported.</param>
+            <param name="ActionId">The unique identifier of the action that has been reported.</param>
+            <param name="ReportedBy">The identifier of the user or entity that reported the action.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.ActionReported.ActionId">
+            <summary>The unique identifier of the action that has been reported.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.ActionReported.ReportedBy">
+            <summary>The identifier of the user or entity that reported the action.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested">
+            <summary>
+            Raised when a participant suggests a 'make a call' action on a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal.</param>
+            <param name="Version">The version number of the event within the aggregate's event stream.</param>
+            <param name="SignalId">Id of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/> the action is for.</param>
+            <param name="PhoneNumber">The phone number to call.</param>
+            <param name="Details">Optional free-text context about the call.</param>
+            <param name="SuggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested.#ctor(System.String,System.Int64,System.String,System.String,System.String,System.String)">
+            <summary>
+            Raised when a participant suggests a 'make a call' action on a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal.</param>
+            <param name="Version">The version number of the event within the aggregate's event stream.</param>
+            <param name="SignalId">Id of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/> the action is for.</param>
+            <param name="PhoneNumber">The phone number to call.</param>
+            <param name="Details">Optional free-text context about the call.</param>
+            <param name="SuggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested.SignalId">
+            <summary>Id of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/> the action is for.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested.PhoneNumber">
+            <summary>The phone number to call.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested.Details">
+            <summary>Optional free-text context about the call.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested.SuggestedBy">
+            <summary>The identifier of the participant who made the suggestion.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested">
+            <summary>
+            Raised when a participant suggests visiting a webpage as an action on a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal.</param>
+            <param name="Version">The version number of the event within the aggregate's event stream.</param>
+            <param name="SignalId">The unique identifier of the signal the action is for.</param>
+            <param name="Url">The URL to visit.</param>
+            <param name="Details">Optional free-text context about what to do on the page.</param>
+            <param name="SuggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested.#ctor(System.String,System.Int64,System.String,System.String,System.String,System.String)">
+            <summary>
+            Raised when a participant suggests visiting a webpage as an action on a signal.
+            </summary>
+            <param name="AggregateId">The unique identifier of the signal.</param>
+            <param name="Version">The version number of the event within the aggregate's event stream.</param>
+            <param name="SignalId">The unique identifier of the signal the action is for.</param>
+            <param name="Url">The URL to visit.</param>
+            <param name="Details">Optional free-text context about what to do on the page.</param>
+            <param name="SuggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested.SignalId">
+            <summary>The unique identifier of the signal the action is for.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested.Url">
+            <summary>The URL to visit.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested.Details">
+            <summary>Optional free-text context about what to do on the page.</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested.SuggestedBy">
+            <summary>The identifier of the participant who made the suggestion.</summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.ISignalActionRepository">
+            <summary>
+            A repository for <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction">
+            <summary>
+            Represents a structured action suggested by a participant on a signal.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.#ctor(BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedActionId,BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SignalAwareness.Domain.SuggestedActions.MakeACallParameters,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/> class.
+            </summary>
+            <param name="id">The unique identifier of this suggested action.</param>
+            <param name="signalId">The unique identifier of the signal that the action is for.</param>
+            <param name="parameters">The structured parameters describing the action to take.</param>
+            <param name="suggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.#ctor(BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedActionId,BindingChaos.SignalAwareness.Domain.Signals.SignalId,BindingChaos.SignalAwareness.Domain.SuggestedActions.VisitAWebpageParameters,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/> class.
+            </summary>
+            <param name="id">The unique identifier of this suggested action.</param>
+            <param name="signalId">The unique identified of the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Signal"/> the action is for.</param>
+            <param name="parameters">The structured parameters describing the action to take.</param>
+            <param name="suggestedBy">The identifier of the participant who made the suggestion.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.#ctor">
+            <summary>
+            Initializes a new instance of the SuggestedAction class.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.Parameters">
+            <summary>
+            Gets the structured parameters for this action.
+            The concrete subtype determines the action type and carries only the relevant fields.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.SuggestedBy">
+            <summary>
+            Gets the identifier of the participant who suggested this action.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.SuggestMakeACall(BindingChaos.SignalAwareness.Domain.Signals.SignalId,System.String,System.String,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Creates a suggested action to initiate a phone call to the specified phone number.
+            </summary>
+            <param name="signalId">The unique identifier of the signal that the action is for.</param>
+            <param name="phoneNumber">The phone number to call. Must be in a valid phone number format.</param>
+            <param name="details">Optional additional information about the call. Specify null if no details are provided.</param>
+            <param name="suggestedBy">The identifier of the participant who is suggesting the call.</param>
+            <returns>A SuggestedAction object that represents the action to make a call, including the provided parameters.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.SuggestVisitAWebsite(BindingChaos.SignalAwareness.Domain.Signals.SignalId,System.String,System.String,BindingChaos.SharedKernel.Domain.ParticipantId)">
+            <summary>
+            Creates a suggested action that prompts a participant to visit a specified website.
+            </summary>
+            <param name="signalId">The identifier of the signal associated with the suggested action.</param>
+            <param name="url">The URL of the website to be visited.</param>
+            <param name="details">Optional additional information about the suggested action. May be null.</param>
+            <param name="suggestedBy">The identifier of the participant who is suggesting the action.</param>
+            <returns>A SuggestedAction instance representing the request to visit the specified website.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedActionId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.SignalAwarenessAssemblyReference">
+            <summary>
+            Marker surface for assembly registration for SignalAwareness.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Infrastructure.SignalAwarenessAssemblyReference.Assembly">
+            <summary>
+            Gets the assembly that contains handlers for the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.SignalAwarenessServiceCollectionExtensions">
+            <summary>
+            Dependency injection configuration for the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.SignalAwarenessServiceCollectionExtensions.AddSignalAwareness(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds SignalAwareness services to the service collection.
+            Note: Marten services should be registered at the application level, not here.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="configuration">The configuration instance.</param>
+            <returns>The service collection for method chaining.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers.SignalCapturedHandler">
+            <summary>
+            Message handler for SignalCaptured domain events that publishes the corresponding integration event.
+            This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers.SignalCapturedHandler.#ctor(BindingChaos.SharedKernel.Domain.Events.IIntegrationEventMapper{BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured},Microsoft.Extensions.Logging.ILogger{BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers.SignalCapturedHandler})">
+            <summary>
+            Initializes a new instance of the SignalCapturedHandler.
+            </summary>
+            <param name="mapper">The mapper for converting domain events to integration events.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers.SignalCapturedHandler.Handle(BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured,Wolverine.IMessageBus)">
+            <summary>
+            Handles the SignalCaptured domain event by mapping and publishing the integration event.
+            </summary>
+            <param name="domainEvent">The domain event to handle.</param>
+            <param name="messageBus">The message bus for publishing the integration event.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.IntegrationEventMappers.SignalCapturedIntegrationEventMapper">
+            <summary>
+            Maps SignalCaptured domain events to SignalCapturedIntegrationEvent integration events.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.IntegrationEventMappers.SignalCapturedIntegrationEventMapper.Map(BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured)">
+            <summary>
+            Maps a SignalCaptured domain event to a SignalCapturedIntegrationEvent.
+            </summary>
+            <param name="domainEvent">The domain event to map.</param>
+            <returns>The mapped integration event.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.EvidenceRepository">
+            <summary>
+            Marten implementation of the Evidence repository.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Persistence.EvidenceRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.SignalAwareness.Domain.Evidence.Evidence,BindingChaos.SignalAwareness.Domain.Evidence.EvidenceId}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.EvidenceRepository"/> class.
+            </summary>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalActionRepository">
+            <summary>
+            Marten implementation of the <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction"/> repository.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalActionRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedAction,BindingChaos.SignalAwareness.Domain.SuggestedActions.SuggestedActionId}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalActionRepository"/> class.
+            </summary>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalAwarenessMartenConfiguration">
+            <summary>
+            Configuration for Marten projections in the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalAwarenessMartenConfiguration.Configure(Marten.StoreOptions)">
+            <summary>
+            Configures Marten for the SignalAwareness bounded context.
+            </summary>
+            <param name="options">The Marten store options to configure.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalRepository">
+            <summary>
+            Marten implementation of the Signal repository for event sourcing.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Persistence.SignalRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.SignalAwareness.Domain.Signals.Signal,BindingChaos.SignalAwareness.Domain.Signals.SignalId}})">
+            <summary>
+            Initializes a new instance of the SignalRepository class.
+            </summary>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalAmplificationTrendViewProjection">
+            <summary>
+            Projection for signal amplification trend information over time.
+            Tracks individual amplification events over time for frontend aggregation.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalAmplificationTrendViewProjection.Create(BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured)">
+            <summary>
+            Creates a new instance of <see cref="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView"/> from the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured"/> event.
+            </summary>
+            <param name="e">The event containing the signal capture details.</param>
+            <returns>A new instance of <see cref="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView"/>.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalAmplificationTrendViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified)">
+            <summary>
+            Applies the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event to apply.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalAmplificationTrendViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalAmplificationTrendView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated)">
+            <summary>
+            Applies the <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated"/> event to the view.
+            </summary>
+            <param name="view">The view to update.</param>
+            <param name="e">The event to apply.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection">
+            <summary>
+            Optimized projection for signal list operations.
+            Avoids loading amplification details.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Create(JasperFx.Events.IEvent{BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured})">
+            <summary>
+            Creates a new instance of <see cref="T:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection"/>.
+            </summary>
+            /// <param name="e">The event containing the signal data.</param>
+            /// <returns>A new instance of <see cref="T:BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView"/>.</returns>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified)">
+            <summary>
+            Applies the captured signal event to the view model.
+            </summary>
+            <param name="view">The signal list view to update.</param>
+            <param name="e">The event containing the signal data.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated)">
+            <summary>
+            Applies the signal content updated event to the view model.
+            </summary>
+            <param name="view">The signal list view to update.</param>
+            <param name="e">The event containing the updated signal content.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged)">
+            <summary>
+            Applies the signal status changed event to the view model.
+            </summary>
+            <param name="view">The signal list view to update.</param>
+            <param name="e">The event containing the new signal status.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated)">
+            <summary>
+            Applies the signal amplification attenuated event to the view model.
+            </summary>
+            <param name="view">The signal list view to update.</param>
+            <param name="e">The event containing the attenuated amplification data.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalsListItemViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalsListItemView,BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded)">
+            <summary>
+            Applies the attachment added event to the view model.
+            </summary>
+            <param name="view">The signal list view to update.</param>
+            <param name="e">The event containing the attachment data.</param>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection">
+            <summary>
+            Marten projection that builds SignalReadModel from Signal events.
+            Pseudonyms are generated at read-time by the service layer, not during projection.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection"/> class.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplified"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The amplified event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalAmplificationAttenuated"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The attenuated amplification event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalContentUpdated"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The updated content event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalStatusChanged"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The status change event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.Signals.Events.AttachmentAdded)">
+            <summary>
+            Applies the specified attachment addition event to the given signal view.
+            </summary>
+            <param name="view">The signal view to which the attachment will be added. Cannot be <see langword="null"/>.</param>
+            <param name="e">The event containing the details of the attachment to add. Cannot be <see langword="null"/>.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.CallActionSuggested"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The suggested call action event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Apply(BindingChaos.SignalAwareness.Application.ReadModels.SignalView,BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested)">
+            <summary>
+            Applies a <see cref="T:BindingChaos.SignalAwareness.Domain.SuggestedActions.Events.WebpageActionSuggested"/> event to the read model view.
+            </summary>
+            <param name="view">The read model to mutate.</param>
+            <param name="e">The suggested webpage action event.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Projections.SignalViewProjection.Create(JasperFx.Events.IEvent{BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured})">
+            <summary>
+            Creates the initial read model view from a <see cref="T:BindingChaos.SignalAwareness.Domain.Signals.Events.SignalCaptured"/> event.
+            </summary>
+            <param name="e">The captured event wrapped by Marten.</param>
+            <returns>The initialized signal view.</returns>
+        </member>
+        <member name="T:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData">
+            <summary>
+            Development-only initial data seeding for Signal Awareness using Marten's initial data hook.
+            Seeds signal events using aggregates to ensure domain logic integrity.
+            Seed content is loaded from the embedded seed-data.json resource.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData.#ctor(BindingChaos.SharedKernel.Domain.ParticipantId[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData"/> class.
+            </summary>
+            <param name="participants">The ordered participant array shared across all seeders.</param>
+        </member>
+        <member name="M:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData.Populate(Marten.IDocumentStore,System.Threading.CancellationToken)">
+            <summary>
+            Populates initial development data for Signal Awareness.
+            </summary>
+            <param name="store">The Marten document store.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData.SuggestedActionDto.Type">
+            <summary>Gets or sets the action type: "MakeACall" or "VisitAWebpage".</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData.SuggestedActionDto.PhoneNumber">
+            <summary>Gets or sets the phone number. Required when Type is "MakeACall".</summary>
+        </member>
+        <member name="P:BindingChaos.SignalAwareness.Infrastructure.Seeding.SignalAwarenessInitialData.SuggestedActionDto.Url">
+            <summary>Gets or sets the URL. Required when Type is "VisitAWebpage".</summary>
+        </member>
+    </members>
+</doc>

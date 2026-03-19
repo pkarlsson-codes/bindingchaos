@@ -1,0 +1,198 @@
+{
+  "threads": [
+    {
+      "entityType": "Signal",
+      "entityIndex": 0,
+      "contributions": [
+        { "authorIndex": 5, "content": "Has anyone reported this to highways? It has been at least three years since the last attempt.", "parentIndex": null },
+        { "authorIndex": 11, "content": "I reported it twice last year. Got an automated acknowledgement both times, nothing since.", "parentIndex": 0 },
+        { "authorIndex": 13, "content": "The drain is sized for 1970s rainfall volumes. This is not a maintenance issue — it needs redesigning.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 2,
+      "contributions": [
+        { "authorIndex": 6, "content": "This has hit elderly residents hardest. Many cannot afford taxis and have simply stopped going out.", "parentIndex": null },
+        { "authorIndex": 14, "content": "The council cited low passenger numbers. Those numbers were already low because the timetable had been unreliable for two years before cancellation.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 0,
+      "contributions": [
+        { "authorIndex": 3, "content": "Good to see this written up as a concrete proposal. £40k for a drain upgrade is consistent with similar projects I have seen.", "parentIndex": null },
+        { "authorIndex": 7, "content": "Worth flagging that active travel grants could cover the cycle and lighting element. The combined scope might cost less net than the drain alone.", "parentIndex": null },
+        { "authorIndex": 17, "content": "What is the process for commissioning an engineering assessment? Does it go through the council directly?", "parentIndex": null },
+        { "authorIndex": 3, "content": "Yes, highways assessments go through the council. A request from a resident group carries more weight than individual submissions.", "parentIndex": 2 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 1,
+      "contributions": [
+        { "authorIndex": 2, "content": "The lot has been sitting empty for four years. This is exactly the kind of use it should be put to.", "parentIndex": null },
+        { "authorIndex": 8, "content": "Who holds the freehold? If it is the council the process is straightforward. If it is a private owner it is more complex.", "parentIndex": null },
+        { "authorIndex": 16, "content": "I would volunteer for the resident committee if this moves forward.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Amendment",
+      "entityIndex": 1,
+      "contributions": [
+        { "authorIndex": 4, "content": "Composting bays would solve a problem beyond the garden. Worth designing them to handle the whole street's organic waste.", "parentIndex": null },
+        { "authorIndex": 18, "content": "A donation drive for tools has worked well in other community gardens. Worth reaching out to local hardware shops.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 3,
+      "contributions": [
+        { "authorIndex": 10, "content": "I walked past at 7:45 this morning. Three of the seven lamps were completely out and two more were flickering. This is genuinely dangerous.", "parentIndex": null },
+        { "authorIndex": 5, "content": "The council's response time for street lighting faults is supposed to be five working days. It has been over four months. That needs to be escalated.", "parentIndex": 0 },
+        { "authorIndex": 14, "content": "There is a formal complaint route to the highways department. If enough residents submit individually it creates a paper trail that is harder to ignore.", "parentIndex": null },
+        { "authorIndex": 17, "content": "Before we go that route, does anyone know if there is a ward councillor surgery coming up? Direct pressure at that level is often faster.", "parentIndex": 2 },
+        { "authorIndex": 10, "content": "The next surgery is in three weeks. I am happy to attend if others will come too. A group showing up is more visible than one person.", "parentIndex": 3 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 4,
+      "contributions": [
+        { "authorIndex": 0, "content": "The northern section near the gate is the worst. There is a root heave that has lifted a whole slab and left a drop of about four centimetres. That is a serious trip hazard even for ambulant users.", "parentIndex": null },
+        { "authorIndex": 12, "content": "My mother in law uses the park every day. She has had to stop going on her own because she does not feel safe on the path. That is an unacceptable loss of independence caused by basic maintenance failure.", "parentIndex": null },
+        { "authorIndex": 0, "content": "The Equality Act is relevant here. Publicly accessible outdoor space managed by or on behalf of a public body has to be reasonably accessible. This falls short of that standard.", "parentIndex": 1 },
+        { "authorIndex": 6, "content": "Sport England has a specific small grants programme for inclusive access improvements. I can share the details if someone wants to lead a bid.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 5,
+      "contributions": [
+        { "authorIndex": 11, "content": "120 young people is not a small number. That is a substantial chunk of the secondary school age population in this area. The decision was made with no public process at all.", "parentIndex": null },
+        { "authorIndex": 15, "content": "I asked the council for the budget decision paper. They cited a general savings target — there was no specific assessment of the impact on young people. That should have happened.", "parentIndex": 0 },
+        { "authorIndex": 1, "content": "The building is already paid for. The question is just who runs the programme. There must be volunteers here who could hold something together in the short term.", "parentIndex": null },
+        { "authorIndex": 19, "content": "I spoke to two of the young people who used it regularly. They were not angry, they were just defeated. That is worse in a way. They expected this.", "parentIndex": null },
+        { "authorIndex": 9, "content": "A meanwhile licence from the council costs almost nothing to negotiate. If the building is sitting empty anyway they have little reason to refuse.", "parentIndex": 2 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 6,
+      "contributions": [
+        { "authorIndex": 16, "content": "Thirteen empty units is beyond normal churn. At this point the vacancy itself is the problem — prospective occupiers see the boards and choose somewhere else.", "parentIndex": null },
+        { "authorIndex": 2, "content": "The BID has been saying it will address this for two years. Nothing has changed. At this point residents need to push directly.", "parentIndex": 0 },
+        { "authorIndex": 8, "content": "Some of these landlords are holding out for retail rents that simply are not coming back. Meanwhile use at a peppercorn is better for them than an empty unit attracting squatters and business rates liability.", "parentIndex": null },
+        { "authorIndex": 13, "content": "There is a High Street vacancy levy in the consultation stage nationally. That may change landlord incentives within a couple of years. Meanwhile use buys time.", "parentIndex": 2 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 7,
+      "contributions": [
+        { "authorIndex": 1, "content": "We have been running the sensor network for eight months now. The pattern is consistent — exceedances cluster on weekday mornings when the logistics operators are running most of their vehicles. This is not random background variation.", "parentIndex": null },
+        { "authorIndex": 7, "content": "I have the full dataset. Happy to share it in a format that can go in a formal Environmental Health submission if someone wants to lead that.", "parentIndex": 0 },
+        { "authorIndex": 3, "content": "The school is the most concerning element. NO2 at those concentrations during the school run is directly harmful to developing lungs. That has to be the framing for any public pressure.", "parentIndex": null },
+        { "authorIndex": 14, "content": "When the operators expanded two years ago there was supposed to be a transport management plan. I submitted a freedom of information request and it does not appear to exist.", "parentIndex": 2 },
+        { "authorIndex": 7, "content": "That is significant. A planning condition with no compliance document is an enforcement matter. The council's planning enforcement team can be asked to investigate.", "parentIndex": 3 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 8,
+      "contributions": [
+        { "authorIndex": 4, "content": "I time the gaps every morning. At peak times the longest safe gap is about twenty seconds and they come maybe once every three minutes. Most people just take a risk.", "parentIndex": null },
+        { "authorIndex": 10, "content": "The school keeps an incident log. I asked the office and they confirmed two near-misses in the last term were recorded. That formal evidence should be attached to any application.", "parentIndex": null },
+        { "authorIndex": 19, "content": "I drive this road sometimes. Even as a driver I can see the problem. Sight lines at the bend are poor and pedestrians are almost invisible until you are very close.", "parentIndex": 1 },
+        { "authorIndex": 0, "content": "Pedestrian crossing applications go through Highways. But they carry out their own assessment and can deprioritise requests that do not meet their threshold. The school incident log is important evidence.", "parentIndex": null },
+        { "authorIndex": 4, "content": "If the formal application is slow, a temporary courtesy crossing with volunteers during pick-up and drop-off is a practical option in the meantime. Other schools have done this.", "parentIndex": 3 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 9,
+      "contributions": [
+        { "authorIndex": 2, "content": "The warm space function is not acknowledged anywhere in the council's decision. I sat in the library on a cold Tuesday in January. There were eleven people there who had nowhere else to go. That was invisible in the budget paper.", "parentIndex": null },
+        { "authorIndex": 5, "content": "The computer terminals are also not replaceable for people without home internet. Job applications, universal credit claims, GP registrations — these require online access. Cutting the hours cuts access to all of that.", "parentIndex": null },
+        { "authorIndex": 15, "content": "I made a formal information request about the consultation process. The council confirmed there was none. That may be a legal issue as well as a democratic one.", "parentIndex": 0 },
+        { "authorIndex": 18, "content": "The Carnegie UK Trust has produced extensive evidence on the community value of libraries. That evidence base is exactly what a community trust application would be built on.", "parentIndex": null },
+        { "authorIndex": 11, "content": "Is anyone already in contact with libraries that have successfully transitioned to a community trust model? Learning from their experience would save a lot of time.", "parentIndex": 3 },
+        { "authorIndex": 2, "content": "The Frome Community Library in Somerset did this successfully. They went from closure threat to a thriving community trust within eighteen months. Worth contacting them.", "parentIndex": 4 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 2,
+      "contributions": [
+        { "authorIndex": 5, "content": "LED replacement is the right call regardless of the maintenance backlog. The running cost reduction over ten years will more than offset the capital outlay.", "parentIndex": null },
+        { "authorIndex": 10, "content": "The school gate extension is crucial. The current zone ends fifty metres short of where children are actually walking. That gap needs to be explicitly in the brief.", "parentIndex": 0 },
+        { "authorIndex": 14, "content": "Has anyone checked whether the columns themselves need replacing or just the fittings? If the columns are sound, retrofitting LED heads is significantly cheaper.", "parentIndex": null },
+        { "authorIndex": 5, "content": "Good point. A condition survey before specifying the works would clarify that. Should be part of the initial assessment.", "parentIndex": 2 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 3,
+      "contributions": [
+        { "authorIndex": 0, "content": "The audit-first approach is right. Without knowing the full picture, money could be spent on visible sections while the worst-rated inaccessible sections are left untouched.", "parentIndex": null },
+        { "authorIndex": 12, "content": "The Sport England application needs a community champion with experience of the process. Does anyone here have grant writing background?", "parentIndex": null },
+        { "authorIndex": 18, "content": "I have written three successful Heritage Lottery Fund applications. The process is similar. Happy to help draft the Sport England bid if the group wants to move forward.", "parentIndex": 1 },
+        { "authorIndex": 6, "content": "The phased approach makes this achievable within a single budget cycle. Getting the northern loop done first would restore access for the majority of users relatively quickly.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 4,
+      "contributions": [
+        { "authorIndex": 9, "content": "A meanwhile licence is genuinely quick to set up if the council is cooperative. The key is getting a named officer who will champion it internally rather than it sitting in a queue.", "parentIndex": null },
+        { "authorIndex": 19, "content": "The young people themselves should be involved in designing the programme from the start, not just consulted on a draft that adults have already written.", "parentIndex": null },
+        { "authorIndex": 1, "content": "The local football club runs holiday sessions. They might be willing to extend to weekday evenings if there is a space available.", "parentIndex": null },
+        { "authorIndex": 11, "content": "Worth contacting the secondary school too. They may be able to provide DBS-checked volunteers and could see this as supporting their pastoral remit.", "parentIndex": 2 },
+        { "authorIndex": 9, "content": "A steering group meeting in the next two weeks would be worth setting up before summer. Does anyone want to host?", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 5,
+      "contributions": [
+        { "authorIndex": 16, "content": "The BID needs to be a genuine partner here, not just a name on the letterhead. They have direct relationships with the landlords that make this possible.", "parentIndex": null },
+        { "authorIndex": 8, "content": "Landlords are often more open to meanwhile use than people assume. The business rates liability on an empty unit is real. A meanwhile tenant takes that off their hands.", "parentIndex": 0 },
+        { "authorIndex": 2, "content": "Five units in six months is achievable if the meanwhile licence template is already drafted and the council has pre-authorised the scheme. That groundwork matters.", "parentIndex": null },
+        { "authorIndex": 13, "content": "A repair café, a community freezer, and a youth drop-in would each serve completely different populations and together would make the High Street a place people actually go.", "parentIndex": 2 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 6,
+      "contributions": [
+        { "authorIndex": 1, "content": "Twenty sensors is the right scale for full coverage. Six was enough to establish the pattern. Twenty produces data that cannot be argued away.", "parentIndex": null },
+        { "authorIndex": 7, "content": "The open dashboard matters beyond the legal case. It gives residents ongoing visibility and creates public pressure that outlasts any single complaint submission.", "parentIndex": 0 },
+        { "authorIndex": 3, "content": "The 28-day response request gives the council a clear deadline. If they miss it that is itself relevant to any subsequent legal action.", "parentIndex": null },
+        { "authorIndex": 14, "content": "We should be careful to get the methodology documented properly so it can withstand challenge. Low-cost sensors have known calibration limitations. That needs to be addressed head on.", "parentIndex": null },
+        { "authorIndex": 7, "content": "Agreed. Co-locating reference monitors alongside the community sensors at three points would anchor the calibration. Some universities will do this as a research partnership.", "parentIndex": 3 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 7,
+      "contributions": [
+        { "authorIndex": 4, "content": "The signalised crossing is the correct solution. A zebra crossing on a road with that level of traffic and that sight-line problem is not sufficient.", "parentIndex": null },
+        { "authorIndex": 0, "content": "The near-miss documentation from the school is crucial. Highways assessments are heavily evidence-weighted. Two documented incidents in one term is significant.", "parentIndex": 0 },
+        { "authorIndex": 17, "content": "I can write up a formal letter to the highways team on behalf of a resident group if people are willing to co-sign. A group submission is weighted more heavily.", "parentIndex": null },
+        { "authorIndex": 19, "content": "Worth copying the ward councillor and the local MP. A school road crossing is exactly the kind of visible local issue that elected representatives can move quickly on.", "parentIndex": 2 },
+        { "authorIndex": 10, "content": "The School Streets pilot is worth pursuing in parallel. Even if it fails at the Traffic Regulation Order stage, the pilot data would support the crossing application.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 8,
+      "contributions": [
+        { "authorIndex": 18, "content": "The community trust model is well-established now. There are templates for the governance structure and the lease agreement. We do not need to start from scratch.", "parentIndex": null },
+        { "authorIndex": 15, "content": "The legal challenge and the trust model are not in tension if they are handled by separate working groups. One group negotiates the lease, another pursues the consultation question.", "parentIndex": null },
+        { "authorIndex": 2, "content": "The warm space, digital access, and social prescribing framing is genuinely important. It shifts the library from a discretionary service to an essential community infrastructure argument. That is much harder for the council to dismiss.", "parentIndex": 0 },
+        { "authorIndex": 11, "content": "NHS social prescribing teams are actively looking for community spaces to refer to. A conversation with the Primary Care Network before the trust is formally established would open that funding door early.", "parentIndex": 2 },
+        { "authorIndex": 5, "content": "Can we get a meeting with the head of the Carnegie UK Trust's library programme? They have supported transitions like this before and could be a lead funder as well as an adviser.", "parentIndex": null }
+      ]
+    }
+  ]
+}

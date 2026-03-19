@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Title>BindingChaos Ideation Contracts</Title>
+    <Description>Integration event contracts published by the Ideation bounded context.</Description>
+    <Authors>BindingChaos Contributors</Authors>
+    <PackageProjectUrl>https://github.com/bindingchaos/bindingchaos</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bindingchaos/bindingchaos</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+    <PackageTags>integration-events;ideation;bounded-contexts;contracts</PackageTags>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+</Project>

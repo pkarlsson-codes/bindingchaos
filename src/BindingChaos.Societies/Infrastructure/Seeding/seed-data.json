@@ -1,0 +1,15 @@
+{
+  "society": {
+    "creatorIndex": 0,
+    "name": "Seed Society",
+    "description": "The default seed society used for development and testing.",
+    "tags": ["seed", "development"]
+  },
+  "socialContract": {
+    "ratificationThreshold": 0.5,
+    "reviewWindowHours": 72,
+    "allowVeto": false,
+    "requiredVerificationWeight": 0.0
+  },
+  "memberIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "bindingchaos",
+  "version": "1.0.0",
+  "description": "BindingChaos Platform",
+  "_comment": "Port Guidelines: Frontend=3000, Web Gateway=4000, Core API=5000",
+  "scripts": {
+    "frontend:build": "cd src/BindingChaos.Web && npm run build",
+    "frontend:start": "cd src/BindingChaos.Web && npm run dev",
+    "frontend:generate": "powershell -ExecutionPolicy Bypass -File scripts/generate-api-clients.ps1",
+    "frontend:clean": "cd src/BindingChaos.Web && npm run clean",
+    "frontend:lint": "cd src/BindingChaos.Web && npm run lint",
+    "frontend:format": "cd src/BindingChaos.Web && npm run format",
+    "frontend:test": "cd src/BindingChaos.Web && npm run test",
+    "frontend:test:watch": "cd src/BindingChaos.Web && npm run test:watch",
+    "gateway:build": "cd src/BindingChaos.Web.Gateway && dotnet build",
+    "gateway:start": "cd src/BindingChaos.Web.Gateway && dotnet run",
+    "api:build": "cd src/BindingChaos.CorePlatform.API && dotnet build",
+    "api:start": "cd src/BindingChaos.CorePlatform.API && dotnet run",
+    "infra:start": "docker-compose up -d",
+    "infra:down": "docker-compose down",
+    "db:reset": "docker-compose down postgres -v",
+    "reset:app": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/orchestration/reset-area.ps1 -Area app",
+    "reset:keycloak": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/orchestration/reset-area.ps1 -Area keycloak",
+    "reset:redis": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/orchestration/reset-area.ps1 -Area redis",
+    "reset:rabbitmq": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/orchestration/reset-area.ps1 -Area rabbitmq",
+    "reset:all": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/orchestration/reset-area.ps1 -Area all",
+    "migration:apply:keycloak": "powershell -ExecutionPolicy Bypass -File ./scripts/reset-seed/keycloak/db-migrate-keycloak.ps1",
+    "migration:generate:pseudonymity": "powershell -ExecutionPolicy Bypass -File ./scripts/add-migration.ps1 src/BindingChaos.Pseudonymity PseudonymityDbContext",
+    "migration:generate:identity": "powershell -ExecutionPolicy Bypass -File ./scripts/add-migration.ps1 src/BindingChaos.IdentityProfile IdentityProfileDbContext",
+    "migration:apply:pseudonymity": "dotnet ef database update --project src/BindingChaos.Pseudonymity --context PseudonymityDbContext",
+    "migration:apply:identity": "dotnet ef database update --project src/BindingChaos.IdentityProfile --context IdentityProfileDbContext",
+    "dotnet:restore": "dotnet restore src/BindingChaos.sln",
+    "dotnet:build": "dotnet build src/BindingChaos.sln",
+    "dotnet:test": "dotnet test src/BindingChaos.sln",
+    "dotnet:lint": "dotnet format src/BindingChaos.sln --verify-no-changes",
+    "dotnet:format": "dotnet format src/BindingChaos.sln",
+    "dotnet:clean": "dotnet clean src/BindingChaos.sln"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

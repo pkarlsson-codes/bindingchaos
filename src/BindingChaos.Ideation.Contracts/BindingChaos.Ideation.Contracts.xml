@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.Ideation.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent">
+            <summary>
+            Integration event published when an amendment is proposed in the Ideation bounded context.
+            This event is used to notify other bounded contexts about amendment creation without creating direct dependencies.
+            </summary>
+            <param name="AmendmentId">The unique identifier of the proposed amendment.</param>
+            <param name="TargetIdeaId">The ID of the target idea being amended.</param>
+            <param name="CreatorId">The ID of the creator.</param>
+            <param name="ProposedTitle">The proposed title for the amendment.</param>
+            <param name="ProposedBody">The proposed body content for the amendment.</param>
+            <param name="AmendmentTitle">The title of the amendment.</param>
+            <param name="AmendmentDescription">The description of the amendment.</param>
+            <param name="ProposedAt">When the amendment was proposed.</param>
+        </member>
+        <member name="M:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Integration event published when an amendment is proposed in the Ideation bounded context.
+            This event is used to notify other bounded contexts about amendment creation without creating direct dependencies.
+            </summary>
+            <param name="AmendmentId">The unique identifier of the proposed amendment.</param>
+            <param name="TargetIdeaId">The ID of the target idea being amended.</param>
+            <param name="CreatorId">The ID of the creator.</param>
+            <param name="ProposedTitle">The proposed title for the amendment.</param>
+            <param name="ProposedBody">The proposed body content for the amendment.</param>
+            <param name="AmendmentTitle">The title of the amendment.</param>
+            <param name="AmendmentDescription">The description of the amendment.</param>
+            <param name="ProposedAt">When the amendment was proposed.</param>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.AmendmentId">
+            <summary>The unique identifier of the proposed amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.TargetIdeaId">
+            <summary>The ID of the target idea being amended.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.CreatorId">
+            <summary>The ID of the creator.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.ProposedTitle">
+            <summary>The proposed title for the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.ProposedBody">
+            <summary>The proposed body content for the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.AmendmentTitle">
+            <summary>The title of the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.AmendmentDescription">
+            <summary>The description of the amendment.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent.ProposedAt">
+            <summary>When the amendment was proposed.</summary>
+        </member>
+        <member name="T:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent">
+            <summary>
+            Integration event published when an idea is authored in the Ideation bounded context.
+            This event is used to notify other bounded contexts about idea creation without creating direct dependencies.
+            </summary>
+            <param name="IdeaId">The unique identifier of the authored idea.</param>
+            <param name="AuthorId">The ID of the creator.</param>
+            <param name="SocietyContext">The society context (governance jurisdiction) of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The body content of the idea.</param>
+            <param name="SignalReferences">The signal references associated with the idea.</param>
+            <param name="Tags">The tags associated with the idea.</param>
+            <param name="AuthoredAt">When the idea was authored.</param>
+            <param name="ParentIdeaId">The parent idea ID if the idea was forked from another idea.</param>
+        </member>
+        <member name="M:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.#ctor(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IReadOnlyList{System.String},System.Collections.Generic.IReadOnlyList{System.String},System.DateTimeOffset,System.String)">
+            <summary>
+            Integration event published when an idea is authored in the Ideation bounded context.
+            This event is used to notify other bounded contexts about idea creation without creating direct dependencies.
+            </summary>
+            <param name="IdeaId">The unique identifier of the authored idea.</param>
+            <param name="AuthorId">The ID of the creator.</param>
+            <param name="SocietyContext">The society context (governance jurisdiction) of the idea.</param>
+            <param name="Title">The title of the idea.</param>
+            <param name="Body">The body content of the idea.</param>
+            <param name="SignalReferences">The signal references associated with the idea.</param>
+            <param name="Tags">The tags associated with the idea.</param>
+            <param name="AuthoredAt">When the idea was authored.</param>
+            <param name="ParentIdeaId">The parent idea ID if the idea was forked from another idea.</param>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.IdeaId">
+            <summary>The unique identifier of the authored idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.AuthorId">
+            <summary>The ID of the creator.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.SocietyContext">
+            <summary>The society context (governance jurisdiction) of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.Title">
+            <summary>The title of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.Body">
+            <summary>The body content of the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.SignalReferences">
+            <summary>The signal references associated with the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.Tags">
+            <summary>The tags associated with the idea.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.AuthoredAt">
+            <summary>When the idea was authored.</summary>
+        </member>
+        <member name="P:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent.ParentIdeaId">
+            <summary>The parent idea ID if the idea was forked from another idea.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,633 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.CorePlatform.Clients</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.CorePlatform.Clients.AmendmentsApiClient">
+            <summary>
+            Implementation of the Amendments API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.AmendmentsApiClient})">
+            <summary>
+            Implementation of the Amendments API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.GetAmendmentsAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.AmendmentsQueryFilter},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.GetAmendmentDetailsAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.GetAmendmentSupportersAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{System.Object},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.GetAmendmentOpponentsAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{System.Object},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.GetAmendmentTrendAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.ProposeAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.SupportAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.SupportAmendmentRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.OpposeAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.OpposeAmendmentRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.WithdrawSupportAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.AmendmentsApiClient.WithdrawOppositionAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.DiscourseApiClient">
+            <summary>
+            HTTP client implementation for the Discourse API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DiscourseApiClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CorePlatform.Clients.DiscourseApiClient"/> class.
+            </summary>
+            <param name="httpClient">The HTTP client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DiscourseApiClient.GetContributionsByThreadIdAsync(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DiscourseApiClient.GetContributionRepliesAsync(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DiscourseApiClient.PostContributionToThreadAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DiscourseApiClient.GetContributionsByEntityAsync(System.String,System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.DocumentsApiClient">
+            <summary>
+            Implementation of the Documents API client.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.DocumentsApiClient})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CorePlatform.Clients.DocumentsApiClient"/> class with the specified HTTP client and
+            logger.
+            </summary>
+            <param name="httpClient">The <see cref="T:System.Net.Http.HttpClient"/> instance used to send HTTP requests.</param>
+            <param name="logger">The <see cref="T:Microsoft.Extensions.Logging.ILogger`1"/> instance used to log diagnostic messages.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.StoreDocumentAsync(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.GetDocumentContentAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.GetDocumentMetadataAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.Logs.UploadFailed(Microsoft.Extensions.Logging.ILogger,System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Logs "Failed to upload document. Status: {StatusCode}, Error: {Error}" at "Error" level.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.DocumentsApiClient.Logs.UploadError(Microsoft.Extensions.Logging.ILogger,System.String,System.Exception)">
+            <summary>
+            Logs "Error uploading document {FileName}" at "Error" level.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient">
+            <summary>
+            Amendments API client interface for managing amendments in the core platform.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.GetAmendmentsAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.AmendmentsQueryFilter},System.Threading.CancellationToken)">
+            <summary>
+            Gets all amendments for a specific idea.
+            </summary>
+            <param name="ideaId">The identifier of the idea to get amendments for.</param>
+            <param name="query">The query specification for pagination and filtering.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A page of amendments for the specified idea.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.GetAmendmentDetailsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets detailed information about a specific amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to retrieve.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The amendment details if found; otherwise, null.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.GetAmendmentSupportersAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Gets supporters for a specific amendment with pagination support.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to get supporters for.</param>
+            <param name="query">The pagination query specification.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A paginated response of supporters for the specified amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.GetAmendmentOpponentsAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Gets opponents for a specific amendment with pagination support.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to get opponents for.</param>
+            <param name="query">The pagination query specification.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A paginated response of opponents for the specified amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.GetAmendmentTrendAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets support trend data for a specific amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to get trend data for.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>Support trend data for the specified amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.ProposeAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.ProposeAmendmentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Proposes a new amendment for an idea.
+            </summary>
+            <param name="ideaId">The identifier of the idea to propose an amendment for.</param>
+            <param name="request">The amendment proposal request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The proposed amendment response.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.SupportAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.SupportAmendmentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Adds support for an amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to support.</param>
+            <param name="request">The request containing the reason for supporting the amendment.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated support and opposition counts for the amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.OpposeAmendmentAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.OpposeAmendmentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Adds opposition to an amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to oppose.</param>
+            <param name="request">The request containing the reason for opposing the amendment.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated support and opposition counts for the amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.WithdrawSupportAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraws support for an amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to withdraw support from.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated support and opposition counts for the amendment.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IAmendmentsApiClient.WithdrawOppositionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraws opposition to an amendment.
+            </summary>
+            <param name="amendmentId">The identifier of the amendment to withdraw opposition from.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated support and opposition counts for the amendment.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.IdeasApiClient">
+            <summary>
+            Implementation of the Ideas API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IdeasApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.IdeasApiClient})">
+            <summary>
+            Implementation of the Ideas API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IdeasApiClient.AuthorIdeaAsync(BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IdeasApiClient.GetIdeaAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IdeasApiClient.GetIdeasAsync(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.IDiscourseApiClient">
+            <summary>
+            Client for interacting with the Discourse API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDiscourseApiClient.GetContributionsByThreadIdAsync(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <summary>
+            Gets root contributions for a specific thread using cursor-based pagination.
+            </summary>
+            <param name="threadId">The ID of the thread.</param>
+            <param name="cursor">Cursor for pagination (null for first page).</param>
+            <param name="limit">Maximum number of contributions to return.</param>
+            <param name="direction">Direction of pagination.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The contributions response.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDiscourseApiClient.GetContributionRepliesAsync(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <summary>
+            Gets replies for a specific contribution using cursor-based pagination.
+            </summary>
+            <param name="contributionId">The ID of the contribution to get replies for.</param>
+            <param name="cursor">Cursor for pagination (null for first page).</param>
+            <param name="limit">Maximum number of replies to return.</param>
+            <param name="direction">Direction of pagination.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The replies response.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDiscourseApiClient.PostContributionToThreadAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.PostContributionRequest,System.Threading.CancellationToken)">
+            <summary>
+            Posts a new contribution to a specific thread.
+            </summary>
+            <param name="threadId">The ID of the thread to post to.</param>
+            <param name="request">The contribution posting request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The response containing the created contribution ID.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDiscourseApiClient.GetContributionsByEntityAsync(System.String,System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <summary>
+            Gets contributions for a specific entity with cursor-based pagination.
+            </summary>
+            <param name="entityType">The type of entity (e.g., "idea", "signal", "action").</param>
+            <param name="entityId">The ID of the entity.</param>
+            <param name="cursor">Cursor for pagination (null for first page).</param>
+            <param name="limit">Maximum number of contributions to return.</param>
+            <param name="direction">Direction of pagination.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The contributions response.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.IDocumentsApiClient">
+            <summary>
+            Client interface for the Documents API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDocumentsApiClient.StoreDocumentAsync(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Stores a document in the system.
+            </summary>
+            <param name="file">The file to store.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The unique identifier of the stored document.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDocumentsApiClient.GetDocumentContentAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets document content as a stream.
+            </summary>
+            <param name="documentId">The document identifier.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The document content stream.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IDocumentsApiClient.GetDocumentMetadataAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets document metadata.
+            </summary>
+            <param name="documentId">The document identifier.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The document metadata.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.IIdeasApiClient">
+            <summary>
+            Client interface for interacting with the Ideas API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IIdeasApiClient.GetIdeasAsync(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.IdeasQueryFilter},System.Threading.CancellationToken)">
+            <summary>
+            Gets all ideas for the current locality.
+            </summary>
+            <param name="query">The query specification for pagination and filtering.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A page of ideas.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IIdeasApiClient.GetIdeaAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a specific idea by its identifier in the current locality.
+            </summary>
+            <param name="ideaId">The identifier of the idea.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The idea response.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.IIdeasApiClient.AuthorIdeaAsync(BindingChaos.CorePlatform.Contracts.Requests.AuthorIdeaRequest,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new idea in the current locality.
+            </summary>
+            <param name="request">The idea creation request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The created idea.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.ISignalsApiClient">
+            <summary>
+            Client interface for interacting with the Signals API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.GetSignal(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a specific signal by its ID in the current locality.
+            </summary>
+            <param name="signalId">The ID of the signal to retrieve.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The signal information.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.GetSignals(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter},System.Threading.CancellationToken)">
+            <summary>
+            Gets all signals for the current locality.
+            </summary>
+            <param name="querySpec">The query specification for pagination and filtering.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A list of signals.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.CaptureSignal(BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new signal in the current locality.
+            </summary>
+            <param name="request">The signal creation request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The created signal.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.AmplifySignal(System.String,BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest,System.Threading.CancellationToken)">
+            <summary>
+            Amplifies a signal by a participant.
+            </summary>
+            <param name="signalId">The ID of the signal to amplify.</param>
+            <param name="request">The amplification request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated signal information.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.DeamplifySignal(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deamplifies a signal by a participant.
+            </summary>
+            <param name="signalId">The ID of the signal to deamplify.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The updated signal information.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.GetSignalAmplificationTrendAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets amplification trend data for a specific signal.
+            </summary>
+            <param name="signalId">The ID of the signal to get trend data for.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The signal amplification trend data.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.SuggestAction(System.String,BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest,System.Threading.CancellationToken)">
+            <summary>
+            Suggests an action on a signal.
+            </summary>
+            <param name="signalId">The ID of the signal.</param>
+            <param name="request">The action suggestion request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISignalsApiClient.GetActionTypes(System.Threading.CancellationToken)">
+            <summary>
+            Gets all available action types.
+            </summary>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The ordered list of available action types.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.ISocietiesApiClient">
+            <summary>
+            Client interface for interacting with the Societies API.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.GetSocietiesAsync(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter},System.Threading.CancellationToken)">
+            <summary>
+            Gets a paginated list of societies with optional filtering.
+            </summary>
+            <param name="query">The query specification for pagination and filtering.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A page of society list items.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.GetSocietyAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a single society by its identifier.
+            </summary>
+            <param name="societyId">The identifier of the society.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The society response.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.GetSocietyMembersAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.EmptyFilter},System.Threading.CancellationToken)">
+            <summary>
+            Gets the active members of a society.
+            </summary>
+            <param name="societyId">The identifier of the society.</param>
+            <param name="query">The query specification for pagination.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A page of society member responses.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.CreateSocietyAsync(BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new society.
+            </summary>
+            <param name="request">The society creation request.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The ID of the created society.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.JoinSocietyAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.JoinSocietyRequest,System.Threading.CancellationToken)">
+            <summary>
+            Joins a society on behalf of the authenticated participant.
+            </summary>
+            <param name="societyId">The identifier of the society to join.</param>
+            <param name="request">The join request containing the agreed social contract ID.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The ID of the created membership.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.GetMySocietyIdsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the IDs of all societies the authenticated participant is an active member of.
+            Returns an empty array for unauthenticated requests.
+            </summary>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>An array of society ID strings.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ISocietiesApiClient.LeaveSocietyAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Removes the authenticated participant's membership from a society.
+            </summary>
+            <param name="societyId">The identifier of the society to leave.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.ITagsApiClient">
+            <summary>
+            Defines methods for retrieving and filtering global tags.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ITagsApiClient.GetTags(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a collection of global tags, optionally filtered by a search term.
+            </summary>
+            <param name="limit">The maximum number of tags to return. Must be a positive integer.</param>
+            <param name="search">An optional search term used to filter the tags. If specified, only tags matching this term are included in the
+            results.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>Some tags.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions">
+            <summary>
+            Extension methods for registering API clients in the dependency injection container.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddSignalsApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Signals API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddIdeasApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Ideas API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddAmendmentsApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Amendments API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddDiscourseApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Discourse API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddDocumentsApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Documents API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddTagsApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Tags API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.ServiceCollectionExtensions.AddSocietiesApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the Societies API client to the service collection.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="baseAddress">The base address for the API.</param>
+            <returns>The service collection for chaining.</returns>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.SignalsApiClient">
+            <summary>
+            Implementation of the Signals API client.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.SignalsApiClient})">
+            <summary>
+            Initializes a new instance of the SignalsApiClient class.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.GetSignal(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a specific signal by its ID.
+            </summary>
+            <param name="signalId">The ID of the signal to retrieve.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns> A task that represents the asynchronous operation. The task result contains the SignalContract for the specified signal.</returns>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.GetSignals(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SignalsQueryFilter},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.CaptureSignal(BindingChaos.CorePlatform.Contracts.Requests.CaptureSignalRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.AmplifySignal(System.String,BindingChaos.CorePlatform.Contracts.Requests.AmplifySignalRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.DeamplifySignal(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.GetSignalAmplificationTrendAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.SuggestAction(System.String,BindingChaos.CorePlatform.Contracts.Requests.SuggestActionRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SignalsApiClient.GetActionTypes(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.SocietiesApiClient">
+            <summary>
+            Implementation of the Societies API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.SocietiesApiClient})">
+            <summary>
+            Implementation of the Societies API client.
+            </summary>
+            <param name="httpClient">The HTTP client to use for API requests.</param>
+            <param name="logger">The logger for this client.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.GetSocietiesAsync(BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.SocietiesQueryFilter},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.GetSocietyAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.GetSocietyMembersAsync(System.String,BindingChaos.Infrastructure.Querying.PaginationQuerySpec{BindingChaos.CorePlatform.Contracts.Filters.EmptyFilter},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.CreateSocietyAsync(BindingChaos.CorePlatform.Contracts.Requests.CreateSocietyRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.JoinSocietyAsync(System.String,BindingChaos.CorePlatform.Contracts.Requests.JoinSocietyRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.GetMySocietyIdsAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.SocietiesApiClient.LeaveSocietyAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CorePlatform.Clients.TagsApiClient">
+            <summary>
+            Provides a client for interacting with the tags API, enabling operations such as creating, retrieving, updating, and
+            deleting tags.
+            </summary>
+            <param name="httpClient">The HTTP client used to send requests to the tags API. Must be configured with the appropriate base address and
+            authentication settings.</param>
+            <param name="logger">The logger used to record information and errors related to tag API operations.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.TagsApiClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{BindingChaos.CorePlatform.Clients.TagsApiClient})">
+            <summary>
+            Provides a client for interacting with the tags API, enabling operations such as creating, retrieving, updating, and
+            deleting tags.
+            </summary>
+            <param name="httpClient">The HTTP client used to send requests to the tags API. Must be configured with the appropriate base address and
+            authentication settings.</param>
+            <param name="logger">The logger used to record information and errors related to tag API operations.</param>
+        </member>
+        <member name="M:BindingChaos.CorePlatform.Clients.TagsApiClient.GetTags(System.Int32,System.String,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

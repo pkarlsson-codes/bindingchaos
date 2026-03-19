@@ -1,0 +1,76 @@
+{
+  "documents": [
+    {
+      "id": "elm-street-flood-photo-2026-02-12",
+      "fileName": "elm-street-flood-2026-02-12.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Photograph of Elm Street underpass, 12 February 2026\n\nDescription: Photo showing the Elm Street underpass with water reaching approximately 30 cm depth at the centre of the carriageway. A road bicycle is visible being pushed through the standing water. Timestamp metadata visible in bottom-right corner of original image."
+    },
+    {
+      "id": "highways-report-hwy-2025-4471",
+      "fileName": "highways-report-HWY-2025-4471.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Council highways fault report submission, reference HWY-2025-4471\n\nSubmitted via: eastshire-council.gov.uk/report/highways-fault\nDate submitted: 14 September 2025\nCategory: Drainage / Flooding\nLocation: Elm Street underpass, junction with Station Road\nDescription provided: Drain at underpass blocks within 30 minutes of heavy rain. Standing water exceeds 20 cm and is impassable by cyclists and pedestrians.\nCouncil acknowledgement received: 15 September 2025 (automated)\nFurther response received: None"
+    },
+    {
+      "id": "highways-report-hwy-2025-6203",
+      "fileName": "highways-report-HWY-2025-6203.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Council highways fault report submission, reference HWY-2025-6203\n\nSubmitted via: eastshire-council.gov.uk/report/highways-fault\nDate submitted: 7 November 2025\nCategory: Drainage / Flooding\nLocation: Elm Street underpass, junction with Station Road\nDescription provided: Second report of same issue. Flooding recurred on 3 and 6 November. Vehicles have been damaged. Previous report HWY-2025-4471 received no substantive response.\nCouncil acknowledgement received: 7 November 2025 (automated)\nFurther response received: None"
+    },
+    {
+      "id": "pine-avenue-dump-oct-2025",
+      "fileName": "pine-avenue-dumping-oct-2025.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Photograph of fly-tipping on Pine Avenue vacant lot, October 2025\n\nDescription: Image showing the south-east corner of the lot at 14 Pine Avenue. Visible waste includes: approximately twelve black refuse sacks, offcuts of timber and plasterboard consistent with domestic renovation, and a roll of carpet. Photograph taken from the public footway at approximately 09:15."
+    },
+    {
+      "id": "pine-avenue-dump-dec-2025",
+      "fileName": "pine-avenue-dumping-dec-2025.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Photograph of fly-tipping on Pine Avenue vacant lot, December 2025\n\nDescription: Image showing accumulation has grown significantly since October. Additional mattress, a broken flat-pack wardrobe, and several bags of what appears to be construction rubble. A vehicle — white transit-style van, partial plate visible — is present near the entrance to the lot. Photograph taken in low-light conditions at approximately 07:40."
+    },
+    {
+      "id": "pine-avenue-dump-feb-2026",
+      "fileName": "pine-avenue-dumping-feb-2026.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Photograph of fly-tipping on Pine Avenue vacant lot, February 2026\n\nDescription: Current state of the site as of 8 February 2026. Waste now occupies approximately 40% of the lot area. Decomposing organic material visible. Council enforcement notices not present. Photograph taken from the adjacent property boundary at ground level."
+    },
+    {
+      "id": "repair-ticket-st-2025-1182",
+      "fileName": "repair-ticket-ST-2025-1182.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Council street lighting repair ticket, reference ST-2025-1182\n\nTicket reference: ST-2025-1182\nDate issued: 12 November 2025\nAsset: Street lighting — Maple Road (columns 7 through 13)\nFault description: Intermittent failure. Seven columns between High Street junction and Primary School entrance exhibiting loss of illumination. Cause not yet assessed.\nPriority assigned by council: Standard (28-day response target)\nLast updated: 12 November 2025\nWork commenced: Not recorded\n\nNote: Acknowledgement of this ticket was received by the reporting resident on 14 November 2025. No further communication has been received as of the date this document was added to the record."
+    },
+    {
+      "id": "cedar-lane-closure-letter-2026-01-28",
+      "fileName": "cedar-lane-youth-centre-closure-notice-2026-01-28.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Council closure notification letter for Cedar Lane Youth Centre, dated 28 January 2026\n\nFrom: Eastshire Council, Youth and Community Services\nDate: 28 January 2026\nSubject: Notice of contract termination — Cedar Lane Youth Centre\n\nDear [operator],\n\nWe write to give notice of the termination of contract ref YCS-2019-114 for the operation of the Cedar Lane Youth Centre with effect from 4 February 2026.\n\nThis decision has been made as part of the council's budget reduction programme for 2026–27, which requires savings of £1.2 million from the Youth and Community Services budget. The youth services allocation has been reduced by £180,000, making continuation of this contract unsustainable in its current form.\n\nWe recognise the value of the service and would welcome discussions about alternative delivery models. Please contact [officer name] to arrange a meeting.\n\nYours sincerely,\n[Head of Youth and Community Services, Eastshire Council]\n\n---\n[Note: No impact assessment on young people was included with or referenced by this letter. No alternative provision was identified or offered.]"
+    },
+    {
+      "id": "northfield-aq-sensor-data-dec25-feb26",
+      "fileName": "northfield-NO2-sensor-data-Dec2025-Feb2026.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Exported dataset from community air quality sensor network, Northfield area, 1 December 2025 – 28 February 2026\n\nSensor network: Northfield Clean Air Group — 6 monitoring points\nPollutant measured: Nitrogen dioxide (NO2), µg/m³, hourly averages\nWHO annual mean guideline: 40 µg/m³\n\nDays on which hourly average exceeded 40 µg/m³ at one or more sensors:\n  04 Dec 2025 — peak 51 µg/m³ (sensor NF-3, 07:00–09:00)\n  11 Dec 2025 — peak 58 µg/m³ (sensor NF-2, 06:30–09:30)\n  14 Jan 2026 — peak 87 µg/m³ (sensors NF-1, NF-2, NF-3, 07:00–10:00) [highest recorded]\n  19 Jan 2026 — peak 63 µg/m³ (sensor NF-4, 06:00–09:00)\n  22 Jan 2026 — peak 44 µg/m³ (sensor NF-1, 07:30–08:30)\n  28 Jan 2026 — peak 49 µg/m³ (sensor NF-2, NF-5, 07:00–09:30)\n  03 Feb 2026 — peak 56 µg/m³ (sensor NF-1, NF-3, 06:00–09:00)\n  09 Feb 2026 — peak 52 µg/m³ (sensor NF-2, 07:00–08:30)\n  14 Feb 2026 — peak 71 µg/m³ (sensors NF-1 through NF-4, 06:30–10:00)\n  19 Feb 2026 — peak 48 µg/m³ (sensor NF-3, 07:00–09:00)\n  23 Feb 2026 — peak 55 µg/m³ (sensor NF-2, NF-5, 07:30–09:30)\n  27 Feb 2026 — peak 61 µg/m³ (sensors NF-1, NF-2, 06:00–09:00)\n\nTotal exceedance days in period: 12 of 90\nNote: Exceedance events cluster predominantly between 06:00 and 10:00, consistent with peak HGV departure times at Northfield Logistics Ltd."
+    },
+    {
+      "id": "foi-response-northfield-transport-plan-2026-03-03",
+      "fileName": "FOI-response-northfield-transport-management-plan-2026-03-03.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Freedom of Information response from Eastshire Council, 3 March 2026\n\nFOI request reference: FOI-2026-0041\nRequest date: 4 February 2026\nResponse date: 3 March 2026\n\nInformation requested: All transport management plans submitted in relation to planning permission EPC/2022/0847 (Northfield Industrial Estate expansion, Units 12–17), and any correspondence between the planning authority and the operators regarding compliance with planning condition 14 (transport management).\n\nResponse:\nEastshire Council can confirm that:\n\n1. Planning condition 14 of permission EPC/2022/0847 required the submission and approval of a transport management plan prior to first occupation of Units 12–17.\n\n2. A search of council records does not identify any transport management plan submitted by the applicant or operator in connection with this condition.\n\n3. No enforcement action has been taken in respect of condition 14.\n\nThe council holds no further information relevant to your request.\n\n[Signed: Information Governance Team, Eastshire Council]"
+    },
+    {
+      "id": "school-incident-log-srl-2026-017",
+      "fileName": "school-incident-log-SRL-2026-017.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Extract from school incident log, reference SRL-2026-017\n\nSchool: Eastshire Primary School\nIncident reference: SRL-2026-017\nDate: 9 October 2025\nTime: 08:42\nLocation: School Road, approximately 80 metres south of school gate\n\nSummary: A pupil in Year 4 (aged 8) stepped into the carriageway while waiting to cross School Road. An oncoming vehicle braked sharply and stopped approximately 2 metres from the pupil. No contact occurred. The pupil was not injured.\n\nWitnesses: Class teacher accompanying walking group; two parent volunteers.\n\nAction taken: Pupil's parents notified. Incident recorded. Letter sent to Eastshire Highways team requesting risk assessment of School Road crossing provision. No response received as of date of filing.\n\n[Shared with resident group by headteacher with parental consent. Names of pupil and family redacted.]"
+    },
+    {
+      "id": "school-incident-log-srl-2026-031",
+      "fileName": "school-incident-log-SRL-2026-031.txt",
+      "mimeType": "text/plain",
+      "content": "[SEED DOCUMENT — placeholder]\nFile represents: Extract from school incident log, reference SRL-2026-031\n\nSchool: Eastshire Primary School\nIncident reference: SRL-2026-031\nDate: 19 January 2026\nTime: 15:17\nLocation: School Road, approximately 200 metres south of school gate\n\nSummary: A pupil in Year 6 (aged 11) began to cross School Road at an informal crossing point during afternoon pick-up. A cyclist travelling northbound on School Road was unable to stop in time and swerved onto the footway to avoid a collision. Neither the pupil nor the cyclist was injured. The cyclist dismounted and reported the incident to staff at the school gate.\n\nWitnesses: Parent and two pupils.\n\nAction taken: Incident recorded. Cyclist's contact details taken. Second letter sent to Eastshire Highways team referencing both SRL-2026-017 and the current incident. No response received as of date of filing.\n\n[Shared with resident group by headteacher with parental consent. Names of pupils and families redacted.]"
+    }
+  ]
+}

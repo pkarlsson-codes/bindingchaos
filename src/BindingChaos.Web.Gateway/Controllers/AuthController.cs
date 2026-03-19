@@ -1,0 +1,105 @@
+using System.Security.Cryptography;
+using BindingChaos.Web.Gateway.Models;
+using BindingChaos.Web.Gateway.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BindingChaos.Web.Gateway.Controllers;
+
+/// <summary>
+/// Authentication endpoints for login, logout, and retrieving the current user.
+/// </summary>
+/// <param name="env">Environment to check if production.</param>
+[ApiController]
+[Route("api/v1/[controller]")]
+public sealed class AuthController(IHostEnvironment env) : ControllerBase
+{
+    private const string SessionCookieName = "bc_session";
+
+    /// <summary>
+    /// Issues a CSRF token cookie for anonymous visitors (double-submit cookie pattern).
+    /// </summary>
+    /// <returns>200 OK and sets the bc_csrf cookie.</returns>
+    [HttpGet("csrf")]
+    [EndpointName("issueCsrfToken")]
+    public IActionResult IssueCsrf()
+    {
+        var isProd = env.IsProduction();
+        var csrfToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+        Response.Cookies.Append(
+            "bc_csrf",
+            csrfToken,
+            new CookieOptions
+            {
+                HttpOnly = false,
+                SameSite = SameSiteMode.Strict,
+                Secure = isProd,
+                Path = "/",
+                MaxAge = TimeSpan.FromDays(7),
+            });
+        return Ok(new { success = true });
+    }
+
+    /// <summary>
+    /// Get current authenticated user.
+    /// </summary>
+    /// <param name="tokenStore">Token store used to resolve the current session.</param>
+    /// <returns>The current user if authenticated; otherwise unauthorized.</returns>
+    [HttpGet("me")]
+    [ProducesResponseType(typeof(GetCurrentUserResponse), 200)]
+    [ProducesResponseType(typeof(ProblemDetails), 401)]
+    [EndpointName("getCurrentUser")]
+    public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser([FromServices] ITokenStore tokenStore)
+    {
+        var sessionId = Request.Cookies[SessionCookieName];
+
+        if (string.IsNullOrEmpty(sessionId))
+        {
+            return Unauthorized(new GetCurrentUserResponse
+            {
+                Success = false,
+                Error = "No session found",
+            });
+        }
+
+        var tokens = await tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
+        if (tokens is null)
+        {
+            return Unauthorized(new GetCurrentUserResponse
+            {
+                Success = false,
+                Error = "Invalid or expired session",
+            });
+        }
+
+        var (userId, _, _, _) = tokens.Value;
+
+        var preferredUsername = User?.FindFirst("preferred_username")?.Value
+                                 ?? User?.Identity?.Name
+                                 ?? string.Empty;
+        var fullName = User?.FindFirst("name")?.Value;
+        var email = User?.FindFirst("email")?.Value ?? string.Empty;
+        var displayName = fullName
+                           ?? preferredUsername
+                           ?? email
+                           ?? userId;
+
+        var safeUsername = string.IsNullOrWhiteSpace(preferredUsername) ? userId : preferredUsername;
+        var safePseudonym = string.IsNullOrWhiteSpace(displayName) ? userId : displayName;
+        var safeEmail = string.IsNullOrEmpty(email) ? string.Empty : email;
+
+        var user = new UserInfo
+        {
+            Id = userId,
+            Username = safeUsername,
+            Pseudonym = safePseudonym,
+            Email = safeEmail,
+        };
+
+        Response.Headers.CacheControl = "no-store, no-cache, must-revalidate, max-age=0";
+        return Ok(new GetCurrentUserResponse
+        {
+            Success = true,
+            User = user,
+        });
+    }
+}

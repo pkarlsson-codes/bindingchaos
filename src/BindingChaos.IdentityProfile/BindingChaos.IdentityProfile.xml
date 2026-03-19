@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.IdentityProfile</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.IdentityProfile.Application.Services.IdentityProfileService">
+            <summary>
+            Implementation for identity mapping and trust operations.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.IdentityProfile.Application.Services.IdentityProfileService.#ctor(BindingChaos.IdentityProfile.Infrastructure.Persistence.IdentityProfileDbContext)">
+            <summary>
+            Implementation for identity mapping and trust operations.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Application.Services.IIdentityProfileService">
+            <summary>
+            Contract for resolving and managing identity mappings and trust state.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Domain.Entities.IdentityMap">
+            <summary>
+            Maps external identity (provider + subject) to an internal stable userId.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Domain.Entities.UserTrust">
+            <summary>
+            Stores trust metadata for a user.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Infrastructure.IdentityProfileServiceCollectionExtensions">
+            <summary>
+            DI registration for the Identity Profile module.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Infrastructure.Persistence.IdentityProfileDbContext">
+            <summary>
+            EF Core DbContext for the Identity Profile module.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Infrastructure.Persistence.IdentityProfileDbContextFactory">
+            <summary>
+            Design-time factory for creating IdentityProfileDbContext instances during EF migrations.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.IdentityProfile.Infrastructure.Persistence.IdentityProfileDbContextFactory.CreateDbContext(System.String[])">
+            <summary>
+            Creates a new instance of IdentityProfileDbContext for design-time operations.
+            </summary>
+            <param name="args">Command line arguments passed to the EF tools.</param>
+            <returns>A configured IdentityProfileDbContext instance.</returns>
+        </member>
+        <member name="T:BindingChaos.IdentityProfile.Infrastructure.Persistence.Migrations.Initial_Migration">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.IdentityProfile.Infrastructure.Persistence.Migrations.Initial_Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.IdentityProfile.Infrastructure.Persistence.Migrations.Initial_Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BindingChaos.IdentityProfile.Infrastructure.Persistence.Migrations.Initial_Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

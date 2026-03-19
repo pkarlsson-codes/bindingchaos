@@ -1,0 +1,8 @@
+
+# Suppress SA1516 (Elements should be separated by blank line) only for Program.cs
+[Program.cs]
+dotnet_diagnostic.SA1516.severity = none
+
+
+[Models/*.cs]
+dotnet_diagnostic.SA1313.severity = none

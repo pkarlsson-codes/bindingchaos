@@ -1,0 +1,245 @@
+{
+  "signals": [
+    {
+      "originatorIndex": 0,
+      "title": "Elm Street underpass floods after heavy rain",
+      "description": "The underpass at the bottom of Elm Street fills with water during heavy rain. The drain is inadequate for current rainfall volumes and several vehicles have been damaged. The issue has been reported to highways twice with no response.",
+      "tags": ["infrastructure", "flooding", "safety"],
+      "amplifications": [
+        { "participantIndex": 2, "reason": "PersonalExperience", "comment": "I had to push my bike through ankle-deep water here last week." },
+        { "participantIndex": 4, "reason": "LocalImpact", "comment": "This blocks the main route to the station for the whole eastern side of town." },
+        { "participantIndex": 6, "reason": "UrgentAction", "comment": "A child could get hurt. This needs fixing before next winter." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 6,
+          "phoneNumber": "01234 567890",
+          "details": "Call the council highways team to log a formal fault. Ask for a reference number and a response timeline. Quoting previous report reference HWY-2025-4471 may help."
+        },
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 4,
+          "url": "https://www.eastshire-council.gov.uk/report/highways-fault",
+          "details": "Submit a highways fault report online. Select 'Drainage / Flooding' as the category. Upload a photo if you have one."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 2,
+          "description": "Photo taken on 12 February 2026 showing the Elm Street underpass with water reaching approximately 30cm depth at the centre of the carriageway. A road bicycle is visible being pushed through.",
+          "documentIds": ["elm-street-flood-photo-2026-02-12"]
+        },
+        {
+          "participantIndex": 0,
+          "description": "Copies of two formal highways reports submitted via the council website in September 2025 (ref HWY-2025-4471) and November 2025 (ref HWY-2025-6203). Both received automated acknowledgements; neither received a substantive response.",
+          "documentIds": ["highways-report-hwy-2025-4471", "highways-report-hwy-2025-6203"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 1,
+      "title": "Illegal dumping on Pine Avenue vacant lot",
+      "description": "The vacant lot at 14 Pine Avenue has become an informal dump site. Residents have observed vehicles unloading waste at night. The council has not responded to repeated complaints over six months.",
+      "tags": ["environment", "safety"],
+      "amplifications": [
+        { "participantIndex": 7, "reason": "PersonalExperience", "comment": "I live next door. The smell in summer is unbearable." },
+        { "participantIndex": 9, "reason": "CommunityBenefit", "comment": "The lot could be put to good use. This needs resolving." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 7,
+          "phoneNumber": "0800 234 5678",
+          "details": "Call the Environment Agency's 24-hour incident hotline to report fly-tipping involving commercial waste. They can investigate and pursue the operators, not just the site owner."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 7,
+          "description": "Series of photographs taken over three occasions in October, December 2025, and February 2026 showing accumulated waste including bagged domestic refuse, construction materials, and a discarded mattress. Two photographs show a vehicle partially visible near the site entrance.",
+          "documentIds": ["pine-avenue-dump-oct-2025", "pine-avenue-dump-dec-2025", "pine-avenue-dump-feb-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 2,
+      "title": "Bus route 7 cancelled without a replacement",
+      "description": "Route 7, which connected the eastern residential area to the town centre, was cancelled three months ago. No replacement has been offered. Residents without cars have no direct public transport connection.",
+      "tags": ["transport", "accessibility"],
+      "amplifications": [
+        { "participantIndex": 3, "reason": "PersonalExperience", "comment": "My mother can no longer get to her medical appointments independently." },
+        { "participantIndex": 5, "reason": "LocalImpact", "comment": "Footfall on Elm Road has dropped noticeably since the cancellation." },
+        { "participantIndex": 8, "reason": "UrgentAction", "comment": "Three months without action from the council is unacceptable." },
+        { "participantIndex": 11, "reason": "CommunityBenefit", "comment": "Restoring the route would reduce car trips and ease parking pressure too." },
+        { "participantIndex": 13, "reason": "HighRelevance", "comment": "This disproportionately affects people who cannot drive." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 2,
+          "url": "https://www.eastshire-council.gov.uk/transport/bus-services/feedback",
+          "details": "Submit feedback to the council's transport team about the impact of the Route 7 cancellation. The more individual submissions they receive, the stronger the case for reinstating or replacing the service."
+        }
+      ]
+    },
+    {
+      "originatorIndex": 3,
+      "title": "Maple Road street lighting fails regularly after dark",
+      "description": "Seven lamp columns on Maple Road between the junction with High Street and the primary school have been intermittently failing for four months. Residents, particularly those walking children to school, report feeling unsafe. The council has issued a repair ticket but no work has begun.",
+      "tags": ["safety", "infrastructure"],
+      "amplifications": [
+        { "participantIndex": 5, "reason": "PersonalExperience", "comment": "I walk this route every morning. It is pitch black before 8 am in winter." },
+        { "participantIndex": 10, "reason": "UrgentAction", "comment": "The school is at the end of this road. Children should not be walking in darkness." },
+        { "participantIndex": 14, "reason": "LocalImpact", "comment": "Two people I know have reported near-misses with cyclists who were not visible." },
+        { "participantIndex": 17, "reason": "HighRelevance", "comment": "Poor lighting is correlated with increased street crime. This is a safety issue beyond convenience." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 3,
+          "phoneNumber": "01234 890123",
+          "details": "Call the council street lighting fault line and quote existing repair ticket ST-2025-1182. Ask for an escalation given the proximity to a primary school and the four-month delay."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 17,
+          "description": "Council repair ticket reference ST-2025-1182 issued in November 2025 acknowledging the fault on Maple Road. No follow-up communication has been received since the acknowledgement.",
+          "documentIds": ["repair-ticket-st-2025-1182"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 4,
+      "title": "Riverside Park paths inaccessible to wheelchair users",
+      "description": "The main footpaths through Riverside Park have not been resurfaced in over a decade. Several sections are broken, heavily rutted, or blocked by tree-root damage. Wheelchair users and parents with pushchairs report being unable to complete the park loop without leaving the path entirely.",
+      "tags": ["accessibility", "parks", "infrastructure"],
+      "amplifications": [
+        { "participantIndex": 0, "reason": "PersonalExperience", "comment": "I use a wheelchair. The northern section is completely impassable for me." },
+        { "participantIndex": 6, "reason": "CommunityBenefit", "comment": "The park is a shared asset. Everyone should be able to use it." },
+        { "participantIndex": 12, "reason": "LocalImpact", "comment": "The broken surface is also a trip hazard for older residents." },
+        { "participantIndex": 18, "reason": "UrgentAction", "comment": "The council has a legal duty of accessibility. This should have been addressed already." }
+      ]
+    },
+    {
+      "originatorIndex": 5,
+      "title": "Cedar Lane Youth Centre closed indefinitely",
+      "description": "The Cedar Lane Youth Centre was closed six weeks ago when the council ended its service contract with the operator citing budget constraints. Around 120 young people aged 11–18 who used the centre weekly now have no structured evening provision. The building remains locked and empty.",
+      "tags": ["youth", "community", "social"],
+      "amplifications": [
+        { "participantIndex": 1, "reason": "LocalImpact", "comment": "Three teenagers from my street now have nowhere to go on school evenings." },
+        { "participantIndex": 9, "reason": "CommunityBenefit", "comment": "Youth centres reduce antisocial behaviour by providing purposeful activity." },
+        { "participantIndex": 11, "reason": "PersonalExperience", "comment": "My son went there twice a week. He is struggling now that it is gone." },
+        { "participantIndex": 15, "reason": "HighRelevance", "comment": "The closure was announced with one week's notice. That is not an acceptable way to treat young people." },
+        { "participantIndex": 19, "reason": "UrgentAction", "comment": "The summer holidays are coming. This needs a solution urgently." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 15,
+          "description": "Copy of the council's closure notification letter dated 28 January 2026, giving seven days notice of contract termination. The letter cites a budget reduction of £180,000 in the youth services allocation and does not mention any impact assessment or alternative provision.",
+          "documentIds": ["cedar-lane-closure-letter-2026-01-28"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 6,
+      "title": "High Street vacancy rate at historic high",
+      "description": "Thirteen of the thirty-eight commercial units on High Street are now vacant, the highest rate in over twenty years. Several have been empty for more than two years. Boarded-up frontages are deterring shoppers from the remaining businesses and increasing the sense of decline in the town centre.",
+      "tags": ["economy", "community", "town-centre"],
+      "amplifications": [
+        { "participantIndex": 2, "reason": "LocalImpact", "comment": "The Post Office closed last year. Now people have to travel three miles for basic services." },
+        { "participantIndex": 8, "reason": "CommunityBenefit", "comment": "Meanwhile use of empty units by local makers and community groups has worked in other towns." },
+        { "participantIndex": 13, "reason": "HighRelevance", "comment": "This also affects the viability of the businesses that are still there." },
+        { "participantIndex": 16, "reason": "PersonalExperience", "comment": "I run a small business here. Footfall is down thirty percent since the closures accelerated." }
+      ]
+    },
+    {
+      "originatorIndex": 7,
+      "title": "Air quality near Northfield Industrial Estate repeatedly exceeds safe limits",
+      "description": "Residents near the Northfield Industrial Estate have recorded nitrogen dioxide readings above WHO guidelines on twelve days in the past three months using a community sensor network. The estate hosts several logistics operators running diesel HGVs around the clock. The local authority has not responded to formal air quality complaints submitted in January.",
+      "tags": ["environment", "health", "pollution"],
+      "amplifications": [
+        { "participantIndex": 1, "reason": "PersonalExperience", "comment": "My daughter's asthma has worsened significantly since we moved here two years ago." },
+        { "participantIndex": 3, "reason": "HighRelevance", "comment": "The primary school on Northfield Road is 200 metres from the estate boundary." },
+        { "participantIndex": 6, "reason": "UrgentAction", "comment": "The data is clear. This is a public health issue requiring immediate investigation." },
+        { "participantIndex": 14, "reason": "LocalImpact", "comment": "Residents were never consulted when the logistics operators expanded two years ago." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 7,
+          "phoneNumber": "0800 807 060",
+          "details": "Call the Environment Agency's pollution incident hotline to report ongoing air quality exceedances. Provide the sensor readings and the dates of exceedance. They have enforcement powers the council does not."
+        },
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 1,
+          "url": "https://www.eastshire-council.gov.uk/environment/air-quality/complaints",
+          "details": "Submit a formal air quality complaint to the council's Environmental Health team. Include the sensor data CSV if possible. This creates an official record that can be used in any subsequent enforcement action."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 7,
+          "description": "Exported sensor network dataset covering 1 December 2025 to 28 February 2026 from six monitoring points around the Northfield Industrial Estate. Shows twelve days on which hourly average NO2 exceeded 40 µg/m³ (the WHO annual mean guideline), with peaks reaching 87 µg/m³ on 14 January 2026.",
+          "documentIds": ["northfield-aq-sensor-data-dec25-feb26"]
+        },
+        {
+          "participantIndex": 14,
+          "description": "Freedom of information response from the council dated 3 March 2026, confirming that no transport management plan was submitted or required when Northfield Logistics expanded their vehicle fleet in 2024, despite this being a condition of the 2022 planning permission.",
+          "documentIds": ["foi-response-northfield-transport-plan-2026-03-03"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 8,
+      "title": "No safe crossing on School Road at peak times",
+      "description": "School Road carries significant through-traffic between 8 am and 9 am and between 3 pm and 4 pm. There is no pedestrian crossing between the junction at Park Lane and the school gate, a distance of 350 metres. Two near-miss incidents involving children were recorded in the last term alone.",
+      "tags": ["safety", "children", "transport"],
+      "amplifications": [
+        { "participantIndex": 0, "reason": "UrgentAction", "comment": "Near-misses should not be necessary before a crossing is installed." },
+        { "participantIndex": 4, "reason": "PersonalExperience", "comment": "I stand at the kerb for minutes waiting for a safe gap every single morning." },
+        { "participantIndex": 10, "reason": "LocalImpact", "comment": "Many parents are driving their children because they are scared to walk, which worsens the congestion." },
+        { "participantIndex": 17, "reason": "CommunityBenefit", "comment": "A crossing would also benefit older residents who use the GP surgery on that road." },
+        { "participantIndex": 19, "reason": "HighRelevance", "comment": "Highways have a duty of care. This risk has been documented and ignored." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 8,
+          "url": "https://www.eastshire-council.gov.uk/roads-transport/road-safety/request-crossing",
+          "details": "Submit a crossing request to the council's road safety team. The school incident log reference (SRL-2026-017 and SRL-2026-031) should be included as supporting evidence. A group submission signed by multiple residents carries significantly more weight."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 10,
+          "description": "Extract from the school's incident log covering the autumn and spring terms 2025–26, showing two recorded near-miss incidents on School Road: SRL-2026-017 (a child stepping into the road in front of an oncoming vehicle on 9 October 2025) and SRL-2026-031 (a cyclist and child collision avoidance on 19 January 2026). Shared with the resident group by the school head with consent.",
+          "documentIds": ["school-incident-log-srl-2026-017", "school-incident-log-srl-2026-031"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 9,
+      "title": "Central Library opening hours reduced by 40 percent",
+      "description": "Following the latest council budget round, the Central Library is now open four days a week instead of seven, with no evening sessions. Study spaces, computer access, and the children's reading programme have all been curtailed. Many residents who relied on the library for internet access, job searching, and warm space provision have no alternative.",
+      "tags": ["education", "community", "social"],
+      "amplifications": [
+        { "participantIndex": 2, "reason": "HighRelevance", "comment": "The library was the only warm, safe place for elderly residents to spend the afternoon." },
+        { "participantIndex": 5, "reason": "LocalImpact", "comment": "I used the computers for job applications. There is nowhere else free to go." },
+        { "participantIndex": 11, "reason": "CommunityBenefit", "comment": "Libraries are infrastructure. Cutting hours cuts access for those with the least alternatives." },
+        { "participantIndex": 15, "reason": "PersonalExperience", "comment": "My children relied on the Saturday reading group. It no longer exists." },
+        { "participantIndex": 18, "reason": "UrgentAction", "comment": "There was no public consultation before hours were cut. That process was wrong." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 15,
+          "url": "https://www.eastshire-council.gov.uk/have-your-say/library-services-review",
+          "details": "Submit your views via the council's library services review page. Despite the cuts having already happened, the council is legally obliged to consider representations. Evidence of demand — particularly from residents with no alternative access — is the strongest argument."
+        }
+      ]
+    }
+  ]
+}

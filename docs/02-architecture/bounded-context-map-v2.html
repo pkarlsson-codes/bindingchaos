@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BindingChaos — Bounded Context Map v2</title>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs';
+    mermaid.registerLayoutLoaders(elkLayouts);
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', layout: 'elk' });
+    await mermaid.run();
+    const svg = document.querySelector('.mermaid svg');
+    if (svg) {
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      svgPanZoom(svg, {
+        zoomEnabled: true,
+        controlIconsEnabled: true,
+        fit: true,
+        center: true,
+        minZoom: 0.3,
+        maxZoom: 10
+      });
+    }
+  </script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #f8fafc;
+    }
+    p.subtitle {
+      color: #94a3b8;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+    .diagram-container {
+      background: #1e2330;
+      border: 1px solid #2d3748;
+      border-radius: 0.75rem;
+      padding: 0;
+      height: 900px;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+    }
+    .diagram-container:active {
+      cursor: grabbing;
+    }
+    .diagram-container .mermaid,
+    .diagram-container .mermaid svg {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .diagram-hint {
+      position: absolute;
+      bottom: 0.75rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: #475569;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .legend {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 2rem;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .legend-line {
+      width: 2rem;
+      height: 2px;
+      background: #64748b;
+    }
+    .legend-line.dashed {
+      background: repeating-linear-gradient(90deg, #64748b 0, #64748b 4px, transparent 4px, transparent 8px);
+    }
+    .open-questions {
+      margin-top: 2rem;
+      background: #1e2330;
+      border: 1px solid #2d3748;
+      border-left: 3px solid #f59e0b;
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .open-questions h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f59e0b;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .open-questions ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #cbd5e1;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+    .decisions {
+      margin-top: 1.5rem;
+      background: #1e2330;
+      border: 1px solid #2d3748;
+      border-left: 3px solid #34d399;
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .decisions h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #34d399;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .decisions ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #cbd5e1;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BindingChaos — Bounded Context Map <span style="color:#94a3b8;font-weight:400">v2</span></h1>
+  <p class="subtitle">Revised model from domain modelling session, March 2026.</p>
+
+  <div class="diagram-container">
+    <div class="diagram-hint">scroll to zoom · drag to pan</div>
+    <div class="mermaid">
+graph TD
+    subgraph SA["Signal Awareness"]
+        Signal --- Evidence
+        Signal --- Amplification
+        Signal --- SuggestedAction
+    end
+
+    subgraph ID["Ideation"]
+        Idea -. "SourceIdea (fork lineage)" .-> Idea
+        Idea -. "based on" .-> Signal
+    end
+
+    subgraph SOC["Societies"]
+        Society --- SocialContract
+        Society --- Membership
+    end
+
+    subgraph STIG["Stigmergy"]
+        UserGroup --- Charter
+        Charter --- ApprovalRules
+        Charter --- MembershipRules
+        Charter --- ShunningRules
+        Project --- Amendment
+        Project --- Requirement
+        Requirement --- Pledge
+    end
+
+    subgraph REP["Reputation"]
+        TrustGraph
+    end
+
+    subgraph CD["Community Discourse (crosscutting)"]
+        CommentThread
+        Contribution
+    end
+
+    subgraph TAG["Tagging (crosscutting)"]
+        TaggableTarget
+        Tag
+    end
+
+    Project -. "owned by" .-> UserGroup
+    Project -. "source idea (optional)" .-> Idea
+    ApprovalRules -. "governs" .-> Amendment
+    CommentThread -. "attaches to" .-> Signal
+    CommentThread -. "attaches to" .-> Idea
+    CommentThread -. "attaches to" .-> Project
+    Tag -. "attaches to" .-> Signal
+    Tag -. "attaches to" .-> Idea
+    Tag -. "attaches to" .-> Project
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-line"></div>
+      <span>intra-BC relationship</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-line dashed"></div>
+      <span>cross-BC reference</span>
+    </div>
+  </div>
+
+  <div class="decisions">
+    <h2>Key Decisions</h2>
+    <ul>
+      <li>Ideas are seeds authored by individuals — they can be discussed and forked, but not formally amended.</li>
+      <li>Forking an idea produces a new Idea with a SourceIdea reference for credit/lineage tracking.</li>
+      <li>A Project is a user group's active working version — it may optionally reference a source Idea.</li>
+      <li>Amendments govern changes to a project's description and goals, governed by the UserGroup's <em>Charter</em> (specifically its ApprovalRules) — not the parent Society's SocialContract.</li>
+      <li>Society's SocialContract and UserGroup's Charter are deliberately modelled as different things — the former governs rights and membership, the latter governs operational decision-making.</li>
+      <li>Requirements are updated independently by users — separate from the amendment process.</li>
+      <li>Resource Management BC merged into Projects.</li>
+    </ul>
+  </div>
+
+  <div class="open-questions">
+    <h2>Open Questions</h2>
+    <ul>
+      <li>Can a Project be created directly by a user group without a source Idea, or must it always trace back to one?</li>
+      <li>Reputation / trust graph BC (Neo4j, planned) not yet shown.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

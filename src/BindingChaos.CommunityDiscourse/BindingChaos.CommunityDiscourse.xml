@@ -1,0 +1,1077 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindingChaos.CommunityDiscourse</name>
+    </assembly>
+    <members>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Commands.CreateDiscourseThread">
+            <summary>
+            Command to create a new contribution thread.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Commands.CreateDiscourseThread.#ctor(System.String,System.String)">
+            <summary>
+            Command to create a new contribution thread.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Commands.CreateDiscourseThreadHandler">
+            <summary>
+            Handles the creation of a new contribution thread in the discourse system.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Commands.CreateDiscourseThreadHandler.Handle(BindingChaos.CommunityDiscourse.Application.Commands.CreateDiscourseThread,Marten.IQuerySession,BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.IDiscourseThreadRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new discourse thread for the specified entity, or returns the ID of an existing one.
+            </summary>
+            <param name="request">The command containing the entity type and ID to create a thread for.</param>
+            <param name="querySession">The read-only query session for checking existing threads.</param>
+            <param name="discourseThreadRepository">The repository for discourse thread aggregates.</param>
+            <param name="unitOfWork">The unit of work for persisting changes.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The ID of the created or existing discourse thread.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution">
+            <summary>
+            Represents a contribution posted by a participant, associated with a specific entity and optionally replying to
+            another contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution.ThreadId">
+            <summary>
+            Gets the ID of the thread to post to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution.AuthorId">
+            <summary>
+            Gets the ID of the participant posting the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution.Content">
+            <summary>
+            Gets the content of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution.ParentContributionId">
+            <summary>
+            Gets the ID of the parent contribution, if this is a reply to another contribution.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Commands.PostContribution.#ctor(System.String,BindingChaos.SharedKernel.Domain.ParticipantId,System.String,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionId)">
+            <summary>
+            Initializes a new instance of the PostContributionToThread class.
+            </summary>
+            <param name="threadId">The ID of the thread to post to.</param>
+            <param name="authorId">The ID of the participant posting the contribution.</param>
+            <param name="content">The content of the contribution.</param>
+            <param name="parentContributionId">The ID of the parent contribution, if this is a reply.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Commands.PostContributionHandler">
+            <summary>
+            Command handler for posting contributions to specific discourse threads.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Commands.PostContributionHandler.Handle(BindingChaos.CommunityDiscourse.Application.Commands.PostContribution,BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.IDiscourseThreadRepository,BindingChaos.CommunityDiscourse.Domain.Contributions.IContributionRepository,BindingChaos.SharedKernel.Persistence.IUnitOfWork,System.Threading.CancellationToken)">
+            <summary>
+            Handles the post contribution to thread command.
+            </summary>
+            <param name="command">The command to handle.</param>
+            <param name="discourseThreadRepository">The discourse thread repository.</param>
+            <param name="contributionRepository">The contribution repository.</param>
+            <param name="unitOfWork">Unit of work for committing changes.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The ID of the created contribution.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionRepliesView">
+            <summary>
+            Response model for contribution replies (maintains API compatibility).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionRepliesView.ContributionId">
+            <summary>
+            The ID of the parent contribution these replies belong to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionRepliesView.Replies">
+            <summary>
+            The cursor-paginated replies to this contribution.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply">
+            <summary>
+            Individual reply in the response.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.Id">
+            <summary>
+            The unique identifier for this reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.AuthorId">
+            <summary>
+            The ID of the participant who authored this reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.AuthorPseudonym">
+            <summary>
+            The pseudonym of the author.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.Content">
+            <summary>
+            The content of the reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.CreatedAt">
+            <summary>
+            When the reply was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.ParentContributionId">
+            <summary>
+            The ID of the contribution this reply responds to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.Replies">
+            <summary>
+            Always empty for one-level loading (API compatibility).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.ReplyCount">
+            <summary>
+            The total number of nested replies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionReply.HasMoreReplies">
+            <summary>
+            Whether there are nested replies.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution">
+            <summary>
+            Individual root contribution in the response.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.Id">
+            <summary>
+            The unique identifier for this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.AuthorId">
+            <summary>
+            The ID of the participant who authored this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.AuthorPseudonym">
+            <summary>
+            The pseudonym of the author.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.Content">
+            <summary>
+            The content of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.CreatedAt">
+            <summary>
+            When the contribution was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.ReplyCount">
+            <summary>
+            The total number of direct replies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.LastReplyAt">
+            <summary>
+            When the last reply was posted.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContribution.HasReplies">
+            <summary>
+            Whether this contribution has replies.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView">
+            <summary>
+            Response model for root contributions with cursor-based pagination.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.EntityType">
+            <summary>
+            The type of entity this discourse is about.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.EntityId">
+            <summary>
+            The ID of the entity this discourse is about.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.Contributions">
+            <summary>
+            The cursor-paginated root contributions for this entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.TotalContributionCount">
+            <summary>
+            Total number of all contributions for this entity (includes replies).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.TotalRootContributionCount">
+            <summary>
+            Total number of root contributions for this entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.TotalParticipants">
+            <summary>
+            Total number of unique participants.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView.LastActivityAt">
+            <summary>
+            When the last contribution was posted.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.ContributionCursorHelpers">
+            <summary>
+            Shared cursor-based pagination helpers for contribution query handlers.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.ContributionCursorHelpers.BuildContributionSpecification(BindingChaos.SharedKernel.Specifications.Specification{BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView},System.String,BindingChaos.Infrastructure.Querying.CursorDirection)">
+            <summary>
+            Combines a base specification with a cursor specification for directional pagination.
+            </summary>
+            <param name="baseSpecification">The base filter for the query.</param>
+            <param name="cursor">The encoded cursor string, or <see langword="null"/> for the first page.</param>
+            <param name="direction">The direction of pagination.</param>
+            <returns>The combined specification.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.ContributionCursorHelpers.ApplyDirectionalOrdering(System.Linq.IQueryable{BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView},BindingChaos.Infrastructure.Querying.CursorDirection)">
+            <summary>
+            Applies ordering to a contribution query based on the pagination direction.
+            </summary>
+            <param name="query">The base queryable to order.</param>
+            <param name="direction">The direction of pagination.</param>
+            <returns>An ordered queryable.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.ContributionCursorHelpers.ExecuteCursorPageAsync(System.Linq.IOrderedQueryable{BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView},System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection,System.Threading.CancellationToken)">
+            <summary>
+            Executes a cursor page query, trimming the extra item used to detect more results.
+            </summary>
+            <param name="orderedQuery">The ordered query to execute.</param>
+            <param name="limit">The requested page size.</param>
+            <param name="direction">The direction of pagination, used to reverse backward pages.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The page of documents and whether more results exist beyond the page.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies">
+            <summary>
+            Query to retrieve replies for a specific contribution.
+            Supports direct replies only (one level deep) with cursor-based pagination.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies.#ctor(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies"/> class.
+            </summary>
+            <param name="contributionId">The contribution ID to get replies for.</param>
+            <param name="cursor">The cursor to start from (null for first page).</param>
+            <param name="limit">Maximum number of replies to return (default: 5).</param>
+            <param name="direction">Direction of pagination (default: Forward).</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies.ContributionId">
+            <summary>
+            Gets the contribution ID to get replies for.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies.Cursor">
+            <summary>
+            Gets the cursor to start from (null for first page).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies.Limit">
+            <summary>
+            Gets the maximum number of replies to return.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies.Direction">
+            <summary>
+            Gets the direction of pagination.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionRepliesHandler">
+            <summary>
+            Efficient query handler for contribution replies using cursor-based pagination.
+            Achieves TRUE database-level pagination by querying individual contribution documents with cursors.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetContributionRepliesHandler.Handle(BindingChaos.CommunityDiscourse.Application.Queries.GetContributionReplies,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves replies to a specific contribution based on the provided request parameters.
+            </summary>
+            <param name="request">The request containing the contribution ID, pagination details, and direction.</param>
+            <param name="querySession">The read-only query session for accessing the read model.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A <see cref="T:BindingChaos.CommunityDiscourse.Application.DTOs.ContributionRepliesView"/> with the retrieved replies, or <see langword="null"/> if the contribution is not found.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions">
+            <summary>
+            Query to get root contributions for a specific thread.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions.ThreadId">
+            <summary>
+            Gets the ID of the thread.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions.Cursor">
+            <summary>
+            Gets the cursor for pagination.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions.Limit">
+            <summary>
+            Gets the maximum number of contributions to return.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions.Direction">
+            <summary>
+            Gets the direction of pagination.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions.#ctor(System.String,System.String,System.Int32,BindingChaos.Infrastructure.Querying.CursorDirection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions"/> class.
+            </summary>
+            <param name="threadId">The ID of the thread.</param>
+            <param name="cursor">The cursor for pagination.</param>
+            <param name="limit">The maximum number of contributions to return.</param>
+            <param name="direction">The direction of pagination.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributionsHandler">
+            <summary>
+            Query handler for getting root contributions by thread ID.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributionsHandler.Handle(BindingChaos.CommunityDiscourse.Application.Queries.GetRootContributions,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a paginated list of root contributions for the specified thread.
+            </summary>
+            <param name="query">The query containing the thread ID, cursor, limit, and direction.</param>
+            <param name="querySession">The read-only query session for accessing the read model.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A <see cref="T:BindingChaos.CommunityDiscourse.Application.DTOs.RootContributionsView"/> if the thread exists; otherwise, <see langword="null"/>.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntity">
+            <summary>
+            Query to get a discourse thread by entity reference.
+            </summary>
+            <param name="EntityType">The type of entity (e.g., "idea", "signal", "action").</param>
+            <param name="EntityId">The ID of the entity.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntity.#ctor(System.String,System.String)">
+            <summary>
+            Query to get a discourse thread by entity reference.
+            </summary>
+            <param name="EntityType">The type of entity (e.g., "idea", "signal", "action").</param>
+            <param name="EntityId">The ID of the entity.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntity.EntityType">
+            <summary>The type of entity (e.g., "idea", "signal", "action").</summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntity.EntityId">
+            <summary>The ID of the entity.</summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntityHandler">
+            <summary>
+            Handler for getting a discourse thread by entity reference.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntityHandler.Handle(BindingChaos.CommunityDiscourse.Application.Queries.GetThreadByEntity,Marten.IQuerySession,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a discourse thread view based on the specified entity type and entity ID.
+            </summary>
+            <param name="request">The request containing the entity type and entity ID used to identify the thread.</param>
+            <param name="querySession">The read-only query session for accessing the read model.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>The <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> if found; otherwise, <see langword="null"/>.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView">
+            <summary>
+            Contribution document for efficient querying of contributions and replies.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.Id">
+            <summary>
+            Gets or sets the unique identifier for the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.ThreadId">
+            <summary>
+            Gets or sets the identifier of the thread this contribution belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.AuthorId">
+            <summary>
+            Gets or sets the identifier of the participant who authored this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.Content">
+            <summary>
+            Gets or sets the content of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.CreatedAt">
+            <summary>
+            Gets or sets the date and time when the contribution was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.ParentContributionId">
+            <summary>
+            Gets or sets the identifier of the parent contribution, if this is a reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.IsRootContribution">
+            <summary>
+            Gets or sets a value indicating whether this contribution is a root-level contribution (not a reply).
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.ReplyCount">
+            <summary>
+            Gets or sets the number of replies to this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView.LastReplyAt">
+            <summary>
+            Gets or sets the date and time when this contribution last received a reply.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView">
+            <summary>
+            Thread metadata document for querying thread-level information.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.Id">
+            <summary>
+            Gets or sets the unique identifier for the entity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.EntityType">
+            <summary>
+            Gets or sets the type of the entity this thread is for.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.EntityId">
+            <summary>
+            Gets or sets the unique entity identifier this thread is for.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.CreatedAt">
+            <summary>
+            Gets or sets the date and time when the entity was created.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.TotalContributions">
+            <summary>
+            Gets or sets the total number of contributions made.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.TotalRootContributions">
+            <summary>
+            Gets or sets the total contributions from all root-level entities.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.TotalParticipants">
+            <summary>
+            Gets or sets the total number of participants.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.LastActivityAt">
+            <summary>
+            Gets or sets the timestamp of the most recent activity.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView.ParticipantIds">
+            <summary>
+            Gets or sets the collection of participant identifiers.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Specifications.RepliesForContributionSpecification">
+            <summary>
+            Matches replies that belong to a specific parent contribution.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.RepliesForContributionSpecification.#ctor(System.String)">
+            <summary>
+            Matches replies that belong to a specific parent contribution.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.RepliesForContributionSpecification.ToExpression">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Specifications.RootContributionsInThreadSpecification">
+            <summary>
+            Matches root contributions in a specific thread.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.RootContributionsInThreadSpecification.#ctor(System.String)">
+            <summary>
+            Matches root contributions in a specific thread.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.RootContributionsInThreadSpecification.ToExpression">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionBeforeCursorSpecification">
+            <summary>
+            Matches contributions that come before a cursor in descending traversal order.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionBeforeCursorSpecification.#ctor(System.DateTimeOffset,System.String)">
+            <summary>
+            Matches contributions that come before a cursor in descending traversal order.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionBeforeCursorSpecification.ToExpression">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionAfterCursorSpecification">
+            <summary>
+            Matches contributions that come after a cursor in ascending traversal order.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionAfterCursorSpecification.#ctor(System.DateTimeOffset,System.String)">
+            <summary>
+            Matches contributions that come after a cursor in ascending traversal order.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Application.Specifications.ContributionAfterCursorSpecification.ToExpression">
+            <inheritdoc/>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution">
+            <summary>
+            Entity representing an individual contribution within a discourse thread.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.#ctor(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThreadId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionId)">
+            <summary>
+            Initializes a new instance of the Contribution class.
+            </summary>
+            <param name="threadId">The ID of the thread this contribution belongs to.</param>
+            <param name="authorId">The ID of the participant who authored this contribution.</param>
+            <param name="content">The content of the contribution.</param>
+            <param name="parentContributionId">The ID of the parent contribution, if this is a reply.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.AuthorId">
+            <summary>
+            Gets the ID of the participant who authored this contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.Content">
+            <summary>
+            Gets the content of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.ThreadId">
+            <summary>
+            Gets the ID of the thread this contribution belongs to.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.ParentContributionId">
+            <summary>
+            Gets the ID of the parent contribution, if this is a reply.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.Status">
+            <summary>
+            Gets the current status of the contribution.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.CreatedAt">
+            <summary>
+            Gets the timestamp when the contribution was created.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.Create(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThreadId,BindingChaos.SharedKernel.Domain.ParticipantId,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionId)">
+            <summary>
+            Creates a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution"/> class with the specified thread, author, content, and optional
+            parent contribution.
+            </summary>
+            <param name="threadId">The unique identifier of the thread this contribution belongs to.</param>
+            <param name="authorId">The unique identifier of the participant who authored the contribution.</param>
+            <param name="content">The content of the contribution.</param>
+            <param name="parentContributionId">The optional identifier of the parent contribution, if this contribution is a reply. Defaults to <see
+            langword="null"/> if not specified.</param>
+            <returns>A new <see cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution"/> instance initialized with the specified parameters.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <summary>
+            Applies the specified domain event to update the state of the aggregate.
+            </summary>
+            <param name="domainEvent">The domain event to apply. Must not be <see langword="null"/>.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if the type of <paramref name="domainEvent"/> is not recognized.</exception>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent">
+            <summary>
+            Value object representing contribution content with validation and formatting rules.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the ContributionContent class.
+            </summary>
+            <param name="value">The content value.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.Value">
+            <summary>
+            Gets the content value.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.Create(System.String)">
+            <summary>
+            Creates a new ContributionContent from a string value.
+            </summary>
+            <param name="value">The content value.</param>
+            <returns>A new ContributionContent instance.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when content is invalid.</exception>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.TryCreate(System.String)">
+            <summary>
+            Tries to create a new ContributionContent from a string value.
+            </summary>
+            <param name="value">The content value.</param>
+            <returns>A new ContributionContent instance, or null if invalid.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.GetEqualityComponents">
+            <summary>
+            Gets the components used for equality comparison.
+            </summary>
+            <returns>The components for equality comparison.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionContent.ValidateContent(System.String)">
+            <summary>
+            Validates the content value according to domain rules.
+            </summary>
+            <param name="value">The content to validate.</param>
+            <exception cref="T:System.ArgumentException">Thrown when content is invalid.</exception>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionStatus">
+            <summary>
+            Enumeration representing the possible statuses of a contribution.
+            Simplified to just the essential status - Published (which is the default and only status for now).
+            </summary>
+        </member>
+        <member name="F:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionStatus.Published">
+            <summary>
+            Contribution is published and visible.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionStatus.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the ContributionStatus class.
+            </summary>
+            <param name="id">The unique identifier for this status.</param>
+            <param name="name">The name of this status.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded">
+            <summary>
+            Domain event emitted when a new contribution is posted to a discourse thread.
+            </summary>
+            <param name="AggregateId">The unique identifier of the contribution.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="ThreadId">The identifier of the thread this contribution belongs to.</param>
+            <param name="AuthorId">The identifier of the participant who authored the contribution.</param>
+            <param name="Content">The content of the contribution.</param>
+            <param name="ParentContributionId">The identifier of the parent contribution, if this is a reply.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded.#ctor(System.String,System.Int64,System.String,System.String,System.String,System.String)">
+            <summary>
+            Domain event emitted when a new contribution is posted to a discourse thread.
+            </summary>
+            <param name="AggregateId">The unique identifier of the contribution.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="ThreadId">The identifier of the thread this contribution belongs to.</param>
+            <param name="AuthorId">The identifier of the participant who authored the contribution.</param>
+            <param name="Content">The content of the contribution.</param>
+            <param name="ParentContributionId">The identifier of the parent contribution, if this is a reply.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded.ThreadId">
+            <summary>The identifier of the thread this contribution belongs to.</summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded.AuthorId">
+            <summary>The identifier of the participant who authored the contribution.</summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded.Content">
+            <summary>The content of the contribution.</summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded.ParentContributionId">
+            <summary>The identifier of the parent contribution, if this is a reply.</summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.Contributions.IContributionRepository">
+            <summary>
+            Repository interface for contribution persistence operations.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread">
+            <summary>
+            Aggregate root representing a discourse thread for community discussion around an entity.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.#ctor">
+            <summary>
+            Initializes a new instance of the DiscourseThread class.
+            For use by event sourcing reconstruction.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.#ctor(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference)">
+            <summary>
+            Initializes a new instance of the DiscourseThread class.
+            </summary>
+            <param name="entityReference">Reference to the entity this discourse is about.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.EntityReference">
+            <summary>
+            Gets the reference to the entity this discourse is about.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.CreatedAt">
+            <summary>
+            Gets the timestamp when the thread was created.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.Create(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference)">
+            <summary>
+            Creates a new discourse thread for an entity.
+            </summary>
+            <param name="entityReference">Reference to the entity this discourse is about.</param>
+            <returns>A new DiscourseThread instance.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.ApplyEvent(BindingChaos.SharedKernel.Domain.Events.IDomainEvent)">
+            <summary>
+            Applies a domain event to mutate the aggregate state.
+            </summary>
+            <param name="domainEvent">The domain event to apply.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.RegisterInvariants">
+            <summary>
+            Registers invariants for this aggregate.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.Apply(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated)">
+            <summary>
+            Applies the DiscourseThreadCreated event to the aggregate state.
+            </summary>
+            <param name="e">The event to apply.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread.EntityReferenceMustBeSpecified">
+            <summary>
+            Invariant: entity reference must be specified.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThreadId">
+            <summary>
+            Unique identifier for a <see cref="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread"/>.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference">
+            <summary>
+            Value object representing a reference to an entity that discourse is about.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the EntityReference class.
+            </summary>
+            <param name="entityType">The type of entity being referenced.</param>
+            <param name="entityId">The identifier of the entity being referenced.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.EntityType">
+            <summary>
+            Gets the type of entity being referenced (e.g., "idea", "signal", "action").
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.EntityId">
+            <summary>
+            Gets the identifier of the entity being referenced.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.Create(System.String,System.String)">
+            <summary>
+            Creates a new EntityReference.
+            </summary>
+            <param name="entityType">The type of entity being referenced.</param>
+            <param name="entityId">The identifier of the entity being referenced.</param>
+            <returns>A new EntityReference instance.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when parameters are invalid.</exception>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.TryCreate(System.String,System.String)">
+            <summary>
+            Tries to create a new EntityReference.
+            </summary>
+            <param name="entityType">The type of entity being referenced.</param>
+            <param name="entityId">The identifier of the entity being referenced.</param>
+            <returns>A new EntityReference instance, or null if invalid.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.ToString">
+            <summary>
+            Returns a string representation of this EntityReference.
+            </summary>
+            <returns>String representation in the format "entityType:entityId".</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.GetEqualityComponents">
+            <summary>
+            Gets the components used for equality comparison.
+            </summary>
+            <returns>The components for equality comparison.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.ValidateEntityType(System.String)">
+            <summary>
+            Validates the entity type.
+            </summary>
+            <param name="entityType">The entity type to validate.</param>
+            <exception cref="T:System.ArgumentException">Thrown when entity type is invalid.</exception>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.EntityReference.ValidateEntityId(System.String)">
+            <summary>
+            Validates the entity ID.
+            </summary>
+            <param name="entityId">The entity ID to validate.</param>
+            <exception cref="T:System.ArgumentException">Thrown when entity ID is invalid.</exception>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated">
+            <summary>
+            Domain event emitted when a new discourse thread is created.
+            </summary>
+            <param name="AggregateId">The unique identifier of the discourse thread.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="EntityType">The type of entity this discourse thread is about (e.g., "idea", "signal", "action").</param>
+            <param name="EntityId">The identifier of the entity this discourse thread is about.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated.#ctor(System.String,System.Int64,System.String,System.String)">
+            <summary>
+            Domain event emitted when a new discourse thread is created.
+            </summary>
+            <param name="AggregateId">The unique identifier of the discourse thread.</param>
+            <param name="Version">The version of the aggregate when this event was raised.</param>
+            <param name="EntityType">The type of entity this discourse thread is about (e.g., "idea", "signal", "action").</param>
+            <param name="EntityId">The identifier of the entity this discourse thread is about.</param>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated.EntityType">
+            <summary>The type of entity this discourse thread is about (e.g., "idea", "signal", "action").</summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated.EntityId">
+            <summary>The identifier of the entity this discourse thread is about.</summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.IDiscourseThreadRepository">
+            <summary>
+            Repository interface for discourse thread persistence operations.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.CommunityDiscourseAssemblyReference">
+            <summary>
+            Marker surface for MediatR assembly registration for the CommunityDiscourse bounded context.
+            </summary>
+        </member>
+        <member name="P:BindingChaos.CommunityDiscourse.Infrastructure.CommunityDiscourseAssemblyReference.Assembly">
+            <summary>
+            Gets the assembly that contains MediatR handlers for the SignalAwareness bounded context.
+            </summary>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.DependencyInjection">
+            <summary>
+            Extension methods for registering CommunityDiscourse bounded context services.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.DependencyInjection.AddCommunityDiscourse(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds CommunityDiscourse bounded context services to the service collection.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="configuration">The configuration instance.</param>
+            <returns>The service collection for method chaining.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.AmendmentProposedHandler">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent"/>.
+            Creates a discourse thread for the amendment entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The message bus for handling asynchronous messaging.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.AmendmentProposedHandler.#ctor(Wolverine.IMessageBus)">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent"/>.
+            Creates a discourse thread for the amendment entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The message bus for handling asynchronous messaging.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.AmendmentProposedHandler.Handle(BindingChaos.Ideation.Contracts.AmendmentProposedIntegrationEvent)">
+            <summary>
+            Handles the AmendmentProposedIntegrationEvent by creating a discourse thread via command.
+            </summary>
+            <param name="message">The incoming integration event.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.IdeaAuthoredHandler">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent"/>.
+            Creates a discourse thread for the idea entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The message bus for handling asynchronous messaging.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.IdeaAuthoredHandler.#ctor(Wolverine.IMessageBus)">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent"/>.
+            Creates a discourse thread for the idea entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The message bus for handling asynchronous messaging.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.IdeaAuthoredHandler.Handle(BindingChaos.Ideation.Contracts.IdeaAuthoredIntegrationEvent)">
+            <summary>
+            Handles the IdeaAuthoredIntegrationEvent by creating a discourse thread via command.
+            </summary>
+            <param name="message">The incoming integration event.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.SignalCapturedHandler">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.SignalAwareness.Contracts.SignalCapturedIntegrationEvent"/>.
+            Creates a discourse thread for the signal entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The mediator for sending commands.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.SignalCapturedHandler.#ctor(Wolverine.IMessageBus)">
+            <summary>
+            Wolverine message handler for <see cref="T:BindingChaos.SignalAwareness.Contracts.SignalCapturedIntegrationEvent"/>.
+            Creates a discourse thread for the signal entity if it doesn't already exist.
+            </summary>
+            <param name="messageBus">The mediator for sending commands.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers.SignalCapturedHandler.Handle(BindingChaos.SignalAwareness.Contracts.SignalCapturedIntegrationEvent)">
+            <summary>
+            Handles the SignalCapturedIntegrationEvent by creating a discourse thread via command.
+            </summary>
+            <param name="message">The incoming integration event.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.CommunityDiscourseMartenConfiguration">
+            <summary>
+            Configuration for Marten projections in the CommunityDiscourse bounded context.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.CommunityDiscourseMartenConfiguration.Configure(Marten.StoreOptions)">
+            <summary>
+            Configures Marten for the CommunityDiscourse bounded context.
+            </summary>
+            <param name="options">The Marten store options to configure.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.ContributionRepository">
+            <summary>
+            Marten implementation of the Contribution repository for event sourcing.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.ContributionRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.CommunityDiscourse.Domain.Contributions.Contribution,BindingChaos.CommunityDiscourse.Domain.Contributions.ContributionId}})">
+            <summary>
+            Initializes a new instance of the ContributionRepository class.
+            </summary>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.DiscourseThreadRepository">
+            <summary>
+            Marten implementation of the DiscourseThread repository for event sourcing.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Persistence.DiscourseThreadRepository.#ctor(Marten.IDocumentSession,Microsoft.Extensions.Logging.ILogger{BindingChaos.SharedKernel.Persistence.MartenRepository{BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThread,BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.DiscourseThreadId}})">
+            <summary>
+            Initializes a new instance of the DiscourseThreadRepository class.
+            </summary>
+            <param name="session">The Marten document session.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Projections.ContributionViewProjection">
+            <summary>
+            Multi-stream projection for Contribution aggregate.
+            Builds contribution documents and updates parent reply counts when replies are posted.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.ContributionViewProjection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Infrastructure.Projections.ContributionViewProjection"/> class, configuring event mappings for
+            contributions.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.ContributionViewProjection.Create(BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded)">
+            <summary>
+            Creates a new instance of <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView"/> based on the provided <see
+            cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded"/> data.
+            </summary>
+            <param name="posted">The <see cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded"/> object containing the data used to initialize the new <see
+            cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView"/>.</param>
+            <returns>A new <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView"/> initialized with the values from the <paramref name="posted"/> object.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.ContributionViewProjection.Apply(BindingChaos.CommunityDiscourse.Application.ReadModels.ContributionView,BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded)">
+            <summary>
+            Updates a parent contribution's reply count when a reply is posted.
+            This method is called for parent contribution documents when a reply is created.
+            </summary>
+            <param name="document">The parent contribution document to update.</param>
+            <param name="posted">The reply contribution event.</param>
+            <returns>The updated parent contribution document.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Projections.DiscourseThreadViewProjection">
+            <summary>
+            Multi-stream projection for DiscourseThread aggregate.
+            Builds thread metadata and statistics by consuming events from both Thread and Contribution streams.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.DiscourseThreadViewProjection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Infrastructure.Projections.DiscourseThreadViewProjection"/> class, configuring mappings for thread-related
+            events.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.DiscourseThreadViewProjection.Create(BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated)">
+            <summary>
+            Creates a new instance of <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> based on the specified <see
+            cref="T:BindingChaos.CommunityDiscourse.Domain.DiscourseThreads.Events.DiscourseThreadCreated"/> event.
+            </summary>
+            <param name="created">The event containing the data required to initialize the <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/>.  This parameter cannot be
+            <see langword="null"/>.</param>
+            <returns>A new <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> initialized with the data from the <paramref name="created"/> event.</returns>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Projections.DiscourseThreadViewProjection.Apply(BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView,BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded)">
+            <summary>
+            Updates the state of a <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> based on a new contribution.
+            </summary>
+            <param name="document">The <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> to be updated. This object represents the current state of the thread.</param>
+            <param name="posted">The <see cref="T:BindingChaos.CommunityDiscourse.Domain.Contributions.Events.ContributionAdded"/> containing details of the new contribution to apply.</param>
+            <returns>The updated <see cref="T:BindingChaos.CommunityDiscourse.Application.ReadModels.DiscourseThreadView"/> reflecting the changes made by the new contribution.</returns>
+        </member>
+        <member name="T:BindingChaos.CommunityDiscourse.Infrastructure.Seeding.CommunityDiscourseInitialData">
+            <summary>
+            Development-only initial data seeding for Community Discourse using Marten's initial data hook.
+            Seeds discourse events using aggregates to ensure domain logic integrity.
+            Depends on signals and ideas being seeded first.
+            Seed content is loaded from the embedded seed-data.json resource.
+            </summary>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Seeding.CommunityDiscourseInitialData.#ctor(BindingChaos.SharedKernel.Domain.ParticipantId[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindingChaos.CommunityDiscourse.Infrastructure.Seeding.CommunityDiscourseInitialData"/> class.
+            </summary>
+            <param name="participants">The ordered participant array shared across all seeders.</param>
+        </member>
+        <member name="M:BindingChaos.CommunityDiscourse.Infrastructure.Seeding.CommunityDiscourseInitialData.Populate(Marten.IDocumentStore,System.Threading.CancellationToken)">
+            <summary>
+            Populates initial development data for Community Discourse.
+            </summary>
+            <param name="store">The Marten document store.</param>
+            <param name="cancellationToken">A token to cancel the operation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+    </members>
+</doc>

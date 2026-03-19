@@ -1,0 +1,60 @@
+name: Build Frontend
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/BindingChaos.Web/**'
+      - 'src/BindingChaos.CorePlatform.API/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'src/BindingChaos.Web/**'
+      - 'src/BindingChaos.CorePlatform.API/**'
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: src/BindingChaos.Web/package-lock.json
+    
+    - name: Generate OpenAPI Spec
+      run: |
+        # Build the API project to generate OpenAPI spec
+        dotnet build src/BindingChaos.CorePlatform.API/BindingChaos.CorePlatform.API.csproj --configuration Release
+        
+        # Generate OpenAPI spec from compiled assembly
+        dotnet tool install --global Swashbuckle.AspNetCore.Cli
+        dotnet swagger tofile --output src/BindingChaos.Web/api-spec.json src/BindingChaos.CorePlatform.API/bin/Release/net10.0/BindingChaos.CorePlatform.API.dll v1
+    
+    - name: Install Frontend Dependencies
+      working-directory: src/BindingChaos.Web
+      run: npm ci
+    
+    - name: Generate TypeScript Types
+      working-directory: src/BindingChaos.Web
+      run: npm run generate-api-from-spec
+    
+    - name: Build Frontend
+      working-directory: src/BindingChaos.Web
+      run: npm run build
+    
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: src/BindingChaos.Web/dist/
+        retention-days: 7 
