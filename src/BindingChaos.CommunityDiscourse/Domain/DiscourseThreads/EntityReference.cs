@@ -9,7 +9,7 @@ public sealed class EntityReference : ValueObject
 {
     private static readonly HashSet<string> ValidEntityTypes = new(StringComparer.OrdinalIgnoreCase)
     {
-        "idea", "signal", "action", "amendment",
+        "idea", "signal", "amendment",
     };
 
     /// <summary>
@@ -24,7 +24,7 @@ public sealed class EntityReference : ValueObject
     }
 
     /// <summary>
-    /// Gets the type of entity being referenced (e.g., "idea", "signal", "action").
+    /// Gets the type of entity being referenced (e.g., "idea", "signal", "amendment").
     /// </summary>
     public string EntityType { get; }
 
