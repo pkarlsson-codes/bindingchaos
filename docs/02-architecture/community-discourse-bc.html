@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BindingChaos — Community Discourse BC</title>
+  <script src="./diagram-panzoom.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    await mermaid.run();
+    setupPanZoom();
+  </script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #f8fafc;
+    }
+    p.subtitle {
+      color: #94a3b8;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+    .diagram-container {
+      background: #1e2330;
+      border: 1px solid #2d3748;
+      border-radius: 0.75rem;
+      padding: 0;
+      flex: 1;
+      min-height: 300px;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+    }
+    .diagram-container:active {
+      cursor: grabbing;
+    }
+    .diagram-container .mermaid {
+      display: block;
+    }
+    .diagram-hint {
+      position: absolute;
+      bottom: 0.75rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: #475569;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .legend {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .legend-badge {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .badge-aggregate  { background: #1e3a5f; color: #60a5fa; border: 1px solid #2563eb; }
+    .badge-vo         { background: #3b2a1a; color: #fb923c; border: 1px solid #ea580c; }
+    .badge-enum       { background: #2d1a3a; color: #c084fc; border: 1px solid #9333ea; }
+  </style>
+</head>
+<body>
+
+  <p class="subtitle" style="margin-bottom:0.5rem"><a href="bounded-context-map-v2.html" style="color:#60a5fa">← Bounded Context Map</a></p>
+  <h1>Community Discourse <span style="color:#94a3b8;font-weight:400">— BC internals</span></h1>
+  <p class="subtitle">Aggregates, value objects, and enumerations within the Community Discourse bounded context.</p>
+
+  <div class="diagram-container">
+    <div class="diagram-hint">scroll to zoom · drag to pan</div>
+    <div class="mermaid">
+classDiagram
+    class DiscourseThread {
+        &lt;&lt;Aggregate Root&gt;&gt;
+        CreatedAt
+    }
+    class EntityReference {
+        &lt;&lt;Value Object&gt;&gt;
+        EntityType
+        EntityId
+    }
+    
+    note for EntityReference "EntityType: idea | signal | amendment"
+
+    class Contribution {
+        &lt;&lt;Aggregate Root&gt;&gt;
+        AuthorId
+        CreatedAt
+    }
+    class ContributionContent {
+        &lt;&lt;Value Object&gt;&gt;
+        Value
+    }
+    class ContributionStatus {
+        &lt;&lt;Enumeration&gt;&gt;
+        Published
+    }
+
+    DiscourseThread *-- "1" EntityReference : attaches to
+    Contribution --> DiscourseThread : ref (ThreadId)
+    Contribution *-- "1" ContributionContent : content
+    Contribution --> ContributionStatus : status
+    Contribution --> Contribution : reply to (ParentContributionId)
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-badge badge-aggregate">&lt;&lt;Aggregate Root&gt;&gt;</span>
+      <span>Aggregate root — consistency boundary</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-badge badge-vo">&lt;&lt;Value Object&gt;&gt;</span>
+      <span>Value object — immutable, equality by value</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-badge badge-enum">&lt;&lt;Enumeration&gt;&gt;</span>
+      <span>Enumeration — typed constant set</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -4,26 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BindingChaos — Bounded Context Map v2</title>
-  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <script src="./diagram-panzoom.js"></script>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs';
     mermaid.registerLayoutLoaders(elkLayouts);
     mermaid.initialize({ startOnLoad: false, theme: 'dark', layout: 'elk' });
     await mermaid.run();
-    const svg = document.querySelector('.mermaid svg');
-    if (svg) {
-      svg.removeAttribute('width');
-      svg.removeAttribute('height');
-      svgPanZoom(svg, {
-        zoomEnabled: true,
-        controlIconsEnabled: true,
-        fit: true,
-        center: true,
-        minZoom: 0.3,
-        maxZoom: 10
-      });
-    }
+    setupPanZoom();
   </script>
   <style>
     body {
@@ -32,6 +20,11 @@
       color: #e2e8f0;
       margin: 0;
       padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow-y: auto;
     }
     h1 {
       font-size: 1.5rem;
@@ -50,7 +43,8 @@
       border: 1px solid #2d3748;
       border-radius: 0.75rem;
       padding: 0;
-      height: 900px;
+      flex: 1;
+      min-height: 300px;
       overflow: hidden;
       position: relative;
       cursor: grab;
@@ -58,11 +52,8 @@
     .diagram-container:active {
       cursor: grabbing;
     }
-    .diagram-container .mermaid,
-    .diagram-container .mermaid svg {
+    .diagram-container .mermaid {
       display: block;
-      width: 100% !important;
-      height: 100% !important;
     }
     .diagram-hint {
       position: absolute;
@@ -147,6 +138,11 @@
 
   <h1>BindingChaos — Bounded Context Map <span style="color:#94a3b8;font-weight:400">v2</span></h1>
   <p class="subtitle">Revised model from domain modelling session, March 2026.</p>
+  <p class="subtitle" style="margin-top:-1.25rem">BC internals:
+    <a href="signal-awareness-bc.html" style="color:#60a5fa">Signal Awareness</a> ·
+    <a href="community-discourse-bc.html" style="color:#60a5fa">Community Discourse</a> ·
+    <a href="stigmergy-bc.html" style="color:#60a5fa">Stigmergy</a>
+  </p>
 
   <div class="diagram-container">
     <div class="diagram-hint">scroll to zoom · drag to pan</div>
@@ -165,11 +161,12 @@ graph TD
 
     subgraph SOC["Societies"]
         Society --- SocialContract
-        Society --- Membership
+        Society --- SocietyMembership["Membership"]
     end
 
     subgraph STIG["Stigmergy"]
         UserGroup --- Charter
+        UserGroup --- UserGroupMembership["Membership"]
         Charter --- ApprovalRules
         Charter --- MembershipRules
         Charter --- ShunningRules
@@ -183,8 +180,8 @@ graph TD
     end
 
     subgraph CD["Community Discourse (crosscutting)"]
-        CommentThread
-        Contribution
+        DiscourseThread --- Contribution
+        Contribution -. "reply to" .-> Contribution
     end
 
     subgraph TAG["Tagging (crosscutting)"]
@@ -195,12 +192,13 @@ graph TD
     Project -. "owned by" .-> UserGroup
     Project -. "source idea (optional)" .-> Idea
     ApprovalRules -. "governs" .-> Amendment
-    CommentThread -. "attaches to" .-> Signal
-    CommentThread -. "attaches to" .-> Idea
-    CommentThread -. "attaches to" .-> Project
-    Tag -. "attaches to" .-> Signal
-    Tag -. "attaches to" .-> Idea
-    Tag -. "attaches to" .-> Project
+    DiscourseThread -. "attaches to" .-> Signal
+    DiscourseThread -. "attaches to" .-> Idea
+    DiscourseThread -. "attaches to" .-> Project
+    TaggableTarget -. "0..*" .-> Tag
+    TaggableTarget -. "represents" .-> Signal
+    TaggableTarget -. "represents" .-> Idea
+    TaggableTarget -. "represents" .-> Project
     </div>
   </div>
 
