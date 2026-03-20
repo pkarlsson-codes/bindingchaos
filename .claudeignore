@@ -1,0 +1,61 @@
+# --- Dependencies & Package Managers ---
+node_modules/
+.npm/
+jspm_packages/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# --- .NET Build & Output ---
+bin/
+obj/
+*.suo
+*.user
+*.sln.dotSettings
+.vs/
+.idea/
+.vscode/
+*.userprefs
+*.dbmdl
+*.appservicemetrics
+
+# --- Frontend Build & Static Assets ---
+dist/
+build/
+out/
+.vite/
+*.log
+public/assets/
+# Ignore generated API client (Claude can regenerate it if needed)
+src/BindingChaos.Web/src/api/
+
+# --- Infrastructure & Data ---
+# Crucial: Prevent Claude from reading raw DB data or logs
+.docker/
+logs/
+*.log
+temp/
+tmp/
+.minio/
+.postgresql/
+.redis/
+.rabbitmq/
+
+# --- Version Control & Secrets ---
+.git/
+.gitignore
+.env
+*.pem
+*.key
+*.pfx
+secrets.json
+
+# --- Media & Heavy Docs ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.pdf
+*.zip
+*.tar.gz

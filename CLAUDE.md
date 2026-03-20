@@ -1,10 +1,10 @@
 # CLAUDE.md (BindingChaos)
 
-## Quick Commands
-- **Infra:** `npm run infra:start` | `npm run reset:all`
-- **Backend:** `npm run dotnet:build` | `npm run dotnet:test` | `npm run dotnet:format`
-- **Frontend:** `npm run frontend:start` | `npm run frontend:test` | `npm run frontend:generate`
-- **Migrations:** `npm run migration:generate:<context>` (pseudonymity|identity)
+## Quick npm Commands
+- **Infra:** `infra:start` | `reset:all`
+- **Backend:** `dotnet:build` | `dotnet:test` | `dotnet:format`
+- **Frontend:** `frontend:start` | `frontend:test` | `frontend:generate`
+- **Migrations:** `migration:generate:identity`
 
 ## Architecture & Tech Stack
 - **Flow:** Browser (3000) -> Web.Gateway/BFF (4000) -> CorePlatform.API (5000)
@@ -22,4 +22,9 @@ Refer to these for domain logic:
 - `SignalAwareness`, `Ideation`, `CommunityDiscourse`, `Societies`, `Tagging` (Marten)
 - `Pseudonymity`, `IdentityProfile` (EF Core)
 
-> **Note:** For deep architectural details or testing patterns, see `@docs/architecture.md` and `@docs/testing-guide.md`.
+## Additional documentation
+- docs/02-architecture/high-level.md
+- docs/07-development-process/adding-a-bounded-context.md
+- docs/07-development-process/adding-a-functional-slice.md
+- docs/07-development-process/authorization-flow.md
+- docs/07-development-process/coding-standards.md
