@@ -348,53 +348,14 @@ The path forward is not revolutionary seizure but withdrawal from the artificial
 
 ## Key Tensions and Counterintuitive Positions
 
-**Gift economy vs. approval economy.** Marsh explicitly rejects the gift economy and P2P trade as progressive alternatives. Both retain transactional logic and leave intact the structural disadvantages of those without tradeable assets. The approval economy is fundamentally different: value flows from service to society, not from exchange between equals.
+**Gift vs. approval economy.** Marsh rejects gift and P2P trade as progressive alternatives — both retain transactional logic and leave those without tradeable assets structurally disadvantaged. In the approval economy, value flows from service to society, not from exchange.
 
-**Elitism vs. equality.** Marsh argues strongly that expertise must be acknowledged and structured into governance — not suppressed in the name of horizontal governance. But epistemic communities must remain permeable, transparent, and under user group control. The failure mode of horizontal systems is hidden oligarchy by celebrity, not by knowledge.
+**Elitism vs. equality.** Expertise must be acknowledged and structured into governance, but epistemic communities must remain permeable, transparent, and under user group control. Suppressing expertise in the name of horizontal governance produces hidden oligarchy by celebrity.
 
-**Anonymity vs. accountability.** Anonymity enables idea-driven discourse and protects vulnerable participants. But pseudonymity — persistent identities not tied to legal names — enables both protection and reputation building. The system must allow shunning to function as enforcement, which requires persistent (if pseudonymous) identity.
+**Anonymity vs. accountability.** Pseudonymity — persistent identities not tied to legal names — provides both protection and reputation building. Shunning as enforcement requires persistent identity; pure anonymity undermines it.
 
-**Free information vs. credit rights.** Marsh supports free use and redistribution of information. She opposes credit theft as a distinct harm. Copying is not theft; taking credit is. The system should enforce the latter without restricting the former — which copyright and patent law fail to do.
+**Free information vs. credit rights.** Copying is not theft; taking credit is. Copyright and patent law fail to distinguish between them.
 
-**Individual rights vs. group authority.** Individual rights are absolute; groups cannot override them. But user groups are the legitimate governing authority for commons, systems, and shared resources. The distinction: a user group's authority is over the system it governs, not over the individuals within it.
+**Individual rights vs. group authority.** Individual rights are absolute and no group may override them. User group authority is over the system it governs, not over the individuals within it.
 
-**Rejection of representative democracy AND direct democracy.** This is the most radical position. Marsh rejects both options conventionally on offer. The alternative is governance by user group — not votes for individuals, not everyone-votes-on-everything, but participation structured by expertise and affected-party status, coordinated through stigmergy and epistemic communities.
-
----
-
-## Mapping to the BindingChaos Software Project
-
-The table below maps Marsh's concepts to bounded contexts in the codebase and notes implementation status.
-
-| Concept | Marsh's Description | Bounded Context | Status |
-|---|---|---|---|
-| Signals | Traces left by ideas and actions that stimulate further action | SignalAwareness | Implemented — signals can be created and amplified |
-| Amplification | The mechanism by which signals propagate; the new currency of power | SignalAwareness | Partially implemented — amplification events exist but no concentric circle mechanics |
-| Suggested Actions | Actions proposed in response to signals | SignalAwareness | Implemented — structured suggested action types |
-| Ideas | Proposals that can attract interest and be built upon stigmergically | Ideation | Implemented |
-| Amendments | Modifications to ideas, subject to peer review | Ideation | Implemented |
-| Amendment Voting | User group acceptance or rejection of proposed changes | Ideation | Implemented |
-| Community Discourse | Discussion that holds ideas at multiple expertise levels | CommunityDiscourse | Implemented — threaded posts |
-| Locality hierarchy | User groups organized by affected community/geography | LocalityManagement | Implemented — nested locality structure |
-| Tagging | Idea-based categorization independent of personality | Tagging | Implemented |
-| Pseudonymity | Persistent identity not tied to legal name, enabling reputation without exposure | Pseudonymity | Implemented — privacy-preserving participant pseudonyms |
-| Identity storage | Underlying identity management | IdentityProfile | Implemented |
-| Epistemic communities | Structured expert groups, transparent and permeable, advisory only | Not built | No bounded context |
-| Knowledge bridges | Translators between expertise levels, carrying findings and questions | Not built | No bounded context |
-| Concentric user group mechanics | Amplification weighted by peer-acknowledged expertise; inner circle visible to outer | Not built | Partially conceptualized in SignalAwareness amplification but not fully implemented |
-| Approval economy / reputation | Societal approval as the measure of standing; service-based not trade-based | Not built | No bounded context |
-| Credit attribution | Traceable contribution history; credit to originator, not copyright holder | Not built | No bounded context |
-| Shunning / reputation management | Community-level removal of amplification or access for bad actors | Not built | No bounded context |
-| Cross-locality federation | Overlapping user groups, trust networks spanning localities | Not built | No bounded context |
-| Knowledge commons | Global knowledge as a commons, freely usable, credit tracked | Not built | No bounded context |
-| News commons | Local signal amplified globally when necessary; locally voiced | Not built | No bounded context |
-| Visibility for invisible labour | Economic recognition of caregiving, support, maintenance | Not built | No bounded context |
-| User group governance | Each system governed by those affected; stigmergic work acceptance/rejection | Not built | The Ideation and SignalAwareness systems approximate this but no explicit governance layer |
-
-### Notable gaps relative to the book's priorities
-
-The book places heaviest emphasis on: (1) the approval economy as the foundational economic alternative; (2) epistemic communities with knowledge bridges as the alternative to both oligarchy and flat governance; (3) concentric user groups as the structural mechanism connecting expertise levels; and (4) credit attribution as a prerequisite for equality. None of these four central pillars are yet built.
-
-The implemented systems — Signals, Ideation, Discourse, Locality, Tagging, Pseudonymity — correspond to infrastructure that Marsh would consider necessary but not sufficient. They provide the substrate for stigmergic participation and idea propagation. What they lack is the layer that makes expertise visible and accountable, makes service to society the basis of standing, and makes credit traceable to its true origins.
-
-The RealWorldCoordination bounded context is positioned to develop into the stigmergic action layer Marsh describes — work accepted or rejected by user groups, with no permission required to propose.
+**Neither representative nor direct democracy.** Marsh rejects both. The alternative is governance by user group — participation structured by expertise and affected-party status, coordinated through stigmergy and epistemic communities.

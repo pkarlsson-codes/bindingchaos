@@ -1,11 +1,4 @@
-# Bounded Context Setup Guide
-
-Use this guide to create a new bounded context project skeleton.
-
-## Scope
-
-- Includes: project scaffold, references, context DI, context Marten config, host wiring.
-- Excludes: domain design, aggregate strategy, endpoint design.
+# Bounded Context Setup
 
 ## Scaffold
 
@@ -28,9 +21,9 @@ src/BindingChaos.<Context>/
     Seeding/                  (optional, dev-only)
 ```
 
-## Setup Steps
+## Steps
 
-1. Create `src/BindingChaos.<Context>/BindingChaos.<Context>.csproj` and target `net10.0`.
+1. Create `src/BindingChaos.<Context>/BindingChaos.<Context>.csproj` targeting `net10.0`.
 2. Add only required references/packages.
 3. Add `Infrastructure/AssemblyReference.cs` with `<Context>AssemblyReference.Assembly` for Wolverine discovery.
 4. Add `Infrastructure/DependencyInjection.cs` with `Add<Context>(IServiceCollection, IConfiguration)` for context-local registrations.
@@ -43,24 +36,9 @@ src/BindingChaos.<Context>/
    - add dev seeding only if needed
 7. Add integration-event mappers/handlers only when the context publishes or consumes integration events.
 
-## Reference Rules
+## References
 
-- Keep `.csproj` lean.
-- Add `BindingChaos.IntegrationEvents` only when needed.
-- Add `Marten` package only when direct APIs in this project require it.
-- Do not register host-level Marten services in context DI.
-
-## Definition Of Done
-
-- Project builds.
-- Context is referenced by `BindingChaos.CorePlatform.API`.
-- `Add<Context>(...)` exists and is called by host composition.
-- `<Context>MartenConfiguration.Configure(...)` is called by host composition.
-- Wolverine discovery includes `<Context>AssemblyReference.Assembly`.
-- Optional integration-event and seeding wiring exists only when required.
-
-## Common Mistakes
-
-- Registering host-level services inside context DI.
-- Forgetting Wolverine assembly discovery registration.
-- Adding packages before they are needed.
+- Keep `.csproj` lean; add packages only when required by this project directly.
+- Add `BindingChaos.IntegrationEvents` only when publishing or consuming integration events.
+- Add `Marten` package only when this project uses Marten APIs directly.
+- Register only context-local services in `Add<Context>`; host-level services (e.g. Marten store) belong in host composition.
