@@ -19,6 +19,7 @@ The scope is optional but recommended — use the bounded context name (e.g. `so
 | `docs` | Documentation only |
 | `chore` | Maintenance — dependencies, build scripts, config, tooling |
 | `infra` | Docker, Keycloak, seeding, database migrations |
+| `revert` | When reverting a previous commit |
 
 ## Examples
 
@@ -30,4 +31,11 @@ test(signals): add integration tests for signal capture
 docs: update architecture overview in README
 chore: bump .NET SDK to 10.0.200
 infra: add Keycloak realm export for societies scope
+```
+
+For reverts, reference the commits reverted
+```
+revert: broke the build
+
+Refs: <sha>, <sha>
 ```
