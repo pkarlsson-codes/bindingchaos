@@ -1,0 +1,18 @@
+#!/bin/sh
+# Enforces Conventional Commits format: <type>(<scope>): <description>
+# Valid types: feat, fix, refactor, test, docs, chore, infra, revert
+
+commit_msg=$(cat "$1")
+
+pattern='^(feat|fix|refactor|test|docs|chore|infra|revert)(\([^)]+\))?: .+'
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "ERROR: Commit message does not follow Conventional Commits format."
+  echo ""
+  echo "Expected: <type>(<scope>): <description>"
+  echo "Example:  feat(societies): add leave society endpoint"
+  echo ""
+  echo "Valid types: feat, fix, refactor, test, docs, chore, infra, revert"
+  echo "Scope is optional but recommended (e.g. societies, ideation, gateway)"
+  exit 1
+fi

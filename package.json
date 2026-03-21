@@ -34,9 +34,11 @@
     "dotnet:test": "dotnet test src/BindingChaos.sln",
     "dotnet:lint": "dotnet format src/BindingChaos.sln --verify-no-changes",
     "dotnet:format": "dotnet format src/BindingChaos.sln",
-    "dotnet:clean": "dotnet clean src/BindingChaos.sln"
+    "dotnet:clean": "dotnet clean src/BindingChaos.sln",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7"
   }
 }

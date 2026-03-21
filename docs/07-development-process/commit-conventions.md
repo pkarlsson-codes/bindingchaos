@@ -39,3 +39,9 @@ revert: broke the build
 
 Refs: <sha>, <sha>
 ```
+
+## Enforcement
+
+Format is enforced by a Husky `commit-msg` hook (`.husky/commit-msg`).
+
+A `pre-push` hook (`.husky/pre-push`) runs `dotnet build` and `dotnet test` before every push, blocking if either fails.
