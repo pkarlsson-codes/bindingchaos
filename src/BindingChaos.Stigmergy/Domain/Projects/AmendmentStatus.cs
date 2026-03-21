@@ -8,24 +8,19 @@ namespace BindingChaos.Stigmergy.Domain.Projects;
 public sealed class AmendmentStatus : Enumeration<AmendmentStatus>
 {
     /// <summary>
-    /// The amendment is open for deliberation.
+    /// The amendment is active and in effect.
     /// </summary>
-    public static readonly AmendmentStatus Open = new(1, nameof(Open));
+    public static readonly AmendmentStatus Active = new(1, nameof(Active));
 
     /// <summary>
-    /// The amendment has been accepted.
+    /// The amendment is being contested.
     /// </summary>
-    public static readonly AmendmentStatus Accepted = new(2, nameof(Accepted));
+    public static readonly AmendmentStatus Contested = new(2, nameof(Contested));
 
     /// <summary>
     /// The amendment has been rejected.
     /// </summary>
     public static readonly AmendmentStatus Rejected = new(3, nameof(Rejected));
-
-    /// <summary>
-    /// The amendment has been withdrawn by its proposer.
-    /// </summary>
-    public static readonly AmendmentStatus Withdrawn = new(4, nameof(Withdrawn));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AmendmentStatus"/> class.

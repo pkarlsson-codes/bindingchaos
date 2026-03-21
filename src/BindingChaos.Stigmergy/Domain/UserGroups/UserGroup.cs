@@ -40,11 +40,11 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     /// <summary>
     /// Creates a new user group.
     /// </summary>
-    /// <param name="ownerId">The participant creating and owning the group.</param>
+    /// <param name="founderId">The participant creating and owning the group.</param>
     /// <param name="name">The name of the group.</param>
     /// <param name="charter">The charter that governs the group.</param>
     /// <returns>A new <see cref="UserGroup"/> instance.</returns>
-    public static UserGroup Create(ParticipantId ownerId, string name, Charter charter)
+    public static UserGroup Create(ParticipantId founderId, string name, Charter charter)
     {
         throw new NotImplementedException("No domain events have been defined for UserGroup yet.");
     }

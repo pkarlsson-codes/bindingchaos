@@ -5,33 +5,33 @@ namespace BindingChaos.Stigmergy.Domain.UserGroups;
 /// <summary>
 /// Value object describing the rules that govern approval-based membership decisions within a <see cref="UserGroup"/>.
 /// </summary>
-public sealed class ApprovalRules : ValueObject
+public sealed class ContentionRules : ValueObject
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ApprovalRules"/> class.
+    /// Initializes a new instance of the <see cref="ContentionRules"/> class.
     /// </summary>
-    /// <param name="requiredApprovals">The minimum number of approvals required.</param>
-    /// <param name="votingPeriod">The duration of the voting window.</param>
-    public ApprovalRules(int requiredApprovals, TimeSpan votingPeriod)
+    /// <param name="rejectionThreshold">The threshold for rejecting a membership request.</param>
+    /// <param name="resolutionWindow">The duration of the resolution window.</param>
+    public ContentionRules(decimal rejectionThreshold, TimeSpan resolutionWindow)
     {
-        RequiredApprovals = requiredApprovals;
-        VotingPeriod = votingPeriod;
+        RejectionThreshold = rejectionThreshold;
+        ResolutionWindow = resolutionWindow;
     }
 
     /// <summary>
-    /// Gets the minimum number of approvals required to accept a membership request.
+    /// Gets the threshold for rejecting a membership request.
     /// </summary>
-    public int RequiredApprovals { get; }
+    public decimal RejectionThreshold { get; }
 
     /// <summary>
-    /// Gets the duration of the voting window for membership approval decisions.
+    /// Gets the duration of the resolution window for membership approval decisions.
     /// </summary>
-    public TimeSpan VotingPeriod { get; }
+    public TimeSpan ResolutionWindow { get; }
 
     /// <inheritdoc/>
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return RequiredApprovals;
-        yield return VotingPeriod;
+        yield return RejectionThreshold;
+        yield return ResolutionWindow;
     }
 }

@@ -13,7 +13,7 @@ public sealed class Charter : ValueObject
     /// <param name="approvalRules">The rules governing approval-based decisions.</param>
     /// <param name="membershipRules">The rules governing membership.</param>
     /// <param name="shunningRules">The rules governing shunning behaviour.</param>
-    public Charter(ApprovalRules approvalRules, MembershipRules membershipRules, ShunningRules shunningRules)
+    public Charter(ContentionRules approvalRules, MembershipRules membershipRules, ShunningRules shunningRules)
     {
         ApprovalRules = approvalRules;
         MembershipRules = membershipRules;
@@ -23,7 +23,7 @@ public sealed class Charter : ValueObject
     /// <summary>
     /// Gets the rules governing approval-based decisions in this group.
     /// </summary>
-    public ApprovalRules ApprovalRules { get; }
+    public ContentionRules ApprovalRules { get; }
 
     /// <summary>
     /// Gets the rules governing membership in this group.
