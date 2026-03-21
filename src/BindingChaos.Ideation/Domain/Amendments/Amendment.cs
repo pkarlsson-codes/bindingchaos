@@ -91,11 +91,6 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
     public string AmendmentDescription { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets when the amendment was created.
-    /// </summary>
-    public DateTimeOffset CreatedAt { get; private set; }
-
-    /// <summary>
     /// Gets when the amendment was accepted, if applicable.
     /// </summary>
     public DateTimeOffset? AcceptedAt { get; private set; }
@@ -446,7 +441,6 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
         AmendmentTitle = evt.AmendmentTitle;
         AmendmentDescription = evt.AmendmentDescription;
         Status = AmendmentStatus.Open;
-        CreatedAt = evt.OccurredAt;
     }
 
     private void Apply(Events.AmendmentSupportAdded evt)

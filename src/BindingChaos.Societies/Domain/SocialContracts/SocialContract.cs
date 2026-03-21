@@ -17,21 +17,6 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
 #pragma warning restore CS8618
 
     /// <summary>
-    /// Gets the ID of the society this social contract belongs to.
-    /// </summary>
-    public SocietyId SocietyId { get; private set; }
-
-    /// <summary>
-    /// Gets the participant who established this social contract.
-    /// </summary>
-    public ParticipantId EstablishedBy { get; private set; }
-
-    /// <summary>
-    /// Gets the timestamp when this social contract was established.
-    /// </summary>
-    public DateTimeOffset EstablishedAt { get; private set; }
-
-    /// <summary>
     /// Gets the decision protocol for this social contract.
     /// </summary>
     public DecisionProtocol Protocol { get; private set; }
@@ -116,9 +101,6 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
     private void Apply(SocialContractEstablished evt)
     {
         Id = SocialContractId.Create(evt.AggregateId);
-        SocietyId = SocietyId.Create(evt.SocietyId);
-        EstablishedBy = new ParticipantId(evt.EstablishedBy);
-        EstablishedAt = evt.OccurredAt;
         Protocol = new DecisionProtocol(evt.RatificationThreshold, TimeSpan.FromTicks(evt.ReviewWindowTicks), evt.AllowVeto);
         EpistemicRules = new EpistemicRules(evt.RequiredVerificationWeight);
     }

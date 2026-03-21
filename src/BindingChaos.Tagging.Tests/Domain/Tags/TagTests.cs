@@ -21,14 +21,6 @@ public class TagTests
         }
 
         [Fact]
-        public void GivenValidInputs_WhenCreated_ThenPreferredLabelIsSet()
-        {
-            var sut = Tag.Create("Climate Change", TestCreator);
-
-            sut.PreferredLabel.Should().Be("Climate Change");
-        }
-
-        [Fact]
         public void GivenValidInputs_WhenCreated_ThenIsNotDeprecated()
         {
             var sut = Tag.Create("Climate Change", TestCreator);
@@ -69,7 +61,7 @@ public class TagTests
 
             var sut = Tag.Create(label, TestCreator);
 
-            sut.PreferredLabel.Should().Be(label);
+            sut.UncommittedEvents.Should().ContainSingle(e => e is TagCreated);
         }
     }
 
@@ -134,18 +126,6 @@ public class TagTests
             sut.MergeInto(target, [], TestCreator);
 
             sut.IsDeprecated.Should().BeTrue();
-        }
-
-        [Fact]
-        public void GivenActiveTag_WhenMergedInto_ThenMergedIntoIdIsSet()
-        {
-            var sut = Tag.Create("Climate Change", TestCreator);
-            sut.UncommittedEvents.MarkAsCommitted();
-            var target = TagId.Generate();
-
-            sut.MergeInto(target, [], TestCreator);
-
-            sut.MergedInto.Should().Be(target);
         }
 
         [Fact]

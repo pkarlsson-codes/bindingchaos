@@ -10,7 +10,6 @@ namespace BindingChaos.SignalAwareness.Domain.SuggestedActions;
 /// </summary>
 public sealed class SuggestedAction : AggregateRoot<SuggestedActionId>
 {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SuggestedAction"/> class.
     /// </summary>
@@ -41,18 +40,6 @@ public sealed class SuggestedAction : AggregateRoot<SuggestedActionId>
     public SuggestedAction()
     {
     }
-
-#pragma warning restore CS8616
-    /// <summary>
-    /// Gets the structured parameters for this action.
-    /// The concrete subtype determines the action type and carries only the relevant fields.
-    /// </summary>
-    public ActionParameters Parameters { get; private set; }
-
-    /// <summary>
-    /// Gets the identifier of the participant who suggested this action.
-    /// </summary>
-    public ParticipantId SuggestedBy { get; private set; }
 
     /// <summary>
     /// Creates a suggested action to initiate a phone call to the specified phone number.
@@ -94,14 +81,10 @@ public sealed class SuggestedAction : AggregateRoot<SuggestedActionId>
     private void Apply(CallActionSuggested e)
     {
         Id = SuggestedActionId.Create(e.AggregateId);
-        Parameters = new MakeACallParameters(e.PhoneNumber, e.Details);
-        SuggestedBy = ParticipantId.Create(e.SuggestedBy);
     }
 
     private void Apply(WebpageActionSuggested e)
     {
         Id = SuggestedActionId.Create(e.AggregateId);
-        Parameters = new VisitAWebpageParameters(e.Url, e.Details);
-        SuggestedBy = ParticipantId.Create(e.SuggestedBy);
     }
 }

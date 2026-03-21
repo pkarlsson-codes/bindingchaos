@@ -27,7 +27,8 @@ public class ContributionTests
         {
             var sut = Contribution.Create(TestThreadId, TestAuthorId, TestContent);
 
-            sut.ParentContributionId.Should().BeNull();
+            var evt = sut.UncommittedEvents.OfType<ContributionAdded>().Single();
+            evt.ParentContributionId.Should().BeNull();
         }
 
         [Fact]
@@ -35,7 +36,8 @@ public class ContributionTests
         {
             var sut = Contribution.Create(TestThreadId, TestAuthorId, TestContent);
 
-            sut.ThreadId.Should().Be(TestThreadId);
+            var evt = sut.UncommittedEvents.OfType<ContributionAdded>().Single();
+            evt.ThreadId.Should().Be(TestThreadId.Value);
         }
 
         [Fact]
@@ -43,15 +45,8 @@ public class ContributionTests
         {
             var sut = Contribution.Create(TestThreadId, TestAuthorId, TestContent);
 
-            sut.AuthorId.Should().Be(TestAuthorId);
-        }
-
-        [Fact]
-        public void GivenValidInputsWithNoParent_WhenCreated_ThenStatusIsPublished()
-        {
-            var sut = Contribution.Create(TestThreadId, TestAuthorId, TestContent);
-
-            sut.Status.Should().Be(ContributionStatus.Published);
+            var evt = sut.UncommittedEvents.OfType<ContributionAdded>().Single();
+            evt.AuthorId.Should().Be(TestAuthorId.Value);
         }
 
         [Fact]
@@ -61,7 +56,8 @@ public class ContributionTests
 
             var sut = Contribution.Create(TestThreadId, TestAuthorId, content);
 
-            sut.Content.Value.Should().Be("This is my contribution.");
+            var evt = sut.UncommittedEvents.OfType<ContributionAdded>().Single();
+            evt.Content.Should().Be("This is my contribution.");
         }
 
         [Fact]
@@ -81,7 +77,8 @@ public class ContributionTests
 
             var sut = Contribution.Create(TestThreadId, TestAuthorId, TestContent, parentId);
 
-            sut.ParentContributionId.Should().Be(parentId);
+            var evt = sut.UncommittedEvents.OfType<ContributionAdded>().Single();
+            evt.ParentContributionId.Should().Be(parentId.Value);
         }
     }
 }

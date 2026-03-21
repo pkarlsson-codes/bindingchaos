@@ -6,12 +6,10 @@ using BindingChaos.Tagging.Domain.Tags.Events;
 namespace BindingChaos.Tagging.Domain.Tags;
 
 /// <summary>
-/// Represents a globally-scoped tag entity with a preferred label, aliases, and lifecycle metadata.
+/// Represents a globally-scoped tag entity with lifecycle metadata.
 /// </summary>
 public sealed class Tag : AggregateRoot<TagId>
 {
-    private readonly HashSet<string> _aliases = new(StringComparer.Ordinal);
-
     /// <summary>
     /// Initializes a new instance of the <see cref="Tag"/> class.
     /// </summary>
@@ -29,24 +27,9 @@ public sealed class Tag : AggregateRoot<TagId>
     }
 
     /// <summary>
-    /// Gets the preferred label or display text associated with this instance.
-    /// </summary>
-    public string PreferredLabel { get; private set; } = string.Empty;
-
-    /// <summary>
-    /// Gets the collection of aliases associated with the current entity. Stored as slugs.
-    /// </summary>
-    public IReadOnlyCollection<string> Aliases => _aliases;
-
-    /// <summary>
     /// Gets a value indicating whether the current tag is deprecated.
     /// </summary>
     public bool IsDeprecated { get; private set; }
-
-    /// <summary>
-    /// Gets the identifier of the tag into which this tag has been merged, if applicable.
-    /// </summary>
-    public TagId? MergedInto { get; private set; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Tag"/> class with the specified preferred label.
@@ -114,18 +97,11 @@ public sealed class Tag : AggregateRoot<TagId>
     private void Apply(TagCreated x)
     {
         Id = TagId.Create(x.AggregateId);
-        PreferredLabel = x.PreferredLabel;
-        _aliases.Add(x.PreferredSlug);
     }
 
     private void Apply(TagsMerged x)
     {
         IsDeprecated = true;
-        MergedInto = TagId.Create(x.TargetTagId);
-        foreach (var s in x.CarryOverAliasSlugs)
-        {
-            _aliases.Add(s);
-        }
     }
 
     private void Apply(TagDeprecated x)

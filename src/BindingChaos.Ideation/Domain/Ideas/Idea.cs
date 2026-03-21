@@ -11,8 +11,6 @@ namespace BindingChaos.Ideation.Domain.Ideas;
 /// </summary>
 public sealed class Idea : AggregateRoot<IdeaId>
 {
-    private readonly List<Requirement> _requirements = [];
-
     private readonly List<string> _signalReferences = [];
 
     private readonly List<string> _tags = [];
@@ -47,44 +45,14 @@ public sealed class Idea : AggregateRoot<IdeaId>
     public ParticipantId? CreatorId { get; private set; }
 
     /// <summary>
-    /// Gets the society context (governance jurisdiction) for this idea.
-    /// </summary>
-    public SocietyId SocietyContext { get; private set; } = null!;
-
-    /// <summary>
     /// Gets the current status of this idea.
     /// </summary>
     public IdeaStatus? Status { get; private set; }
 
     /// <summary>
-    /// Gets when this idea was created.
-    /// </summary>
-    public DateTimeOffset AuthoredAt { get; private set; }
-
-    /// <summary>
-    /// Gets the tags associated with this idea.
-    /// </summary>
-    public IReadOnlyList<string> Tags => _tags.AsReadOnly();
-
-    /// <summary>
-    /// Gets the signal references associated with this idea.
-    /// </summary>
-    public IReadOnlyList<string> SignalReferences => _signalReferences.AsReadOnly();
-
-    /// <summary>
-    /// Gets the parent idea ID if this idea was forked from another idea.
-    /// </summary>
-    public IdeaId? ParentIdeaId { get; private set; }
-
-    /// <summary>
     /// Gets the current version of this idea.
     /// </summary>
     public IdeaVersion CurrentVersion { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets the version history of this idea.
-    /// </summary>
-    public IReadOnlyList<IdeaVersion> VersionHistory => _versionHistory.AsReadOnly();
 
     /// <summary>
     /// Creates a new idea authored by a participant based on existing signal references.
@@ -225,10 +193,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
     {
         Id = IdeaId.Create(evt.AggregateId);
         CreatorId = ParticipantId.Create(evt.AuthorId);
-        SocietyContext = SocietyId.Create(evt.SocietyContext);
-        ParentIdeaId = evt.ParentIdeaId == null ? null : IdeaId.Create(evt.ParentIdeaId);
         Status = IdeaStatus.Published;
-        AuthoredAt = evt.OccurredAt;
         _signalReferences.AddRange(evt.SignalReferences);
         _tags.AddRange(evt.Tags);
         var initialVersion = IdeaVersion.CreateFromDraft(evt.Title, evt.Body);
@@ -240,10 +205,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
     {
         Id = IdeaId.Create(evt.AggregateId);
         CreatorId = ParticipantId.Create(evt.AuthorId);
-        SocietyContext = SocietyId.Create(evt.SocietyContext);
-        ParentIdeaId = evt.ParentIdeaId == null ? null : IdeaId.Create(evt.ParentIdeaId);
         Status = IdeaStatus.Published;
-        AuthoredAt = evt.OccurredAt;
         _signalReferences.AddRange(evt.SignalReferences);
         _tags.AddRange(evt.Tags);
         var initialVersion = IdeaVersion.CreateFromDraft(evt.Title, evt.Body);
@@ -268,10 +230,12 @@ public sealed class Idea : AggregateRoot<IdeaId>
         CurrentVersion = newVersion;
     }
 
+#pragma warning disable CA1822
     private void Apply(RequirementAdded evt)
     {
-        _requirements.Add(new Requirement(RequirementId.Create(evt.RequirementId), new RequirementSpec(evt.Label, evt.Quantity, evt.Unit, RequirementType.FromValue(evt.Type))));
+        _ = evt;
     }
+#pragma warning restore CA1822
 
     #region Invariants
 

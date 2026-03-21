@@ -14,28 +14,10 @@ public class SignalAmplificationTests
         {
             var sut = SignalAmplification.Create(
                 SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                "some commentary",
-                DateTimeOffset.UtcNow);
+                ParticipantId.Generate());
 
             sut.IsActive.Should().BeTrue();
             sut.IsWithdrawn.Should().BeFalse();
-        }
-
-        [Fact]
-        public void GivenNullSignalId_WhenCreated_ThenThrowsArgumentNullException()
-        {
-            var act = () => SignalAmplification.Create(
-                SignalAmplificationId.Generate(),
-                null!,
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
-
-            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -43,27 +25,9 @@ public class SignalAmplificationTests
         {
             var act = () => SignalAmplification.Create(
                 SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                null!,
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
+                null!);
 
             act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void GivenNullCommentary_WhenCreated_ThenCommentaryIsNull()
-        {
-            var sut = SignalAmplification.Create(
-                SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
-
-            sut.Commentary.Should().BeNull();
         }
     }
 
@@ -74,33 +38,12 @@ public class SignalAmplificationTests
         {
             var sut = SignalAmplification.Create(
                 SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
+                ParticipantId.Generate());
 
-            sut.Attenuate(DateTimeOffset.UtcNow);
+            sut.Attenuate();
 
             sut.IsActive.Should().BeFalse();
             sut.IsWithdrawn.Should().BeTrue();
-        }
-
-        [Fact]
-        public void GivenActiveAmplification_WhenAttenuated_ThenWithdrawnAtIsSet()
-        {
-            var withdrawnAt = DateTimeOffset.UtcNow.AddMinutes(5);
-            var sut = SignalAmplification.Create(
-                SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
-
-            sut.Attenuate(withdrawnAt);
-
-            sut.WithdrawnAt.Should().Be(withdrawnAt);
         }
 
         [Fact]
@@ -108,14 +51,10 @@ public class SignalAmplificationTests
         {
             var sut = SignalAmplification.Create(
                 SignalAmplificationId.Generate(),
-                SignalId.Generate(),
-                ParticipantId.Generate(),
-                AmplificationReason.HighRelevance,
-                null,
-                DateTimeOffset.UtcNow);
-            sut.Attenuate(DateTimeOffset.UtcNow);
+                ParticipantId.Generate());
+            sut.Attenuate();
 
-            var act = () => sut.Attenuate(DateTimeOffset.UtcNow.AddMinutes(1));
+            var act = () => sut.Attenuate();
 
             act.Should().Throw<BusinessRuleViolationException>();
         }

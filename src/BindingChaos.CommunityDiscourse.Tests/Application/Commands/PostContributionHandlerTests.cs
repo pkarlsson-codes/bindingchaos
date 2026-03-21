@@ -1,5 +1,6 @@
 using BindingChaos.CommunityDiscourse.Application.Commands;
 using BindingChaos.CommunityDiscourse.Domain.Contributions;
+using BindingChaos.CommunityDiscourse.Domain.Contributions.Events;
 using BindingChaos.CommunityDiscourse.Domain.DiscourseThreads;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Persistence;
@@ -157,7 +158,7 @@ public class PostContributionHandlerTests
                 CancellationToken.None);
 
             staged.Should().NotBeNull();
-            staged!.ParentContributionId.Should().Be(parentId);
+            staged!.UncommittedEvents.OfType<ContributionAdded>().Single().ParentContributionId.Should().Be(parentId.Value);
         }
 
         [Fact]
@@ -181,7 +182,7 @@ public class PostContributionHandlerTests
                 CancellationToken.None);
 
             staged.Should().NotBeNull();
-            staged!.ParentContributionId.Should().BeNull();
+            staged!.UncommittedEvents.OfType<ContributionAdded>().Single().ParentContributionId.Should().BeNull();
         }
 
         [Fact]
@@ -206,7 +207,7 @@ public class PostContributionHandlerTests
                 CancellationToken.None);
 
             staged.Should().NotBeNull();
-            staged!.AuthorId.Should().Be(authorId);
+            staged!.UncommittedEvents.OfType<ContributionAdded>().Single().AuthorId.Should().Be(authorId.Value);
         }
     }
 }

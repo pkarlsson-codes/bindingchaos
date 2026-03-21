@@ -33,29 +33,9 @@ public sealed class Society : AggregateRoot<SocietyId>
     public string Name { get; private set; }
 
     /// <summary>
-    /// Gets the description of the society.
-    /// </summary>
-    public string Description { get; private set; }
-
-    /// <summary>
     /// Gets the participant who created this society.
     /// </summary>
     public ParticipantId CreatedBy { get; private set; }
-
-    /// <summary>
-    /// Gets the timestamp when this society was created.
-    /// </summary>
-    public DateTimeOffset CreatedAt { get; private set; }
-
-    /// <summary>
-    /// Gets the optional geographic bounds of this society.
-    /// </summary>
-    public GeographicArea? GeographicBounds { get; private set; }
-
-    /// <summary>
-    /// Gets the optional center coordinates of this society.
-    /// </summary>
-    public Coordinates? Center { get; private set; }
 
     /// <summary>
     /// Gets the tags associated with this society.
@@ -274,34 +254,16 @@ public sealed class Society : AggregateRoot<SocietyId>
     {
         Id = SocietyId.Create(evt.AggregateId);
         Name = evt.Name;
-        Description = evt.Description;
         CreatedBy = new ParticipantId(evt.CreatedBy);
-        CreatedAt = evt.OccurredAt;
         _tags.AddRange(evt.Tags);
-
-        if (evt.GeographicBoundsJson is not null)
-        {
-            var doc = JsonSerializer.Deserialize<JsonElement>(evt.GeographicBoundsJson);
-            GeographicBounds = new GeographicArea(
-                doc.GetProperty("North").GetDouble(),
-                doc.GetProperty("South").GetDouble(),
-                doc.GetProperty("East").GetDouble(),
-                doc.GetProperty("West").GetDouble());
-        }
-
-        if (evt.CenterJson is not null)
-        {
-            var doc = JsonSerializer.Deserialize<JsonElement>(evt.CenterJson);
-            Center = new Coordinates(
-                doc.GetProperty("Latitude").GetDouble(),
-                doc.GetProperty("Longitude").GetDouble());
-        }
     }
 
+#pragma warning disable CA1822
     private void Apply(SocietyDescriptionUpdated evt)
     {
-        Description = evt.NewDescription;
+        _ = evt;
     }
+#pragma warning restore CA1822
 
     private void Apply(SocietyTagAdded evt)
     {
@@ -336,9 +298,7 @@ public sealed class Society : AggregateRoot<SocietyId>
     {
         var membership = new Membership(
             MembershipId.Create(evt.MembershipId),
-            new ParticipantId(evt.ParticipantId),
-            SocialContractId.Create(evt.SocialContractId),
-            evt.OccurredAt);
+            new ParticipantId(evt.ParticipantId));
         _memberships.Add(membership);
     }
 

@@ -27,36 +27,6 @@ public sealed class Contribution : AggregateRoot<ContributionId>
     }
 
     /// <summary>
-    /// Gets the ID of the participant who authored this contribution.
-    /// </summary>
-    public ParticipantId AuthorId { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets the content of the contribution.
-    /// </summary>
-    public ContributionContent Content { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets the ID of the thread this contribution belongs to.
-    /// </summary>
-    public DiscourseThreadId ThreadId { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets the ID of the parent contribution, if this is a reply.
-    /// </summary>
-    public ContributionId? ParentContributionId { get; private set; }
-
-    /// <summary>
-    /// Gets the current status of the contribution.
-    /// </summary>
-    public ContributionStatus Status { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets the timestamp when the contribution was created.
-    /// </summary>
-    public DateTimeOffset CreatedAt { get; private set; }
-
-    /// <summary>
     /// Creates a new instance of the <see cref="Contribution"/> class with the specified thread, author, content, and optional
     /// parent contribution.
     /// </summary>
@@ -97,11 +67,5 @@ public sealed class Contribution : AggregateRoot<ContributionId>
     private void Apply(ContributionAdded e)
     {
         Id = ContributionId.Create(e.AggregateId);
-        ThreadId = DiscourseThreadId.Create(e.ThreadId);
-        CreatedAt = e.OccurredAt;
-        AuthorId = ParticipantId.Create(e.AuthorId);
-        ParentContributionId = e.ParentContributionId != null ? ContributionId.Create(e.ParentContributionId) : null;
-        Content = ContributionContent.Create(e.Content);
-        Status = ContributionStatus.Published;
     }
 }

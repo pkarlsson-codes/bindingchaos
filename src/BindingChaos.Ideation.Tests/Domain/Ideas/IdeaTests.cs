@@ -71,7 +71,8 @@ public class IdeaTests
 
             var sut = Idea.CreateFork(TestSociety,TestCreator, "Fork title", "Fork body", parentId, TestSignalRefs, NoTags);
 
-            sut.ParentIdeaId.Should().Be(parentId);
+            var evt = sut.UncommittedEvents.OfType<IdeaForked>().Single();
+            evt.ParentIdeaId.Should().Be(parentId.Value);
         }
     }
 

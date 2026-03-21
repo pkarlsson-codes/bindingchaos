@@ -14,8 +14,6 @@ public sealed class Signal : AggregateRoot<SignalId>
 {
     private readonly List<SignalAmplification> _amplifications = [];
 
-    private readonly List<SignalAttachment> _attachments = [];
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor
     /// <summary>
     /// Initializes a new instance of the Signal class.
@@ -54,16 +52,6 @@ public sealed class Signal : AggregateRoot<SignalId>
     public ParticipantId OriginatorId { get; private set; }
 
     /// <summary>
-    /// Gets the timestamp when the signal was captured.
-    /// </summary>
-    public DateTimeOffset CapturedAt { get; private set; }
-
-    /// <summary>
-    /// Gets the optional geographic location where this signal occurred.
-    /// </summary>
-    public Coordinates? Location { get; private set; }
-
-    /// <summary>
     /// Gets the current content of the signal.
     /// </summary>
     internal SignalContent Content { get; private set; }
@@ -74,19 +62,9 @@ public sealed class Signal : AggregateRoot<SignalId>
     internal SignalStatus Status { get; private set; }
 
     /// <summary>
-    /// Gets all amplifications associated with this signal.
-    /// </summary>
-    internal IReadOnlyCollection<SignalAmplification> Amplifications => _amplifications.AsReadOnly();
-
-    /// <summary>
     /// Gets the subset of active (non-attenuated) amplifications.
     /// </summary>
     internal IReadOnlyCollection<SignalAmplification> ActiveAmplifications => _amplifications.Where(a => a.IsActive).ToList().AsReadOnly();
-
-    /// <summary>
-    /// Gets a read-only collection of signal attachments associated with the current instance.
-    /// </summary>
-    internal IReadOnlyCollection<SignalAttachment> Attachments => _attachments.AsReadOnly();
 
     /// <summary>
     /// Amplifies the signal by a participant.
@@ -312,7 +290,7 @@ public sealed class Signal : AggregateRoot<SignalId>
     {
         var amplificationId = SignalAmplificationId.Create(e.AmplificationId);
         var amplification = _amplifications.Single(a => a.Id.Equals(amplificationId));
-        amplification.Attenuate(e.OccurredAt);
+        amplification.Attenuate();
     }
 
     private void Apply(SignalCaptured @event)
@@ -320,19 +298,7 @@ public sealed class Signal : AggregateRoot<SignalId>
         Id = SignalId.Create(@event.AggregateId);
         Content = SignalContent.Create(@event.Title, @event.Description);
         OriginatorId = ParticipantId.Create(@event.OriginatorId);
-        CapturedAt = @event.OccurredAt;
         Status = SignalStatus.Active;
-        Location = @event.Latitude.HasValue && @event.Longitude.HasValue
-            ? new Coordinates(@event.Latitude.Value, @event.Longitude.Value)
-            : null;
-        foreach (var a in @event.Attachments)
-        {
-            _attachments.Add(SignalAttachment.Create(
-                SignalAttachmentId.Create(a.AttachmentId),
-                a.DocumentId,
-                a.Caption,
-                @event.OccurredAt));
-        }
     }
 
     private void Apply(SignalStatusChanged @event)
@@ -349,22 +315,15 @@ public sealed class Signal : AggregateRoot<SignalId>
     {
         var amplification = SignalAmplification.Create(
             SignalAmplificationId.Create(@event.AmplificationId),
-            Id,
-            ParticipantId.Create(@event.AmplifierId),
-            AmplificationReason.FromValue(@event.Reason),
-            @event.Commentary,
-            @event.OccurredAt);
+            ParticipantId.Create(@event.AmplifierId));
 
         _amplifications.Add(amplification);
     }
 
+#pragma warning disable CA1822
     private void Apply(AttachmentAdded e)
     {
-        var attachment = SignalAttachment.Create(
-            SignalAttachmentId.Create(e.AttachmentId),
-            e.DocumentId,
-            e.Caption,
-            e.OccurredAt);
-        _attachments.Add(attachment);
+        _ = e;
     }
+#pragma warning restore CA1822
 }

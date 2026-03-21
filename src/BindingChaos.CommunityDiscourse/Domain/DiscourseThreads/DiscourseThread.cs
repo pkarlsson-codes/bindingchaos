@@ -40,11 +40,6 @@ public sealed class DiscourseThread : AggregateRoot<DiscourseThreadId>
     public EntityReference EntityReference { get; private set; } = null!;
 
     /// <summary>
-    /// Gets the timestamp when the thread was created.
-    /// </summary>
-    public DateTimeOffset CreatedAt { get; private set; }
-
-    /// <summary>
     /// Creates a new discourse thread for an entity.
     /// </summary>
     /// <param name="entityReference">Reference to the entity this discourse is about.</param>
@@ -90,7 +85,6 @@ public sealed class DiscourseThread : AggregateRoot<DiscourseThreadId>
         Id = DiscourseThreadId.Create(e.AggregateId);
         var entityReference = EntityReference.Create(e.EntityType, e.EntityId);
         EntityReference = entityReference;
-        CreatedAt = e.OccurredAt;
     }
 
     #region Invariants
