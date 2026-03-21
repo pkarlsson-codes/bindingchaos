@@ -66,7 +66,8 @@ public class AssignTagsHandlerTests
                 cmd,
                 testBed.TagResolver.Object,
                 testBed.TargetRepository.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.TargetRepository.Verify(r => r.Stage(target), Times.Once);
         }
@@ -88,7 +89,8 @@ public class AssignTagsHandlerTests
                 cmd,
                 testBed.TagResolver.Object,
                 testBed.TargetRepository.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -103,7 +105,8 @@ public class AssignTagsHandlerTests
                 cmd,
                 testBed.TagResolver.Object,
                 testBed.TargetRepository.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
@@ -118,7 +121,8 @@ public class AssignTagsHandlerTests
                 cmd,
                 testBed.TagResolver.Object,
                 testBed.TargetRepository.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }

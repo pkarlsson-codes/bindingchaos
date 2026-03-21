@@ -37,7 +37,8 @@ public class CreateTaggableTargetHandlerTests
                 cmd,
                 testBed.TargetRepository.Object,
                 testBed.TagResolver.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.TargetRepository.Verify(r => r.Stage(It.IsAny<TaggableTarget>()), Times.Never);
         }
@@ -55,7 +56,8 @@ public class CreateTaggableTargetHandlerTests
                 cmd,
                 testBed.TargetRepository.Object,
                 testBed.TagResolver.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
@@ -73,7 +75,8 @@ public class CreateTaggableTargetHandlerTests
                 cmd,
                 testBed.TargetRepository.Object,
                 testBed.TagResolver.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.TargetRepository.Verify(r => r.Stage(It.IsAny<TaggableTarget>()), Times.Once);
         }
@@ -91,7 +94,8 @@ public class CreateTaggableTargetHandlerTests
                 cmd,
                 testBed.TargetRepository.Object,
                 testBed.TagResolver.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -113,7 +117,8 @@ public class CreateTaggableTargetHandlerTests
                 cmd,
                 testBed.TargetRepository.Object,
                 testBed.TagResolver.Object,
-                testBed.UnitOfWork.Object);
+                testBed.UnitOfWork.Object,
+                TestContext.Current.CancellationToken);
 
             testBed.TagResolver.Verify(
                 r => r.ResolveOrCreate(It.IsAny<string[]>(), TestActor, It.IsAny<CancellationToken>()),
