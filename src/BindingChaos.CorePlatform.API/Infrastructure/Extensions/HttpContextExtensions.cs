@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using BindingChaos.SharedKernel.Domain;
 
 namespace BindingChaos.CorePlatform.API.Infrastructure.Extensions;
@@ -19,15 +18,8 @@ internal static class HttpContextParticipantExtensions
     {
         ArgumentNullException.ThrowIfNull(httpContext);
 
-        var id = httpContext.User?.FindFirst(ParticipantIdClaimType)?.Value
-                 ?? httpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                 ?? httpContext.User?.Identity?.Name;
+        var id = httpContext.User?.FindFirst(ParticipantIdClaimType)?.Value;
 
-        if (string.IsNullOrWhiteSpace(id) || id == "anonymous")
-        {
-            return ParticipantId.Anonymous;
-        }
-
-        return ParticipantId.Create(id);
+        return string.IsNullOrWhiteSpace(id) ? ParticipantId.Anonymous : ParticipantId.Create(id);
     }
 }
