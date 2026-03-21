@@ -5,6 +5,7 @@ using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
 using BindingChaos.Ideation.Infrastructure;
 using BindingChaos.SignalAwareness.Infrastructure;
 using BindingChaos.Societies.Infrastructure;
+using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
 using Serilog;
 using Wolverine;
@@ -33,6 +34,7 @@ try
         opts.Discovery.IncludeAssembly(typeof(IdeationAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(TaggingAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(SocietiesAssemblyReference).Assembly);
+        opts.Discovery.IncludeAssembly(typeof(StigmergyAssemblyReference).Assembly);
     });
 
     var app = builder.Build();

@@ -13,6 +13,8 @@ using BindingChaos.SignalAwareness.Infrastructure;
 using BindingChaos.SignalAwareness.Infrastructure.Persistence;
 using BindingChaos.Societies.Infrastructure;
 using BindingChaos.Societies.Infrastructure.Persistence;
+using BindingChaos.Stigmergy.Infrastructure;
+using BindingChaos.Stigmergy.Infrastructure.Persistence;
 using BindingChaos.Tagging.Infrastructure;
 using BindingChaos.Tagging.Infrastructure.Persistence;
 using FluentValidation;
@@ -81,6 +83,7 @@ internal static class CorePlatformServiceCollectionExtensions
         services.AddPseudonymity(configuration);
         services.AddCommunityDiscourse(configuration);
         services.AddSocieties(configuration);
+        services.AddStigmergy(configuration);
         return services;
     }
 
@@ -98,6 +101,7 @@ internal static class CorePlatformServiceCollectionExtensions
                 CommunityDiscourseMartenConfiguration.Configure(options);
                 TaggingMartenConfiguration.Configure(options);
                 SocietiesMartenConfiguration.Configure(options);
+                StigmergyMartenConfiguration.Configure(options);
             });
 
         services.AddMartenUnitOfWork();
