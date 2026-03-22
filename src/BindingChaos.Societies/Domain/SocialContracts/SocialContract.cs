@@ -50,7 +50,6 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
 
         contract.ApplyChange(new SocialContractEstablished(
             id.Value,
-            contract.Version,
             societyId.Value,
             establishedBy.Value,
             protocol.RatificationThreshold,
@@ -79,7 +78,6 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
 
         ApplyChange(new SocialContractAmended(
             Id.Value,
-            Version,
             amendedBy.Value,
             newProtocol?.RatificationThreshold,
             newProtocol?.ReviewWindow.Ticks,

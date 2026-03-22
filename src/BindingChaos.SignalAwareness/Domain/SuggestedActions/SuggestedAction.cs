@@ -19,7 +19,7 @@ public sealed class SuggestedAction : AggregateRoot<SuggestedActionId>
     /// <param name="suggestedBy">The identifier of the participant who made the suggestion.</param>
     public SuggestedAction(SuggestedActionId id, SignalId signalId, MakeACallParameters parameters, ParticipantId suggestedBy)
     {
-        this.ApplyChange(new CallActionSuggested(id.Value, 0, signalId.Value, parameters.PhoneNumber, parameters.Details, suggestedBy.Value));
+        this.ApplyChange(new CallActionSuggested(id.Value, signalId.Value, parameters.PhoneNumber, parameters.Details, suggestedBy.Value));
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public sealed class SuggestedAction : AggregateRoot<SuggestedActionId>
     /// <param name="suggestedBy">The identifier of the participant who made the suggestion.</param>
     public SuggestedAction(SuggestedActionId id, SignalId signalId, VisitAWebpageParameters parameters, ParticipantId suggestedBy)
     {
-        this.ApplyChange(new WebpageActionSuggested(id.Value, 0, signalId.Value, parameters.Url, parameters.Details, suggestedBy.Value));
+        this.ApplyChange(new WebpageActionSuggested(id.Value, signalId.Value, parameters.Url, parameters.Details, suggestedBy.Value));
     }
 
     /// <summary>

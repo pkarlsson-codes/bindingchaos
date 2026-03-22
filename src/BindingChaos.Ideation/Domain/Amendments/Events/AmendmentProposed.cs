@@ -6,7 +6,6 @@ namespace BindingChaos.Ideation.Domain.Amendments.Events;
 /// Event emitted when an amendment is proposed.
 /// </summary>
 /// <param name="AggregateId">The amendment ID.</param>
-/// <param name="Version">The aggregate version when raised.</param>
 /// <param name="TargetIdeaId">The target idea ID.</param>
 /// <param name="TargetVersionNumber">The target idea version number.</param>
 /// <param name="CreatorId">The creator user ID.</param>
@@ -16,7 +15,6 @@ namespace BindingChaos.Ideation.Domain.Amendments.Events;
 /// <param name="AmendmentDescription">The amendment description.</param>
 public sealed record AmendmentProposed(
     string AggregateId,
-    long Version,
     string TargetIdeaId,
     int TargetVersionNumber,
     string CreatorId,
@@ -24,4 +22,4 @@ public sealed record AmendmentProposed(
     string ProposedBody,
     string AmendmentTitle,
     string AmendmentDescription
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

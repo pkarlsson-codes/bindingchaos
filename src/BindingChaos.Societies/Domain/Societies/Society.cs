@@ -90,7 +90,6 @@ public sealed class Society : AggregateRoot<SocietyId>
 
         society.ApplyChange(new SocietyCreated(
             id.Value,
-            society.Version,
             name,
             description,
             createdBy.Value,
@@ -112,7 +111,7 @@ public sealed class Society : AggregateRoot<SocietyId>
             throw new BusinessRuleViolationException("Society description must be specified.");
         }
 
-        ApplyChange(new SocietyDescriptionUpdated(Id.Value, Version, newDescription));
+        ApplyChange(new SocietyDescriptionUpdated(Id.Value, newDescription));
     }
 
     /// <summary>
@@ -126,7 +125,7 @@ public sealed class Society : AggregateRoot<SocietyId>
             throw new BusinessRuleViolationException($"Tag '{tag}' already exists on this society.");
         }
 
-        ApplyChange(new SocietyTagAdded(Id.Value, Version, tag));
+        ApplyChange(new SocietyTagAdded(Id.Value, tag));
     }
 
     /// <summary>
@@ -140,7 +139,7 @@ public sealed class Society : AggregateRoot<SocietyId>
             throw new BusinessRuleViolationException($"Tag '{tag}' does not exist on this society.");
         }
 
-        ApplyChange(new SocietyTagRemoved(Id.Value, Version, tag));
+        ApplyChange(new SocietyTagRemoved(Id.Value, tag));
     }
 
     /// <summary>
@@ -161,7 +160,7 @@ public sealed class Society : AggregateRoot<SocietyId>
                 $"A {relationshipType} relationship with society '{targetSocietyId.Value}' already exists.");
         }
 
-        ApplyChange(new SocietyRelationshipAdded(Id.Value, Version, targetSocietyId.Value, relationshipType.DisplayName));
+        ApplyChange(new SocietyRelationshipAdded(Id.Value, targetSocietyId.Value, relationshipType.DisplayName));
     }
 
     /// <summary>
@@ -182,7 +181,7 @@ public sealed class Society : AggregateRoot<SocietyId>
                 $"No {relationshipType} relationship with society '{targetSocietyId.Value}' found.");
         }
 
-        ApplyChange(new SocietyRelationshipRemoved(Id.Value, Version, targetSocietyId.Value, relationshipType.DisplayName));
+        ApplyChange(new SocietyRelationshipRemoved(Id.Value, targetSocietyId.Value, relationshipType.DisplayName));
     }
 
     /// <summary>
@@ -204,7 +203,7 @@ public sealed class Society : AggregateRoot<SocietyId>
         }
 
         var membershipId = MembershipId.Generate();
-        ApplyChange(new MemberJoined(Id.Value, Version, membershipId.Value, participantId.Value, socialContractId.Value));
+        ApplyChange(new MemberJoined(Id.Value, membershipId.Value, participantId.Value, socialContractId.Value));
         return membershipId;
     }
 
@@ -223,7 +222,7 @@ public sealed class Society : AggregateRoot<SocietyId>
                 $"Participant '{participantId.Value}' does not have an active membership in this society.");
         }
 
-        ApplyChange(new MemberLeft(Id.Value, Version, membership.Id.Value, participantId.Value));
+        ApplyChange(new MemberLeft(Id.Value, membership.Id.Value, participantId.Value));
     }
 
     /// <inheritdoc/>

@@ -14,7 +14,7 @@ internal sealed record UserGroupCreated(
     string FounderId,
     string Name,
     CharterRecord Charter)
-    : DomainEvent(UserGroupId, 0);
+    : DomainEvent(UserGroupId);
 
 /// <summary>
 /// Snapshot of the charter properties at the time of user group creation, used to capture the initial state of the group's governing rules in the <see cref="UserGroupCreated"/> event.

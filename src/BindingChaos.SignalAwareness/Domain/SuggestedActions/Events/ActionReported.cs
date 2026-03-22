@@ -7,12 +7,10 @@ namespace BindingChaos.SignalAwareness.Domain.SuggestedActions.Events;
 /// within the aggregate.
 /// </summary>
 /// <param name="AggregateId">The unique identifier of the signal aggregate.</param>
-/// <param name="Version">The version number of the aggregate at the time the action was reported.</param>
 /// <param name="ActionId">The unique identifier of the action that has been reported.</param>
 /// <param name="ReportedBy">The identifier of the user or entity that reported the action.</param>
 internal sealed record ActionReported(
     string AggregateId,
-    long Version,
     string ActionId,
     string ReportedBy
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

@@ -32,34 +32,6 @@ public abstract class AggregateRoot<TIdentity> : Entity<TIdentity>
     public long Version { get; protected set; }
 
     /// <summary>
-    /// Loads the aggregate from a collection of domain events.
-    /// This method reconstructs the aggregate state by applying each event in sequence.
-    /// </summary>
-    /// <param name="events">The collection of domain events to load from.</param>
-    public void LoadFromEvents(IEnumerable<IDomainEvent> events)
-    {
-        ArgumentNullException.ThrowIfNull(events);
-
-        var eventList = events.ToList();
-        if (eventList.Count == 0)
-        {
-            return;
-        }
-
-        foreach (var @event in eventList)
-        {
-            if (@event.Version != Version)
-            {
-                throw new InvalidOperationException(
-                    $"Event version {@event.Version} does not match current aggregate version {Version}. " +
-                    $"Events must be applied in sequence.");
-            }
-
-            ApplyEvent(@event, false);
-        }
-    }
-
-    /// <summary>
     /// Validates all invariants for this aggregate.
     /// </summary>
     /// <exception cref="InvariantViolationException">Thrown when any invariant fails validation.</exception>

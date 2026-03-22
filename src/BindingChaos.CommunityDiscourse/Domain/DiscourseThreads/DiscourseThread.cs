@@ -29,7 +29,6 @@ public sealed class DiscourseThread : AggregateRoot<DiscourseThreadId>
 
         ApplyChange(new DiscourseThreadCreated(
             DiscourseThreadId.Generate().Value,
-            Version,
             entityReference.EntityType,
             entityReference.EntityId));
     }

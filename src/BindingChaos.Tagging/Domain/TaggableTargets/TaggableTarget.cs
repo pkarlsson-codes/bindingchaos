@@ -19,7 +19,7 @@ public sealed class TaggableTarget : AggregateRoot<TaggableTargetId>
     /// <param name="id">The target reference associated with this tagging session.</param>
     public TaggableTarget(TaggableTargetId id)
     {
-        ApplyChange(new TaggableTargetCreated(id.Value, 0));
+        ApplyChange(new TaggableTargetCreated(id.Value));
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public sealed class TaggableTarget : AggregateRoot<TaggableTargetId>
             return;
         }
 
-        ApplyChange(new TagsAssigned(Id.Value, Version, tagsToAdd, by.Value));
+        ApplyChange(new TagsAssigned(Id.Value, tagsToAdd, by.Value));
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public sealed class TaggableTarget : AggregateRoot<TaggableTargetId>
             return;
         }
 
-        ApplyChange(new TagsRemoved(Id.Value, Version, tagsToRemove, by.Value));
+        ApplyChange(new TagsRemoved(Id.Value, tagsToRemove, by.Value));
     }
 
     /// <inheritdoc/>

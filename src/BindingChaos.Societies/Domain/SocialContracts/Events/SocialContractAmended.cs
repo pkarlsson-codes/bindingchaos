@@ -6,7 +6,6 @@ namespace BindingChaos.Societies.Domain.SocialContracts.Events;
 /// Domain event raised when a social contract is amended.
 /// </summary>
 /// <param name="AggregateId">The ID of the social contract.</param>
-/// <param name="Version">The aggregate version when this event was raised.</param>
 /// <param name="AmendedBy">The participant ID who made the amendment.</param>
 /// <param name="RatificationThreshold">The new ratification threshold, or null if unchanged.</param>
 /// <param name="ReviewWindowTicks">The new review window in ticks, or null if unchanged.</param>
@@ -14,10 +13,9 @@ namespace BindingChaos.Societies.Domain.SocialContracts.Events;
 /// <param name="RequiredVerificationWeight">The new required verification weight, or null if unchanged.</param>
 public sealed record SocialContractAmended(
     string AggregateId,
-    long Version,
     string AmendedBy,
     double? RatificationThreshold,
     long? ReviewWindowTicks,
     bool? AllowVeto,
     double? RequiredVerificationWeight
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

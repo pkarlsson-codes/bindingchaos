@@ -30,7 +30,6 @@ public sealed class Signal : AggregateRoot<SignalId>
         RegisterInvariants();
         ApplyChange(new SignalCaptured(
             id.Value,
-            Version,
             content.Title,
             content.Description,
             originatorId.Value,
@@ -93,7 +92,6 @@ public sealed class Signal : AggregateRoot<SignalId>
         var amplificationId = SignalAmplificationId.Generate();
         ApplyChange(new SignalAmplified(
             Id.Value,
-            Version,
             amplificationId.Value,
             amplifierId.Value,
             reason.Value,
@@ -115,7 +113,7 @@ public sealed class Signal : AggregateRoot<SignalId>
         var amplification = _amplifications.FirstOrDefault(a => a.AmplifierId.Equals(amplifierId) && a.IsActive)
             ?? throw new BusinessRuleViolationException("No active amplification found for this participant");
 
-        ApplyChange(new SignalAmplificationAttenuated(Id.Value, Version, amplification.Id.Value, amplifierId.Value));
+        ApplyChange(new SignalAmplificationAttenuated(Id.Value, amplification.Id.Value, amplifierId.Value));
     }
 
     /// <summary>
@@ -151,7 +149,7 @@ public sealed class Signal : AggregateRoot<SignalId>
             throw new BusinessRuleViolationException("Cannot add attachment to non-active signal");
         }
 
-        ApplyChange(new AttachmentAdded(Id.Value, Version, SignalAttachmentId.Generate().Value, attachment.DocumentId, attachment.Caption));
+        ApplyChange(new AttachmentAdded(Id.Value, SignalAttachmentId.Generate().Value, attachment.DocumentId, attachment.Caption));
     }
 
     /// <summary>
@@ -166,7 +164,7 @@ public sealed class Signal : AggregateRoot<SignalId>
             throw new BusinessRuleViolationException("Cannot update content of non-active signal");
         }
 
-        ApplyChange(new SignalContentUpdated(Id.Value, Version, newContent.Title, newContent.Description));
+        ApplyChange(new SignalContentUpdated(Id.Value, newContent.Title, newContent.Description));
     }
 
     /// <summary>

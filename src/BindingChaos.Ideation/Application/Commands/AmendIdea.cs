@@ -57,7 +57,6 @@ public static partial class AmendIdeaHandler
             await messageBus.PublishAsync(
                 new AmendmentApplicationFailed(
                     command.AmendmentId.Value,
-                    0,
                     "IdeaNotFound",
                     null)).ConfigureAwait(false);
             return;
@@ -70,7 +69,6 @@ public static partial class AmendIdeaHandler
             await messageBus.PublishAsync(
                 new AmendmentApplicationFailed(
                     command.AmendmentId.Value,
-                    0,
                     "VersionMismatch",
                     idea.CurrentVersion.VersionNumber)).ConfigureAwait(false);
             return;

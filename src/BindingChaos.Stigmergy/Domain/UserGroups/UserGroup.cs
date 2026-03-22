@@ -76,7 +76,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
             throw new InvalidOperationException($"Participant {participantId.Value} is not a member of this group.");
         }
 
-        ApplyChange(new MemberLeft(Id.Value, Version, participantId.Value));
+        ApplyChange(new MemberLeft(Id.Value, participantId.Value));
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
 
     private void Join(ParticipantId participantId)
     {
-        ApplyChange(new MemberJoined(Id.Value, Version, MembershipId.Generate().Value, participantId.Value));
+        ApplyChange(new MemberJoined(Id.Value, MembershipId.Generate().Value, participantId.Value));
     }
 
     private void Apply(UserGroupCreated e)

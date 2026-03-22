@@ -6,10 +6,8 @@ namespace BindingChaos.Ideation.Domain.Amendments.Events;
 /// Event emitted when an amendment is withdrawn by its creator.
 /// </summary>
 /// <param name="AggregateId">The amendment ID.</param>
-/// <param name="Version">The aggregate version when raised.</param>
 /// <param name="WithdrawerId">The user ID of the withdrawer.</param>
 public sealed record AmendmentWithdrawn(
     string AggregateId,
-    long Version,
     string WithdrawerId
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

@@ -6,7 +6,6 @@ namespace BindingChaos.Ideation.Domain.Ideas.Events;
 /// Domain event raised when an idea is created.
 /// </summary>
 /// <param name="AggregateId">The ID of the created idea.</param>
-/// <param name="Version">The version of the aggregate when this event was raised.</param>
 /// <param name="AuthorId">The ID of the creator.</param>
 /// <param name="SocietyContext">The society context (governance jurisdiction) of the idea.</param>
 /// <param name="Title">The title of the idea.</param>
@@ -16,7 +15,6 @@ namespace BindingChaos.Ideation.Domain.Ideas.Events;
 /// <param name="ParentIdeaId">The parent idea ID if the idea was forked from another idea.</param>
 public sealed record IdeaAuthored(
     string AggregateId,
-    long Version,
     string AuthorId,
     string SocietyContext,
     string Title,
@@ -24,4 +22,4 @@ public sealed record IdeaAuthored(
     IReadOnlyList<string> SignalReferences,
     IReadOnlyList<string> Tags,
     string? ParentIdeaId
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

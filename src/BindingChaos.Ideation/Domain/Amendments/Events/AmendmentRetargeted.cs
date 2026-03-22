@@ -6,7 +6,6 @@ namespace BindingChaos.Ideation.Domain.Amendments.Events;
 /// Event emitted when an outdated amendment is retargeted to a newer idea version.
 /// </summary>
 /// <param name="AggregateId">The amendment ID.</param>
-/// <param name="Version">The aggregate version when raised.</param>
 /// <param name="TargetIdeaId">The target idea ID.</param>
 /// <param name="OldTargetVersionNumber">The previously targeted version number.</param>
 /// <param name="NewTargetVersionNumber">The new targeted version number.</param>
@@ -16,7 +15,6 @@ namespace BindingChaos.Ideation.Domain.Amendments.Events;
 /// <param name="NewAmendmentDescription">Optional updated amendment description.</param>
 public sealed record AmendmentRetargeted(
     string AggregateId,
-    long Version,
     string TargetIdeaId,
     int OldTargetVersionNumber,
     int NewTargetVersionNumber,
@@ -24,4 +22,4 @@ public sealed record AmendmentRetargeted(
     string? NewBody,
     string? NewAmendmentTitle,
     string? NewAmendmentDescription
-) : DomainEvent(AggregateId, Version);
+) : DomainEvent(AggregateId);

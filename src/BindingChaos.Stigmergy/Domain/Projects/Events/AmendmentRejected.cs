@@ -7,10 +7,8 @@ namespace BindingChaos.Stigmergy.Domain.Projects.Events;
 /// The amendment transitions to Rejected status permanently.
 /// </summary>
 /// <param name="ProjectId">The identifier of the project.</param>
-/// <param name="Version">The version of the project at the time of rejection.</param>
 /// <param name="AmendmentId">The identifier of the rejected amendment.</param>
 internal sealed record AmendmentRejected(
     string ProjectId,
-    long Version,
     string AmendmentId)
-    : DomainEvent(ProjectId, Version);
+    : DomainEvent(ProjectId);

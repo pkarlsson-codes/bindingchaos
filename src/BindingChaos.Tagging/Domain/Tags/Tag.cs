@@ -23,7 +23,7 @@ public sealed class Tag : AggregateRoot<TagId>
     /// <param name="createdById">The identifier of the user who created the tag.</param>
     private Tag(TagId id, string preferredLabel, ParticipantId createdById)
     {
-        ApplyChange(new TagCreated(id.Value, Version, preferredLabel, TagSlugifier.Slugify(preferredLabel), createdById.Value));
+        ApplyChange(new TagCreated(id.Value, preferredLabel, TagSlugifier.Slugify(preferredLabel), createdById.Value));
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public sealed class Tag : AggregateRoot<TagId>
             return;
         }
 
-        ApplyChange(new TagDeprecated(Id.Value, Version, reason, deprecatedById));
+        ApplyChange(new TagDeprecated(Id.Value, reason, deprecatedById));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class Tag : AggregateRoot<TagId>
     public void MergeInto(TagId target, IEnumerable<string> carryOverAliases, ParticipantId mergedById)
     {
         if (IsDeprecated) { return; }
-        ApplyChange(new TagsMerged(Id.Value, Version, target.Value, carryOverAliases.Select(TagSlugifier.Slugify).ToArray(), mergedById.Value));
+        ApplyChange(new TagsMerged(Id.Value, target.Value, carryOverAliases.Select(TagSlugifier.Slugify).ToArray(), mergedById.Value));
     }
 
     /// <inheritdoc/>

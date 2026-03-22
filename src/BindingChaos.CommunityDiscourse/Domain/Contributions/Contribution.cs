@@ -23,7 +23,7 @@ public sealed class Contribution : AggregateRoot<ContributionId>
         ContributionContent content,
         ContributionId? parentContributionId = null)
     {
-        ApplyChange(new ContributionAdded(ContributionId.Generate().Value, 1, threadId.Value, authorId.Value, content.Value, parentContributionId?.Value));
+        ApplyChange(new ContributionAdded(ContributionId.Generate().Value, threadId.Value, authorId.Value, content.Value, parentContributionId?.Value));
     }
 
     /// <summary>

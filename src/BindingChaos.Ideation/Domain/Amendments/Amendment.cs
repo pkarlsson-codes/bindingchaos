@@ -34,7 +34,6 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
 
         ApplyChange(new Events.AmendmentProposed(
             id.Value,
-            Version,
             targetIdeaId.Value,
             targetVersionNumber,
             creatorId.Value,
@@ -180,7 +179,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Participant cannot both support and oppose the same amendment");
         }
 
-        ApplyChange(new Events.AmendmentSupportAdded(Id.Value, Version, supporter.ParticipantId.Value, supporter.Reason));
+        ApplyChange(new Events.AmendmentSupportAdded(Id.Value, supporter.ParticipantId.Value, supporter.Reason));
     }
 
     /// <summary>
@@ -199,7 +198,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Participant has not supported this amendment");
         }
 
-        ApplyChange(new Events.AmendmentSupportWithdrawn(Id.Value, Version, participantId.Value));
+        ApplyChange(new Events.AmendmentSupportWithdrawn(Id.Value, participantId.Value));
     }
 
     /// <summary>
@@ -228,7 +227,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Participant cannot both support and oppose the same amendment");
         }
 
-        ApplyChange(new Events.AmendmentOppositionAdded(Id.Value, Version, opponent.ParticipantId.Value, opponent.Reason));
+        ApplyChange(new Events.AmendmentOppositionAdded(Id.Value, opponent.ParticipantId.Value, opponent.Reason));
     }
 
     /// <summary>
@@ -247,7 +246,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Participant has not opposed this amendment");
         }
 
-        ApplyChange(new Events.AmendmentOppositionWithdrawn(Id.Value, Version, participantId.Value));
+        ApplyChange(new Events.AmendmentOppositionWithdrawn(Id.Value, participantId.Value));
     }
 
     /// <summary>
@@ -260,7 +259,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Only open amendments can be accepted");
         }
 
-        ApplyChange(new Events.AmendmentAccepted(Id.Value, Version, TargetIdeaId.Value));
+        ApplyChange(new Events.AmendmentAccepted(Id.Value, TargetIdeaId.Value));
     }
 
     /// <summary>
@@ -273,7 +272,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Only open amendments can be rejected");
         }
 
-        ApplyChange(new Events.AmendmentRejected(Id.Value, Version, TargetIdeaId.Value));
+        ApplyChange(new Events.AmendmentRejected(Id.Value, TargetIdeaId.Value));
     }
 
     /// <summary>
@@ -292,7 +291,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             return;
         }
 
-        ApplyChange(new Events.AmendmentMarkedOutdated(Id.Value, Version, TargetIdeaId.Value, TargetVersionNumber, newCurrentVersionNumber));
+        ApplyChange(new Events.AmendmentMarkedOutdated(Id.Value, TargetIdeaId.Value, TargetVersionNumber, newCurrentVersionNumber));
     }
 
     /// <summary>
@@ -314,7 +313,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
                 $"Cannot mark amendment as outdated: new version {newCurrentVersionNumber} is not greater than target version {TargetVersionNumber}");
         }
 
-        ApplyChange(new Events.AmendmentMarkedOutdated(Id.Value, Version, TargetIdeaId.Value, TargetVersionNumber, newCurrentVersionNumber));
+        ApplyChange(new Events.AmendmentMarkedOutdated(Id.Value, TargetIdeaId.Value, TargetVersionNumber, newCurrentVersionNumber));
     }
 
     /// <summary>
@@ -365,7 +364,6 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
 
         ApplyChange(new Events.AmendmentRetargeted(
             Id.Value,
-            Version,
             TargetIdeaId.Value,
             TargetVersionNumber,
             newTargetVersionNumber,
@@ -391,7 +389,7 @@ public sealed class Amendment : AggregateRoot<AmendmentId>
             throw new BusinessRuleViolationException("Only the creator can withdraw an amendment");
         }
 
-        ApplyChange(new Events.AmendmentWithdrawn(Id.Value, Version, actorId.Value));
+        ApplyChange(new Events.AmendmentWithdrawn(Id.Value, actorId.Value));
     }
 
     /// <inheritdoc/>

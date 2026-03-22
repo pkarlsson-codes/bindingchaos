@@ -63,7 +63,6 @@ public sealed class Project : AggregateRoot<ProjectId>
         var amendmentId = AmendmentId.Generate();
         ApplyChange(new AmendmentProposed(
             Id.Value,
-            Version,
             amendmentId.Value,
             proposedBy.Value,
             SharedKernel.Domain.Services.TimeProviderContext.Current.UtcNow));
@@ -90,7 +89,6 @@ public sealed class Project : AggregateRoot<ProjectId>
 
         ApplyChange(new AmendmentContested(
             Id.Value,
-            Version,
             amendmentId.Value,
             contesterId.Value,
             SharedKernel.Domain.Services.TimeProviderContext.Current.UtcNow));
@@ -111,7 +109,7 @@ public sealed class Project : AggregateRoot<ProjectId>
             throw new InvalidOperationException("Only Contested amendments can be rejected.");
         }
 
-        ApplyChange(new AmendmentRejected(Id.Value, Version, amendmentId.Value));
+        ApplyChange(new AmendmentRejected(Id.Value, amendmentId.Value));
     }
 
     /// <summary>
@@ -129,7 +127,7 @@ public sealed class Project : AggregateRoot<ProjectId>
             throw new InvalidOperationException("Only Contested amendments can have contention resolved.");
         }
 
-        ApplyChange(new AmendmentContestationResolved(Id.Value, Version, amendmentId.Value));
+        ApplyChange(new AmendmentContestationResolved(Id.Value, amendmentId.Value));
     }
 
     /// <summary>

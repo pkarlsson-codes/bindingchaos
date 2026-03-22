@@ -14,9 +14,4 @@ public interface IDomainEvent
     /// Gets the ID of the aggregate that raised this event.
     /// </summary>
     string AggregateId { get; }
-
-    /// <summary>
-    /// Gets the version of the aggregate when this event was raised.
-    /// </summary>
-    long Version { get; }
 }

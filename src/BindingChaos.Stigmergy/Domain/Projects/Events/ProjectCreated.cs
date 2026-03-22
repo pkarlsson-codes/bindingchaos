@@ -14,4 +14,4 @@ internal sealed record ProjectCreated(
     string UserGroupId,
     string Title,
     string Description)
-    : DomainEvent(ProjectId, 0);
+    : DomainEvent(ProjectId);

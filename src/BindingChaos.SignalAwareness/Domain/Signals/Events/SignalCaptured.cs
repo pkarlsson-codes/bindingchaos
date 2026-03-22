@@ -7,7 +7,6 @@ namespace BindingChaos.SignalAwareness.Domain.Signals.Events;
 /// Domain event emitted when a new signal is captured in the system.
 /// </summary>
 /// <param name="AggregateId">The unique identifier of the captured signal.</param>
-/// <param name="Version">The version of the aggregate when this event was raised.</param>
 /// <param name="Title">The title of the signal.</param>
 /// <param name="Description">The description of the signal.</param>
 /// <param name="OriginatorId">The identifier of the participant who captured the signal.</param>
@@ -17,7 +16,6 @@ namespace BindingChaos.SignalAwareness.Domain.Signals.Events;
 /// <param name="Attachments">Optional attachments added to the signal.</param>
 public sealed record SignalCaptured(
     string AggregateId,
-    long Version,
     string Title,
     string Description,
     string OriginatorId,
@@ -25,7 +23,7 @@ public sealed record SignalCaptured(
     double? Longitude,
     string[] Tags,
     AttachmentRecord[] Attachments
-) : DomainEvent(AggregateId, Version)
+) : DomainEvent(AggregateId)
 {
     /// <summary>
     /// Represents a record of an attachment, including its associated document identifier and an optional caption.

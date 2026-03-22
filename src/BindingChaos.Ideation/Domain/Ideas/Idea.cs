@@ -21,7 +21,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
     private Idea(IdeaId id, SocietyId societyContext, ParticipantId creatorId, string title, string body, IEnumerable<string> signalReferences, IEnumerable<string> tags)
         : this()
     {
-        ApplyChange(new IdeaAuthored(id.Value, Version, creatorId.Value, societyContext.Value, title, body, [.. signalReferences],
+        ApplyChange(new IdeaAuthored(id.Value, creatorId.Value, societyContext.Value, title, body, [.. signalReferences],
             [.. tags], null));
     }
 
@@ -29,7 +29,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
         IEnumerable<string> signalReferences, IEnumerable<string> tags, IdeaId parentIdeaId)
         : this()
     {
-        ApplyChange(new IdeaForked(id.Value, Version, creatorId.Value, societyContext.Value, title, body, [.. signalReferences],
+        ApplyChange(new IdeaForked(id.Value, creatorId.Value, societyContext.Value, title, body, [.. signalReferences],
             [.. tags], parentIdeaId.Value));
     }
 
@@ -104,7 +104,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
         ArgumentNullException.ThrowIfNull(spec);
 
         var requirementId = RequirementId.Generate();
-        ApplyChange(new RequirementAdded(Id.Value, Version, requirementId.Value, spec.Label, spec.Quantity, spec.Unit, spec.Type.Value, addedBy.Value));
+        ApplyChange(new RequirementAdded(Id.Value, requirementId.Value, spec.Label, spec.Quantity, spec.Unit, spec.Type.Value, addedBy.Value));
         return requirementId;
     }
 
@@ -120,7 +120,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
             throw new BusinessRuleViolationException($"Tag `{tagId}` already exists on idea with id `{Id}`.");
         }
 
-        ApplyChange(new TagAddedToIdea(Id.Value, Version, userId, tagId));
+        ApplyChange(new TagAddedToIdea(Id.Value, userId, tagId));
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
             throw new BusinessRuleViolationException($"Tag '{tagId}' does not exist on idea with id `{Id}`.");
         }
 
-        ApplyChange(new TagRemovedFromIdea(Id.Value, Version, userId, tagId));
+        ApplyChange(new TagRemovedFromIdea(Id.Value, userId, tagId));
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
         }
 
         var newVersionNumber = _versionHistory.Count + 1;
-        ApplyChange(new IdeaAmended(Id.Value, Version, amendmentId.Value, newVersionNumber, newTitle, newBody));
+        ApplyChange(new IdeaAmended(Id.Value, amendmentId.Value, newVersionNumber, newTitle, newBody));
     }
 
     /// <summary>

@@ -21,7 +21,7 @@ public class Evidence : AggregateRoot<EvidenceId>
     /// <param name="addedBy">The identifier of the participant who added the evidence.</param>
     public Evidence(EvidenceId id, SignalId signalId, string[] documentIds, string description, ParticipantId addedBy)
     {
-        this.ApplyChange(new EvidenceAdded(id.Value, 0, signalId.Value, documentIds, description, addedBy.Value));
+        this.ApplyChange(new EvidenceAdded(id.Value, signalId.Value, documentIds, description, addedBy.Value));
     }
 
     /// <summary>
