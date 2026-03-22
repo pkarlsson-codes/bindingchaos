@@ -44,12 +44,13 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     public static UserGroup Create(ParticipantId founderId, string name, Charter charter)
     {
         var userGroup = new UserGroup();
+        var userGroupId = UserGroupId.Generate();
         var approvalRules = charter.MembershipRules.ApprovalRules is not null
                     ? new MembershipApprovalRulesRecord(
                         charter.MembershipRules.ApprovalRules.ApprovalThreshold,
                         charter.MembershipRules.ApprovalRules.VetoEnabled)
                     : null;
-        userGroup.ApplyChange(new UserGroupCreated(userGroup.Id.Value, founderId.Value, name, new CharterRecord(
+        userGroup.ApplyChange(new UserGroupCreated(userGroupId.Value, founderId.Value, name, new CharterRecord(
             new ContentionRulesRecord(charter.ContentionRules.RejectionThreshold, charter.ContentionRules.ResolutionWindow),
             new MembershipRulesRecord(
                 charter.MembershipRules.JoinPolicy.Value,
@@ -99,6 +100,20 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     {
         Id = UserGroupId.Create(e.AggregateId);
         FounderId = ParticipantId.Create(e.FounderId);
+        var approvalRules = e.Charter.MembershipRules.ApprovalRules is not null
+            ? new MembershipApprovalRules(
+                e.Charter.MembershipRules.ApprovalRules.ApprovalThreshold,
+                e.Charter.MembershipRules.ApprovalRules.VetoEnabled)
+            : null;
+        Charter = new Charter(
+            new ContentionRules(e.Charter.ContentionRules.RejectionThreshold, e.Charter.ContentionRules.ResolutionWindow),
+            new MembershipRules(
+                Enumeration<JoinPolicy>.FromValue(e.Charter.MembershipRules.JoinPolicy),
+                e.Charter.MembershipRules.MemberListPublic,
+                e.Charter.MembershipRules.MaxMembers,
+                e.Charter.MembershipRules.EntryRequirements,
+                approvalRules),
+            new ShunningRules(e.Charter.ShunningRules.ApprovalThreshold));
     }
 
     private void Apply(MemberJoined e)
