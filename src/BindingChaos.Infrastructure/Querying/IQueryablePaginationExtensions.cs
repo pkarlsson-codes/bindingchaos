@@ -53,7 +53,7 @@ public static class IQueryablePaginationExtensions
 
         return new PaginatedResponse<TEntity>
         {
-            Items = [..entities],
+            Items = [.. entities],
             PageNumber = pageSpec.Number,
             PageSize = pageSpec.Size,
             TotalCount = count,

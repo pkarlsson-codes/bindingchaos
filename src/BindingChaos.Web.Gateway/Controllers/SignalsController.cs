@@ -79,7 +79,7 @@ public sealed class SignalsController : BaseApiController
                 FirstAttachmentThumbnail = GetFirstAttachmentThumbnailUrl(s.Attachments),
                 AttachmentCount = s.Attachments?.Length ?? 0,
             }),
-            AvailableTags = [..tagsResult.Select(t => t.Label)],
+            AvailableTags = [.. tagsResult.Select(t => t.Label)],
         };
 
         return Ok(viewmodel);

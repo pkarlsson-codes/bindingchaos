@@ -29,7 +29,7 @@ internal class SignalsListItemViewProjection : SingleStreamProjection<SignalsLis
             Longitude = e.Data.Longitude,
             Status = SignalStatus.Active.Value,
             CapturedAt = e.Data.OccurredAt,
-            Tags = e.Data.Tags == null ? [] : [..e.Data.Tags],
+            Tags = e.Data.Tags == null ? [] : [.. e.Data.Tags],
             AmplificationCount = 0,
             LastAmplifiedAt = null,
             LastUpdatedAt = e.Data.OccurredAt,

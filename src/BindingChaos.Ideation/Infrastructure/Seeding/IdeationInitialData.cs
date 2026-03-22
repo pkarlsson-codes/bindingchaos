@@ -42,9 +42,9 @@ public sealed class IdeationInitialData : IInitialData
     {
         ArgumentNullException.ThrowIfNull(store);
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using IDocumentSession session = store.LightweightSession();
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
 
         if (await session.Events.QueryAllRawEvents()
             .Where(e => e.DotNetTypeName.Contains("IdeaAuthored"))
@@ -129,9 +129,9 @@ public sealed class IdeationInitialData : IInitialData
             .GetManifestResourceStream("BindingChaos.Ideation.Infrastructure.Seeding.seed-data.json")
             ?? throw new InvalidOperationException("seed-data.json embedded resource not found in Ideation assembly.");
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using (stream)
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<IdeaSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Failed to deserialize Ideation seed-data.json.");

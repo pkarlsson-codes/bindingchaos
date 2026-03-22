@@ -1,4 +1,4 @@
-﻿namespace BindingChaos.DocumentProcessing.DTOs; 
+﻿namespace BindingChaos.DocumentProcessing.DTOs;
 
 /// <summary>
 /// A Minio record.

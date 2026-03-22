@@ -28,5 +28,5 @@ public class TagUsageView
     /// <summary>
     /// Gets or sets the number of times the tag has been used in this locality context.
     /// </summary>
-    public int UsageCount { get; set;  }
+    public int UsageCount { get; set; }
 }

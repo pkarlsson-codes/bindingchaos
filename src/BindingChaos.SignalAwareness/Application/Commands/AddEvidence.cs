@@ -40,7 +40,7 @@ public static class AddEvidenceHandler
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
         var signalExists = await signalRepository.ExistsByIdAsync(request.SignalId, cancellationToken).ConfigureAwait(false);
-        if(!signalExists)
+        if (!signalExists)
         {
             throw new AggregateNotFoundException($"Signal with ID {request.SignalId.Value} not found");
         }

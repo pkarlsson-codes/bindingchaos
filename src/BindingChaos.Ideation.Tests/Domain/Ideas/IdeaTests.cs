@@ -22,7 +22,7 @@ public class IdeaTests
         [Fact]
         public void GivenValidInputs_WhenAuthored_ThenRaisesIdeaAuthoredEvent()
         {
-            var sut = Idea.Author(TestSociety,TestCreator, "A title", "A body", TestSignalRefs, NoTags);
+            var sut = Idea.Author(TestSociety, TestCreator, "A title", "A body", TestSignalRefs, NoTags);
 
             sut.UncommittedEvents.Should().ContainSingle(e => e is IdeaAuthored);
         }
@@ -30,7 +30,7 @@ public class IdeaTests
         [Fact]
         public void GivenValidInputs_WhenAuthored_ThenStatusIsPublished()
         {
-            var sut = Idea.Author(TestSociety,TestCreator, "A title", "A body", TestSignalRefs, NoTags);
+            var sut = Idea.Author(TestSociety, TestCreator, "A title", "A body", TestSignalRefs, NoTags);
 
             sut.Status.Should().Be(IdeaStatus.Published);
         }
@@ -38,7 +38,7 @@ public class IdeaTests
         [Fact]
         public void GivenValidInputs_WhenAuthored_ThenVersionNumberIsOne()
         {
-            var sut = Idea.Author(TestSociety,TestCreator, "A title", "A body", TestSignalRefs, NoTags);
+            var sut = Idea.Author(TestSociety, TestCreator, "A title", "A body", TestSignalRefs, NoTags);
 
             sut.CurrentVersion.VersionNumber.Should().Be(1);
         }
@@ -46,7 +46,7 @@ public class IdeaTests
         [Fact]
         public void GivenNoSignalReferences_WhenAuthored_ThenThrows()
         {
-            var act = () => Idea.Author(TestSociety,TestCreator, "A title", "A body", [], NoTags);
+            var act = () => Idea.Author(TestSociety, TestCreator, "A title", "A body", [], NoTags);
 
             act.Should().Throw<BusinessRuleViolationException>();
         }
@@ -59,7 +59,7 @@ public class IdeaTests
         {
             var parentId = IdeaId.Generate();
 
-            var sut = Idea.CreateFork(TestSociety,TestCreator, "Fork title", "Fork body", parentId, TestSignalRefs, NoTags);
+            var sut = Idea.CreateFork(TestSociety, TestCreator, "Fork title", "Fork body", parentId, TestSignalRefs, NoTags);
 
             sut.UncommittedEvents.Should().ContainSingle(e => e is IdeaForked);
         }
@@ -69,7 +69,7 @@ public class IdeaTests
         {
             var parentId = IdeaId.Generate();
 
-            var sut = Idea.CreateFork(TestSociety,TestCreator, "Fork title", "Fork body", parentId, TestSignalRefs, NoTags);
+            var sut = Idea.CreateFork(TestSociety, TestCreator, "Fork title", "Fork body", parentId, TestSignalRefs, NoTags);
 
             var evt = sut.UncommittedEvents.OfType<IdeaForked>().Single();
             evt.ParentIdeaId.Should().Be(parentId.Value);
@@ -92,7 +92,7 @@ public class IdeaTests
         [Fact]
         public void GivenDuplicateTag_WhenTagAdded_ThenThrows()
         {
-            var sut = Idea.Author(TestSociety,TestCreator, "A title", "A body", TestSignalRefs, ["tag-abc"]);
+            var sut = Idea.Author(TestSociety, TestCreator, "A title", "A body", TestSignalRefs, ["tag-abc"]);
             sut.UncommittedEvents.MarkAsCommitted();
 
             var act = () => sut.AddTag(TestCreator, "tag-abc");
@@ -106,7 +106,7 @@ public class IdeaTests
         [Fact]
         public void GivenExistingTag_WhenTagRemoved_ThenRaisesTagRemovedFromIdeaEvent()
         {
-            var sut = Idea.Author(TestSociety,TestCreator, "A title", "A body", TestSignalRefs, ["tag-abc"]);
+            var sut = Idea.Author(TestSociety, TestCreator, "A title", "A body", TestSignalRefs, ["tag-abc"]);
             sut.UncommittedEvents.MarkAsCommitted();
 
             sut.RemoveTag(TestCreator, "tag-abc");

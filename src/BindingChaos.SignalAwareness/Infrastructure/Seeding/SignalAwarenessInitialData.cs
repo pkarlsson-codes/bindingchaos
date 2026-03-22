@@ -42,9 +42,9 @@ public sealed class SignalAwarenessInitialData : IInitialData
     {
         ArgumentNullException.ThrowIfNull(store);
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using IDocumentSession session = store.LightweightSession();
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
 
         if (await session.Events.QueryAllRawEvents()
             .AnyAsync(cancellationToken).ConfigureAwait(false))
@@ -121,9 +121,9 @@ public sealed class SignalAwarenessInitialData : IInitialData
             .GetManifestResourceStream("BindingChaos.SignalAwareness.Infrastructure.Seeding.seed-data.json")
             ?? throw new InvalidOperationException("seed-data.json embedded resource not found in SignalAwareness assembly.");
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using (stream)
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<SignalSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Failed to deserialize SignalAwareness seed-data.json.");

@@ -41,9 +41,9 @@ internal static class DocumentSeeder
 
             var bytes = Encoding.UTF8.GetBytes(doc.Content);
 
-            #pragma warning disable CA2007
+#pragma warning disable CA2007
             await using var stream = new MemoryStream(bytes);
-            #pragma warning restore CA2007
+#pragma warning restore CA2007
 
             var putArgs = new PutObjectArgs()
                 .WithBucket(AttachmentsBucket)
@@ -92,9 +92,9 @@ internal static class DocumentSeeder
             .GetManifestResourceStream("BindingChaos.CorePlatform.API.Infrastructure.Seeding.seed-documents.json")
             ?? throw new InvalidOperationException("seed-documents.json embedded resource not found in CorePlatform.API assembly.");
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using (stream)
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<DocumentSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Failed to deserialize seed-documents.json.");

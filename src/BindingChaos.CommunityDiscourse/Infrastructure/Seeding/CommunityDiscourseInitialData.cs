@@ -150,9 +150,9 @@ public sealed class CommunityDiscourseInitialData : IInitialData
             .GetManifestResourceStream("BindingChaos.CommunityDiscourse.Infrastructure.Seeding.seed-data.json")
             ?? throw new InvalidOperationException("seed-data.json embedded resource not found in CommunityDiscourse assembly.");
 
-        #pragma warning disable CA2007
+#pragma warning disable CA2007
         await using (stream)
-        #pragma warning restore CA2007
+#pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<DiscourseSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Failed to deserialize CommunityDiscourse seed-data.json.");
