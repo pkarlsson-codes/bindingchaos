@@ -12,8 +12,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\BindingChaos.CorePlatform.Contracts\BindingChaos.CorePlatform.Contracts.csproj" />
     <ProjectReference Include="..\BindingChaos.Infrastructure\BindingChaos.Infrastructure.csproj" />
   </ItemGroup>
+  
 </Project>

@@ -37,19 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\peter\git\BindingChaos\src\BindingChaos.SignalAwareness\Application\ReadModels\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\Users\peter\git\BindingChaos\src\BindingChaos.SignalAwareness\Application\ReadModels\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Infrastructure\Seeding\seed-data.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Subscriptions\" />
   </ItemGroup>
 
 </Project>

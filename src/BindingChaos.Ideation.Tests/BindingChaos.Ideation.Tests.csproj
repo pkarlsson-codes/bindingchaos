@@ -28,9 +28,4 @@
     <ProjectReference Include="..\BindingChaos.Ideation\BindingChaos.Ideation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\Commands\" />
-    <Folder Include="Application\Queries\" />
-  </ItemGroup>
-
 </Project>

@@ -51,16 +51,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\peter\git\BindingChaos\src\BindingChaos.CommunityDiscourse\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="BindingChaos.CommunityDiscourse.Tests" />
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\peter\git\BindingChaos\src\BindingChaos.CommunityDiscourse\Domain\DiscourseThreads\Events\.editorconfig" />
   </ItemGroup>
 
 </Project>

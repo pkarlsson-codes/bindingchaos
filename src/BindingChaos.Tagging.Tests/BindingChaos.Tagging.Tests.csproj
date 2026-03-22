@@ -29,8 +29,4 @@
     <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\Tags\" />
-  </ItemGroup>
-
 </Project>

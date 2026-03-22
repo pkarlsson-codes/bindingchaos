@@ -22,15 +22,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Application\Models\**" />
-    <Compile Remove="Application\Sagas\**" />
-    <EmbeddedResource Remove="Application\Models\**" />
-    <EmbeddedResource Remove="Application\Sagas\**" />
-    <None Remove="Application\Models\**" />
-    <None Remove="Application\Sagas\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Infrastructure\Seeding\seed-data.json" />
   </ItemGroup>
 
