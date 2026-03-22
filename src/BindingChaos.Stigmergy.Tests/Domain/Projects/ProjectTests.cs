@@ -33,4 +33,27 @@ public class ProjectTests
             project.Amendments.Should().BeEmpty();
         }
     }
+
+    public class TheProposeAmendmentMethod
+    {
+        [Fact]
+        public void GivenValidParticipant_WhenAmendmentProposed_ThenAmendmentAddedAsActive()
+        {
+            var project = Project.Create(AUserGroupId(), "Title", "Desc");
+            var proposer = ParticipantId.Generate();
+
+            project.ProposeAmendment(proposer);
+
+            project.Amendments.Should().ContainSingle(a => a.Status == AmendmentStatus.Active);
+        }
+
+        [Fact]
+        public void GivenValidParticipant_WhenAmendmentProposed_ThenReturnedIdMatchesStoredAmendment()
+        {
+            var project = Project.Create(AUserGroupId(), "Title", "Desc");
+            var amendmentId = project.ProposeAmendment(ParticipantId.Generate());
+
+            project.Amendments.Should().ContainSingle(a => a.Id == amendmentId);
+        }
+    }
 }

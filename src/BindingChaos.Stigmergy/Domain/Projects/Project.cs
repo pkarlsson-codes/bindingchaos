@@ -54,6 +54,23 @@ public sealed class Project : AggregateRoot<ProjectId>
     }
 
     /// <summary>
+    /// Proposes a new amendment to this project, immediately set to Active.
+    /// </summary>
+    /// <param name="proposedBy">The participant proposing the amendment.</param>
+    /// <returns>The identifier of the newly proposed amendment.</returns>
+    public AmendmentId ProposeAmendment(ParticipantId proposedBy)
+    {
+        var amendmentId = AmendmentId.Generate();
+        ApplyChange(new AmendmentProposed(
+            Id.Value,
+            Version,
+            amendmentId.Value,
+            proposedBy.Value,
+            SharedKernel.Domain.Services.TimeProviderContext.Current.UtcNow));
+        return amendmentId;
+    }
+
+    /// <summary>
     /// Applies a domain event to this aggregate, updating its state.
     /// </summary>
     /// <param name="domainEvent">The domain event to apply.</param>
@@ -62,6 +79,7 @@ public sealed class Project : AggregateRoot<ProjectId>
         switch (domainEvent)
         {
             case ProjectCreated e: Apply(e); break;
+            case AmendmentProposed e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
     }
@@ -72,6 +90,15 @@ public sealed class Project : AggregateRoot<ProjectId>
         UserGroupId = UserGroupId.Create(e.UserGroupId);
         Title = e.Title;
         Description = e.Description;
+    }
+
+    private void Apply(AmendmentProposed e)
+    {
+        _amendments.Add(new Amendment(
+            AmendmentId.Create(e.AmendmentId),
+            ParticipantId.Create(e.ProposedBy),
+            e.ProposedAt,
+            AmendmentStatus.Active));
     }
 
     private void RegisterInvariants()
