@@ -4,6 +4,11 @@
 
 commit_msg=$(cat "$1")
 
+# Allow fixup and squash commits (used in interactive rebase)
+case "$commit_msg" in
+  fixup!*|squash!*) exit 0 ;;
+esac
+
 pattern='^(feat|fix|refactor|test|docs|chore|infra|revert)(\([^)]+\))?: .+'
 
 if ! echo "$commit_msg" | grep -qE "$pattern"; then
