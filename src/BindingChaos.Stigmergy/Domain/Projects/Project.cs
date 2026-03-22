@@ -71,6 +71,68 @@ public sealed class Project : AggregateRoot<ProjectId>
     }
 
     /// <summary>
+    /// Contests an Active amendment, moving it to Contested status.
+    /// Only Active amendments may be contested.
+    /// </summary>
+    /// <param name="amendmentId">The identifier of the amendment to contest.</param>
+    /// <param name="contesterId">The identifier of the participant contesting the amendment.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the amendment does not exist.</exception>
+    /// <exception cref="BusinessRuleViolationException">Thrown if the amendment is not Active.</exception>
+    public void ContestAmendment(AmendmentId amendmentId, ParticipantId contesterId)
+    {
+        var amendment = _amendments.SingleOrDefault(a => a.Id == amendmentId)
+            ?? throw new InvalidOperationException($"Amendment {amendmentId.Value} not found.");
+
+        if (amendment.Status != AmendmentStatus.Active)
+        {
+            throw new BusinessRuleViolationException("Only Active amendments can be contested.");
+        }
+
+        ApplyChange(new AmendmentContested(
+            Id.Value,
+            Version,
+            amendmentId.Value,
+            contesterId.Value,
+            SharedKernel.Domain.Services.TimeProviderContext.Current.UtcNow));
+    }
+
+    /// <summary>
+    /// Rejects a Contested amendment permanently.
+    /// </summary>
+    /// <param name="amendmentId">The identifier of the amendment to reject.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the amendment does not exist or is not Contested.</exception>
+    internal void RejectAmendment(AmendmentId amendmentId)
+    {
+        var amendment = _amendments.SingleOrDefault(a => a.Id == amendmentId)
+            ?? throw new InvalidOperationException($"Amendment {amendmentId.Value} not found.");
+
+        if (amendment.Status != AmendmentStatus.Contested)
+        {
+            throw new InvalidOperationException("Only Contested amendments can be rejected.");
+        }
+
+        ApplyChange(new AmendmentRejected(Id.Value, Version, amendmentId.Value));
+    }
+
+    /// <summary>
+    /// Resolves contention on a Contested amendment, restoring it to Active.
+    /// </summary>
+    /// <param name="amendmentId">The identifier of the amendment to restore.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the amendment does not exist or is not Contested.</exception>
+    internal void ResolveContention(AmendmentId amendmentId)
+    {
+        var amendment = _amendments.SingleOrDefault(a => a.Id == amendmentId)
+            ?? throw new InvalidOperationException($"Amendment {amendmentId.Value} not found.");
+
+        if (amendment.Status != AmendmentStatus.Contested)
+        {
+            throw new InvalidOperationException("Only Contested amendments can have contention resolved.");
+        }
+
+        ApplyChange(new AmendmentContestationResolved(Id.Value, Version, amendmentId.Value));
+    }
+
+    /// <summary>
     /// Applies a domain event to this aggregate, updating its state.
     /// </summary>
     /// <param name="domainEvent">The domain event to apply.</param>
@@ -80,6 +142,9 @@ public sealed class Project : AggregateRoot<ProjectId>
         {
             case ProjectCreated e: Apply(e); break;
             case AmendmentProposed e: Apply(e); break;
+            case AmendmentContested e: Apply(e); break;
+            case AmendmentRejected e: Apply(e); break;
+            case AmendmentContestationResolved e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
     }
@@ -99,6 +164,24 @@ public sealed class Project : AggregateRoot<ProjectId>
             ParticipantId.Create(e.ProposedBy),
             e.ProposedAt,
             AmendmentStatus.Active));
+    }
+
+    private void Apply(AmendmentContested e)
+    {
+        var amendment = _amendments.Single(a => a.Id == AmendmentId.Create(e.AmendmentId));
+        amendment.Status = AmendmentStatus.Contested;
+    }
+
+    private void Apply(AmendmentRejected e)
+    {
+        var amendment = _amendments.Single(a => a.Id == AmendmentId.Create(e.AmendmentId));
+        amendment.Status = AmendmentStatus.Rejected;
+    }
+
+    private void Apply(AmendmentContestationResolved e)
+    {
+        var amendment = _amendments.Single(a => a.Id == AmendmentId.Create(e.AmendmentId));
+        amendment.Status = AmendmentStatus.Active;
     }
 
     private void RegisterInvariants()
