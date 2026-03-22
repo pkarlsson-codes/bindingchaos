@@ -65,6 +65,21 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     }
 
     /// <summary>
+    /// Removes a participant from the user group.
+    /// </summary>
+    /// <param name="participantId">The ID of the participant leaving the group.</param>
+    /// <exception cref="InvalidOperationException">Thrown when the participant is not a member.</exception>
+    public void Leave(ParticipantId participantId)
+    {
+        if (_members.Find(m => m.ParticipantId == participantId) is null)
+        {
+            throw new InvalidOperationException($"Participant {participantId.Value} is not a member of this group.");
+        }
+
+        ApplyChange(new MemberLeft(Id.Value, Version, participantId.Value));
+    }
+
+    /// <summary>
     /// Applies for membership in the user group, processing the application according to the group's charter and membership rules, including any necessary validation, state changes, or event generation to reflect the application process and its outcome.
     /// </summary>
     /// <param name="participantId">The ID of the participant applying for membership.</param>
@@ -87,6 +102,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
         {
             case UserGroupCreated e: Apply(e); break;
             case MemberJoined e: Apply(e); break;
+            case MemberLeft e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
     }
@@ -119,6 +135,11 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     private void Apply(MemberJoined e)
     {
         _members.Add(new Membership(MembershipId.Create(e.MembershipId), ParticipantId.Create(e.ParticipantId), e.OccurredAt));
+    }
+
+    private void Apply(MemberLeft e)
+    {
+        _members.RemoveAll(m => m.ParticipantId == ParticipantId.Create(e.ParticipantId));
     }
 
     private void RegisterInvariants()
