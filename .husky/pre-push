@@ -1,14 +1,14 @@
 #!/bin/sh
 
 echo "Running build before push..."
-dotnet build src/BindingChaos.sln --no-incremental -q
+dotnet build src/BindingChaos.sln --verbosity quiet
 if [ $? -ne 0 ]; then
   echo "Build failed. Push aborted."
   exit 1
 fi
 
 echo "Running tests before push..."
-dotnet test src/BindingChaos.sln -q --no-build
+dotnet test src/BindingChaos.sln --verbosity quiet --no-build
 if [ $? -ne 0 ]; then
   echo "Tests failed. Push aborted."
   exit 1
