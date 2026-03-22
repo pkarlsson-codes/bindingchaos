@@ -1,7 +1,7 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Domain.UserGroups.Events;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BindingChaos.Stigmergy.Domain.UserGroups;
 
@@ -23,6 +23,11 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     /// Gets the charter that governs this group.
     /// </summary>
     public Charter Charter { get; private set; }
+
+    /// <summary>
+    /// Gets the participant who founded this group.
+    /// </summary>
+    public ParticipantId FounderId { get; private set; }
 
     /// <summary>
     /// Gets the current members of this group.
@@ -53,7 +58,25 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
                 charter.MembershipRules.EntryRequirements,
                 approvalRules),
             new ShunningRulesRecord(charter.ShunningRules.ApprovalThreshold))));
+
+        userGroup.Join(founderId);
         return userGroup;
+    }
+
+    /// <summary>
+    /// Applies for membership in the user group, processing the application according to the group's charter and membership rules, including any necessary validation, state changes, or event generation to reflect the application process and its outcome.
+    /// </summary>
+    /// <param name="participantId">The ID of the participant applying for membership.</param>
+    public void ApplyToJoin(ParticipantId participantId)
+    {
+        if (Charter.MembershipRules.JoinPolicy == JoinPolicy.Open)
+        {
+            Join(participantId);
+        }
+        else
+        {
+            throw new NotImplementedException("Join policies other than Open are not yet implemented.");
+        }
     }
 
     /// <inheritdoc/>
@@ -62,17 +85,38 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
         switch (domainEvent)
         {
             case UserGroupCreated e: Apply(e); break;
+            case MemberJoined e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
     }
 
-    private void Apply(UserGroupCreated @event)
+    private void Join(ParticipantId participantId)
     {
-        Id = UserGroupId.Create(@event.UserGroupId);
+        ApplyChange(new MemberJoined(Id.Value, Version, MembershipId.Generate().Value, participantId.Value));
+    }
+
+    private void Apply(UserGroupCreated e)
+    {
+        Id = UserGroupId.Create(e.AggregateId);
+        FounderId = ParticipantId.Create(e.FounderId);
+    }
+
+    private void Apply(MemberJoined e)
+    {
+        _members.Add(new Membership(MembershipId.Create(e.MembershipId), ParticipantId.Create(e.ParticipantId), e.OccurredAt));
     }
 
     private void RegisterInvariants()
     {
-        AddInvariants();
+        AddInvariants(
+            MustHaveFounder);
+    }
+
+    private void MustHaveFounder()
+    {
+        if (FounderId == default)
+        {
+            throw new InvariantViolationException("A user group must have a founder.");
+        }
     }
 }
