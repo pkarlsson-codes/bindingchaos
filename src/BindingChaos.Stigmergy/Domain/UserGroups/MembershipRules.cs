@@ -15,7 +15,6 @@ namespace BindingChaos.Stigmergy.Domain.UserGroups;
 /// <param name="approvalRules">The rules that govern approval-based membership decisions.</param>
 public sealed class MembershipRules(JoinPolicy joinPolicy, bool memberListPublic, int? maxMembers = null, string? entryRequirements = null, MembershipApprovalRules? approvalRules = null) : ValueObject
 {
-
     /// <summary>
     /// Gets the policy that determines how participants may join this group.
     /// </summary>
@@ -62,7 +61,6 @@ public sealed class MembershipRules(JoinPolicy joinPolicy, bool memberListPublic
 /// <param name="vetoEnabled">A value indicating whether veto power is enabled for this group.</param>
 public sealed class MembershipApprovalRules(decimal approvalThreshold, bool vetoEnabled) : ValueObject
 {
-
     /// <summary>
     /// Gets the threshold for approving a membership request.
     /// </summary>

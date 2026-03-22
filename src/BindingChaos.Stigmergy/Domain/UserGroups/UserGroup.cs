@@ -1,5 +1,7 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.Stigmergy.Domain.UserGroups.Events;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BindingChaos.Stigmergy.Domain.UserGroups;
 
@@ -16,16 +18,6 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
         RegisterInvariants();
     }
 #pragma warning restore CS8618
-
-    /// <summary>
-    /// Gets the name of the user group.
-    /// </summary>
-    public string Name { get; private set; }
-
-    /// <summary>
-    /// Gets the identifier of the participant who owns this group.
-    /// </summary>
-    public ParticipantId OwnerId { get; private set; }
 
     /// <summary>
     /// Gets the charter that governs this group.
@@ -46,7 +38,22 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     /// <returns>A new <see cref="UserGroup"/> instance.</returns>
     public static UserGroup Create(ParticipantId founderId, string name, Charter charter)
     {
-        throw new NotImplementedException("No domain events have been defined for UserGroup yet.");
+        var userGroup = new UserGroup();
+        var approvalRules = charter.MembershipRules.ApprovalRules is not null
+                    ? new MembershipApprovalRulesRecord(
+                        charter.MembershipRules.ApprovalRules.ApprovalThreshold,
+                        charter.MembershipRules.ApprovalRules.VetoEnabled)
+                    : null;
+        userGroup.ApplyChange(new UserGroupCreated(userGroup.Id.Value, founderId.Value, name, new CharterRecord(
+            new ContentionRulesRecord(charter.ContentionRules.RejectionThreshold, charter.ContentionRules.ResolutionWindow),
+            new MembershipRulesRecord(
+                charter.MembershipRules.JoinPolicy.Value,
+                charter.MembershipRules.MemberListPublic,
+                charter.MembershipRules.MaxMembers,
+                charter.MembershipRules.EntryRequirements,
+                approvalRules),
+            new ShunningRulesRecord(charter.ShunningRules.ApprovalThreshold))));
+        return userGroup;
     }
 
     /// <inheritdoc/>
@@ -54,8 +61,14 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     {
         switch (domainEvent)
         {
+            case UserGroupCreated e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
+    }
+
+    private void Apply(UserGroupCreated @event)
+    {
+        Id = UserGroupId.Create(@event.UserGroupId);
     }
 
     private void RegisterInvariants()

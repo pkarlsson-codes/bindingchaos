@@ -10,20 +10,20 @@ public sealed class Charter : ValueObject
     /// <summary>
     /// Initializes a new instance of the <see cref="Charter"/> class.
     /// </summary>
-    /// <param name="approvalRules">The rules governing approval-based decisions.</param>
+    /// <param name="contentionRules">The rules governing contention-based decisions.</param>
     /// <param name="membershipRules">The rules governing membership.</param>
     /// <param name="shunningRules">The rules governing shunning behaviour.</param>
-    public Charter(ContentionRules approvalRules, MembershipRules membershipRules, ShunningRules shunningRules)
+    public Charter(ContentionRules contentionRules, MembershipRules membershipRules, ShunningRules shunningRules)
     {
-        ApprovalRules = approvalRules;
+        ContentionRules = contentionRules;
         MembershipRules = membershipRules;
         ShunningRules = shunningRules;
     }
 
     /// <summary>
-    /// Gets the rules governing approval-based decisions in this group.
+    /// Gets the rules governing contention-based decisions in this group.
     /// </summary>
-    public ContentionRules ApprovalRules { get; }
+    public ContentionRules ContentionRules { get; }
 
     /// <summary>
     /// Gets the rules governing membership in this group.
@@ -38,7 +38,7 @@ public sealed class Charter : ValueObject
     /// <inheritdoc/>
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return ApprovalRules;
+        yield return ContentionRules;
         yield return MembershipRules;
         yield return ShunningRules;
     }
