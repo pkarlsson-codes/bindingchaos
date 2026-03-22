@@ -53,23 +53,20 @@ Shunning relationships use the same structure with a separate table or a discrim
 
 ## Graph Traversal
 
-Trust-degree queries are recursive graph traversals. PostgreSQL supports these natively via recursive CTEs:
+Trust-degree queries are recursive graph traversals — "find all participants within N degrees of X." These are called frequently, gating visibility across SignalAwareness, Ideation, CommunityDiscourse, and the approval economy.
 
-```sql
-WITH RECURSIVE trust_graph AS (
-  -- Degree 0: the participant themselves
-  SELECT @participantId AS trusted_id, 0 AS degree
-  UNION ALL
-  -- Expand outward one degree at a time
-  SELECT tr.trustee_id, tg.degree + 1
-  FROM trust_relationships tr
-  JOIN trust_graph tg ON tr.truster_id = tg.trusted_id
-  WHERE tg.degree < @maxDegree
-)
-SELECT DISTINCT trusted_id FROM trust_graph;
+**Storage: Neo4j.** Trust relationships are stored in Neo4j rather than PostgreSQL. Recursive graph traversal is Neo4j's native strength; the equivalent PostgreSQL recursive CTE degrades non-linearly as the network grows. Shunning propagation (e.g. "filter anyone shunned by someone I trust") adds multi-hop queries that compound this.
+
+Neo4j runs in Docker Compose alongside the existing infrastructure (port 7474 browser UI, 7687 Bolt). The .NET integration uses `Neo4j.Driver`. A repository interface abstracts the storage so the rest of the domain is unaware of Neo4j specifically.
+
+A degree-scoped trust query in Cypher:
+
+```cypher
+MATCH (start:Participant {id: $participantId})-[:TRUSTS*1..{maxDegree}]->(trusted:Participant)
+RETURN DISTINCT trusted.id
 ```
 
-This set of `trusted_id` values is then used to filter signals, amplifications, and content — showing only items that have been touched by participants within the trust radius.
+This set of participant IDs is then used to filter signals, amplifications, and content — showing only items touched by participants within the trust radius.
 
 ---
 
@@ -93,7 +90,7 @@ Trust relationships belong in a dedicated `Reputation` (or `TrustGraph`) bounded
 
 1. `TrustRelationship` aggregate and repository (simple write side)
 2. `ShunRelationship` aggregate and repository
-3. Trust graph query service (recursive CTE, cacheable per participant)
+3. Trust graph query service (Neo4j traversal, cacheable per participant)
 4. Filter integration into `GetSignals` query (degree-scoped amplification visibility)
 5. Extend to Ideation and Discourse as the bounded context matures
 6. Amplification weighting once epistemic communities exist
@@ -105,4 +102,4 @@ Trust relationships belong in a dedicated `Reputation` (or `TrustGraph`) bounded
 - Unit tests for trust graph traversal logic
 - Integration tests verifying that unconnected participants' content is not surfaced
 - Integration tests verifying shunning propagation
-- Performance tests for recursive CTE at realistic graph sizes
+- Performance tests for Neo4j traversal at realistic graph sizes

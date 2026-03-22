@@ -22,7 +22,7 @@ Core business capabilities are split into modules such as:
 
 ## Bounded Contexts (planned)
 
-- **Reputation** — trust graph, shunning, and societal approval standing. The primary sybil-resistance mechanism. See [sybil-resistance.md](../07-development-process/human-verification-implementation.md).
+- **Reputation** — trust graph, shunning, and societal approval standing. The primary sybil-resistance mechanism. See [trust-graph-sybil-resistance.md](../07-development-process/trust-graph-sybil-resistance.md).
 
 These modules are developed as separate projects and then wired together in the CorePlatform host.
 
