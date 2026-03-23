@@ -112,12 +112,31 @@ services:
     networks:
       - bindingchaos_network
 
+  neo4j:
+    image: neo4j:5
+    container_name: bindingchaos_neo4j
+    environment:
+      NEO4J_AUTH: none
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bindingchaos_network
+
 volumes:
   postgres_data:
   redis_data:
   rabbitmq_data:
   minio_data:
   seq_data:
+  neo4j_data:
 
 networks:
   bindingchaos_network:
