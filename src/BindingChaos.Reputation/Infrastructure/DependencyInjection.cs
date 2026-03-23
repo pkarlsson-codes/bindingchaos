@@ -1,5 +1,8 @@
+using BindingChaos.Reputation.Domain.TrustRelationships;
+using BindingChaos.Reputation.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Neo4j.Driver;
 
 namespace BindingChaos.Reputation.Infrastructure;
 
@@ -16,6 +19,13 @@ public static class ReputationServiceCollectionExtensions
     /// <returns>The service collection for method chaining.</returns>
     public static IServiceCollection AddReputation(this IServiceCollection services, IConfiguration configuration)
     {
-        throw new NotImplementedException();
+        var neo4jUri = configuration["Neo4j:Uri"]
+            ?? throw new InvalidOperationException("Neo4j:Uri is not configured.");
+
+        services.AddSingleton<IDriver>(_ => GraphDatabase.Driver(neo4jUri));
+        services.AddScoped<ITrustRelationshipRepository, Neo4jTrustRelationshipRepository>();
+        services.AddScoped<ITrustGraphQueryService, Neo4jTrustGraphQueryService>();
+        services.AddHostedService<Neo4jSchemaInitializer>();
+        return services;
     }
 }

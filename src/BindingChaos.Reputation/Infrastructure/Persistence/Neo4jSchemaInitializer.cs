@@ -17,7 +17,22 @@ public sealed class Neo4jSchemaInitializer : IHostedService
     public Neo4jSchemaInitializer(IDriver driver) => _driver = driver;
 
     /// <inheritdoc />
-    public Task StartAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
+    /// <remarks>Applies the uniqueness constraint: FOR (p:Participant) REQUIRE p.id IS UNIQUE.</remarks>
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        var session = _driver.AsyncSession();
+        try
+        {
+            var cursor = await session.RunAsync(
+                "CREATE CONSTRAINT participant_id_unique IF NOT EXISTS FOR (p:Participant) REQUIRE p.id IS UNIQUE")
+                .ConfigureAwait(false);
+            await cursor.ConsumeAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            await session.DisposeAsync().ConfigureAwait(false);
+        }
+    }
 
     /// <inheritdoc />
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
