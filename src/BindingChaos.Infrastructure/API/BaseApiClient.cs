@@ -245,6 +245,40 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
+    /// Performs a PUT request with no request body.
+    /// </summary>
+    /// <param name="endpoint">The API endpoint to call.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected async Task PutAsync(string endpoint, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            Logs.MakingPutRequest(Logger, endpoint);
+
+            var context = ResilienceContextPool.Shared.Get(cancellationToken);
+            try
+            {
+                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
+                var response = await Pipeline.ExecuteAsync(async ctx =>
+                    await HttpClient.PutAsync(endpoint, null, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+
+                Logs.SuccessfullyUpdatedData(Logger, endpoint);
+            }
+            finally
+            {
+                ResilienceContextPool.Shared.Return(context);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Logs.HttpRequestFailed(Logger, endpoint, ex);
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Sends an HTTP DELETE request to the specified endpoint and returns the deserialized response data.
     /// </summary>
     /// <typeparam name="TResponse">The type of the response data expected from the API.</typeparam>
