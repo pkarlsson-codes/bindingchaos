@@ -33,6 +33,7 @@
     <ProjectReference Include="..\BindingChaos.CommunityDiscourse\BindingChaos.CommunityDiscourse.csproj" />
     <ProjectReference Include="..\BindingChaos.Societies\BindingChaos.Societies.csproj" />
     <ProjectReference Include="..\BindingChaos.Stigmergy\BindingChaos.Stigmergy.csproj" />
+    <ProjectReference Include="..\BindingChaos.Reputation\BindingChaos.Reputation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

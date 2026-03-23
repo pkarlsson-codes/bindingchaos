@@ -8,6 +8,7 @@ using BindingChaos.Ideation.Infrastructure;
 using BindingChaos.Ideation.Infrastructure.Persistence;
 using BindingChaos.IdentityProfile.Infrastructure;
 using BindingChaos.Pseudonymity.Infrastructure;
+using BindingChaos.Reputation.Infrastructure;
 using BindingChaos.SharedKernel.Extensions;
 using BindingChaos.SignalAwareness.Infrastructure;
 using BindingChaos.SignalAwareness.Infrastructure.Persistence;
@@ -84,6 +85,7 @@ internal static class CorePlatformServiceCollectionExtensions
         services.AddCommunityDiscourse(configuration);
         services.AddSocieties(configuration);
         services.AddStigmergy(configuration);
+        services.AddReputation(configuration);
         return services;
     }
 

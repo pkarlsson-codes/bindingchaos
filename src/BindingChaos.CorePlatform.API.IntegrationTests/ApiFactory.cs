@@ -1,5 +1,6 @@
 using BindingChaos.CorePlatform.API.Services;
 using BindingChaos.IdentityProfile.Infrastructure.Persistence;
+using BindingChaos.Reputation.Infrastructure.Persistence;
 using JasperFx.Events.Projections;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
@@ -121,6 +122,13 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
             // Replace Minio-backed document management with a no-op.
             services.RemoveAll<IDocumentManagementService>();
             services.AddScoped<IDocumentManagementService, NullDocumentManagementService>();
+
+            // Remove the Neo4j schema initializer so it does not attempt to connect
+            // to a Neo4j instance that is not available in the integration test environment.
+            var neo4jInitializer = services.SingleOrDefault(
+                d => d.ImplementationType == typeof(Neo4jSchemaInitializer));
+            if (neo4jInitializer is not null)
+                services.Remove(neo4jInitializer);
 
             // Switch all async projections to inline so they are applied synchronously
             // within the same transaction as the events. No daemon required, and queries
