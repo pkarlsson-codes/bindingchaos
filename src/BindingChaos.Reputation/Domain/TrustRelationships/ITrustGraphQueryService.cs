@@ -18,4 +18,17 @@ public interface ITrustGraphQueryService
     /// <returns>The set of participant IDs reachable within the specified degree.</returns>
     Task<IReadOnlySet<ParticipantId>> GetTrustedParticipantsAsync(
         ParticipantId participantId, int maxDegree, CancellationToken ct);
+
+    /// <summary>
+    /// Filters <paramref name="candidateIds"/> to those reachable from <paramref name="participantId"/>
+    /// within <paramref name="maxDegree"/> trust hops. More efficient than <see cref="GetTrustedParticipantsAsync"/>
+    /// when you only need to check a known set of participants.
+    /// </summary>
+    /// <param name="participantId">The starting participant for the traversal.</param>
+    /// <param name="maxDegree">The maximum number of trust hops to traverse. Clamped to [1, 5] by the implementation.</param>
+    /// <param name="candidateIds">The participant IDs to filter.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>The subset of <paramref name="candidateIds"/> that are trusted within the specified degree.</returns>
+    Task<IReadOnlySet<ParticipantId>> FilterTrustedParticipantsAsync(
+        ParticipantId participantId, int maxDegree, IEnumerable<ParticipantId> candidateIds, CancellationToken ct);
 }

@@ -37,4 +37,31 @@ public sealed class Neo4jTrustGraphQueryService : ITrustGraphQueryService
             await session.DisposeAsync().ConfigureAwait(false);
         }
     }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlySet<ParticipantId>> FilterTrustedParticipantsAsync(
+        ParticipantId participantId, int maxDegree, IEnumerable<ParticipantId> candidateIds, CancellationToken ct)
+    {
+        var candidates = candidateIds.Select(id => id.Value).ToList();
+        if (candidates.Count == 0)
+        {
+            return new HashSet<ParticipantId>();
+        }
+
+        var clamped = Math.Clamp(maxDegree, 1, 5);
+        var query = $"MATCH (start:Participant {{id: $participantId}})-[:TRUSTS*1..{clamped}]->(candidate:Participant) WHERE candidate.id IN $candidateIds RETURN DISTINCT candidate.id AS id";
+
+        var session = _driver.AsyncSession();
+        try
+        {
+            var cursor = await session.RunAsync(query, new { participantId = participantId.Value, candidateIds = candidates })
+                .ConfigureAwait(false);
+            var records = await cursor.ToListAsync(ct).ConfigureAwait(false);
+            return records.Select(r => new ParticipantId(r["id"].As<string>())).ToHashSet();
+        }
+        finally
+        {
+            await session.DisposeAsync().ConfigureAwait(false);
+        }
+    }
 }

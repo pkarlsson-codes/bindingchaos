@@ -105,4 +105,50 @@ public class Neo4jTrustGraphQueryServiceTests : IAsyncLifetime
 
         degreeThree.Should().BeEquivalentTo(new[] { Bob, Carol, Dave });
     }
+
+    [Fact]
+    public async Task FilterTrustedParticipants_WhenNoneOfTheCandidatesAreTrusted_ReturnsEmptySet()
+    {
+        await TrustAsync(Alice, Bob);
+
+        var result = await _queryService.FilterTrustedParticipantsAsync(Alice, 1, [Carol, Dave], CancellationToken.None);
+
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task FilterTrustedParticipants_ReturnsOnlyCandidatesThatAreTrusted()
+    {
+        // Alice trusts Bob and Carol, but not Dave
+        await TrustAsync(Alice, Bob);
+        await TrustAsync(Alice, Carol);
+
+        var result = await _queryService.FilterTrustedParticipantsAsync(Alice, 1, [Bob, Carol, Dave], CancellationToken.None);
+
+        result.Should().BeEquivalentTo(new[] { Bob, Carol });
+    }
+
+    [Fact]
+    public async Task FilterTrustedParticipants_RespectsMaxDegree()
+    {
+        // Alice-Bob-Carol (2 hops); Dave is not in the chain
+        await TrustAsync(Alice, Bob);
+        await TrustAsync(Bob, Carol);
+
+        var degreeOne = await _queryService.FilterTrustedParticipantsAsync(Alice, 1, [Bob, Carol], CancellationToken.None);
+        var degreeTwo = await _queryService.FilterTrustedParticipantsAsync(Alice, 2, [Bob, Carol], CancellationToken.None);
+
+        degreeOne.Should().ContainSingle().Which.Should().Be(Bob);
+        degreeTwo.Should().BeEquivalentTo(new[] { Bob, Carol });
+    }
+
+    [Fact]
+    public async Task FilterTrustedParticipants_WithEmptyCandidateList_ReturnsEmptySet()
+    {
+        await TrustAsync(Alice, Bob);
+
+        var result = await _queryService.FilterTrustedParticipantsAsync(Alice, 1, [], CancellationToken.None);
+
+        result.Should().BeEmpty();
+    }
 }
