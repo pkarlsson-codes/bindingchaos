@@ -69,7 +69,8 @@ internal static class CorePlatformServiceCollectionExtensions
             CommunityDiscourseAssemblyReference.Assembly,
             SignalAwarenessAssemblyReference.Assembly,
             IdeationAssemblyReference.Assembly,
-            TaggingAssemblyReference.Assembly);
+            TaggingAssemblyReference.Assembly,
+            StigmergyAssemblyReference.Assembly);
         services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
         services.AddFluentValidationAutoValidation();
         return services;
