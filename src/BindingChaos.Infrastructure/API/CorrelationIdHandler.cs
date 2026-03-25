@@ -5,7 +5,7 @@ namespace BindingChaos.Infrastructure.API;
 /// <summary>
 /// DelegatingHandler that appends the correlation ID header to outgoing HTTP requests if available in the current HttpContext.
 /// </summary>
-public class CorrelationIdHandler : DelegatingHandler
+public sealed class CorrelationIdHandler : DelegatingHandler
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -10,7 +10,7 @@ namespace BindingChaos.Tagging.Infrastructure.IntegrationEventHandlers;
 /// Message handler for TagsAssigned domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public class TagsAssignedHandler
+public sealed class TagsAssignedHandler
 {
     private readonly IIntegrationEventMapper<TagsAssigned> _mapper;
     private readonly ILogger<TagsAssignedHandler> _logger;

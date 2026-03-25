@@ -10,7 +10,7 @@ namespace BindingChaos.Tagging.Infrastructure.IntegrationEventHandlers;
 /// Message handler for TagsRemoved domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public class TagsRemovedHandler
+public sealed class TagsRemovedHandler
 {
     private readonly IIntegrationEventMapper<TagsRemoved> _mapper;
     private readonly ILogger<TagsRemovedHandler> _logger;

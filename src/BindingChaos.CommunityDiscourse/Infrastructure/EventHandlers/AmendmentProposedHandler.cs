@@ -9,7 +9,7 @@ namespace BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers;
 /// Creates a discourse thread for the amendment entity if it doesn't already exist.
 /// </summary>
 /// <param name="messageBus">The message bus for handling asynchronous messaging.</param>
-public class AmendmentProposedHandler(IMessageBus messageBus)
+public sealed class AmendmentProposedHandler(IMessageBus messageBus)
 {
     private readonly IMessageBus _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
 

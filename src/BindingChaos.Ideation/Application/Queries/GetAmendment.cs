@@ -6,7 +6,7 @@ namespace BindingChaos.Ideation.Application.Queries;
 /// <summary>
 /// Query to retrieve a single amendment by its ID.
 /// </summary>
-public record GetAmendment(string AmendmentId);
+public sealed record GetAmendment(string AmendmentId);
 
 /// <summary>Handles the <see cref="GetAmendment"/> query.</summary>
 public static class GetAmendmentHandler

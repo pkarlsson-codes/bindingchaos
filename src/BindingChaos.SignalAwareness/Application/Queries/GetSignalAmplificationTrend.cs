@@ -6,7 +6,7 @@ namespace BindingChaos.SignalAwareness.Application.Queries;
 /// <summary>
 /// Query to retrieve amplification trend data for a specific signal.
 /// </summary>
-public record GetSignalAmplificationTrend(string SignalId);
+public sealed record GetSignalAmplificationTrend(string SignalId);
 
 /// <summary>Handles the <see cref="GetSignalAmplificationTrend"/> query.</summary>
 public static class GetSignalAmplificationTrendHandler

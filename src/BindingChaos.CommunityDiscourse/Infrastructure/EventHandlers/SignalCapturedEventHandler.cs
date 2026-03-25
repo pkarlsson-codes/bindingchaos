@@ -9,7 +9,7 @@ namespace BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers;
 /// Creates a discourse thread for the signal entity if it doesn't already exist.
 /// </summary>
 /// <param name="messageBus">The mediator for sending commands.</param>
-public class SignalCapturedHandler(IMessageBus messageBus)
+public sealed class SignalCapturedHandler(IMessageBus messageBus)
 {
     private readonly IMessageBus _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
 

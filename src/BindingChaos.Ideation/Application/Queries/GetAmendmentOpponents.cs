@@ -9,7 +9,7 @@ namespace BindingChaos.Ideation.Application.Queries;
 /// <summary>
 /// Query to retrieve a paginated list of opponents for a specific amendment.
 /// </summary>
-public record GetAmendmentOpponents(string AmendmentId, PaginationQuerySpec<object> QuerySpec);
+public sealed record GetAmendmentOpponents(string AmendmentId, PaginationQuerySpec<object> QuerySpec);
 
 /// <summary>Handles the <see cref="GetAmendmentOpponents"/> query.</summary>
 public static class GetAmendmentOpponentsHandler

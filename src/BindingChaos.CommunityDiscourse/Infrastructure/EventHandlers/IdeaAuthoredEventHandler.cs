@@ -9,7 +9,7 @@ namespace BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers;
 /// Creates a discourse thread for the idea entity if it doesn't already exist.
 /// </summary>
 /// <param name="messageBus">The message bus for handling asynchronous messaging.</param>
-public class IdeaAuthoredHandler(IMessageBus messageBus)
+public sealed class IdeaAuthoredHandler(IMessageBus messageBus)
 {
     private readonly IMessageBus _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
 

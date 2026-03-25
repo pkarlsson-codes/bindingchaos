@@ -10,7 +10,7 @@ namespace BindingChaos.DocumentProcessing;
 /// <summary>
 /// Creates thumbnails for attachments.
 /// </summary>
-public class AttachmentThumbnailHandler(IMinioClient minio)
+public sealed class AttachmentThumbnailHandler(IMinioClient minio)
 {
     /// <summary>
     /// Processes a MinIO notification by generating a thumbnail for a JPEG image and saving it to the storage service.

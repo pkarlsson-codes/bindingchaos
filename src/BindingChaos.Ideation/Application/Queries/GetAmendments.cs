@@ -11,7 +11,7 @@ namespace BindingChaos.Ideation.Application.Queries;
 /// <summary>
 /// Query to retrieve a paginated list of amendments based on the provided filter and pagination specifications.
 /// </summary>
-public record GetAmendments(PaginationQuerySpec<AmendmentsQueryFilter> querySpec);
+public sealed record GetAmendments(PaginationQuerySpec<AmendmentsQueryFilter> querySpec);
 
 /// <summary>Handles the <see cref="GetAmendments"/> query.</summary>
 public static class GetAmendmentsHandler

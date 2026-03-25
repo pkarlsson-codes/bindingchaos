@@ -6,7 +6,7 @@ namespace BindingChaos.Ideation.Application.Queries;
 /// <summary>
 /// Query to retrieve support trend data for a specific amendment.
 /// </summary>
-public record GetAmendmentTrend(string AmendmentId);
+public sealed record GetAmendmentTrend(string AmendmentId);
 
 /// <summary>Handles the <see cref="GetAmendmentTrend"/> query.</summary>
 public static class GetAmendmentTrendHandler

@@ -10,7 +10,7 @@ namespace BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers;
 /// Message handler for SignalCaptured domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public class SignalCapturedHandler
+public sealed class SignalCapturedHandler
 {
     private readonly IIntegrationEventMapper<SignalCaptured> _mapper;
     private readonly ILogger<SignalCapturedHandler> _logger;

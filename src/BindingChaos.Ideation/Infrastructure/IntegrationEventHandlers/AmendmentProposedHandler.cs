@@ -10,7 +10,7 @@ namespace BindingChaos.Ideation.Infrastructure.IntegrationEventHandlers;
 /// Message handler for AmendmentProposed domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public class AmendmentProposedHandler
+public sealed class AmendmentProposedHandler
 {
     private readonly IIntegrationEventMapper<AmendmentProposed> _mapper;
     private readonly ILogger<AmendmentProposedHandler> _logger;

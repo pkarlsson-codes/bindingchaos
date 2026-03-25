@@ -10,7 +10,7 @@ namespace BindingChaos.Ideation.Infrastructure.IntegrationEventHandlers;
 /// Message handler for IdeaAuthored domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public class IdeaAuthoredHandler
+public sealed class IdeaAuthoredHandler
 {
     private readonly IIntegrationEventMapper<IdeaAuthored> _mapper;
     private readonly ILogger<IdeaAuthoredHandler> _logger;
