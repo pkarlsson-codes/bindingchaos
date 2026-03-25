@@ -15,7 +15,7 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// <param name="FounderId">The ID of the participant forming the group.</param>
 /// <param name="Name">The name of the new user group.</param>
 /// <param name="Charter">The charter defining the rules and policies of the group.</param>
-public sealed record FormUserGroup(CommonsId CommonsId, ParticipantId FounderId,string Name, CharterDto Charter);
+public sealed record FormUserGroup(CommonsId CommonsId, ParticipantId FounderId, string Name, CharterDto Charter);
 
 /// <summary>Handles the <see cref="FormUserGroup"/> command.</summary>
 public static class FormUserGroupHandler

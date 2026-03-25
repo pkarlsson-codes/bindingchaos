@@ -96,11 +96,11 @@ public sealed class AmendmentContentionSaga : Saga
 
         if (shouldReject)
         {
-            await bus.InvokeAsync(new RejectAmendment(ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
+            await bus.InvokeAsync(new RejectAmendment(Domain.Projects.ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
         }
         else
         {
-            await bus.InvokeAsync(new RestoreAmendmentToActive(ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
+            await bus.InvokeAsync(new RestoreAmendmentToActive(Domain.Projects.ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
         }
 
         MarkCompleted();

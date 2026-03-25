@@ -1,3 +1,7 @@
+using BindingChaos.Stigmergy.Domain.GoverningCommons;
+using BindingChaos.Stigmergy.Domain.Projects;
+using BindingChaos.Stigmergy.Domain.UserGroups;
+using BindingChaos.Stigmergy.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +20,9 @@ public static class StigmergyServiceCollectionExtensions
     /// <returns>The service collection for method chaining.</returns>
     public static IServiceCollection AddStigmergy(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<ICommonsRepository, CommonsRepository>();
+        services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
         return services;
     }
 }

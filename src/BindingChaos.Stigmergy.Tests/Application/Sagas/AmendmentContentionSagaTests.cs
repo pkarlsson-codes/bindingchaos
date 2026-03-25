@@ -1,3 +1,4 @@
+using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.Messages;
 using BindingChaos.Stigmergy.Application.Sagas;
@@ -86,7 +87,7 @@ public class AmendmentContentionSagaTests
             var message = AStartMessage();
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
 
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "participant-002", true));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), true));
 
             saga.Votes.Should().ContainKey("participant-002");
             saga.Votes["participant-002"].Should().BeTrue();
@@ -98,7 +99,7 @@ public class AmendmentContentionSagaTests
             var message = AStartMessage(contesterId: "participant-001");
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
 
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "participant-001", false));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), false));
 
             saga.Votes["participant-001"].Should().BeFalse();
         }
@@ -112,8 +113,8 @@ public class AmendmentContentionSagaTests
             // 2 agree, 1 disagree = 0.67 ratio >= 0.5 threshold → reject
             var message = AStartMessage(contesterId: "p1", rejectionThreshold: 0.5m);
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "p2", true));
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "p3", false));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), true));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), false));
 
             var mockBus = new Mock<IMessageBus>();
             await saga.Handle(new ResolveAmendmentContention("amendment-001", "project-001"), mockBus.Object);
@@ -132,8 +133,8 @@ public class AmendmentContentionSagaTests
             // 1 agree, 2 disagree = 0.33 ratio < 0.5 threshold → restore
             var message = AStartMessage(contesterId: "p1", rejectionThreshold: 0.5m);
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "p2", false));
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", "p3", false));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), false));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), false));
 
             var mockBus = new Mock<IMessageBus>();
             await saga.Handle(new ResolveAmendmentContention("amendment-001", "project-001"), mockBus.Object);
