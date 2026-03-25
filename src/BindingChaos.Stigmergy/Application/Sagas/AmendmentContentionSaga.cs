@@ -1,5 +1,6 @@
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.Messages;
+using BindingChaos.Stigmergy.Domain.Projects;
 using Wolverine;
 
 namespace BindingChaos.Stigmergy.Application.Sagas;
@@ -74,7 +75,7 @@ public sealed class AmendmentContentionSaga : Saga
     public void Handle(InteractWithAmendmentContention message)
     {
         ArgumentNullException.ThrowIfNull(message);
-        Votes[message.ParticipantId] = message.AgreesWithContention;
+        Votes[message.ParticipantId.Value] = message.AgreesWithContention;
     }
 
     /// <summary>
@@ -95,11 +96,11 @@ public sealed class AmendmentContentionSaga : Saga
 
         if (shouldReject)
         {
-            await bus.InvokeAsync(new RejectAmendment(message.ProjectId, Id)).ConfigureAwait(false);
+            await bus.InvokeAsync(new RejectAmendment(ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
         }
         else
         {
-            await bus.InvokeAsync(new RestoreAmendmentToActive(message.ProjectId, Id)).ConfigureAwait(false);
+            await bus.InvokeAsync(new RestoreAmendmentToActive(ProjectId.Create(message.ProjectId), AmendmentId.Create(Id))).ConfigureAwait(false);
         }
 
         MarkCompleted();

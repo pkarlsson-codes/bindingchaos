@@ -15,7 +15,7 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// <param name="ProjectId">The identifier of the project containing the amendment.</param>
 /// <param name="AmendmentId">The identifier of the amendment to contest.</param>
 /// <param name="ContesterId">The identifier of the participant contesting the amendment.</param>
-public sealed record ContestAmendment(string ProjectId, string AmendmentId, string ContesterId);
+public sealed record ContestAmendment(ProjectId ProjectId, AmendmentId AmendmentId, ParticipantId ContesterId);
 
 /// <summary>
 /// Handles the <see cref="ContestAmendment"/> command.
@@ -38,29 +38,27 @@ public static class ContestAmendmentHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var project = await session.LoadAsync<Project>(ProjectId.Create(command.ProjectId), cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Project {command.ProjectId} not found.");
+        var project = await session.LoadAsync<Project>(command.ProjectId, cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException($"Project {command.ProjectId.Value} not found.");
 
         var userGroup = await session.LoadAsync<UserGroup>(project.UserGroupId, cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException($"User group {project.UserGroupId.Value} not found.");
 
-        var contesterId = ParticipantId.Create(command.ContesterId);
-
-        if (!userGroup.Members.Any(m => m.ParticipantId == contesterId))
+        if (!userGroup.Members.Any(m => m.ParticipantId == command.ContesterId))
         {
             throw new BusinessRuleViolationException("Only user group members can contest amendments.");
         }
 
-        project.ContestAmendment(AmendmentId.Create(command.AmendmentId), contesterId);
+        project.ContestAmendment(command.AmendmentId, command.ContesterId);
         session.Store(project);
         await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         await messageBus.PublishAsync(new AmendmentContentionStarted(
-            command.AmendmentId,
-            command.ProjectId,
+            command.AmendmentId.Value,
+            command.ProjectId.Value,
             project.UserGroupId.Value,
             userGroup.Charter.ContentionRules.RejectionThreshold,
             userGroup.Charter.ContentionRules.ResolutionWindow,
-            command.ContesterId)).ConfigureAwait(false);
+            command.ContesterId.Value)).ConfigureAwait(false);
     }
 }

@@ -35,7 +35,7 @@ public class RejectAmendmentHandlerTests
                 .ReturnsAsync((Project?)null);
 
             var act = async () => await RejectAmendmentHandler.Handle(
-                new RejectAmendment("project-abc", "amendment-xyz"),
+                new RejectAmendment(ProjectId.Create("project-abc"), AmendmentId.Create("amendment-xyz")),
                 testBed.Session.Object, CancellationToken.None);
 
             await act.Should().ThrowAsync<InvalidOperationException>();
@@ -50,7 +50,7 @@ public class RejectAmendmentHandlerTests
                 .ReturnsAsync(project);
 
             await RejectAmendmentHandler.Handle(
-                new RejectAmendment(project.Id.Value, amendmentId.Value),
+                new RejectAmendment(project.Id, amendmentId),
                 testBed.Session.Object, CancellationToken.None);
 
             project.Amendments.Single(a => a.Id == amendmentId).Status
@@ -66,7 +66,7 @@ public class RejectAmendmentHandlerTests
                 .ReturnsAsync(project);
 
             await RejectAmendmentHandler.Handle(
-                new RejectAmendment(project.Id.Value, amendmentId.Value),
+                new RejectAmendment(project.Id, amendmentId),
                 testBed.Session.Object, CancellationToken.None);
 
             testBed.Session.Verify(s => s.Store(It.IsAny<Project>()), Times.Once);

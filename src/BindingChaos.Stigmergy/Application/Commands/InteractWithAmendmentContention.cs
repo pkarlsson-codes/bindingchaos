@@ -1,3 +1,5 @@
+using BindingChaos.SharedKernel.Domain;
+
 namespace BindingChaos.Stigmergy.Application.Commands;
 
 /// <summary>
@@ -12,5 +14,5 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// <param name="AgreesWithContention">True if the participant agrees the amendment should be rejected.</param>
 public sealed record InteractWithAmendmentContention(
     string AmendmentContentionSagaId,
-    string ParticipantId,
+    ParticipantId ParticipantId,
     bool AgreesWithContention);

@@ -35,7 +35,7 @@ public class RestoreAmendmentToActiveHandlerTests
                 .ReturnsAsync((Project?)null);
 
             var act = async () => await RestoreAmendmentToActiveHandler.Handle(
-                new RestoreAmendmentToActive("project-abc", "amendment-xyz"),
+                new RestoreAmendmentToActive(ProjectId.Create("project-abc"), AmendmentId.Create("amendment-xyz")),
                 testBed.Session.Object, CancellationToken.None);
 
             await act.Should().ThrowAsync<InvalidOperationException>();
@@ -50,7 +50,7 @@ public class RestoreAmendmentToActiveHandlerTests
                 .ReturnsAsync(project);
 
             await RestoreAmendmentToActiveHandler.Handle(
-                new RestoreAmendmentToActive(project.Id.Value, amendmentId.Value),
+                new RestoreAmendmentToActive(project.Id, amendmentId),
                 testBed.Session.Object, CancellationToken.None);
 
             project.Amendments.Single(a => a.Id == amendmentId).Status
@@ -66,7 +66,7 @@ public class RestoreAmendmentToActiveHandlerTests
                 .ReturnsAsync(project);
 
             await RestoreAmendmentToActiveHandler.Handle(
-                new RestoreAmendmentToActive(project.Id.Value, amendmentId.Value),
+                new RestoreAmendmentToActive(project.Id, amendmentId),
                 testBed.Session.Object, CancellationToken.None);
 
             testBed.Session.Verify(s => s.Store(It.IsAny<Project>()), Times.Once);

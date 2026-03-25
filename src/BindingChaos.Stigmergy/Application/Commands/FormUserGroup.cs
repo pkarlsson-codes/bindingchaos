@@ -11,11 +11,11 @@ using Wolverine;
 namespace BindingChaos.Stigmergy.Application.Commands;
 
 /// <summary>Forms a new user group to govern the specified commons.</summary>
-/// <param name="FounderId">The ID of the participant forming the group.</param>
 /// <param name="CommonsId">The ID of the commons this group will govern.</param>
+/// <param name="FounderId">The ID of the participant forming the group.</param>
 /// <param name="Name">The name of the new user group.</param>
 /// <param name="Charter">The charter defining the rules and policies of the group.</param>
-public sealed record FormUserGroup(string FounderId, string CommonsId, string Name, CharterDto Charter);
+public sealed record FormUserGroup(CommonsId CommonsId, ParticipantId FounderId,string Name, CharterDto Charter);
 
 /// <summary>Handles the <see cref="FormUserGroup"/> command.</summary>
 public static class FormUserGroupHandler
@@ -34,15 +34,13 @@ public static class FormUserGroupHandler
         IUnitOfWork unitOfWork,
         CancellationToken cancellationToken)
     {
-        var commonsId = CommonsId.Create(command.CommonsId);
-        if (!await commonsRepository.ExistsByIdAsync(commonsId, cancellationToken).ConfigureAwait(false))
+        if (!await commonsRepository.ExistsByIdAsync(command.CommonsId, cancellationToken).ConfigureAwait(false))
         {
             throw new AggregateNotFoundException(typeof(Commons), command.CommonsId);
         }
 
-        var founderId = ParticipantId.Create(command.FounderId);
         var charter = CreateCharterHelper.CreateCharter(command.Charter);
-        var userGroup = UserGroup.Form(founderId, commonsId, command.Name, charter);
+        var userGroup = UserGroup.Form(command.FounderId, command.CommonsId, command.Name, charter);
         userGroupRepository.Stage(userGroup);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
         return userGroup.Id;

@@ -36,7 +36,7 @@ public sealed class CommonsController(IMessageBus messageBus) : BaseApiControlle
             return Unauthorized();
         }
 
-        var command = new ProposeCommonsCommand(request.Name, request.Description, participantId.Value);
+        var command = new ProposeCommonsCommand(request.Name, request.Description, participantId);
         var commonsId = await messageBus.InvokeAsync<CommonsId>(command, cancellationToken).ConfigureAwait(false);
 
         return Created($"api/commons/{commonsId.Value}", commonsId.Value);

@@ -10,7 +10,7 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// </summary>
 /// <param name="UserGroupId">The ID of the user group to leave.</param>
 /// <param name="ParticipantId">The ID of the participant leaving the group.</param>
-public sealed record LeaveUserGroup(string UserGroupId, string ParticipantId);
+public sealed record LeaveUserGroup(UserGroupId UserGroupId, ParticipantId ParticipantId);
 
 /// <summary>
 /// Handler for the <see cref="LeaveUserGroup"/> command.
@@ -26,13 +26,13 @@ public static class LeaveUserGroupHandler
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Handle(LeaveUserGroup command, IDocumentSession documentSession, CancellationToken cancellationToken)
     {
-        var userGroup = await documentSession.LoadAsync<UserGroup>(UserGroupId.Create(command.UserGroupId), cancellationToken).ConfigureAwait(false);
+        var userGroup = await documentSession.LoadAsync<UserGroup>(command.UserGroupId, cancellationToken).ConfigureAwait(false);
         if (userGroup is null)
         {
             throw new AggregateNotFoundException(typeof(UserGroup), command.UserGroupId);
         }
 
-        userGroup.Leave(ParticipantId.Create(command.ParticipantId));
+        userGroup.Leave(command.ParticipantId);
 
         documentSession.Store(userGroup);
         await documentSession.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

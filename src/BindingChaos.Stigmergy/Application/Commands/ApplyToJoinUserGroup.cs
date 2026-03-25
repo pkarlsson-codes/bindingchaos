@@ -9,7 +9,7 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// </summary>
 /// <param name="UserGroupId">The ID of the user group to which the participant is applying.</param>
 /// <param name="ParticipantId">The ID of the participant applying for membership.</param>
-public sealed record ApplyToJoinUserGroup(string UserGroupId, string ParticipantId);
+public sealed record ApplyToJoinUserGroup(UserGroupId UserGroupId, ParticipantId ParticipantId);
 
 /// <summary>
 /// Handler for the <see cref="ApplyToJoinUserGroup"/> command.
@@ -25,12 +25,12 @@ public static class ApplyToJoinUserGroupHandler
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Handle(ApplyToJoinUserGroup command, IDocumentSession documentSession, CancellationToken cancellationToken)
     {
-        var userGroup = await documentSession.LoadAsync<UserGroup>(UserGroupId.Create(command.UserGroupId), cancellationToken).ConfigureAwait(false);
+        var userGroup = await documentSession.LoadAsync<UserGroup>(command.UserGroupId, cancellationToken).ConfigureAwait(false);
         if (userGroup == null)
         {
-            throw new InvalidOperationException($"User group with ID {command.UserGroupId} not found.");
+            throw new InvalidOperationException($"User group with ID {command.UserGroupId.Value} not found.");
         }
 
-        userGroup.ApplyToJoin(ParticipantId.Create(command.ParticipantId));
+        userGroup.ApplyToJoin(command.ParticipantId);
     }
 }

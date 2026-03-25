@@ -35,7 +35,7 @@ public class LeaveUserGroupHandlerTests
             testBed.Session
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((UserGroup?)null);
-            var command = new LeaveUserGroup(UserGroupId.Generate().Value, ParticipantId.Generate().Value);
+            var command = new LeaveUserGroup(UserGroupId.Generate(), ParticipantId.Generate());
 
             var act = async () => await LeaveUserGroupHandler.Handle(
                 command, testBed.Session.Object, CancellationToken.None);
@@ -53,7 +53,7 @@ public class LeaveUserGroupHandlerTests
             testBed.Session
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(group);
-            var command = new LeaveUserGroup(group.Id.Value, member.Value);
+            var command = new LeaveUserGroup(group.Id, member);
 
             await LeaveUserGroupHandler.Handle(command, testBed.Session.Object, CancellationToken.None);
 
@@ -70,7 +70,7 @@ public class LeaveUserGroupHandlerTests
             testBed.Session
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(group);
-            var command = new LeaveUserGroup(group.Id.Value, member.Value);
+            var command = new LeaveUserGroup(group.Id, member);
 
             await LeaveUserGroupHandler.Handle(command, testBed.Session.Object, CancellationToken.None);
 

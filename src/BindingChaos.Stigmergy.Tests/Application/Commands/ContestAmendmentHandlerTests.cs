@@ -39,7 +39,7 @@ public class ContestAmendmentHandlerTests
             testBed.Session
                 .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Project?)null);
-            var command = new ContestAmendment("project-abc", "amendment-xyz", "participant-123");
+            var command = new ContestAmendment(ProjectId.Create("project-abc"), AmendmentId.Create("amendment-xyz"), ParticipantId.Create("participant-123"));
 
             var act = async () => await ContestAmendmentHandler.Handle(
                 command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
@@ -62,7 +62,7 @@ public class ContestAmendmentHandlerTests
                 .ReturnsAsync(userGroup);
 
             var nonMember = ParticipantId.Generate();
-            var command = new ContestAmendment(project.Id.Value, amendmentId.Value, nonMember.Value);
+            var command = new ContestAmendment(project.Id, amendmentId, nonMember);
 
             var act = async () => await ContestAmendmentHandler.Handle(
                 command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
@@ -85,7 +85,7 @@ public class ContestAmendmentHandlerTests
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
-            var command = new ContestAmendment(project.Id.Value, amendmentId.Value, member.Value);
+            var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
                 command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
@@ -109,7 +109,7 @@ public class ContestAmendmentHandlerTests
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
-            var command = new ContestAmendment(project.Id.Value, amendmentId.Value, member.Value);
+            var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
                 command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
@@ -139,7 +139,7 @@ public class ContestAmendmentHandlerTests
                 .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
-            var command = new ContestAmendment(project.Id.Value, amendmentId.Value, member.Value);
+            var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
                 command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);

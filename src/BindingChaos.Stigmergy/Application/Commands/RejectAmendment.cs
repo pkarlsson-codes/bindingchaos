@@ -9,7 +9,7 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// </summary>
 /// <param name="ProjectId">The identifier of the project.</param>
 /// <param name="AmendmentId">The identifier of the amendment to reject.</param>
-public sealed record RejectAmendment(string ProjectId, string AmendmentId);
+public sealed record RejectAmendment(ProjectId ProjectId, AmendmentId AmendmentId);
 
 /// <summary>
 /// Handles the <see cref="RejectAmendment"/> command.
@@ -30,10 +30,10 @@ public static class RejectAmendmentHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var project = await session.LoadAsync<Project>(ProjectId.Create(command.ProjectId), cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Project {command.ProjectId} not found.");
+        var project = await session.LoadAsync<Project>(command.ProjectId, cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException($"Project {command.ProjectId.Value} not found.");
 
-        project.RejectAmendment(AmendmentId.Create(command.AmendmentId));
+        project.RejectAmendment(command.AmendmentId);
         session.Store(project);
         await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
