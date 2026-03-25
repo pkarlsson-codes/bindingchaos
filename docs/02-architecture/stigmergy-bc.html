@@ -121,7 +121,7 @@ classDiagram
     class Charter {
         &lt;&lt;Entity&gt;&gt;
     }
-    class ApprovalRules {
+    class ContentionRules {
         &lt;&lt;Value Object&gt;&gt;
         RequiredApprovals
         VotingPeriod
@@ -169,7 +169,7 @@ classDiagram
     UserGroup --> Commons : ref (CommonsId)
     UserGroup *-- "1" Charter : charter
     UserGroup *-- "0..*" Membership : members
-    Charter *-- "1" ApprovalRules
+    Charter *-- "1" ContentionRules
     Charter *-- "1" MembershipRules
     Charter *-- "1" ShunningRules
 

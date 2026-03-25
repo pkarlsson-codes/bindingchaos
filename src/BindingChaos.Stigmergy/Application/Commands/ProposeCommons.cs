@@ -21,8 +21,8 @@ public static class ProposeCommonsHandler
     /// <param name="session">The document session.</param>
     /// <param name="messageBus">The message bus.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public static async Task Handle(
+    /// <returns>The ID of the proposed <see cref="Commons"/>.</returns>
+    public static async Task<CommonsId> Handle(
         ProposeCommons command,
         IDocumentSession session,
         IMessageBus messageBus,
@@ -33,5 +33,6 @@ public static class ProposeCommonsHandler
         var commons = Commons.Propose(command.Name, command.Description, ParticipantId.Create(command.FounderId));
         session.Store(commons);
         await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        return commons.Id;
     }
 }
