@@ -98,10 +98,25 @@
     <div class="diagram-hint">scroll to zoom · drag to pan</div>
     <div class="mermaid">
 classDiagram
+    class Commons {
+        &lt;&lt;Aggregate Root&gt;&gt;
+        Name
+        Description
+        Status
+        FounderId
+    }
+    class CommonsStatus {
+        &lt;&lt;Enumeration&gt;&gt;
+        Proposed
+        Active
+        Dormant
+        Dissolved
+    }
+
     class UserGroup {
         &lt;&lt;Aggregate Root&gt;&gt;
         Name
-        OwnerId
+        FounderId
     }
     class Charter {
         &lt;&lt;Entity&gt;&gt;
@@ -149,6 +164,9 @@ classDiagram
         IsWithdrawn
     }
 
+    Commons *-- "1" CommonsStatus : status
+
+    UserGroup --> Commons : ref (CommonsId)
     UserGroup *-- "1" Charter : charter
     UserGroup *-- "0..*" Membership : members
     Charter *-- "1" ApprovalRules

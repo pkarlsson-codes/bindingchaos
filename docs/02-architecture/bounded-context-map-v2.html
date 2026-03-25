@@ -165,6 +165,7 @@ graph TD
     end
 
     subgraph STIG["Stigmergy"]
+        Commons
         UserGroup --- Charter
         UserGroup --- UserGroupMembership["Membership"]
         Charter --- ApprovalRules
@@ -189,6 +190,7 @@ graph TD
         Tag
     end
 
+    UserGroup -. "governs" .-> Commons
     Project -. "owned by" .-> UserGroup
     Project -. "source idea (optional)" .-> Idea
     ApprovalRules -. "governs" .-> Amendment
@@ -199,6 +201,7 @@ graph TD
     TaggableTarget -. "represents" .-> Signal
     TaggableTarget -. "represents" .-> Idea
     TaggableTarget -. "represents" .-> Project
+    TaggableTarget -. "represents" .-> Commons
     </div>
   </div>
 
@@ -222,7 +225,7 @@ graph TD
       <li>Amendments govern changes to a project's description and goals, governed by the UserGroup's <em>Charter</em> (specifically its ApprovalRules) — not the parent Society's SocialContract.</li>
       <li>Society's SocialContract and UserGroup's Charter are deliberately modelled as different things — the former governs rights and membership, the latter governs operational decision-making.</li>
       <li>Requirements are updated independently by users — separate from the amendment process.</li>
-      <li>Resource Management BC merged into Projects.</li>
+      <li>A UserGroup governs exactly one Commons system; a Commons can have multiple UserGroups, including competing ones with different approaches.</li>
     </ul>
   </div>
 
@@ -231,6 +234,7 @@ graph TD
     <ul>
       <li>Can a Project be created directly by a user group without a source Idea, or must it always trace back to one?</li>
       <li>Reputation / trust graph BC (Neo4j, planned) not yet shown.</li>
+      <li>UserGroup membership is currently flat — Marsh's model implies concentric tiers (inner epistemic community with amplified voice, outer affected parties). Membership tier modelling not yet designed.</li>
     </ul>
   </div>
 
