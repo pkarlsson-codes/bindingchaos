@@ -1,6 +1,7 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
 using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups.Events;
 
 namespace BindingChaos.Stigmergy.Domain.UserGroups;
@@ -38,10 +39,11 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     /// Creates a new user group.
     /// </summary>
     /// <param name="founderId">The participant creating and owning the group.</param>
+    /// <param name="commonsId">The ID of the commons this group will govern.</param>
     /// <param name="name">The name of the group.</param>
     /// <param name="charter">The charter that governs the group.</param>
     /// <returns>A new <see cref="UserGroup"/> instance.</returns>
-    public static UserGroup Create(ParticipantId founderId, string name, Charter charter)
+    public static UserGroup Form(ParticipantId founderId, CommonsId commonsId, string name, Charter charter)
     {
         var userGroup = new UserGroup();
         var userGroupId = UserGroupId.Generate();
@@ -50,7 +52,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
                         charter.MembershipRules.ApprovalRules.ApprovalThreshold,
                         charter.MembershipRules.ApprovalRules.VetoEnabled)
                     : null;
-        userGroup.ApplyChange(new UserGroupCreated(userGroupId.Value, founderId.Value, name, new CharterRecord(
+        userGroup.ApplyChange(new UserGroupFormed(userGroupId.Value, commonsId.Value, founderId.Value, name, new CharterRecord(
             new ContentionRulesRecord(charter.ContentionRules.RejectionThreshold, charter.ContentionRules.ResolutionWindow),
             new MembershipRulesRecord(
                 charter.MembershipRules.JoinPolicy.Value,
@@ -100,7 +102,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     {
         switch (domainEvent)
         {
-            case UserGroupCreated e: Apply(e); break;
+            case UserGroupFormed e: Apply(e); break;
             case MemberJoined e: Apply(e); break;
             case MemberLeft e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
@@ -112,7 +114,7 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
         ApplyChange(new MemberJoined(Id.Value, MembershipId.Generate().Value, participantId.Value));
     }
 
-    private void Apply(UserGroupCreated e)
+    private void Apply(UserGroupFormed e)
     {
         Id = UserGroupId.Create(e.AggregateId);
         FounderId = ParticipantId.Create(e.FounderId);

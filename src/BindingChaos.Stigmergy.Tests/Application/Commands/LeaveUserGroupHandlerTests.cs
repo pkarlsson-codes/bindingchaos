@@ -1,6 +1,7 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Application.Commands;
+using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using FluentAssertions;
 using Marten;
@@ -21,7 +22,7 @@ public class LeaveUserGroupHandlerTests
             new ContentionRules(0.5m, TimeSpan.FromDays(3)),
             new MembershipRules(JoinPolicy.Open, true, null, null, null),
             new ShunningRules(0.6m));
-        return UserGroup.Create(ParticipantId.Generate(), "Test Group", charter);
+        return UserGroup.Form(ParticipantId.Generate(), CommonsId.Generate(), "Test Group", charter);
     }
 
     public class TheHandleMethod
