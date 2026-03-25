@@ -1,6 +1,8 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Domain.GoverningCommons.Events;
+using Spectre.Console;
 
 namespace BindingChaos.Stigmergy.Domain.GoverningCommons;
 
@@ -10,9 +12,13 @@ namespace BindingChaos.Stigmergy.Domain.GoverningCommons;
 /// </summary>
 public sealed class Commons : AggregateRoot<CommonsId>
 {
+    private CommonsStatus _status;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     private Commons()
     {
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     /// <summary>
     /// Proposes a new <see cref="Commons"/>.
@@ -29,12 +35,26 @@ public sealed class Commons : AggregateRoot<CommonsId>
         return commons;
     }
 
+    /// <summary>
+    /// Activates the commons, allowing it to be governed by user groups. This is called when the first user group is formed to govern this commons.
+    /// </summary>
+    internal void Activate()
+    {
+        if (_status != CommonsStatus.Proposed)
+        {
+            throw new BusinessRuleViolationException("Only proposed commons can be activated.");
+        }
+
+        ApplyChange(new CommonsActivated(Id.Value));
+    }
+
     /// <inheritdoc/>
     protected override void ApplyEvent(IDomainEvent domainEvent)
     {
         switch (domainEvent)
         {
             case CommonsCreated e: Apply(e); break;
+            case CommonsActivated e: Apply(e); break;
             default: throw new InvalidOperationException($"Unsupported event type: {domainEvent.GetType().Name}");
         }
     }
@@ -42,5 +62,11 @@ public sealed class Commons : AggregateRoot<CommonsId>
     private void Apply(CommonsCreated e)
     {
         Id = CommonsId.Create(e.AggregateId);
+        _status = CommonsStatus.Proposed;
+    }
+
+    private void Apply(CommonsActivated e)
+    {
+        _status = CommonsStatus.Active;
     }
 }
