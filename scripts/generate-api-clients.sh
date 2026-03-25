@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONFIGURATION="${1:-Debug}"
+OUTPUT_PATH="${2:-src/BindingChaos.Web/api-spec.json}"
+
+echo "Generating OpenAPI specification and API clients..."
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+echo "Project root: $PROJECT_ROOT"
+
+CSPROJ_PATH="$PROJECT_ROOT/src/BindingChaos.Web.Gateway/BindingChaos.Web.Gateway.csproj"
+
+echo "Building Web Gateway API project..."
+dotnet build "$CSPROJ_PATH" --configuration "$CONFIGURATION"
+
+OUTPUT_DIR="$(dirname "$PROJECT_ROOT/$OUTPUT_PATH")"
+mkdir -p "$OUTPUT_DIR"
+
+echo "Ensuring NSwag CLI..."
+dotnet tool update --global NSwag.ConsoleCore 2>/dev/null \
+    || dotnet tool install --global NSwag.ConsoleCore
+
+echo "Generating OpenAPI spec via NSwag..."
+nswag aspnetcore2openapi \
+    /project:"$CSPROJ_PATH" \
+    /output:"$PROJECT_ROOT/$OUTPUT_PATH" \
+    /configuration:"$CONFIGURATION"
+
+FRONTEND_PATH="$PROJECT_ROOT/src/BindingChaos.Web"
+if [ ! -d "$FRONTEND_PATH/node_modules" ]; then
+    echo "Installing frontend dependencies..."
+    npm --prefix "$FRONTEND_PATH" install
+fi
+
+echo "Generating TypeScript API clients..."
+npm --prefix "$FRONTEND_PATH" run generate-api-from-spec
+
+echo "OpenAPI specification and API clients generation completed successfully!"
