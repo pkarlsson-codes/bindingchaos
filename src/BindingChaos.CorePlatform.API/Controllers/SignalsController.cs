@@ -3,9 +3,9 @@ using BindingChaos.CorePlatform.API.Mappings;
 using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
-using BindingChaos.Pseudonymity.Application.Services;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.SignalAwareness.Application.Commands;
@@ -24,10 +24,10 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// Controller for managing signals.
 /// </summary>
 /// <param name="messageBus">The message bus for handling asynchronous messaging.</param>
-/// <param name="pseudonymService">The pseudonym service for resolving participant identities.</param>
+/// <param name="pseudonymService">The pseudonym lookup service for resolving participant identities.</param>
 [ApiController]
 [Route("api/signals")]
-public sealed class SignalsController(IMessageBus messageBus, IPseudonymService pseudonymService) : BaseApiController
+public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupService pseudonymService) : BaseApiController
 {
     /// <summary>
     /// Gets a specific signal by its ID.
@@ -56,7 +56,7 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymService 
         var participantIds = signal.Amplifications.Select(a => a.AmplifierId)
             .Concat(signal.SuggestedActions.Select(a => a.SuggestedById))
             .Append(signal.OriginatorId);
-        var pseudonyms = pseudonymService.Generate(signalId, participantIds);
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(participantIds, cancellationToken).ConfigureAwait(false);
 
         var contract = SignalMapper.ToSignalResponse(signal, currentParticipantId, pseudonyms);
         return Ok(contract);
@@ -83,10 +83,13 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymService 
 
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
 
+        var originatorIds = signalsPage.Items.Select(s => s.OriginatorId);
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(originatorIds, cancellationToken).ConfigureAwait(false);
+
         var response = signalsPage.MapItems(signal =>
         {
-            var originatorPseudonym = pseudonymService.Generate(SignalId.Create(signal.Id), signal.OriginatorId);
-            return SignalMapper.ToSignalListItemResponse(signal, currentParticipantId, originatorPseudonym);
+            pseudonyms.TryGetValue(signal.OriginatorId, out var originatorPseudonym);
+            return SignalMapper.ToSignalListItemResponse(signal, currentParticipantId, originatorPseudonym ?? signal.OriginatorId);
         });
 
         return Ok(response);

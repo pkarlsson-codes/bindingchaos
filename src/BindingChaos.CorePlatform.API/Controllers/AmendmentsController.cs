@@ -8,9 +8,9 @@ using BindingChaos.Ideation.Application.Queries;
 using BindingChaos.Ideation.Application.ReadModels;
 using BindingChaos.Ideation.Domain.Amendments;
 using BindingChaos.Ideation.Domain.Ideas;
+using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
-using BindingChaos.Pseudonymity.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
@@ -21,7 +21,7 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// </summary>
 [ApiController]
 [Route("api")]
-public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymService pseudonymService) : BaseApiController
+public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymLookupService pseudonymService) : BaseApiController
 {
     /// <summary>
     /// Proposes a new amendment for an idea.
@@ -72,10 +72,13 @@ public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymServi
 
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
 
+        var authorIds = viewResult.Items.Select(a => a.AuthorId);
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(authorIds, cancellationToken).ConfigureAwait(false);
+
         var response = viewResult.MapItems(amendment =>
         {
-            var authorPseudonym = pseudonymService.Generate(IdeaId.Create(amendment.IdeaId), amendment.AuthorId);
-            return AmendmentMapper.ToAmendmentsListItemResponse(amendment, currentParticipantId, authorPseudonym);
+            pseudonyms.TryGetValue(amendment.AuthorId, out var authorPseudonym);
+            return AmendmentMapper.ToAmendmentsListItemResponse(amendment, currentParticipantId, authorPseudonym ?? amendment.AuthorId);
         });
 
         return Ok(response);
@@ -102,7 +105,7 @@ public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymServi
         }
 
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
-        var creatorPseudonym = pseudonymService.Generate(IdeaId.Create(amendment.IdeaId), amendment.CreatorId);
+        var creatorPseudonym = await pseudonymService.GetPseudonymAsync(amendment.CreatorId, cancellationToken).ConfigureAwait(false) ?? amendment.CreatorId;
         var response = AmendmentMapper.ToAmendmentResponse(amendment, currentParticipantId, creatorPseudonym);
 
         return Ok(response);
@@ -133,7 +136,7 @@ public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymServi
         var supportersResult = await messageBus.InvokeAsync<PaginatedResponse<AmendmentSupporterView>>(supportersQuery, cancellationToken).ConfigureAwait(false);
 
         var participantIds = supportersResult.Items.Select(s => s.ParticipantId);
-        var pseudonyms = pseudonymService.Generate(IdeaId.Create(amendment.IdeaId), participantIds);
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(participantIds, cancellationToken).ConfigureAwait(false);
 
         return Ok(supportersResult.MapItems(s => AmendmentMapper.ToAmendmentSupporterResponse(s, pseudonyms)));
     }
@@ -163,7 +166,7 @@ public sealed class AmendmentsController(IMessageBus messageBus, IPseudonymServi
         var opponentsResult = await messageBus.InvokeAsync<PaginatedResponse<AmendmentOpponentView>>(opponentsQuery, cancellationToken).ConfigureAwait(false);
 
         var participantIds = opponentsResult.Items.Select(o => o.ParticipantId);
-        var pseudonyms = pseudonymService.Generate(IdeaId.Create(amendment.IdeaId), participantIds);
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(participantIds, cancellationToken).ConfigureAwait(false);
 
         return Ok(opponentsResult.MapItems(o => AmendmentMapper.ToAmendmentOpponentResponse(o, pseudonyms)));
     }

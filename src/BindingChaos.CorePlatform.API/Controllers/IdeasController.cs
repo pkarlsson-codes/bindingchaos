@@ -7,9 +7,9 @@ using BindingChaos.Ideation.Application.Commands;
 using BindingChaos.Ideation.Application.Queries;
 using BindingChaos.Ideation.Application.ReadModels;
 using BindingChaos.Ideation.Domain.Ideas;
+using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
-using BindingChaos.Pseudonymity.Application.Services;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SignalAwareness.Application.Queries;
 using BindingChaos.SignalAwareness.Application.ReadModels;
@@ -24,10 +24,10 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// Controller for managing ideas.
 /// </summary>
 /// <param name="messageBus">The message bus instance used for publishing events or messages.</param>
-/// <param name="pseudonymService">The pseudonym service for resolving participant identities.</param>
+/// <param name="pseudonymService">The pseudonym lookup service for resolving participant identities.</param>
 [ApiController]
 [Route("api/ideas")]
-public sealed class IdeasController(IMessageBus messageBus, IPseudonymService pseudonymService) : BaseApiController
+public sealed class IdeasController(IMessageBus messageBus, IPseudonymLookupService pseudonymService) : BaseApiController
 {
     /// <summary>
     /// Creates a new idea.
@@ -65,25 +65,26 @@ public sealed class IdeasController(IMessageBus messageBus, IPseudonymService ps
     /// Gets a specific idea by its ID.
     /// </summary>
     /// <param name="ideaId">The ID of the idea to retrieve.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A response containing the idea details.</returns>
     [HttpGet("{ideaId}")]
     [ProducesResponseType(typeof(ApiResponse<IdeaResponse>), 200)]
     [EndpointName("getIdea")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetIdea([FromRoute] string ideaId)
+    public async Task<IActionResult> GetIdea([FromRoute] string ideaId, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         var query = new GetIdea(IdeaId.Create(ideaId));
-        var idea = await messageBus.InvokeAsync<IdeaView?>(query).ConfigureAwait(false);
+        var idea = await messageBus.InvokeAsync<IdeaView?>(query, cancellationToken).ConfigureAwait(false);
         if (idea == null)
         {
             return NotFound($"Idea with ID {ideaId} not found.");
         }
 
-        var signals = await messageBus.InvokeAsync<IReadOnlyList<SignalTitle>>(new GetSignalTitlesByIds([.. idea.SignalReferenceIds])).ConfigureAwait(false);
+        var signals = await messageBus.InvokeAsync<IReadOnlyList<SignalTitle>>(new GetSignalTitlesByIds([.. idea.SignalReferenceIds]), cancellationToken).ConfigureAwait(false);
 
         var sourceSignals = signals.Select(s => new IdeaSourceSignal(s.SignalId, s.Title)).ToList();
-        var authorPseudonym = pseudonymService.Generate(IdeaId.Create(idea.Id), idea.AuthorId);
+        var authorPseudonym = await pseudonymService.GetPseudonymAsync(idea.AuthorId, cancellationToken).ConfigureAwait(false) ?? idea.AuthorId;
 
         return Ok(IdeaMapper.ToIdeaResponse(idea, sourceSignals, authorPseudonym));
     }

@@ -13,7 +13,11 @@ public sealed class IdentityProfileDbContext : DbContext
     {
     }
 
+    /// <summary>Gets the identity maps linking external provider subjects to internal user IDs.</summary>
     public DbSet<IdentityMap> IdentityMaps => Set<IdentityMap>();
+
+    /// <summary>Gets the participant records storing stable pseudonyms.</summary>
+    public DbSet<Participant> Participants => Set<Participant>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,5 +25,6 @@ public sealed class IdentityProfileDbContext : DbContext
 
         modelBuilder.HasDefaultSchema("identity_profile");
         modelBuilder.ApplyConfiguration(new IdentityMapConfiguration());
+        modelBuilder.ApplyConfiguration(new ParticipantConfiguration());
     }
 }

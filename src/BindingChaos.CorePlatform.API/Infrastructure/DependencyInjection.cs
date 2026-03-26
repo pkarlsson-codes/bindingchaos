@@ -7,7 +7,6 @@ using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.Ideation.Infrastructure;
 using BindingChaos.Ideation.Infrastructure.Persistence;
 using BindingChaos.IdentityProfile.Infrastructure;
-using BindingChaos.Pseudonymity.Infrastructure;
 using BindingChaos.Reputation.Infrastructure;
 using BindingChaos.SharedKernel.Extensions;
 using BindingChaos.SignalAwareness.Infrastructure;
@@ -82,7 +81,6 @@ internal static class CorePlatformServiceCollectionExtensions
         services.AddIdeation(configuration);
         services.AddTagging(configuration);
         services.AddIdentityProfile(configuration);
-        services.AddPseudonymity(configuration);
         services.AddCommunityDiscourse(configuration);
         services.AddSocieties(configuration);
         services.AddStigmergy(configuration);

@@ -2,9 +2,9 @@ using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
-using BindingChaos.Pseudonymity.Application.Services;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.Societies.Application.Commands;
@@ -22,10 +22,10 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// Controller for managing societies.
 /// </summary>
 /// <param name="messageBus">The message bus for dispatching commands and queries.</param>
-/// <param name="pseudonymService">The pseudonym service for resolving participant identities.</param>
+/// <param name="pseudonymService">The pseudonym lookup service for resolving participant identities.</param>
 [ApiController]
 [Route("api/societies")]
-public sealed class SocietiesController(IMessageBus messageBus, IPseudonymService pseudonymService) : BaseApiController
+public sealed class SocietiesController(IMessageBus messageBus, IPseudonymLookupService pseudonymService) : BaseApiController
 {
     /// <summary>
     /// Creates a new society together with its initial social contract.
@@ -120,7 +120,7 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymServic
 
         var contractId = await messageBus.InvokeAsync<string?>(new GetCurrentSocialContractId(id), cancellationToken).ConfigureAwait(false);
 
-        var createdByPseudonym = pseudonymService.Generate(id, view.CreatedBy);
+        var createdByPseudonym = await pseudonymService.GetPseudonymAsync(view.CreatedBy, cancellationToken).ConfigureAwait(false) ?? view.CreatedBy;
 
         return Ok(MapToSocietyResponse(view, createdByPseudonym, contractId));
     }
@@ -149,7 +149,7 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymServic
             .InvokeAsync<PaginatedResponse<SocietyMemberView>>(query, cancellationToken)
             .ConfigureAwait(false);
 
-        var pseudonyms = pseudonymService.Generate(id, result.Items.Select(m => m.ParticipantId));
+        var pseudonyms = await pseudonymService.GetPseudonymsAsync(result.Items.Select(m => m.ParticipantId), cancellationToken).ConfigureAwait(false);
 
         return Ok(result.MapItems(m => MapToMemberResponse(m, pseudonyms)));
     }
@@ -270,9 +270,14 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymServic
 
     private static SocietyMemberResponse MapToMemberResponse(SocietyMemberView view, IReadOnlyDictionary<string, string> pseudonyms)
     {
+        if (!pseudonyms.TryGetValue(view.ParticipantId, out var pseudonym))
+        {
+            throw new InvalidOperationException($"No pseudonym found for participant {view.ParticipantId}.");
+        }
+
         return new SocietyMemberResponse(
             view.Id,
-            pseudonyms[view.ParticipantId],
+            pseudonym,
             view.SocialContractId,
             view.JoinedAt);
     }

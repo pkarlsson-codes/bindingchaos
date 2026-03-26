@@ -26,7 +26,6 @@
     <ProjectReference Include="..\BindingChaos.CorePlatform.Contracts\BindingChaos.CorePlatform.Contracts.csproj" />
     <ProjectReference Include="..\BindingChaos.Infrastructure\BindingChaos.Infrastructure.csproj" />
     <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
-    <ProjectReference Include="..\BindingChaos.Pseudonymity\BindingChaos.Pseudonymity.csproj" />
     <ProjectReference Include="..\BindingChaos.SignalAwareness\BindingChaos.SignalAwareness.csproj" />
     <ProjectReference Include="..\BindingChaos.Ideation\BindingChaos.Ideation.csproj" />
     <ProjectReference Include="..\BindingChaos.Tagging\BindingChaos.Tagging.csproj" />
