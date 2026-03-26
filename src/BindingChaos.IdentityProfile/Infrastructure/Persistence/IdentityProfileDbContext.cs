@@ -15,16 +15,11 @@ public sealed class IdentityProfileDbContext : DbContext
 
     public DbSet<IdentityMap> IdentityMaps => Set<IdentityMap>();
 
-    public DbSet<UserTrust> UserTrusts => Set<UserTrust>();
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.HasDefaultSchema("identity_profile");
         modelBuilder.ApplyConfiguration(new IdentityMapConfiguration());
-        modelBuilder.ApplyConfiguration(new UserTrustConfiguration());
     }
 }
-
-

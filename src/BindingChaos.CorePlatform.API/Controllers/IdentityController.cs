@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BindingChaos.CorePlatform.API.Controllers;
 
 /// <summary>
-/// Endpoints for identity mapping and user trust.
+/// Endpoints for identity mapping.
 /// </summary>
 /// <param name="service">Identity profile service.</param>
 [ApiController]
@@ -28,11 +28,11 @@ public sealed class IdentityController(IIdentityProfileService service) : BaseAp
     }
 
     /// <summary>
-    /// Gets identity and trust info for a user.
+    /// Gets identity info for a user.
     /// </summary>
     /// <param name="id">Internal user id.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>User identity/trust view.</returns>
+    /// <returns>User identity view.</returns>
     [HttpGet("users/{id}")]
     [ProducesResponseType(typeof(ApiResponse<UserView>), 200)]
     [ProducesResponseType(404)]
@@ -45,44 +45,8 @@ public sealed class IdentityController(IIdentityProfileService service) : BaseAp
             return NotFound($"User with ID {id} not found.");
         }
 
-        var trust = await service.GetOrCreateTrustAsync(id, cancellationToken).ConfigureAwait(false);
-        return Ok(new UserView
-        {
-            UserId = id,
-            PersonhoodVerified = trust.PersonhoodVerified,
-            TrustLevel = trust.TrustLevel,
-        });
+        return Ok(new UserView { UserId = id });
     }
-
-    /// <summary>
-    /// Sets a user's personhood verified flag.
-    /// </summary>
-    /// <param name="id">Internal user id.</param>
-    /// <param name="request">Personhood request.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>Updated user identity/trust view.</returns>
-    [HttpPost("users/{id}/personhood")]
-    [ProducesResponseType(typeof(ApiResponse<UserView>), 200)]
-    [ProducesResponseType(404)]
-    [EndpointName("setUserPersonhood")]
-    public async Task<IActionResult> SetPersonhood([FromRoute] string id, [FromBody] PersonhoodRequest request, CancellationToken cancellationToken)
-    {
-        var map = await service.GetIdentityMapAsync(id, cancellationToken).ConfigureAwait(false);
-        if (map is null)
-        {
-            return NotFound($"User with ID {id} not found.");
-        }
-
-        var trust = await service.SetPersonhoodAsync(id, request.Verified, cancellationToken).ConfigureAwait(false);
-        return Ok(new UserView
-        {
-            UserId = id,
-            PersonhoodVerified = trust.PersonhoodVerified,
-            TrustLevel = trust.TrustLevel,
-        });
-    }
-
-    // Private request/response types (kept private to avoid public XML docs and ordering issues)
 
     /// <summary>
     /// Request to link an external identity to an internal user id.
@@ -101,17 +65,6 @@ public sealed class IdentityController(IIdentityProfileService service) : BaseAp
     }
 
     /// <summary>
-    /// Request to set a user's personhood verification status.
-    /// </summary>
-    public sealed class PersonhoodRequest
-    {
-        /// <summary>
-        /// Indicates whether the user's personhood has been verified.
-        /// </summary>
-        public bool Verified { get; init; }
-    }
-
-    /// <summary>
     /// Response containing the internal user id after linking an external identity.
     /// </summary>
     private sealed class LinkResponse
@@ -123,7 +76,7 @@ public sealed class IdentityController(IIdentityProfileService service) : BaseAp
     }
 
     /// <summary>
-    /// View model for user identity and trust information.
+    /// View model for user identity information.
     /// </summary>
     private sealed class UserView
     {
@@ -131,15 +84,5 @@ public sealed class IdentityController(IIdentityProfileService service) : BaseAp
         /// The internal user id.
         /// </summary>
         required public string UserId { get; init; }
-
-        /// <summary>
-        /// Indicates whether the user's personhood has been verified.
-        /// </summary>
-        public bool PersonhoodVerified { get; init; }
-
-        /// <summary>
-        /// The trust level of the user (e.g., "unknown", "trusted", "untrusted").
-        /// </summary>
-        required public string TrustLevel { get; init; }
     }
 }
