@@ -7,12 +7,14 @@ namespace BindingChaos.Stigmergy.Domain.UserGroups.Events;
 /// <param name="CommonsId">The identifier of the commons this group governs.</param>
 /// <param name="FounderId">The identifier of the participant who founded the group.</param>
 /// <param name="Name">The name of the user group.</param>
+/// <param name="Philosophy">The philosophy of the user group.</param>
 /// <param name="Charter">The charter that governs the user group.</param>
 internal sealed record UserGroupFormed(
     string UserGroupId,
     string CommonsId,
     string FounderId,
     string Name,
+    string Philosophy,
     CharterRecord Charter)
     : DomainEvent(UserGroupId);
 

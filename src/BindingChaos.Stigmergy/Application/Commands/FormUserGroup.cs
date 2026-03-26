@@ -14,8 +14,9 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// <param name="CommonsId">The ID of the commons this group will govern.</param>
 /// <param name="FounderId">The ID of the participant forming the group.</param>
 /// <param name="Name">The name of the new user group.</param>
+/// <param name="Philosophy">The philosophy of the new user group.</param>
 /// <param name="Charter">The charter defining the rules and policies of the group.</param>
-public sealed record FormUserGroup(CommonsId CommonsId, ParticipantId FounderId, string Name, CharterDto Charter);
+public sealed record FormUserGroup(CommonsId CommonsId, ParticipantId FounderId, string Name, string Philosophy, CharterDto Charter);
 
 /// <summary>Handles the <see cref="FormUserGroup"/> command.</summary>
 public static class FormUserGroupHandler
@@ -40,7 +41,12 @@ public static class FormUserGroupHandler
         }
 
         var charter = CreateCharterHelper.CreateCharter(command.Charter);
-        var userGroup = UserGroup.Form(command.FounderId, command.CommonsId, command.Name, charter);
+        var userGroup = UserGroup.Form(
+            command.FounderId,
+            command.CommonsId,
+            command.Name,
+            command.Philosophy,
+            charter);
         userGroupRepository.Stage(userGroup);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
         return userGroup.Id;

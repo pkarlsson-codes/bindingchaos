@@ -26,7 +26,12 @@ public class ContestAmendmentHandlerTests
             new ContentionRules(0.5m, TimeSpan.FromDays(3)),
             new MembershipRules(JoinPolicy.Open, true, null, null, null),
             new ShunningRules(0.6m));
-        return UserGroup.Form(ParticipantId.Generate(), CommonsId.Generate(), "Test Group", charter);
+        return UserGroup.Form(
+            ParticipantId.Generate(),
+            CommonsId.Generate(),
+            "Test Group",
+            "Test Philosophy",
+            charter);
     }
 
     public class TheHandleMethod

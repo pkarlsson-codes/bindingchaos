@@ -48,7 +48,7 @@ public class UserGroupFormedHandlerTests
                 .ReturnsAsync(commons);
             testBed.Session
                 .Setup(s => s.Store(It.IsAny<Commons>()))
-                    .Callback<Commons>(c => events.AddRange(c.UncommittedEvents));
+                    .Callback<Commons[]>(entities => events.AddRange(entities[0].UncommittedEvents));
             var message = CreateUserGroupFormedEvent();
 
             await UserGroupFormedHandler.Handle(message, testBed.Session.Object, CancellationToken.None);
@@ -65,6 +65,7 @@ public class UserGroupFormedHandlerTests
                 CommonsId.Generate().Value,
                 ParticipantId.Generate().Value,
                 "name",
+                "philosophy",
                 new CharterRecord(
                     new ContentionRulesRecord(0.5m, TimeSpan.FromDays(3)),
                     new MembershipRulesRecord(JoinPolicy.Open.Value, true, null, null, null),

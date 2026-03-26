@@ -87,10 +87,11 @@ public class AmendmentContentionSagaTests
             var message = AStartMessage();
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
 
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), true));
+            var participantId = ParticipantId.Generate();
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", participantId, true));
 
-            saga.Votes.Should().ContainKey("participant-002");
-            saga.Votes["participant-002"].Should().BeTrue();
+            saga.Votes.Should().ContainKey(participantId.Value);
+            saga.Votes[participantId.Value].Should().BeTrue();
         }
 
         [Fact]
@@ -99,7 +100,7 @@ public class AmendmentContentionSagaTests
             var message = AStartMessage(contesterId: "participant-001");
             var saga = await AmendmentContentionSaga.Start(message, Mock.Of<IMessageContext>());
 
-            saga.Handle(new InteractWithAmendmentContention("amendment-001", ParticipantId.Generate(), false));
+            saga.Handle(new InteractWithAmendmentContention("amendment-001", new ParticipantId("participant-001"), false));
 
             saga.Votes["participant-001"].Should().BeFalse();
         }

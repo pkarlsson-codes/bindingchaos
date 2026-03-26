@@ -41,9 +41,15 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
     /// <param name="founderId">The participant creating and owning the group.</param>
     /// <param name="commonsId">The ID of the commons this group will govern.</param>
     /// <param name="name">The name of the group.</param>
+    /// <param name="philosophy">The philosophy of the group.</param>
     /// <param name="charter">The charter that governs the group.</param>
     /// <returns>A new <see cref="UserGroup"/> instance.</returns>
-    public static UserGroup Form(ParticipantId founderId, CommonsId commonsId, string name, Charter charter)
+    public static UserGroup Form(
+        ParticipantId founderId,
+        CommonsId commonsId,
+        string name,
+        string philosophy,
+        Charter charter)
     {
         var userGroup = new UserGroup();
         var userGroupId = UserGroupId.Generate();
@@ -52,15 +58,21 @@ public sealed class UserGroup : AggregateRoot<UserGroupId>
                         charter.MembershipRules.ApprovalRules.ApprovalThreshold,
                         charter.MembershipRules.ApprovalRules.VetoEnabled)
                     : null;
-        userGroup.ApplyChange(new UserGroupFormed(userGroupId.Value, commonsId.Value, founderId.Value, name, new CharterRecord(
-            new ContentionRulesRecord(charter.ContentionRules.RejectionThreshold, charter.ContentionRules.ResolutionWindow),
-            new MembershipRulesRecord(
-                charter.MembershipRules.JoinPolicy.Value,
-                charter.MembershipRules.MemberListPublic,
-                charter.MembershipRules.MaxMembers,
-                charter.MembershipRules.EntryRequirements,
-                approvalRules),
-            new ShunningRulesRecord(charter.ShunningRules.ApprovalThreshold))));
+        userGroup.ApplyChange(new UserGroupFormed(
+            userGroupId.Value,
+            commonsId.Value,
+            founderId.Value,
+            name,
+            philosophy,
+            new CharterRecord(
+                new ContentionRulesRecord(charter.ContentionRules.RejectionThreshold, charter.ContentionRules.ResolutionWindow),
+                new MembershipRulesRecord(
+                    charter.MembershipRules.JoinPolicy.Value,
+                    charter.MembershipRules.MemberListPublic,
+                    charter.MembershipRules.MaxMembers,
+                    charter.MembershipRules.EntryRequirements,
+                    approvalRules),
+                new ShunningRulesRecord(charter.ShunningRules.ApprovalThreshold))));
 
         userGroup.Join(founderId);
         return userGroup;

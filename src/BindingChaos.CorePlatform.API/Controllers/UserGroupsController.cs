@@ -41,7 +41,12 @@ public sealed class UserGroupsController(IMessageBus messageBus) : BaseApiContro
         }
 
         var charter = MapCharter(request.Charter);
-        var command = new FormUserGroup(CommonsId.Create(request.CommonsId), participantId, request.Name, charter);
+        var command = new FormUserGroup(
+            CommonsId.Create(request.CommonsId),
+            participantId,
+            request.Name,
+            request.Philosophy,
+            charter);
         var userGroupId = await messageBus.InvokeAsync<UserGroupId>(command, cancellationToken).ConfigureAwait(false);
 
         return Created($"api/usergroups/{userGroupId.Value}", userGroupId.Value);

@@ -5,8 +5,13 @@ namespace BindingChaos.CorePlatform.Contracts.Requests;
 /// </summary>
 /// <param name="CommonsId">The ID of the commons this user group will govern.</param>
 /// <param name="Name">The name of the user group.</param>
+/// <param name="Philosophy">The philosophy of the user group.</param>
 /// <param name="Charter">The charter defining the rules and policies of the group.</param>
-public sealed record FormUserGroupRequest(string CommonsId, string Name, UserGroupCharterDto Charter);
+public sealed record FormUserGroupRequest(
+    string CommonsId,
+    string Name,
+    string Philosophy,
+    UserGroupCharterDto Charter);
 
 /// <summary>
 /// Charter data transfer object.
