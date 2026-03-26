@@ -93,28 +93,19 @@ public partial class DocumentsApiClient : BaseApiClient, IDocumentsApiClient
 
     private static partial class Logs
     {
-        public static readonly Action<ILogger, string, Exception?> DocumentNotFound =
-            LoggerMessage.Define<string>(
-                LogLevel.Warning,
-                new EventId(3, nameof(DocumentNotFound)),
-                "Document not found: {DocumentId}");
-
-        public static readonly Action<ILogger, string, Exception?> GetContentError =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(4, nameof(GetContentError)),
-                "Error getting document content for {DocumentId}");
-
-        public static readonly Action<ILogger, string, Exception?> GetMetadataError =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(5, nameof(GetMetadataError)),
-                "Error getting document metadata for {DocumentId}");
-
         [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "Failed to upload document. Status: {StatusCode}, Error: {Error}")]
         internal static partial void UploadFailed(ILogger logger, HttpStatusCode statusCode, string error);
 
         [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "Error uploading document {FileName}")]
         internal static partial void UploadError(ILogger logger, string fileName, Exception? exception);
+
+        [LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = "Document not found: {DocumentId}")]
+        internal static partial void DocumentNotFound(ILogger logger, string documentId, Exception? exception);
+
+        [LoggerMessage(EventId = 4, Level = LogLevel.Error, Message = "Error getting document content for {DocumentId}")]
+        internal static partial void GetContentError(ILogger logger, string documentId, Exception? exception);
+
+        [LoggerMessage(EventId = 5, Level = LogLevel.Error, Message = "Error getting document metadata for {DocumentId}")]
+        internal static partial void GetMetadataError(ILogger logger, string documentId, Exception? exception);
     }
 }

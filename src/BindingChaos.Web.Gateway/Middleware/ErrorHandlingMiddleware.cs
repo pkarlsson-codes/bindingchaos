@@ -6,7 +6,7 @@ namespace BindingChaos.Web.Gateway.Middleware;
 /// <summary>
 /// Middleware for handling exceptions and providing consistent error responses.
 /// </summary>
-internal sealed class ErrorHandlingMiddleware
+internal sealed partial class ErrorHandlingMiddleware
 {
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
@@ -102,11 +102,8 @@ internal sealed class ErrorHandlingMiddleware
 
     private static partial class Logs
     {
-        internal static readonly Action<ILogger, string, Exception?> LogUnhandledException =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(1, nameof(LogUnhandledException)),
-                "Unhandled exception occurred. Correlation ID: {CorrelationId}");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "Unhandled exception occurred. Correlation ID: {CorrelationId}")]
+        internal static partial void LogUnhandledException(ILogger logger, string correlationId, Exception? exception);
     }
 }
 

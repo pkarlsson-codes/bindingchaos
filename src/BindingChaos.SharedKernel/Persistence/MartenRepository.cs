@@ -10,51 +10,11 @@ namespace BindingChaos.SharedKernel.Persistence;
 /// </summary>
 /// <typeparam name="TAggregate">The type of the aggregate root.</typeparam>
 /// <typeparam name="TId">The type of the aggregate's unique identifier.</typeparam>
-public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate, TId>
+public abstract partial class MartenRepository<TAggregate, TId> : IRepository<TAggregate, TId>
     where TAggregate : AggregateRoot<TId>
     where TId : EntityId
 {
-    private static readonly Action<ILogger, string, string, Exception?> LogNoEventsFound =
-        LoggerMessage.Define<string, string>(
-            LogLevel.Debug,
-            new EventId(1, nameof(LogNoEventsFound)),
-            "No events found for aggregate {AggregateType} with id {AggregateId}");
-
-    private static readonly Action<ILogger, string, string, long?, Exception?> LogSuccessfullyLoaded =
-        LoggerMessage.Define<string, string, long?>(
-            LogLevel.Debug,
-            new EventId(2, nameof(LogSuccessfullyLoaded)),
-            "Successfully loaded aggregate {AggregateType} with id {AggregateId} from {EventCount} events");
-
-    private static readonly Action<ILogger, string, string, Exception?> LogErrorLoading =
-        LoggerMessage.Define<string, string>(
-            LogLevel.Error,
-            new EventId(3, nameof(LogErrorLoading)),
-            "Error loading aggregate {AggregateType} with id {AggregateId}");
-
-    private static readonly Action<ILogger, string, string, Exception?> LogNoUncommittedEvents =
-        LoggerMessage.Define<string, string>(
-            LogLevel.Debug,
-            new EventId(4, nameof(LogNoUncommittedEvents)),
-            "No uncommitted events to save for aggregate {AggregateType} with id {AggregateId}");
-
-    private static readonly Action<ILogger, int, string, string, Exception?> LogSuccessfullySaved =
-        LoggerMessage.Define<int, string, string>(
-            LogLevel.Debug,
-            new EventId(5, nameof(LogSuccessfullySaved)),
-            "Successfully saved {EventCount} events for aggregate {AggregateType} with id {AggregateId}");
-
-    private static readonly Action<ILogger, string, string, Exception?> LogErrorSaving =
-        LoggerMessage.Define<string, string>(
-            LogLevel.Error,
-            new EventId(6, nameof(LogErrorSaving)),
-            "Error saving aggregate {AggregateType} with id {AggregateId}");
-
-    private static readonly Action<ILogger, string, string, Exception?> LogErrorFetching =
-        LoggerMessage.Define<string, string>(
-            LogLevel.Error,
-            new EventId(7, nameof(LogErrorFetching)),
-            "Error checking existence of stream for aggregate {AggregateType} with id {AggregateId}");
+    private static readonly string AggregateTypeName = typeof(TAggregate).Name;
 
     private readonly ILogger<MartenRepository<TAggregate, TId>> _logger;
 
@@ -86,6 +46,8 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
         ArgumentNullException.ThrowIfNull(id);
         var streamId = GetStreamId(id);
 
+        var aggregateId = id.ToString();
+
         try
         {
             var stream = await Session.Events.FetchStreamStateAsync(streamId, cancellationToken).ConfigureAwait(false);
@@ -93,7 +55,7 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
         }
         catch (Exception ex)
         {
-            LogErrorFetching(_logger, typeof(TAggregate).Name, id.ToString(), ex);
+            Logs.ErrorFetching(_logger, AggregateTypeName, aggregateId, ex);
             return false;
         }
     }
@@ -108,6 +70,8 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
     {
         ArgumentNullException.ThrowIfNull(id);
 
+        var aggregateId = id.ToString();
+
         try
         {
             var streamId = GetStreamId(id);
@@ -115,16 +79,16 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
 
             if (stream.Aggregate is null)
             {
-                LogNoEventsFound(_logger, typeof(TAggregate).Name, id.ToString(), null);
+                Logs.NoEventsFound(_logger, AggregateTypeName, aggregateId);
                 return null;
             }
 
-            LogSuccessfullyLoaded(_logger, typeof(TAggregate).Name, id.ToString(), stream.CurrentVersion, null);
+            Logs.SuccessfullyLoaded(_logger, AggregateTypeName, aggregateId, stream.CurrentVersion);
             return stream.Aggregate;
         }
         catch (Exception ex)
         {
-            LogErrorLoading(_logger, typeof(TAggregate).Name, id.ToString(), ex);
+            Logs.ErrorLoading(_logger, AggregateTypeName, aggregateId, ex);
             throw;
         }
     }
@@ -141,13 +105,15 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
 
         aggregate.ValidateInvariants();
 
+        var aggregateId = aggregate.Id.ToString();
+
         try
         {
             var uncommittedEvents = aggregate.UncommittedEvents.ToArray();
 
             if (uncommittedEvents.Length == 0)
             {
-                LogNoUncommittedEvents(_logger, typeof(TAggregate).Name, aggregate.Id.ToString(), null);
+                Logs.NoUncommittedEvents(_logger, AggregateTypeName, aggregateId);
                 return;
             }
 
@@ -156,11 +122,11 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
             Session.Events.Append(streamId, expectedVersion, uncommittedEvents);
 
             aggregate.UncommittedEvents.MarkAsCommitted();
-            LogSuccessfullySaved(_logger, uncommittedEvents.Length, typeof(TAggregate).Name, aggregate.Id.ToString(), null);
+            Logs.SuccessfullySaved(_logger, uncommittedEvents.Length, AggregateTypeName, aggregateId);
         }
         catch (Exception ex)
         {
-            LogErrorSaving(_logger, typeof(TAggregate).Name, aggregate.Id.ToString(), ex);
+            Logs.ErrorSaving(_logger, AggregateTypeName, aggregateId, ex);
             throw;
         }
     }
@@ -209,5 +175,29 @@ public abstract class MartenRepository<TAggregate, TId> : IRepository<TAggregate
             types: Type.EmptyTypes,
             modifiers: null) ?? throw new InvalidOperationException($"Type {typeof(TAggregate).Name} must have a parameterless constructor (public or non-public) for event sourcing reconstruction.");
         return (TAggregate)constructor.Invoke(null);
+    }
+
+    private static partial class Logs
+    {
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "No events found for aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void NoEventsFound(ILogger logger, string aggregateType, string aggregateId);
+
+        [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "Successfully loaded aggregate {AggregateType} with id {AggregateId} from {EventCount} events")]
+        internal static partial void SuccessfullyLoaded(ILogger logger, string aggregateType, string aggregateId, long? eventCount);
+
+        [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "Error loading aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void ErrorLoading(ILogger logger, string aggregateType, string aggregateId, Exception? exception);
+
+        [LoggerMessage(EventId = 4, Level = LogLevel.Debug, Message = "No uncommitted events to save for aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void NoUncommittedEvents(ILogger logger, string aggregateType, string aggregateId);
+
+        [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "Successfully saved {EventCount} events for aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void SuccessfullySaved(ILogger logger, int eventCount, string aggregateType, string aggregateId);
+
+        [LoggerMessage(EventId = 6, Level = LogLevel.Error, Message = "Error saving aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void ErrorSaving(ILogger logger, string aggregateType, string aggregateId, Exception? exception);
+
+        [LoggerMessage(EventId = 7, Level = LogLevel.Error, Message = "Error checking existence of stream for aggregate {AggregateType} with id {AggregateId}")]
+        internal static partial void ErrorFetching(ILogger logger, string aggregateType, string aggregateId, Exception? exception);
     }
 }

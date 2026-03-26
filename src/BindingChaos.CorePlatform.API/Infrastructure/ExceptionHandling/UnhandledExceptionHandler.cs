@@ -7,23 +7,17 @@ namespace BindingChaos.CorePlatform.API.Infrastructure.ExceptionHandling;
 /// Fallback handler that catches all unhandled exceptions and writes a 500 Internal Server Error ProblemDetails response.
 /// Must be registered last so that more specific handlers take priority.
 /// </summary>
-internal sealed class UnhandledExceptionHandler(
+internal sealed partial class UnhandledExceptionHandler(
     IProblemDetailsService problemDetailsService,
     ILogger<UnhandledExceptionHandler> logger) : IExceptionHandler
 {
-    private static readonly Action<ILogger, string, Exception> LogUnhandledException =
-        LoggerMessage.Define<string>(
-            LogLevel.Error,
-            new EventId(1, nameof(LogUnhandledException)),
-            "Unhandled exception for request {Path}");
-
     /// <inheritdoc/>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        LogUnhandledException(logger, httpContext.Request.Path, exception);
+        Logs.UnhandledException(logger, httpContext.Request.Path, exception);
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
@@ -37,5 +31,11 @@ internal sealed class UnhandledExceptionHandler(
                 Status = StatusCodes.Status500InternalServerError,
             },
         }).ConfigureAwait(false);
+    }
+
+    private static partial class Logs
+    {
+        [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "Unhandled exception for request {Path}")]
+        internal static partial void UnhandledException(ILogger logger, string path, Exception exception);
     }
 }

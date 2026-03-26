@@ -10,7 +10,7 @@ namespace BindingChaos.SignalAwareness.Infrastructure.IntegrationEventHandlers;
 /// Message handler for SignalCaptured domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public sealed class SignalCapturedHandler
+public sealed partial class SignalCapturedHandler
 {
     private readonly IIntegrationEventMapper<SignalCaptured> _mapper;
     private readonly ILogger<SignalCapturedHandler> _logger;
@@ -58,51 +58,21 @@ public sealed class SignalCapturedHandler
         }
     }
 
-    private static class Logs
+    private static partial class Logs
     {
-        private static readonly Action<ILogger, string, string, int, Exception?> Handling =
-            LoggerMessage.Define<string, string, int>(
-                LogLevel.Information,
-                new EventId(1, nameof(Handling)),
-                "Handling SignalCaptured domain event for signal {SignalId}, originator {OriginatorId}, tags {TagsCount}");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Handling SignalCaptured domain event for signal {SignalId}, originator {OriginatorId}, tags {TagsCount}")]
+        internal static partial void HandlingDomainEvent(ILogger logger, string signalId, string originatorId, int tagsCount);
 
-        private static readonly Action<ILogger, string, Exception?> Publishing =
-            LoggerMessage.Define<string>(
-                LogLevel.Information,
-                new EventId(2, nameof(Publishing)),
-                "Publishing SignalCapturedIntegrationEvent for signal {SignalId}");
+        [LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = "Publishing SignalCapturedIntegrationEvent for signal {SignalId}")]
+        internal static partial void PublishingIntegrationEvent(ILogger logger, string signalId);
 
-        private static readonly Action<ILogger, string, Exception?> Published =
-            LoggerMessage.Define<string>(
-                LogLevel.Information,
-                new EventId(3, nameof(Published)),
-                "Published SignalCapturedIntegrationEvent for signal {SignalId}");
+        [LoggerMessage(EventId = 3, Level = LogLevel.Information, Message = "Published SignalCapturedIntegrationEvent for signal {SignalId}")]
+        internal static partial void PublishedEvent(ILogger logger, string signalId);
 
-        private static readonly Action<ILogger, string, Exception?> NoMappedEvent =
-            LoggerMessage.Define<string>(
-                LogLevel.Warning,
-                new EventId(4, nameof(NoMappedEvent)),
-                "No SignalCapturedIntegrationEvent was mapped for signal {SignalId}");
+        [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "No SignalCapturedIntegrationEvent was mapped for signal {SignalId}")]
+        internal static partial void NoIntegrationEventMapped(ILogger logger, string signalId);
 
-        private static readonly Action<ILogger, string, Exception?> Error =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(5, nameof(Error)),
-                "Error publishing integration event for SignalCaptured domain event {SignalId}");
-
-        internal static void HandlingDomainEvent(ILogger logger, string signalId, string originatorId, int tagsCount) =>
-            Handling(logger, signalId, originatorId, tagsCount, null);
-
-        internal static void PublishingIntegrationEvent(ILogger logger, string signalId) =>
-            Publishing(logger, signalId, null);
-
-        internal static void PublishedEvent(ILogger logger, string signalId) =>
-            Published(logger, signalId, null);
-
-        internal static void NoIntegrationEventMapped(ILogger logger, string signalId) =>
-            NoMappedEvent(logger, signalId, null);
-
-        internal static void ErrorEvent(ILogger logger, string signalId, Exception? ex) =>
-            Error(logger, signalId, ex);
+        [LoggerMessage(EventId = 5, Level = LogLevel.Error, Message = "Error publishing integration event for SignalCaptured domain event {SignalId}")]
+        internal static partial void ErrorEvent(ILogger logger, string signalId, Exception? exception);
     }
 }

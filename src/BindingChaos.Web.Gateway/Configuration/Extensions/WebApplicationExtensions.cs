@@ -5,7 +5,7 @@ namespace BindingChaos.Web.Gateway.Configuration.Extensions;
 /// <summary>
 /// Extension methods for configuring the WebApplication middleware pipeline.
 /// </summary>
-internal static class WebApplicationExtensions
+internal static partial class WebApplicationExtensions
 {
     /// <summary>
     /// Configures the request pipeline for development environments.
@@ -106,11 +106,11 @@ internal static class WebApplicationExtensions
                 var value = configuration[section];
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    Logs.LogConfigurationMissing(logger, section, null);
+                    Logs.LogConfigurationMissing(logger, section);
                 }
             }
 
-            Logs.LogStartupValidationCompleted(logger, null);
+            Logs.LogStartupValidationCompleted(logger);
         }
         catch (Exception ex)
         {
@@ -123,22 +123,13 @@ internal static class WebApplicationExtensions
 
     private static partial class Logs
     {
-        internal static readonly Action<ILogger, Exception?> LogStartupValidationFailed =
-            LoggerMessage.Define(
-                LogLevel.Error,
-                new EventId(1, nameof(LogStartupValidationFailed)),
-                "Startup validation failed");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "Startup validation failed")]
+        internal static partial void LogStartupValidationFailed(ILogger logger, Exception? exception);
 
-        internal static readonly Action<ILogger, Exception?> LogStartupValidationCompleted =
-            LoggerMessage.Define(
-                LogLevel.Information,
-                new EventId(2, nameof(LogStartupValidationCompleted)),
-                "Startup validation completed successfully");
+        [LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = "Startup validation completed successfully")]
+        internal static partial void LogStartupValidationCompleted(ILogger logger);
 
-        internal static readonly Action<ILogger, string, Exception?> LogConfigurationMissing =
-            LoggerMessage.Define<string>(
-                LogLevel.Warning,
-                new EventId(3, nameof(LogConfigurationMissing)),
-                "Configuration section '{Section}' is missing or empty");
+        [LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = "Configuration section '{Section}' is missing or empty")]
+        internal static partial void LogConfigurationMissing(ILogger logger, string section);
     }
 }

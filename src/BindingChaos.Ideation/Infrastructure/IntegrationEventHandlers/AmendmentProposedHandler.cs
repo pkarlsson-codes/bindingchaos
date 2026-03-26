@@ -10,7 +10,7 @@ namespace BindingChaos.Ideation.Infrastructure.IntegrationEventHandlers;
 /// Message handler for AmendmentProposed domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public sealed class AmendmentProposedHandler
+public sealed partial class AmendmentProposedHandler
 {
     private readonly IIntegrationEventMapper<AmendmentProposed> _mapper;
     private readonly ILogger<AmendmentProposedHandler> _logger;
@@ -52,24 +52,12 @@ public sealed class AmendmentProposedHandler
         }
     }
 
-    private static class Logs
+    private static partial class Logs
     {
-        private static readonly Action<ILogger, string, Exception?> Published =
-            LoggerMessage.Define<string>(
-                LogLevel.Debug,
-                new EventId(1, nameof(Published)),
-                "Published AmendmentProposedIntegrationEvent for amendment {AmendmentId}");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Published AmendmentProposedIntegrationEvent for amendment {AmendmentId}")]
+        internal static partial void PublishedEvent(ILogger logger, string amendmentId);
 
-        private static readonly Action<ILogger, string, Exception?> Error =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(2, nameof(Error)),
-                "Error publishing integration event for AmendmentProposed domain event {AmendmentId}");
-
-        internal static void PublishedEvent(ILogger logger, string amendmentId) =>
-            Published(logger, amendmentId, null);
-
-        internal static void ErrorEvent(ILogger logger, string amendmentId, Exception? ex) =>
-            Error(logger, amendmentId, ex);
+        [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "Error publishing integration event for AmendmentProposed domain event {AmendmentId}")]
+        internal static partial void ErrorEvent(ILogger logger, string amendmentId, Exception? exception);
     }
 }

@@ -10,7 +10,7 @@ namespace BindingChaos.Tagging.Infrastructure.IntegrationEventHandlers;
 /// Message handler for TagsAssigned domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public sealed class TagsAssignedHandler
+public sealed partial class TagsAssignedHandler
 {
     private readonly IIntegrationEventMapper<TagsAssigned> _mapper;
     private readonly ILogger<TagsAssignedHandler> _logger;
@@ -52,24 +52,12 @@ public sealed class TagsAssignedHandler
         }
     }
 
-    private static class Logs
+    private static partial class Logs
     {
-        private static readonly Action<ILogger, string, Exception?> Published =
-            LoggerMessage.Define<string>(
-                LogLevel.Debug,
-                new EventId(1, nameof(Published)),
-                "Published TagsAssignedIntegrationEvent for target {TargetId}");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Published TagsAssignedIntegrationEvent for target {TargetId}")]
+        internal static partial void PublishedEvent(ILogger logger, string targetId);
 
-        private static readonly Action<ILogger, string, Exception?> Error =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(2, nameof(Error)),
-                "Error publishing integration event for TagsAssigned domain event {TargetId}");
-
-        internal static void PublishedEvent(ILogger logger, string targetId) =>
-            Published(logger, targetId, null);
-
-        internal static void ErrorEvent(ILogger logger, string targetId, Exception? ex) =>
-            Error(logger, targetId, ex);
+        [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "Error publishing integration event for TagsAssigned domain event {TargetId}")]
+        internal static partial void ErrorEvent(ILogger logger, string targetId, Exception? exception);
     }
 }

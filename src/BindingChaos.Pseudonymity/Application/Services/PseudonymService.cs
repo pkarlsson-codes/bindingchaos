@@ -9,13 +9,8 @@ namespace BindingChaos.Pseudonymity.Application.Services;
 /// <summary>
 /// Provides deterministic pseudonym generation using HMAC-SHA256.
 /// </summary>
-public sealed class PseudonymService : IPseudonymService
+public sealed partial class PseudonymService : IPseudonymService
 {
-    private static readonly Action<ILogger, int, string, string, Exception?> LogGeneratingPseudonyms =
-        LoggerMessage.Define<int, string, string>(
-            LogLevel.Debug,
-            new EventId(1, nameof(LogGeneratingPseudonyms)),
-            "Generating {Count} pseudonyms for aggregate {AggregateType}:{AggregateId}");
 
     private readonly string _secretKey;
     private readonly ILogger<PseudonymService> _logger;
@@ -51,7 +46,7 @@ public sealed class PseudonymService : IPseudonymService
         var aggregateIdType = typeof(TAggregateId).Name;
         var aggregateIdValue = aggregateId.Value;
 
-        LogGeneratingPseudonyms(_logger, userIdList.Count, aggregateIdType, aggregateIdValue, null);
+        Logs.GeneratingPseudonyms(_logger, userIdList.Count, aggregateIdType, aggregateIdValue);
 
         var resultMap = new Dictionary<string, string>(userIdList.Count);
 
@@ -62,6 +57,12 @@ public sealed class PseudonymService : IPseudonymService
         }
 
         return resultMap;
+    }
+
+    private static partial class Logs
+    {
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Generating {Count} pseudonyms for aggregate {AggregateType}:{AggregateId}")]
+        internal static partial void GeneratingPseudonyms(ILogger logger, int count, string aggregateType, string aggregateId);
     }
 
     /// <inheritdoc />

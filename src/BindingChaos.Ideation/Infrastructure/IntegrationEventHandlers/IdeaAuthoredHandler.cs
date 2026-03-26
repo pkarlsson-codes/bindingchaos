@@ -10,7 +10,7 @@ namespace BindingChaos.Ideation.Infrastructure.IntegrationEventHandlers;
 /// Message handler for IdeaAuthored domain events that publishes the corresponding integration event.
 /// This handler receives domain events from Marten's async daemon and publishes them via Wolverine's message bus.
 /// </summary>
-public sealed class IdeaAuthoredHandler
+public sealed partial class IdeaAuthoredHandler
 {
     private readonly IIntegrationEventMapper<IdeaAuthored> _mapper;
     private readonly ILogger<IdeaAuthoredHandler> _logger;
@@ -52,24 +52,12 @@ public sealed class IdeaAuthoredHandler
         }
     }
 
-    private static class Logs
+    private static partial class Logs
     {
-        private static readonly Action<ILogger, string, Exception?> Published =
-            LoggerMessage.Define<string>(
-                LogLevel.Debug,
-                new EventId(1, nameof(Published)),
-                "Published IdeaAuthoredIntegrationEvent for idea {IdeaId}");
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Published IdeaAuthoredIntegrationEvent for idea {IdeaId}")]
+        internal static partial void PublishedEvent(ILogger logger, string ideaId);
 
-        private static readonly Action<ILogger, string, Exception?> Error =
-            LoggerMessage.Define<string>(
-                LogLevel.Error,
-                new EventId(2, nameof(Error)),
-                "Error publishing integration event for IdeaAuthored domain event {IdeaId}");
-
-        internal static void PublishedEvent(ILogger logger, string ideaId) =>
-            Published(logger, ideaId, null);
-
-        internal static void ErrorEvent(ILogger logger, string ideaId, Exception? ex) =>
-            Error(logger, ideaId, ex);
+        [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "Error publishing integration event for IdeaAuthored domain event {IdeaId}")]
+        internal static partial void ErrorEvent(ILogger logger, string ideaId, Exception? exception);
     }
 }

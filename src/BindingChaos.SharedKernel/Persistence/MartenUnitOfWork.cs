@@ -6,20 +6,8 @@ namespace BindingChaos.SharedKernel.Persistence;
 /// <summary>
 /// Marten unit of work implementation that manages transactions using Marten's document session.
 /// </summary>
-public class MartenUnitOfWork : IUnitOfWork
+public partial class MartenUnitOfWork : IUnitOfWork
 {
-    private static readonly Action<ILogger, Exception?> LogTransactionCommitted =
-        LoggerMessage.Define(
-            LogLevel.Debug,
-            new EventId(1, nameof(LogTransactionCommitted)),
-            "Transaction committed");
-
-    private static readonly Action<ILogger, Exception?> LogErrorCommittingTransaction =
-        LoggerMessage.Define(
-            LogLevel.Error,
-            new EventId(2, nameof(LogErrorCommittingTransaction)),
-            "Error committing transaction");
-
     private readonly IDocumentSession _session;
     private readonly ILogger<MartenUnitOfWork> _logger;
     private bool _disposed;
@@ -45,11 +33,11 @@ public class MartenUnitOfWork : IUnitOfWork
         try
         {
             await _session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            LogTransactionCommitted(_logger, null);
+            Logs.TransactionCommitted(_logger);
         }
         catch (Exception ex)
         {
-            LogErrorCommittingTransaction(_logger, ex);
+            Logs.ErrorCommittingTransaction(_logger, ex);
             throw;
         }
     }
@@ -74,5 +62,14 @@ public class MartenUnitOfWork : IUnitOfWork
             _session?.Dispose();
             _disposed = true;
         }
+    }
+
+    private static partial class Logs
+    {
+        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Transaction committed")]
+        internal static partial void TransactionCommitted(ILogger logger);
+
+        [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "Error committing transaction")]
+        internal static partial void ErrorCommittingTransaction(ILogger logger, Exception? exception);
     }
 }
