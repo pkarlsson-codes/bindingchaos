@@ -19,6 +19,9 @@ public sealed class IdentityProfileDbContext : DbContext
     /// <summary>Gets the participant records storing stable pseudonyms.</summary>
     public DbSet<Participant> Participants => Set<Participant>();
 
+    /// <summary>Gets the invite links created by participants.</summary>
+    public DbSet<InviteLink> InviteLinks => Set<InviteLink>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -26,5 +29,6 @@ public sealed class IdentityProfileDbContext : DbContext
         modelBuilder.HasDefaultSchema("identity_profile");
         modelBuilder.ApplyConfiguration(new IdentityMapConfiguration());
         modelBuilder.ApplyConfiguration(new ParticipantConfiguration());
+        modelBuilder.ApplyConfiguration(new InviteLinkConfiguration());
     }
 }
