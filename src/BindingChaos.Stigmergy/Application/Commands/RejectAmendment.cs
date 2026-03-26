@@ -1,5 +1,5 @@
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.Projects;
-using Marten;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 
@@ -20,21 +20,22 @@ public static class RejectAmendmentHandler
     /// Rejects a Contested amendment, transitioning it to Rejected status permanently.
     /// </summary>
     /// <param name="command">The command containing rejection details.</param>
-    /// <param name="session">The Marten document session.</param>
+    /// <param name="projectRepository">The repository to retrieve and persist the project.</param>
+    /// <param name="unitOfWork">The unit of work for managing transactions.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Handle(
         RejectAmendment command,
-        IDocumentSession session,
+        IProjectRepository projectRepository,
+        IUnitOfWork unitOfWork,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var project = await session.LoadAsync<Project>(command.ProjectId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Project {command.ProjectId.Value} not found.");
+        var project = await projectRepository.GetByIdOrThrowAsync(command.ProjectId, cancellationToken).ConfigureAwait(false);
 
         project.RejectAmendment(command.AmendmentId);
-        session.Store(project);
-        await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        projectRepository.Stage(project);
+        await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }

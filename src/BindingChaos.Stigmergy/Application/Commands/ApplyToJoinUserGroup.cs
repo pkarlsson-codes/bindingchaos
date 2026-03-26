@@ -1,6 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.UserGroups;
-using Marten;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 
@@ -20,17 +20,21 @@ public static class ApplyToJoinUserGroupHandler
     /// Handles the application for membership in a user group by processing the provided command.
     /// </summary>
     /// <param name="command">The command containing the details of the application for membership.</param>
-    /// <param name="documentSession">The document session used to retrieve and persist changes to the user group.</param>
+    /// <param name="userGroupRepository">The repository to retrieve and persist the user group.</param>
+    /// <param name="unitOfWork">The unit of work for managing transactions.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public static async Task Handle(ApplyToJoinUserGroup command, IDocumentSession documentSession, CancellationToken cancellationToken)
+    public static async Task Handle(
+        ApplyToJoinUserGroup command,
+        IUserGroupRepository userGroupRepository,
+        IUnitOfWork unitOfWork,
+        CancellationToken cancellationToken)
     {
-        var userGroup = await documentSession.LoadAsync<UserGroup>(command.UserGroupId, cancellationToken).ConfigureAwait(false);
-        if (userGroup == null)
-        {
-            throw new InvalidOperationException($"User group with ID {command.UserGroupId.Value} not found.");
-        }
+        var userGroup = await userGroupRepository.GetByIdOrThrowAsync(command.UserGroupId, cancellationToken).ConfigureAwait(false);
 
         userGroup.ApplyToJoin(command.ParticipantId);
+
+        userGroupRepository.Stage(userGroup);
+        await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }

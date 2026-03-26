@@ -1,7 +1,6 @@
-using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups.Events;
-using Marten;
 
 namespace BindingChaos.Stigmergy.Application.EventHandlers;
 
@@ -10,17 +9,17 @@ internal static class UserGroupFormedHandler
 {
     /// <summary>Handles the <see cref="UserGroupFormed"/> message.</summary>
     /// <param name="message">The message to handle.</param>
-    /// <param name="session">The document session.</param>
+    /// <param name="commonsRepository">The repository to retrieve and persist the commons.</param>
+    /// <param name="unitOfWork">The unit of work for managing transactions.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    internal static async Task Handle(UserGroupFormed message, IDocumentSession session, CancellationToken cancellationToken)
+    internal static async Task Handle(UserGroupFormed message, ICommonsRepository commonsRepository, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
     {
         var commonsId = CommonsId.Create(message.CommonsId);
-        var commons = await session.LoadAsync<Commons>(commonsId, cancellationToken).ConfigureAwait(false)
-            ?? throw new AggregateNotFoundException(typeof(Commons), message.CommonsId);
+        var commons = await commonsRepository.GetByIdOrThrowAsync(commonsId, cancellationToken).ConfigureAwait(false);
 
         commons.Activate();
-        session.Store(commons);
-        await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        commonsRepository.Stage(commons);
+        await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }

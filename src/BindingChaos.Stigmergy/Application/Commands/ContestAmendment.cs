@@ -1,9 +1,9 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Application.Messages;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.UserGroups;
-using Marten;
 using Wolverine;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
@@ -26,23 +26,24 @@ public static class ContestAmendmentHandler
     /// Contests an Active amendment, transitions it to Contested, and starts the contention saga.
     /// </summary>
     /// <param name="command">The command containing contention details.</param>
-    /// <param name="session">The Marten document session.</param>
+    /// <param name="projectRepository">The repository to retrieve and persist the project.</param>
+    /// <param name="userGroupRepository">The repository to retrieve the user group.</param>
+    /// <param name="unitOfWork">The unit of work for managing transactions.</param>
     /// <param name="messageBus">The Wolverine message bus.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Handle(
         ContestAmendment command,
-        IDocumentSession session,
+        IProjectRepository projectRepository,
+        IUserGroupRepository userGroupRepository,
+        IUnitOfWork unitOfWork,
         IMessageBus messageBus,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var project = await session.LoadAsync<Project>(command.ProjectId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Project {command.ProjectId.Value} not found.");
-
-        var userGroup = await session.LoadAsync<UserGroup>(project.UserGroupId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"User group {project.UserGroupId.Value} not found.");
+        var project = await projectRepository.GetByIdOrThrowAsync(command.ProjectId, cancellationToken).ConfigureAwait(false);
+        var userGroup = await userGroupRepository.GetByIdOrThrowAsync(project.UserGroupId, cancellationToken).ConfigureAwait(false);
 
         if (!userGroup.Members.Any(m => m.ParticipantId == command.ContesterId))
         {
@@ -50,8 +51,8 @@ public static class ContestAmendmentHandler
         }
 
         project.ContestAmendment(command.AmendmentId, command.ContesterId);
-        session.Store(project);
-        await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        projectRepository.Stage(project);
+        await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
 
         await messageBus.PublishAsync(new AmendmentContentionStarted(
             command.AmendmentId.Value,

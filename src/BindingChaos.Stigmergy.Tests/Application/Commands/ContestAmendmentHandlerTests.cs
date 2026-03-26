@@ -1,12 +1,12 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.Messages;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using FluentAssertions;
-using Marten;
 using Moq;
 using Wolverine;
 
@@ -16,7 +16,9 @@ public class ContestAmendmentHandlerTests
 {
     private class TestBed
     {
-        public Mock<IDocumentSession> Session { get; } = new();
+        public Mock<IProjectRepository> ProjectRepository { get; } = new();
+        public Mock<IUserGroupRepository> UserGroupRepository { get; } = new();
+        public Mock<IUnitOfWork> UnitOfWork { get; } = new();
         public Mock<IMessageBus> MessageBus { get; } = new();
     }
 
@@ -39,17 +41,17 @@ public class ContestAmendmentHandlerTests
         private readonly TestBed testBed = new();
 
         [Fact]
-        public async Task GivenProjectNotFound_WhenHandled_ThenThrowsInvalidOperation()
+        public async Task GivenProjectNotFound_WhenHandled_ThenThrowsAggregateNotFoundException()
         {
-            testBed.Session
-                .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Project?)null);
+            testBed.ProjectRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<ProjectId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Project), ProjectId.Create("project-abc")));
             var command = new ContestAmendment(ProjectId.Create("project-abc"), AmendmentId.Create("amendment-xyz"), ParticipantId.Create("participant-123"));
 
             var act = async () => await ContestAmendmentHandler.Handle(
-                command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
+                command, testBed.ProjectRepository.Object, testBed.UserGroupRepository.Object, testBed.UnitOfWork.Object, testBed.MessageBus.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
@@ -59,18 +61,18 @@ public class ContestAmendmentHandlerTests
             var project = Project.Create(userGroup.Id, "Title", "Desc");
             var amendmentId = project.ProposeAmendment(ParticipantId.Generate());
 
-            testBed.Session
-                .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.ProjectRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<ProjectId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(project);
-            testBed.Session
-                .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.UserGroupRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<UserGroupId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
             var nonMember = ParticipantId.Generate();
             var command = new ContestAmendment(project.Id, amendmentId, nonMember);
 
             var act = async () => await ContestAmendmentHandler.Handle(
-                command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
+                command, testBed.ProjectRepository.Object, testBed.UserGroupRepository.Object, testBed.UnitOfWork.Object, testBed.MessageBus.Object, CancellationToken.None);
 
             await act.Should().ThrowAsync<BusinessRuleViolationException>();
         }
@@ -83,17 +85,17 @@ public class ContestAmendmentHandlerTests
             var member = userGroup.Members.First().ParticipantId;
             var amendmentId = project.ProposeAmendment(member);
 
-            testBed.Session
-                .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.ProjectRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<ProjectId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(project);
-            testBed.Session
-                .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.UserGroupRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<UserGroupId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
             var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
-                command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
+                command, testBed.ProjectRepository.Object, testBed.UserGroupRepository.Object, testBed.UnitOfWork.Object, testBed.MessageBus.Object, CancellationToken.None);
 
             project.Amendments.Single(a => a.Id == amendmentId).Status
                 .Should().Be(AmendmentStatus.Contested);
@@ -107,17 +109,17 @@ public class ContestAmendmentHandlerTests
             var member = userGroup.Members.First().ParticipantId;
             var amendmentId = project.ProposeAmendment(member);
 
-            testBed.Session
-                .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.ProjectRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<ProjectId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(project);
-            testBed.Session
-                .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.UserGroupRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<UserGroupId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
             var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
-                command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
+                command, testBed.ProjectRepository.Object, testBed.UserGroupRepository.Object, testBed.UnitOfWork.Object, testBed.MessageBus.Object, CancellationToken.None);
 
             testBed.MessageBus.Verify(
                 b => b.PublishAsync(
@@ -137,20 +139,20 @@ public class ContestAmendmentHandlerTests
             var member = userGroup.Members.First().ParticipantId;
             var amendmentId = project.ProposeAmendment(member);
 
-            testBed.Session
-                .Setup(s => s.LoadAsync<Project>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.ProjectRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<ProjectId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(project);
-            testBed.Session
-                .Setup(s => s.LoadAsync<UserGroup>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.UserGroupRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<UserGroupId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(userGroup);
 
             var command = new ContestAmendment(project.Id, amendmentId, member);
 
             await ContestAmendmentHandler.Handle(
-                command, testBed.Session.Object, testBed.MessageBus.Object, CancellationToken.None);
+                command, testBed.ProjectRepository.Object, testBed.UserGroupRepository.Object, testBed.UnitOfWork.Object, testBed.MessageBus.Object, CancellationToken.None);
 
-            testBed.Session.Verify(s => s.Store(It.IsAny<Project>()), Times.Once);
-            testBed.Session.Verify(s => s.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            testBed.ProjectRepository.Verify(r => r.Stage(It.IsAny<Project>()), Times.Once);
+            testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

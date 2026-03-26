@@ -32,12 +32,7 @@ public static class LeaveUserGroupHandler
         IUnitOfWork unitOfWork,
         CancellationToken cancellationToken)
     {
-        var userGroup = await userGroupRepository.GetByIdAsync(command.UserGroupId, cancellationToken).ConfigureAwait(false);
-        if (userGroup is null)
-        {
-            throw new AggregateNotFoundException(typeof(UserGroup), command.UserGroupId);
-        }
-
+        var userGroup = await userGroupRepository.GetByIdOrThrowAsync(command.UserGroupId, cancellationToken).ConfigureAwait(false);
         userGroup.Leave(command.ParticipantId);
 
         userGroupRepository.Stage(userGroup);

@@ -1,13 +1,13 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
 using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Application.EventHandlers;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.GoverningCommons.Events;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using BindingChaos.Stigmergy.Domain.UserGroups.Events;
 using FluentAssertions;
-using Marten;
 using Moq;
 
 namespace BindingChaos.Stigmergy.Tests.Application.Commands;
@@ -16,7 +16,8 @@ public class UserGroupFormedHandlerTests
 {
     private class TestBed
     {
-        public Mock<IDocumentSession> Session { get; } = new();
+        public Mock<ICommonsRepository> CommonsRepository { get; } = new();
+        public Mock<IUnitOfWork> UnitOfWork { get; } = new();
     }
 
     public class TheHandleMethod
@@ -26,13 +27,13 @@ public class UserGroupFormedHandlerTests
         [Fact]
         public async Task GivenCommonsNotFound_WhenHandled_ThenThrowsAggregateNotFoundException()
         {
-            testBed.Session
-                .Setup(s => s.LoadAsync<Commons>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Commons?)null);
+            testBed.CommonsRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<CommonsId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Commons), CommonsId.Generate()));
             UserGroupFormed message = CreateUserGroupFormedEvent();
 
             var act = async () => await UserGroupFormedHandler.Handle(
-                message, testBed.Session.Object, CancellationToken.None);
+                message, testBed.CommonsRepository.Object, testBed.UnitOfWork.Object, CancellationToken.None);
 
             await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
@@ -43,18 +44,18 @@ public class UserGroupFormedHandlerTests
             var commons = Commons.Propose("Water", "Governing water", ParticipantId.Generate());
             commons.UncommittedEvents.MarkAsCommitted();
             List<IDomainEvent> events = [];
-            testBed.Session
-                .Setup(s => s.LoadAsync<Commons>(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            testBed.CommonsRepository
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<CommonsId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(commons);
-            testBed.Session
-                .Setup(s => s.Store(It.IsAny<Commons>()))
-                    .Callback<Commons[]>(entities => events.AddRange(entities[0].UncommittedEvents));
+            testBed.CommonsRepository
+                .Setup(r => r.Stage(It.IsAny<Commons>()))
+                .Callback<Commons>(c => events.AddRange(c.UncommittedEvents));
             var message = CreateUserGroupFormedEvent();
 
-            await UserGroupFormedHandler.Handle(message, testBed.Session.Object, CancellationToken.None);
+            await UserGroupFormedHandler.Handle(message, testBed.CommonsRepository.Object, testBed.UnitOfWork.Object, CancellationToken.None);
 
-            testBed.Session.Verify(s => s.Store(It.IsAny<Commons>()), Times.Once);
-            testBed.Session.Verify(s => s.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            testBed.CommonsRepository.Verify(r => r.Stage(It.IsAny<Commons>()), Times.Once);
+            testBed.UnitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
             events.Should().ContainSingle().Which.Should().BeOfType<CommonsActivated>();
         }
 
@@ -71,7 +72,5 @@ public class UserGroupFormedHandlerTests
                     new MembershipRulesRecord(JoinPolicy.Open.Value, true, null, null, null),
                     new ShunningRulesRecord(0.6m)));
         }
-
-
     }
 }
