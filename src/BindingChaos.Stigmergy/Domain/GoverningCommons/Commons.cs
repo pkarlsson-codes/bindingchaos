@@ -13,6 +13,7 @@ namespace BindingChaos.Stigmergy.Domain.GoverningCommons;
 public sealed class Commons : AggregateRoot<CommonsId>
 {
     private CommonsStatus _status;
+    private string _name = string.Empty;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     private Commons()
@@ -36,6 +37,16 @@ public sealed class Commons : AggregateRoot<CommonsId>
     }
 
     /// <summary>
+    /// Renames the commons.
+    /// </summary>
+    /// <param name="newName">The new name for the commons.</param>
+    public void Rename(string newName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(newName);
+        ApplyChange(new CommonsRenamed(Id.Value, newName));
+    }
+
+    /// <summary>
     /// Activates the commons, allowing it to be governed by user groups. This is called when the first user group is formed to govern this commons.
     /// </summary>
     internal void Activate()
@@ -55,6 +66,7 @@ public sealed class Commons : AggregateRoot<CommonsId>
         {
             case CommonsCreated e: Apply(e); break;
             case CommonsActivated e: Apply(e); break;
+            case CommonsRenamed e: Apply(e); break;
             default: throw new InvalidOperationException($"Unsupported event type: {domainEvent.GetType().Name}");
         }
     }
@@ -62,11 +74,17 @@ public sealed class Commons : AggregateRoot<CommonsId>
     private void Apply(CommonsCreated e)
     {
         Id = CommonsId.Create(e.AggregateId);
+        _name = e.Name;
         _status = CommonsStatus.Proposed;
     }
 
     private void Apply(CommonsActivated e)
     {
         _status = CommonsStatus.Active;
+    }
+
+    private void Apply(CommonsRenamed e)
+    {
+        _name = e.NewName;
     }
 }
