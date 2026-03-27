@@ -76,32 +76,19 @@ public sealed class DocumentsController : BaseApiController
             return BadRequest($"Invalid size parameter. Must be one of: {string.Join(", ", validSizes)}");
         }
 
-        try
-        {
-            var documentStream = await _documentsApiClient.GetDocumentContentAsync(documentId, cancellationToken).ConfigureAwait(false);
-            var documentMetadata = await _documentsApiClient.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
+        var documentStream = await _documentsApiClient.GetDocumentContentAsync(documentId, cancellationToken).ConfigureAwait(false);
+        var documentMetadata = await _documentsApiClient.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
 
-            if (documentStream == null)
-            {
-                return NotFound($"Document with ID '{documentId}' not found");
-            }
-
-            var response = File(documentStream, documentMetadata.ContentType ?? "application/octet-stream");
-
-            Response.Headers.CacheControl = "public, max-age=86400";
-
-            Response.Headers.ETag = $"\"{documentId}\"";
-
-            return response;
-        }
-        catch (HttpRequestException ex) when (ex.Message.Contains("404"))
+        if (documentStream == null)
         {
             return NotFound($"Document with ID '{documentId}' not found");
         }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while retrieving the document");
-        }
+
+        var response = File(documentStream, documentMetadata.ContentType ?? "application/octet-stream");
+        Response.Headers.CacheControl = "public, max-age=86400";
+        Response.Headers.ETag = $"\"{documentId}\"";
+
+        return response;
     }
 
     /// <summary>
