@@ -25,6 +25,8 @@ internal static class DevelopmentSeeder
         var minio = services.GetRequiredService<IMinioClient>();
         await DocumentSeeder.SeedAsync(minio, cancellationToken).ConfigureAwait(false);
 
+        await IdentityProfileSeeder.SeedAsync(services, cancellationToken).ConfigureAwait(false);
+
         var store = services.GetRequiredService<IDocumentStore>();
         var participants = SeedDataLoader.LoadParticipants();
 
