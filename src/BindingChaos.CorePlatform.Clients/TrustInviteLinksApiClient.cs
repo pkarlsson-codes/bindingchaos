@@ -32,4 +32,11 @@ public sealed class TrustTrustInviteLinksApiClient(HttpClient httpClient, ILogge
     {
         return DeleteAsync($"api/identity/invite-links/{id}", cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public Task<ResolvedInviteLinkResponse> ResolveTrustInviteLinkAsync(string token, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(token);
+        return GetAsync<ResolvedInviteLinkResponse>($"api/identity/invite-links/resolve?token={Uri.EscapeDataString(token)}", cancellationToken);
+    }
 }

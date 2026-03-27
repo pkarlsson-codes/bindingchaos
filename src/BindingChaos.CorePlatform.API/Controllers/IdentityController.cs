@@ -58,6 +58,29 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     }
 
     /// <summary>
+    /// Resolves an invite link token to the inviter's user ID. Accessible without authentication.
+    /// </summary>
+    /// <param name="token">The URL-safe base64url token from the invite link.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The inviter's user ID if the token is valid; 404 if not found or revoked.</returns>
+    [HttpGet("invite-links/resolve")]
+    [ProducesResponseType(typeof(ApiResponse<ResolvedInviteLinkResponse>), 200)]
+    [ProducesResponseType(404)]
+    [EndpointName("resolveTrustInviteLink")]
+    public async Task<IActionResult> ResolveTrustInviteLink([FromQuery] string token, CancellationToken cancellationToken)
+    {
+        var query = new ResolveTrustInviteLink(token);
+        var result = await messageBus.InvokeAsync<ResolvedInviteLinkView?>(query, cancellationToken).ConfigureAwait(false);
+
+        if (result is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new ResolvedInviteLinkResponse(result.InviterUserId));
+    }
+
+    /// <summary>
     /// Gets all invite links for the authenticated participant, sorted by creation date descending.
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the operation.</param>

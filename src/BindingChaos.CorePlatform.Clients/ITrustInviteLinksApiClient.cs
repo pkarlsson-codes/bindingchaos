@@ -30,4 +30,12 @@ public interface ITrustTrustInviteLinksApiClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task RevokeTrustInviteLinkAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Resolves an invite link token to the inviter's user ID.
+    /// </summary>
+    /// <param name="token">The URL-safe base64url token from the invite link.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The resolved invite link details.</returns>
+    Task<ResolvedInviteLinkResponse> ResolveTrustInviteLinkAsync(string token, CancellationToken cancellationToken = default);
 }

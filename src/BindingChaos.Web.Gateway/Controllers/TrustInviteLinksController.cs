@@ -47,6 +47,21 @@ public sealed class TrustTrustInviteLinksController(ITrustTrustInviteLinksApiCli
     }
 
     /// <summary>
+    /// Resolves an invite link token to the inviter's user ID. Accessible without authentication.
+    /// </summary>
+    /// <param name="token">The URL-safe base64url token from the invite link.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The inviter's user ID if the token is valid; 404 if not found or revoked.</returns>
+    [HttpGet("resolve")]
+    [ProducesResponseType(typeof(ApiResponse<ResolvedInviteLinkResponse>), 200)]
+    [EndpointName("resolveTrustInviteLink")]
+    public async Task<IActionResult> ResolveTrustInviteLink([FromQuery] string token, CancellationToken cancellationToken)
+    {
+        var result = await inviteLinksApiClient.ResolveTrustInviteLinkAsync(token, cancellationToken).ConfigureAwait(false);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Revokes an invite link owned by the authenticated participant.
     /// </summary>
     /// <param name="id">The ID of the invite link to revoke.</param>
