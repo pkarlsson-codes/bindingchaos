@@ -56,6 +56,28 @@ public sealed class OidcController : ControllerBase
     }
 
     /// <summary>
+    /// Initiates the OIDC authorization request with <c>prompt=create</c> to open the registration UI directly.
+    /// </summary>
+    /// <returns>Redirect to the identity provider's registration screen.</returns>
+    [HttpGet("register")]
+    public IActionResult Register()
+    {
+        var requestedReturnUrl = HttpContext.Request.Query["returnUrl"].ToString();
+        var defaultRedirect = _configuration["Authentication:OIDC:PostLoginRedirect"] ?? "/";
+
+        var redirectTarget = Uri.TryCreate(requestedReturnUrl, UriKind.Absolute, out _)
+            ? requestedReturnUrl
+            : defaultRedirect;
+
+        var props = new AuthenticationProperties
+        {
+            RedirectUri = redirectTarget,
+        };
+        props.SetParameter("prompt", "create");
+        return Challenge(props, OpenIdConnectDefaults.AuthenticationScheme);
+    }
+
+    /// <summary>
     /// Signs the user out of both cookie and OIDC schemes, clears server-side tokens, and redirects to the app.
     /// </summary>
     /// <returns>Redirect to post-logout location.</returns>
