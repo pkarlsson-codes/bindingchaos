@@ -6,7 +6,7 @@ namespace BindingChaos.CorePlatform.Clients;
 /// <summary>
 /// Client interface for interacting with the Invite Links API.
 /// </summary>
-public interface ITrustTrustInviteLinksApiClient
+public interface ITrustInviteLinksApiClient
 {
     /// <summary>
     /// Creates an invite link for the authenticated participant.
@@ -21,7 +21,7 @@ public interface ITrustTrustInviteLinksApiClient
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>All invite links (active and revoked) for the participant.</returns>
-    Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustTrustInviteLinksAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustInviteLinksAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes an invite link owned by the authenticated participant.

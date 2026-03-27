@@ -50,7 +50,7 @@ internal static class ServiceCollectionExtensions
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
         services.AddSocietiesApiClient(corePlatformBaseAddress)
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
-        services.AddTrustTrustInviteLinksApiClient(corePlatformBaseAddress)
+        services.AddTrustInviteLinksApiClient(corePlatformBaseAddress)
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
 
         return services;

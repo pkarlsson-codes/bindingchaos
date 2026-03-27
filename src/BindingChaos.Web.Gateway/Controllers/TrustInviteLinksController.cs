@@ -12,7 +12,7 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <param name="inviteLinksApiClient">Client for interacting with the Invite Links API.</param>
 [ApiController]
 [Route("api/v1/invite-links")]
-public sealed class TrustTrustInviteLinksController(ITrustTrustInviteLinksApiClient inviteLinksApiClient) : BaseApiController
+public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient inviteLinksApiClient) : BaseApiController
 {
     /// <summary>
     /// Gets all invite links for the authenticated participant, sorted by creation date descending.
@@ -21,10 +21,10 @@ public sealed class TrustTrustInviteLinksController(ITrustTrustInviteLinksApiCli
     /// <returns>All invite links (active and revoked) for the participant.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<TrustInviteLinkViewResponse>>), 200)]
-    [EndpointName("getMyTrustTrustInviteLinks")]
-    public async Task<IActionResult> GetMyTrustTrustInviteLinks(CancellationToken cancellationToken)
+    [EndpointName("getMyTrustInviteLinks")]
+    public async Task<IActionResult> GetMyTrustInviteLinks(CancellationToken cancellationToken)
     {
-        var result = await inviteLinksApiClient.GetMyTrustTrustInviteLinksAsync(cancellationToken).ConfigureAwait(false);
+        var result = await inviteLinksApiClient.GetMyTrustInviteLinksAsync(cancellationToken).ConfigureAwait(false);
         return Ok(result);
     }
 

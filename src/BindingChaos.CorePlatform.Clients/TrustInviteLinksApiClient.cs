@@ -10,8 +10,8 @@ namespace BindingChaos.CorePlatform.Clients;
 /// </summary>
 /// <param name="httpClient">The HTTP client to use for API requests.</param>
 /// <param name="logger">The logger for this client.</param>
-public sealed class TrustTrustInviteLinksApiClient(HttpClient httpClient, ILogger<TrustTrustInviteLinksApiClient> logger)
-    : BaseApiClient(httpClient, logger), ITrustTrustInviteLinksApiClient
+public sealed class TrustInviteLinksApiClient(HttpClient httpClient, ILogger<TrustInviteLinksApiClient> logger)
+    : BaseApiClient(httpClient, logger), ITrustInviteLinksApiClient
 {
     /// <inheritdoc/>
     public Task<TrustInviteLinkCreatedResponse> CreateTrustInviteLinkAsync(CreateTrustInviteLinkRequest request, CancellationToken cancellationToken = default)
@@ -21,7 +21,7 @@ public sealed class TrustTrustInviteLinksApiClient(HttpClient httpClient, ILogge
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustTrustInviteLinksAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustInviteLinksAsync(CancellationToken cancellationToken = default)
     {
         var result = await GetCollectionAsync<TrustInviteLinkViewResponse>("api/identity/invite-links", cancellationToken).ConfigureAwait(false);
         return result.ToList();

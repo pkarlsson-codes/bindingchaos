@@ -162,12 +162,12 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddTrustTrustInviteLinksApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddTrustInviteLinksApiClient(this IServiceCollection services, string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<ITrustTrustInviteLinksApiClient, TrustTrustInviteLinksApiClient>(client =>
+        var builder = services.AddHttpClient<ITrustInviteLinksApiClient, TrustInviteLinksApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
