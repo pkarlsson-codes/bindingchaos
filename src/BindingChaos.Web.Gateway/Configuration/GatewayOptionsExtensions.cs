@@ -15,6 +15,7 @@ public static class GatewayOptionsExtensions
     {
         services.Configure<CorePlatformOptions>(configuration.GetSection("CorePlatform"));
         services.Configure<GatewayOptions>(configuration.GetSection("Gateway"));
+        services.Configure<TokenStoreOptions>(configuration.GetSection("Authentication:TokenStore"));
         return services;
     }
 }

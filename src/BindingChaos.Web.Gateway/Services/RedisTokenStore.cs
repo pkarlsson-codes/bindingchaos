@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BindingChaos.Web.Gateway.Configuration;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace BindingChaos.Web.Gateway.Services;
@@ -7,7 +9,7 @@ namespace BindingChaos.Web.Gateway.Services;
 /// <summary>
 /// Redis-backed token store suitable for multi-instance BFF. Stores tokens per session key with TTL.
 /// </summary>
-public sealed class RedisTokenStore : ITokenStore
+public sealed class RedisTokenStore(IConnectionMultiplexer connection, IOptions<TokenStoreOptions> options) : ITokenStore
 {
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
@@ -15,15 +17,8 @@ public sealed class RedisTokenStore : ITokenStore
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    private readonly IDatabase _db;
-    private readonly TimeSpan _defaultTtl;
-
-    public RedisTokenStore(IConnectionMultiplexer connection, IConfiguration configuration)
-    {
-        _db = connection.GetDatabase();
-        var minutes = configuration.GetValue<int?>("Authentication:TokenStore:DefaultTtlMinutes") ?? 60 * 24 * 7; // 7 days
-        _defaultTtl = TimeSpan.FromMinutes(minutes);
-    }
+    private readonly IDatabase _db = connection.GetDatabase();
+    private readonly TimeSpan _defaultTtl = TimeSpan.FromMinutes(options.Value.DefaultTtlMinutes);
 
     /// <inheritdoc/>
     public async Task SaveTokensAsync(string sessionId, string userId, string? accessToken, string? refreshToken, string? idToken, CancellationToken cancellationToken = default)
