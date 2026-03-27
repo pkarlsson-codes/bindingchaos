@@ -52,8 +52,11 @@ public static class AuthenticationServiceCollectionExtensions
                 options.SignedOutRedirectUri = configuration["Authentication:OIDC:PostLogoutRedirect"]
                     ?? configuration["Authentication:OIDC:PostLoginRedirect"]
                     ?? "/";
-                options.Events = OidcEventsFactory.Create();
             });
+
+        services.AddSingleton<OidcEventsFactory>();
+        services.AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)
+            .Configure<OidcEventsFactory>((options, factory) => options.Events = factory.Create());
 
         services.AddHttpClient();
         return services;
