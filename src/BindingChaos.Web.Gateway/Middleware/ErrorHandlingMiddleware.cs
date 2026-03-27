@@ -79,6 +79,7 @@ internal sealed partial class ErrorHandlingMiddleware
         var (statusCode, errorMessage) = exception switch
         {
             HttpRequestException httpEx when httpEx.StatusCode.HasValue => (httpEx.StatusCode.Value, GetMessageForStatus(httpEx.StatusCode.Value)),
+            HttpRequestException => (HttpStatusCode.BadGateway, "An upstream service error occurred"),
             ArgumentNullException => (HttpStatusCode.BadRequest, "Required parameter is missing"),
             ArgumentException => (HttpStatusCode.BadRequest, "Invalid request parameters"),
             UnauthorizedAccessException => (HttpStatusCode.Unauthorized, "Access denied"),
