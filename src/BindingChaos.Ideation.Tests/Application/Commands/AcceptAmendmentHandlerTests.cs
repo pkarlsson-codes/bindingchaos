@@ -2,6 +2,7 @@ using BindingChaos.Ideation.Application.Commands;
 using BindingChaos.Ideation.Domain.Amendments;
 using BindingChaos.Ideation.Domain.Ideas;
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using FluentAssertions;
 using Moq;
@@ -32,15 +33,15 @@ public class AcceptAmendmentHandlerTests
         public async Task GivenAmendmentNotFound_WhenHandled_ThenThrowsInvalidOperationException()
         {
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Amendment?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Amendment), AmendmentId.Generate()));
             var command = new AcceptAmendment(AmendmentId.Generate(), ParticipantId.Generate());
 
             var act = async () => await AcceptAmendmentHandler.Handle(
                 command, testBed.AmendmentRepository.Object, testBed.IdeaRepository.Object,
                 testBed.UnitOfWork.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
@@ -49,18 +50,18 @@ public class AcceptAmendmentHandlerTests
             var ideaId = IdeaId.Generate();
             var amendment = CreateAmendment(ideaId, 1);
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Idea?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Idea), ideaId));
             var command = new AcceptAmendment(amendment.Id, ParticipantId.Generate());
 
             var act = async () => await AcceptAmendmentHandler.Handle(
                 command, testBed.AmendmentRepository.Object, testBed.IdeaRepository.Object,
                 testBed.UnitOfWork.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
@@ -70,10 +71,10 @@ public class AcceptAmendmentHandlerTests
             var idea = CreateIdea(ideaCreator);
             var amendment = CreateAmendment(idea.Id, 1);
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(idea);
             var differentActor = ParticipantId.Generate();
             var command = new AcceptAmendment(amendment.Id, differentActor);
@@ -82,7 +83,7 @@ public class AcceptAmendmentHandlerTests
                 command, testBed.AmendmentRepository.Object, testBed.IdeaRepository.Object,
                 testBed.UnitOfWork.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<UnauthorizedAccessException>();
+            await act.Should().ThrowAsync<ForbiddenException>();
         }
 
         [Fact]
@@ -92,10 +93,10 @@ public class AcceptAmendmentHandlerTests
             var idea = CreateIdea(ideaCreator); // idea is at version 1
             var amendment = CreateAmendment(idea.Id, 2); // amendment targets version 2
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(idea);
             var command = new AcceptAmendment(amendment.Id, ideaCreator);
 
@@ -103,7 +104,7 @@ public class AcceptAmendmentHandlerTests
                 command, testBed.AmendmentRepository.Object, testBed.IdeaRepository.Object,
                 testBed.UnitOfWork.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<BusinessRuleViolationException>();
         }
 
         [Fact]
@@ -113,10 +114,10 @@ public class AcceptAmendmentHandlerTests
             var idea = CreateIdea(ideaCreator);
             var amendment = CreateAmendment(idea.Id, 1);
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(idea);
             var command = new AcceptAmendment(amendment.Id, ideaCreator);
 
@@ -134,10 +135,10 @@ public class AcceptAmendmentHandlerTests
             var idea = CreateIdea(ideaCreator);
             var amendment = CreateAmendment(idea.Id, 1);
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(idea);
             var command = new AcceptAmendment(amendment.Id, ideaCreator);
 
@@ -155,10 +156,10 @@ public class AcceptAmendmentHandlerTests
             var idea = CreateIdea(ideaCreator);
             var amendment = CreateAmendment(idea.Id, 1);
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             testBed.IdeaRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<IdeaId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(idea);
             var command = new AcceptAmendment(amendment.Id, ideaCreator);
 

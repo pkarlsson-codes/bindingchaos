@@ -31,8 +31,7 @@ public static class WithdrawOppositionHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var amendment = await amendmentRepository.GetByIdAsync(request.AmendmentId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Amendment {request.AmendmentId} not found");
+        var amendment = await amendmentRepository.GetByIdOrThrowAsync(request.AmendmentId, cancellationToken).ConfigureAwait(false);
 
         amendment.WithdrawOpposition(request.ParticipantId);
         amendmentRepository.Stage(amendment);

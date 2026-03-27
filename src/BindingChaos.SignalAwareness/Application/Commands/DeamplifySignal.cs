@@ -27,8 +27,7 @@ public static class DeamplifySignalCommandHandler
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
-        var signal = await signalRepository.GetByIdAsync(command.SignalId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Signal with ID {command.SignalId.Value} not found");
+        var signal = await signalRepository.GetByIdOrThrowAsync(command.SignalId, cancellationToken).ConfigureAwait(false);
         signal.Attenuate(command.AmplifierId);
         signalRepository.Stage(signal);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);

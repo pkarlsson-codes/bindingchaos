@@ -34,8 +34,7 @@ public static class SupportAmendmentHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var amendment = await amendmentRepository.GetByIdAsync(request.AmendmentId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Amendment {request.AmendmentId} not found");
+        var amendment = await amendmentRepository.GetByIdOrThrowAsync(request.AmendmentId, cancellationToken).ConfigureAwait(false);
 
         if (amendment.Opponents.Any(o => o.ParticipantId == request.ParticipantId))
         {

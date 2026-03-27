@@ -1,5 +1,4 @@
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Tagging.Application.Services;
 using BindingChaos.Tagging.Domain.TaggableTargets;
@@ -50,8 +49,7 @@ public static class AssignTagsHandler
             return;
         }
 
-        var target = await taggableTargetRepository.GetByIdAsync(cmd.Target, cancellationToken).ConfigureAwait(false)
-                   ?? throw new AggregateNotFoundException(typeof(TaggableTarget), cmd.Target);
+        var target = await taggableTargetRepository.GetByIdOrThrowAsync(cmd.Target, cancellationToken).ConfigureAwait(false);
 
         var tagIds = await tagResolver.ResolveOrCreate(processedLabels, cmd.ActorId, cancellationToken).ConfigureAwait(false);
 

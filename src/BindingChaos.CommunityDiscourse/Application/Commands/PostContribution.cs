@@ -75,8 +75,7 @@ public static class PostContributionHandler
         ArgumentNullException.ThrowIfNull(command);
 
         var threadId = DiscourseThreadId.Create(command.ThreadId);
-        var thread = await discourseThreadRepository.GetByIdAsync(threadId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Discourse thread with ID {command.ThreadId} not found.");
+        var thread = await discourseThreadRepository.GetByIdOrThrowAsync(threadId, cancellationToken).ConfigureAwait(false);
 
         var contribution = Contribution.Create(threadId, command.AuthorId, ContributionContent.Create(command.Content), command.ParentContributionId);
         contributionRepository.Stage(contribution);

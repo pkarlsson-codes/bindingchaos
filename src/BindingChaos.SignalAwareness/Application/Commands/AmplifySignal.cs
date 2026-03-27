@@ -30,8 +30,7 @@ public static class AmplifySignalHandler
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        var signal = await signalRepository.GetByIdAsync(request.SignalId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Signal with ID {request.SignalId.Value} not found");
+        var signal = await signalRepository.GetByIdOrThrowAsync(request.SignalId, cancellationToken).ConfigureAwait(false);
         signal.Amplify(request.AmplifierId, request.Reason, request.Commentary);
         signalRepository.Stage(signal);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);

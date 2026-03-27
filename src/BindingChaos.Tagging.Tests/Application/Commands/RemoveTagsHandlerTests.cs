@@ -36,8 +36,8 @@ public class RemoveTagsHandlerTests
         {
             var targetId = TaggableTargetId.ForEntity("signal-01arz3ndektsv4rrffq69g5fav");
             testBed.TargetRepository
-                .Setup(r => r.GetByIdAsync(targetId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((TaggableTarget?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(targetId, It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(TaggableTarget), targetId));
             var cmd = new RemoveTags(targetId, TestActor, ["environment"], DateTimeOffset.UtcNow);
 
             var act = async () => await RemoveTagsHandler.Handle(
@@ -58,7 +58,7 @@ public class RemoveTagsHandlerTests
             target.UncommittedEvents.MarkAsCommitted();
 
             testBed.TargetRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<TaggableTargetId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<TaggableTargetId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(target);
             testBed.TagResolver
                 .Setup(r => r.ResolveOrCreate(It.IsAny<string[]>(), TestActor, It.IsAny<CancellationToken>()))
@@ -84,7 +84,7 @@ public class RemoveTagsHandlerTests
             target.UncommittedEvents.MarkAsCommitted();
 
             testBed.TargetRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<TaggableTargetId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<TaggableTargetId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(target);
             testBed.TagResolver
                 .Setup(r => r.ResolveOrCreate(It.IsAny<string[]>(), TestActor, It.IsAny<CancellationToken>()))

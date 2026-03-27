@@ -1,6 +1,7 @@
 using BindingChaos.Ideation.Domain.Amendments;
 using BindingChaos.Ideation.Domain.Ideas;
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 
 namespace BindingChaos.Ideation.Application.Commands;
@@ -32,22 +33,17 @@ public static class AcceptAmendmentHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var amendment = await amendmentRepository.GetByIdAsync(command.AmendmentId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Amendment {command.AmendmentId} not found");
-
-        var idea = await ideaRepository.GetByIdAsync(amendment.TargetIdeaId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Target idea {amendment.TargetIdeaId} not found");
+        var amendment = await amendmentRepository.GetByIdOrThrowAsync(command.AmendmentId, cancellationToken).ConfigureAwait(false);
+        var idea = await ideaRepository.GetByIdOrThrowAsync(amendment.TargetIdeaId, cancellationToken).ConfigureAwait(false);
 
         if (idea.CreatorId != command.ActorId)
         {
-            throw new UnauthorizedAccessException(
-                $"Only the idea author can accept amendments. " +
-                $"Idea author: {idea.CreatorId}, Attempting user: {command.ActorId}");
+            throw new ForbiddenException($"Only the idea author can accept amendments. Idea author: {idea.CreatorId}, attempting user: {command.ActorId}.");
         }
 
         if (amendment.TargetVersionNumber != idea.CurrentVersion.VersionNumber)
         {
-            throw new InvalidOperationException($"Amendment targets version {amendment.TargetVersionNumber} but idea is at version {idea.CurrentVersion.VersionNumber}");
+            throw new BusinessRuleViolationException($"Amendment targets version {amendment.TargetVersionNumber} but idea is at version {idea.CurrentVersion.VersionNumber}.");
         }
 
         amendment.Accept();

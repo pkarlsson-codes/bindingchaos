@@ -1,4 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.SignalAwareness.Application.Commands;
 using BindingChaos.SignalAwareness.Domain.Signals;
@@ -33,8 +34,8 @@ public class AmplifySignalHandlerTests
         {
             var signalId = SignalId.Generate();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signalId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Signal?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(signalId, It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Signal), signalId));
             var command = new AmplifySignalCommand(signalId, ParticipantId.Generate(), AmplificationReason.HighRelevance, null);
 
             var act = async () => await AmplifySignalHandler.Handle(
@@ -43,7 +44,7 @@ public class AmplifySignalHandlerTests
                 testBed.UnitOfWork.Object,
                 CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
@@ -51,7 +52,7 @@ public class AmplifySignalHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var amplifierId = ParticipantId.Generate();
             var command = new AmplifySignalCommand(signal.Id, amplifierId, AmplificationReason.HighRelevance, null);
@@ -67,7 +68,7 @@ public class AmplifySignalHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var command = new AmplifySignalCommand(signal.Id, ParticipantId.Generate(), AmplificationReason.HighRelevance, null);
 
@@ -85,7 +86,7 @@ public class AmplifySignalHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var command = new AmplifySignalCommand(signal.Id, ParticipantId.Generate(), AmplificationReason.HighRelevance, null);
 

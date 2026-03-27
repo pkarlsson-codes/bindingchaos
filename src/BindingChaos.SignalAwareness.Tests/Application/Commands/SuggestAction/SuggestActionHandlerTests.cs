@@ -1,4 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.SignalAwareness.Application.Commands;
 using BindingChaos.SignalAwareness.Domain.Signals;
@@ -35,14 +36,14 @@ public class SuggestActionHandlerTests
         {
             var signalId = SignalId.Generate();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signalId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Signal?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(signalId, It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(Signal), signalId));
             var command = new SuggestActionCommand(signalId, ParticipantId.Generate(), new MakeACallParameters("555-1234"));
 
             var act = async () => await SuggestActionHandler.Handle(command, testBed.SignalRepository.Object,
                 testBed.SignalActionRepository.Object, testBed.UnitOfWork.Object, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
@@ -50,7 +51,7 @@ public class SuggestActionHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var command = new SuggestActionCommand(signal.Id, ParticipantId.Generate(), new MakeACallParameters("555-1234"));
 
@@ -65,7 +66,7 @@ public class SuggestActionHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var command = new SuggestActionCommand(signal.Id, ParticipantId.Generate(), new VisitAWebpageParameters("https://example.com"));
 
@@ -80,7 +81,7 @@ public class SuggestActionHandlerTests
         {
             var signal = CreateSignal();
             testBed.SignalRepository
-                .Setup(r => r.GetByIdAsync(signal.Id, It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(signal.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(signal);
             var command = new SuggestActionCommand(signal.Id, ParticipantId.Generate(), new MakeACallParameters("555-1234"));
 

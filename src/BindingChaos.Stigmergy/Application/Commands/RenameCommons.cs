@@ -1,4 +1,3 @@
-using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using Marten;
@@ -27,8 +26,7 @@ public static class RenameCommonsHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var commons = await commonsRepository.GetByIdAsync(command.CommonsId, cancellationToken).ConfigureAwait(false)
-            ?? throw new AggregateNotFoundException(typeof(Commons), command.CommonsId);
+        var commons = await commonsRepository.GetByIdOrThrowAsync(command.CommonsId, cancellationToken).ConfigureAwait(false);
 
         commons.Rename(command.NewName);
 

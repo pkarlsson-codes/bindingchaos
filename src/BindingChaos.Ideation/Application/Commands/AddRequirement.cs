@@ -1,7 +1,6 @@
 using BindingChaos.Ideation.Application.DTOs;
 using BindingChaos.Ideation.Domain.Ideas;
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 
 namespace BindingChaos.Ideation.Application.Commands;
@@ -28,13 +27,11 @@ public static class AddRequirementHandler
     /// <param name="ideaRepository">The repository used to retrieve the idea by its unique identifier.</param>
     /// <param name="unitOfWork">The unit of work responsible for committing the changes to the underlying data store.</param>
     /// <returns>A task that represents the asynchronous operation of handling the add requirement command.</returns>
-    /// <exception cref="AggregateNotFoundException">Thrown if an idea with the specified identifier does not exist in the repository.</exception>
     public static async Task Handle(AddRequirement command, IIdeaRepository ideaRepository, IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(command, nameof(command));
 
-        var idea = await ideaRepository.GetByIdAsync(command.IdeaId).ConfigureAwait(false)
-            ?? throw new AggregateNotFoundException(typeof(Idea), command.IdeaId);
+        var idea = await ideaRepository.GetByIdOrThrowAsync(command.IdeaId).ConfigureAwait(false);
 
         var specification = new RequirementSpec(
             command.Specification.Label,

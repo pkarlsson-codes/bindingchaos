@@ -33,8 +33,7 @@ public static class SuggestActionHandler
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        var signal = await signalRepository.GetByIdAsync(request.SignalId, cancellationToken).ConfigureAwait(false)
-            ?? throw new InvalidOperationException($"Signal with ID {request.SignalId.Value} not found");
+        var signal = await signalRepository.GetByIdOrThrowAsync(request.SignalId, cancellationToken).ConfigureAwait(false);
 
         SuggestedAction action = request.Parameters switch
         {

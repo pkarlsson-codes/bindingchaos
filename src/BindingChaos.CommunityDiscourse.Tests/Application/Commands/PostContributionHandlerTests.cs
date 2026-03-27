@@ -3,6 +3,7 @@ using BindingChaos.CommunityDiscourse.Domain.Contributions;
 using BindingChaos.CommunityDiscourse.Domain.Contributions.Events;
 using BindingChaos.CommunityDiscourse.Domain.DiscourseThreads;
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using FluentAssertions;
 using Moq;
@@ -38,8 +39,8 @@ public class PostContributionHandlerTests
         public async Task GivenThreadNotFound_WhenHandled_ThenThrowsInvalidOperationException()
         {
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DiscourseThread?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(DiscourseThread), DiscourseThreadId.Generate()));
             var threadId = DiscourseThreadId.Generate();
             var command = new PostContribution(threadId.Value, ParticipantId.Generate(), "Some content");
 
@@ -50,15 +51,15 @@ public class PostContributionHandlerTests
                 testBed.UnitOfWork.Object,
                 CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidOperationException>();
+            await act.Should().ThrowAsync<AggregateNotFoundException>();
         }
 
         [Fact]
         public async Task GivenThreadNotFound_WhenHandled_ThenDoesNotStageContribution()
         {
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DiscourseThread?)null);
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new AggregateNotFoundException(typeof(DiscourseThread), DiscourseThreadId.Generate()));
             var threadId = DiscourseThreadId.Generate();
             var command = new PostContribution(threadId.Value, ParticipantId.Generate(), "Some content");
 
@@ -71,7 +72,7 @@ public class PostContributionHandlerTests
                     testBed.UnitOfWork.Object,
                     CancellationToken.None);
             }
-            catch (InvalidOperationException)
+            catch (AggregateNotFoundException)
             {
             }
 
@@ -83,7 +84,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             var command = new PostContribution(thread.Id.Value, ParticipantId.Generate(), "Some content");
 
@@ -102,7 +103,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             var command = new PostContribution(thread.Id.Value, ParticipantId.Generate(), "Some content");
 
@@ -121,7 +122,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             var command = new PostContribution(thread.Id.Value, ParticipantId.Generate(), "Some content");
 
@@ -141,7 +142,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             var parentId = ContributionId.Generate();
             Contribution? staged = null;
@@ -166,7 +167,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             Contribution? staged = null;
             testBed.ContributionRepository
@@ -190,7 +191,7 @@ public class PostContributionHandlerTests
         {
             var thread = CreateThread();
             testBed.ThreadRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<DiscourseThreadId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(thread);
             var authorId = ParticipantId.Generate();
             Contribution? staged = null;

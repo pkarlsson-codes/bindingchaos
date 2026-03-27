@@ -34,7 +34,7 @@ public class OpposeAmendmentHandlerTests
             var amendment = CreateOpenAmendment();
             amendment.AddSupport(new Supporter(_supporter, "I support"));
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             var command = new OpposeAmendment(amendment.Id, _supporter, "Actually I oppose");
 
@@ -49,7 +49,7 @@ public class OpposeAmendmentHandlerTests
         {
             var amendment = CreateOpenAmendment();
             testBed.AmendmentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetByIdOrThrowAsync(It.IsAny<AmendmentId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(amendment);
             var command = new OpposeAmendment(amendment.Id, _opponent, "I disagree");
 
