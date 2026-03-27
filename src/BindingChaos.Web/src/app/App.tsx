@@ -12,6 +12,7 @@ import { ProposeAmendmentPage } from '../features/amendments/components/ProposeA
 import { AmendmentDetailsPage } from '../features/amendments/components/AmendmentDetailsPage';
 import { SocietiesPage } from '../features/societies/components/SocietiesPage';
 import { SocietyDetailPage } from '../features/societies/components/SocietyDetailPage';
+import { InvitePage } from '../features/trust/components/InvitePage';
 
 import {
   AuthProvider,
@@ -57,6 +58,9 @@ function App() {
                       {/* Societies */}
                       <Route path="/societies" element={<SocietiesPage />} />
                       <Route path="/societies/:societyId" element={<SocietyDetailPage />} />
+
+                      {/* Invites */}
+                      <Route path="/invite/:token" element={<InvitePage />} />
 
                       {/* Default */}
                       <Route path="/" element={<Navigate to="/signals" replace />} />
