@@ -1,6 +1,9 @@
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.Contracts.Requests;
+using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.IdentityProfile.Application.Commands;
+using BindingChaos.IdentityProfile.Application.Queries;
+using BindingChaos.IdentityProfile.Application.ReadModels;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.SharedKernel.Domain;
@@ -55,6 +58,29 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     }
 
     /// <summary>
+    /// Gets all invite links for the authenticated participant, sorted by creation date descending.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>All invite links (active and revoked) for the participant.</returns>
+    [HttpGet("invite-links")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<InviteLinkViewResponse>>), 200)]
+    [EndpointName("getMyInviteLinks")]
+    public async Task<IActionResult> GetMyInviteLinks(CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var query = new GetMyInviteLinks(participantId.Value);
+        var result = await messageBus.InvokeAsync<IReadOnlyList<InviteLinkView>>(query, cancellationToken).ConfigureAwait(false);
+
+        var response = result.Select(v => new InviteLinkViewResponse(v.Id, v.Token, v.Note, v.IsRevoked, v.CreatedAt)).ToList();
+        return Ok(response);
+    }
+
+    /// <summary>
     /// Creates an invite link for the authenticated participant.
     /// </summary>
     /// <param name="request">The invite link creation request.</param>
@@ -74,7 +100,7 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
         }
 
         var command = new CreateInviteLink(participantId.Value, request.Note);
-        var result = await messageBus.InvokeAsync<InviteLinkCreatedResponse>(command, cancellationToken).ConfigureAwait(false);
+        var result = await messageBus.InvokeAsync<InviteLinkCreatedView>(command, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtAction(nameof(CreateInviteLink), result);
     }

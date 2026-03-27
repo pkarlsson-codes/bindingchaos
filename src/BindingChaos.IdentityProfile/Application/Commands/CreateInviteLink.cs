@@ -1,3 +1,4 @@
+using BindingChaos.IdentityProfile.Application.ReadModels;
 using BindingChaos.IdentityProfile.Domain.Entities;
 using BindingChaos.IdentityProfile.Infrastructure.Persistence;
 
@@ -11,15 +12,6 @@ namespace BindingChaos.IdentityProfile.Application.Commands;
 public sealed record CreateInviteLink(string CreatorUserId, string? Note);
 
 /// <summary>
-/// The result of a successful <see cref="CreateInviteLink"/> command.
-/// </summary>
-/// <param name="Id">The newly created invite link's ID.</param>
-/// <param name="Token">The URL-safe base64url token.</param>
-/// <param name="Note">The optional note supplied by the creator.</param>
-/// <param name="CreatedAt">UTC timestamp of creation.</param>
-public sealed record InviteLinkCreatedResponse(Guid Id, string Token, string? Note, DateTimeOffset CreatedAt);
-
-/// <summary>
 /// Handles the <see cref="CreateInviteLink"/> command.
 /// </summary>
 public static class CreateInviteLinkHandler
@@ -31,7 +23,7 @@ public static class CreateInviteLinkHandler
     /// <param name="dbContext">The identity profile database context.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created invite link details.</returns>
-    public static async Task<InviteLinkCreatedResponse> Handle(
+    public static async Task<InviteLinkCreatedView> Handle(
         CreateInviteLink command,
         IdentityProfileDbContext dbContext,
         CancellationToken cancellationToken)
@@ -53,7 +45,7 @@ public static class CreateInviteLinkHandler
         dbContext.InviteLinks.Add(inviteLink);
         await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-        return new InviteLinkCreatedResponse(inviteLink.Id, inviteLink.Token, inviteLink.Note, inviteLink.CreatedAt);
+        return new InviteLinkCreatedView(inviteLink.Id, inviteLink.Token, inviteLink.Note, inviteLink.CreatedAt);
     }
 
     private static string Base64UrlEncode(byte[] bytes)

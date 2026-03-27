@@ -15,6 +15,20 @@ namespace BindingChaos.Web.Gateway.Controllers;
 public sealed class InviteLinksController(IInviteLinksApiClient inviteLinksApiClient) : BaseApiController
 {
     /// <summary>
+    /// Gets all invite links for the authenticated participant, sorted by creation date descending.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>All invite links (active and revoked) for the participant.</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<InviteLinkViewResponse>>), 200)]
+    [EndpointName("getMyInviteLinks")]
+    public async Task<IActionResult> GetMyInviteLinks(CancellationToken cancellationToken)
+    {
+        var result = await inviteLinksApiClient.GetMyInviteLinksAsync(cancellationToken).ConfigureAwait(false);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Creates an invite link for the authenticated participant.
     /// </summary>
     /// <param name="request">The invite link creation request.</param>

@@ -21,6 +21,13 @@ public sealed class InviteLinksApiClient(HttpClient httpClient, ILogger<InviteLi
     }
 
     /// <inheritdoc/>
+    public async Task<IReadOnlyList<InviteLinkViewResponse>> GetMyInviteLinksAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await GetCollectionAsync<InviteLinkViewResponse>("api/identity/invite-links", cancellationToken).ConfigureAwait(false);
+        return result.ToList();
+    }
+
+    /// <inheritdoc/>
     public Task RevokeInviteLinkAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return DeleteAsync($"api/identity/invite-links/{id}", cancellationToken);
