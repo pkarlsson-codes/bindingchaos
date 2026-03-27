@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BindingChaos.IdentityProfile.Infrastructure.Persistence.Configurations;
 
-internal sealed class InviteLinkConfiguration : IEntityTypeConfiguration<InviteLink>
+internal sealed class TrustInviteLinkConfiguration : IEntityTypeConfiguration<TrustInviteLink>
 {
-    public void Configure(EntityTypeBuilder<InviteLink> builder)
+    public void Configure(EntityTypeBuilder<TrustInviteLink> builder)
     {
-        builder.ToTable("invite_link");
+        builder.ToTable("trust_invite_link");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Token).IsRequired().HasMaxLength(22);
         builder.Property(x => x.CreatorUserId).IsRequired().HasMaxLength(128);

@@ -8,4 +8,4 @@ namespace BindingChaos.IdentityProfile.Application.ReadModels;
 /// <param name="Note">The optional private note visible only to the creator.</param>
 /// <param name="IsRevoked">Whether the link has been revoked.</param>
 /// <param name="CreatedAt">UTC timestamp of creation.</param>
-public sealed record InviteLinkView(Guid Id, string Token, string? Note, bool IsRevoked, DateTimeOffset CreatedAt);
+public sealed record TrustInviteLinkView(Guid Id, string Token, string? Note, bool IsRevoked, DateTimeOffset CreatedAt);

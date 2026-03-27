@@ -63,9 +63,9 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>All invite links (active and revoked) for the participant.</returns>
     [HttpGet("invite-links")]
-    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<InviteLinkViewResponse>>), 200)]
-    [EndpointName("getMyInviteLinks")]
-    public async Task<IActionResult> GetMyInviteLinks(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<TrustInviteLinkViewResponse>>), 200)]
+    [EndpointName("getMyTrustTrustInviteLinks")]
+    public async Task<IActionResult> GetMyTrustTrustInviteLinks(CancellationToken cancellationToken)
     {
         var participantId = HttpContext.GetParticipantIdOrAnonymous();
         if (participantId == ParticipantId.Anonymous)
@@ -73,10 +73,10 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
             return Unauthorized();
         }
 
-        var query = new GetMyInviteLinks(participantId.Value);
-        var result = await messageBus.InvokeAsync<IReadOnlyList<InviteLinkView>>(query, cancellationToken).ConfigureAwait(false);
+        var query = new GetMyTrustTrustInviteLinks(participantId.Value);
+        var result = await messageBus.InvokeAsync<IReadOnlyList<TrustInviteLinkView>>(query, cancellationToken).ConfigureAwait(false);
 
-        var response = result.Select(v => new InviteLinkViewResponse(v.Id, v.Token, v.Note, v.IsRevoked, v.CreatedAt)).ToList();
+        var response = result.Select(v => new TrustInviteLinkViewResponse(v.Id, v.Token, v.Note, v.IsRevoked, v.CreatedAt)).ToList();
         return Ok(response);
     }
 
@@ -87,9 +87,9 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created invite link details.</returns>
     [HttpPost("invite-links")]
-    [ProducesResponseType(typeof(ApiResponse<InviteLinkCreatedResponse>), 201)]
-    [EndpointName("createInviteLink")]
-    public async Task<IActionResult> CreateInviteLink([FromBody] CreateInviteLinkRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(ApiResponse<TrustInviteLinkCreatedResponse>), 201)]
+    [EndpointName("createTrustInviteLink")]
+    public async Task<IActionResult> CreateTrustInviteLink([FromBody] CreateTrustInviteLinkRequest request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -99,10 +99,10 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
             return Unauthorized();
         }
 
-        var command = new CreateInviteLink(participantId.Value, request.Note);
-        var result = await messageBus.InvokeAsync<InviteLinkCreatedView>(command, cancellationToken).ConfigureAwait(false);
+        var command = new CreateTrustInviteLink(participantId.Value, request.Note);
+        var result = await messageBus.InvokeAsync<TrustInviteLinkCreatedView>(command, cancellationToken).ConfigureAwait(false);
 
-        return CreatedAtAction(nameof(CreateInviteLink), result);
+        return CreatedAtAction(nameof(CreateTrustInviteLink), result);
     }
 
     /// <summary>
@@ -115,8 +115,8 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     [ProducesResponseType(204)]
     [ProducesResponseType(403)]
     [ProducesResponseType(404)]
-    [EndpointName("revokeInviteLink")]
-    public async Task<IActionResult> RevokeInviteLink([FromRoute] Guid id, CancellationToken cancellationToken)
+    [EndpointName("revokeTrustInviteLink")]
+    public async Task<IActionResult> RevokeTrustInviteLink([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var participantId = HttpContext.GetParticipantIdOrAnonymous();
         if (participantId == ParticipantId.Anonymous)
@@ -124,7 +124,7 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
             return Unauthorized();
         }
 
-        var command = new RevokeInviteLink(id, participantId.Value);
+        var command = new RevokeTrustInviteLink(id, participantId.Value);
         await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
 
         return NoContent();

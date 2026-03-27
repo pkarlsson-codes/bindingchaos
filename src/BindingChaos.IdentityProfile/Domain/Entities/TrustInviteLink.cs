@@ -3,7 +3,7 @@ namespace BindingChaos.IdentityProfile.Domain.Entities;
 /// <summary>
 /// An invitation link that a participant can share to allow others to register.
 /// </summary>
-public sealed class InviteLink
+public sealed class TrustInviteLink
 {
     /// <summary>Gets the primary key.</summary>
     public required Guid Id { get; init; }

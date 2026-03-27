@@ -10,12 +10,12 @@ namespace BindingChaos.IdentityProfile.Application.Commands;
 /// </summary>
 /// <param name="Id">The ID of the invite link to revoke.</param>
 /// <param name="RequestorUserId">The internal user ID of the participant requesting revocation.</param>
-public sealed record RevokeInviteLink(Guid Id, string RequestorUserId);
+public sealed record RevokeTrustInviteLink(Guid Id, string RequestorUserId);
 
 /// <summary>
-/// Handles the <see cref="RevokeInviteLink"/> command.
+/// Handles the <see cref="RevokeTrustInviteLink"/> command.
 /// </summary>
-public static class RevokeInviteLinkHandler
+public static class RevokeTrustInviteLinkHandler
 {
     /// <summary>
     /// Loads the invite link, verifies ownership, and sets <c>IsRevoked = true</c>.
@@ -28,16 +28,16 @@ public static class RevokeInviteLinkHandler
     /// <exception cref="ForbiddenException">Thrown when the requestor is not the creator of the link.</exception>
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Handle(
-        RevokeInviteLink command,
+        RevokeTrustInviteLink command,
         IdentityProfileDbContext dbContext,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var link = await dbContext.InviteLinks
+        var link = await dbContext.TrustTrustInviteLinks
             .FirstOrDefaultAsync(l => l.Id == command.Id, cancellationToken)
             .ConfigureAwait(false)
-            ?? throw new AggregateNotFoundException(typeof(InviteLink), command.Id);
+            ?? throw new AggregateNotFoundException(typeof(TrustInviteLink), command.Id);
 
         if (link.CreatorUserId != command.RequestorUserId)
         {
