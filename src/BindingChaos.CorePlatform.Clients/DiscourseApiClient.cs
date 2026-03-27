@@ -4,33 +4,28 @@ using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
+using Microsoft.Extensions.Logging;
 
 namespace BindingChaos.CorePlatform.Clients;
 
 /// <summary>
 /// HTTP client implementation for the Discourse API.
 /// </summary>
-internal sealed class DiscourseApiClient : IDiscourseApiClient
+/// <param name="httpClient">The HTTP client.</param>
+/// <param name="logger">The logger instance used to log diagnostic messages.</param>
+internal sealed class DiscourseApiClient(
+    HttpClient httpClient,
+    ILogger<DiscourseApiClient> logger)
+    : BaseApiClient(httpClient, logger), IDiscourseApiClient
 {
-    private readonly HttpClient _httpClient;
-    private readonly JsonSerializerOptions _jsonOptions;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DiscourseApiClient"/> class.
-    /// </summary>
-    /// <param name="httpClient">The HTTP client.</param>
-    public DiscourseApiClient(HttpClient httpClient)
-    {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        _jsonOptions = new JsonSerializerOptions
+    private readonly JsonSerializerOptions _jsonOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true,
         };
-    }
 
     /// <inheritdoc />
-    public async Task<GetContributionsResponse> GetContributionsByThreadIdAsync(
+    public Task<GetContributionsResponse> GetContributionsByThreadIdAsync(
         string threadId,
         string? cursor = null,
         int limit = 5,
@@ -53,19 +48,7 @@ internal sealed class DiscourseApiClient : IDiscourseApiClient
         var queryString = string.Join("&", queryParams);
         var requestUri = $"api/discourse/threads/{Uri.EscapeDataString(threadId)}/contributions?{queryString}";
 
-        var response = await _httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
-
-        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-        var apiResponse = JsonSerializer.Deserialize<ApiResponse<GetContributionsResponse>>(content, _jsonOptions);
-
-        if (apiResponse?.Data == null)
-        {
-            throw new InvalidOperationException("Invalid response format from Discourse API");
-        }
-
-        return apiResponse.Data;
+        return GetAsync<GetContributionsResponse>(requestUri, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -92,19 +75,10 @@ internal sealed class DiscourseApiClient : IDiscourseApiClient
         var queryString = string.Join("&", queryParams);
         var requestUri = $"api/discourse/contributions/{Uri.EscapeDataString(contributionId)}/replies?{queryString}";
 
-        var response = await _httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
+        var response = await GetAsync<GetContributionRepliesResponse>(requestUri, cancellationToken)
+            .ConfigureAwait(false);
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-        var apiResponse = JsonSerializer.Deserialize<ApiResponse<GetContributionRepliesResponse>>(content, _jsonOptions);
-
-        if (apiResponse?.Data == null)
-        {
-            throw new InvalidOperationException("Invalid response format from Discourse API");
-        }
-
-        return apiResponse.Data;
+        return response;
     }
 
     /// <inheritdoc />
@@ -118,22 +92,10 @@ internal sealed class DiscourseApiClient : IDiscourseApiClient
 
         var requestUri = $"api/discourse/threads/{Uri.EscapeDataString(threadId)}/contributions";
 
-        var json = JsonSerializer.Serialize(request, _jsonOptions);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await PostAsync<PostContributionRequest, PostContributionResponse>(requestUri, request, cancellationToken)
+            .ConfigureAwait(false);
 
-        var response = await _httpClient.PostAsync(requestUri, content, cancellationToken).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
-
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-        var apiResponse = JsonSerializer.Deserialize<ApiResponse<PostContributionResponse>>(responseContent, _jsonOptions);
-
-        if (apiResponse?.Data == null)
-        {
-            throw new InvalidOperationException("Invalid response format from Discourse API");
-        }
-
-        return apiResponse.Data;
+        return response;
     }
 
     /// <inheritdoc />
@@ -162,18 +124,9 @@ internal sealed class DiscourseApiClient : IDiscourseApiClient
         var queryString = string.Join("&", queryParams);
         var requestUri = $"api/discourse/threads/by-entity/{Uri.EscapeDataString(entityType)}/{Uri.EscapeDataString(entityId)}/contributions?{queryString}";
 
-        var response = await _httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
+        var result = await GetAsync<GetContributionsResponse>(requestUri, cancellationToken)
+            .ConfigureAwait(false);
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-        var apiResponse = JsonSerializer.Deserialize<ApiResponse<GetContributionsResponse>>(content, _jsonOptions);
-
-        if (apiResponse?.Data == null)
-        {
-            throw new InvalidOperationException("Invalid response format from Discourse API");
-        }
-
-        return apiResponse.Data;
+        return result;
     }
 }

@@ -47,7 +47,8 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
     [ProducesResponseType(typeof(GetCurrentUserResponse), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 401)]
     [EndpointName("getCurrentUser")]
-    public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser([FromServices] ITokenStore tokenStore)
+    public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser(
+        [FromServices] ITokenStore tokenStore)
     {
         var sessionId = Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
 
@@ -60,7 +61,8 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
             });
         }
 
-        var tokens = await tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
+        var tokens = await tokenStore
+            .TryGetTokensAsync(sessionId, HttpContext.RequestAborted);
         if (tokens is null)
         {
             return Unauthorized(new GetCurrentUserResponse

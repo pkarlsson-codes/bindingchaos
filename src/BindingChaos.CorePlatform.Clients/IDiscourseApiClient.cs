@@ -51,7 +51,7 @@ public interface IDiscourseApiClient
     Task<PostContributionResponse> PostContributionToThreadAsync(
         string threadId,
         PostContributionRequest request,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets contributions for a specific entity with cursor-based pagination.

@@ -15,19 +15,20 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddSignalsApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddSignalsApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<ISignalsApiClient, SignalsApiClient>(client =>
-        {
-            client.BaseAddress = new Uri(baseAddress);
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        return services
+            .AddHttpClient<ISignalsApiClient, SignalsApiClient>(client =>
+            {
+                client.BaseAddress = new Uri(baseAddress);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            })
+            .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -36,19 +37,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddIdeasApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddIdeasApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<IIdeasApiClient, IdeasApiClient>(client =>
+        return services.AddHttpClient<IIdeasApiClient, IdeasApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -57,19 +58,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddAmendmentsApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddAmendmentsApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<IAmendmentsApiClient, AmendmentsApiClient>(client =>
+        return services.AddHttpClient<IAmendmentsApiClient, AmendmentsApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -78,19 +79,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddDiscourseApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddDiscourseApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<IDiscourseApiClient, DiscourseApiClient>(client =>
+        return services.AddHttpClient<IDiscourseApiClient, DiscourseApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -99,19 +100,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddDocumentsApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddDocumentsApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<IDocumentsApiClient, DocumentsApiClient>(client =>
+        return services.AddHttpClient<IDocumentsApiClient, DocumentsApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -120,19 +121,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddTagsApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddTagsApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<ITagsApiClient, TagsApiClient>(client =>
+        return services.AddHttpClient<ITagsApiClient, TagsApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -141,19 +142,19 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddSocietiesApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddSocietiesApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<ISocietiesApiClient, SocietiesApiClient>(client =>
+        return services.AddHttpClient<ISocietiesApiClient, SocietiesApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 
     /// <summary>
@@ -162,18 +163,18 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="baseAddress">The base address for the API.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IHttpClientBuilder AddTrustInviteLinksApiClient(this IServiceCollection services, string baseAddress)
+    public static IHttpClientBuilder AddTrustInviteLinksApiClient(
+        this IServiceCollection services,
+        string baseAddress)
     {
         ArgumentNullException.ThrowIfNull(baseAddress);
         services.TryAddScoped<CorrelationIdHandler>();
 
-        var builder = services.AddHttpClient<ITrustInviteLinksApiClient, TrustInviteLinksApiClient>(client =>
+        return services.AddHttpClient<ITrustInviteLinksApiClient, TrustInviteLinksApiClient>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-        builder.AddHttpMessageHandler<CorrelationIdHandler>();
-
-        return builder;
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
     }
 }

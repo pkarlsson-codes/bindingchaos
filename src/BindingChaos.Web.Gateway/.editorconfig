@@ -6,3 +6,6 @@ dotnet_diagnostic.SA1516.severity = none
 
 [Models/*.cs]
 dotnet_diagnostic.SA1313.severity = none
+
+[Controllers/*.cs]
+dotnet_diagnostic.CA2007.severity = none

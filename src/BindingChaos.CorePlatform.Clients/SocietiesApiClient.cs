@@ -12,57 +12,91 @@ namespace BindingChaos.CorePlatform.Clients;
 /// </summary>
 /// <param name="httpClient">The HTTP client to use for API requests.</param>
 /// <param name="logger">The logger for this client.</param>
-public class SocietiesApiClient(HttpClient httpClient, ILogger<SocietiesApiClient> logger) : BaseApiClient(httpClient, logger), ISocietiesApiClient
+public class SocietiesApiClient(
+    HttpClient httpClient,
+    ILogger<SocietiesApiClient> logger)
+    : BaseApiClient(httpClient, logger), ISocietiesApiClient
 {
     /// <inheritdoc/>
-    public async Task<PaginatedResponse<SocietyListItemResponse>> GetSocietiesAsync(PaginationQuerySpec<SocietiesQueryFilter> query, CancellationToken cancellationToken = default)
+    public Task<PaginatedResponse<SocietyListItemResponse>> GetSocietiesAsync(
+        PaginationQuerySpec<SocietiesQueryFilter> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(query);
 
         var queryString = query.ToQueryString(true);
-        return await GetAsync<PaginatedResponse<SocietyListItemResponse>>($"api/societies{queryString}", cancellationToken).ConfigureAwait(false);
+        return GetAsync<PaginatedResponse<SocietyListItemResponse>>(
+            $"api/societies{queryString}",
+            cancellationToken);
     }
 
     /// <inheritdoc/>
-    public Task<SocietyResponse> GetSocietyAsync(string societyId, CancellationToken cancellationToken = default)
+    public Task<SocietyResponse> GetSocietyAsync(
+        string societyId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
-        return GetAsync<SocietyResponse>($"api/societies/{societyId}", cancellationToken);
+        return GetAsync<SocietyResponse>(
+            $"api/societies/{societyId}",
+            cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async Task<PaginatedResponse<SocietyMemberResponse>> GetSocietyMembersAsync(string societyId, PaginationQuerySpec<EmptyFilter> query, CancellationToken cancellationToken = default)
+    public Task<PaginatedResponse<SocietyMemberResponse>> GetSocietyMembersAsync(
+        string societyId,
+        PaginationQuerySpec<EmptyFilter> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
         ArgumentNullException.ThrowIfNull(query);
 
         var queryString = query.ToQueryString(true);
-        return await GetAsync<PaginatedResponse<SocietyMemberResponse>>($"api/societies/{societyId}/members{queryString}", cancellationToken).ConfigureAwait(false);
+        return GetAsync<PaginatedResponse<SocietyMemberResponse>>(
+            $"api/societies/{societyId}/members{queryString}",
+            cancellationToken);
     }
 
     /// <inheritdoc/>
-    public Task<string> CreateSocietyAsync(CreateSocietyRequest request, CancellationToken cancellationToken = default)
+    public Task<string> CreateSocietyAsync(
+        CreateSocietyRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        return PostAsync<CreateSocietyRequest, string>("api/societies", request, cancellationToken);
+        return PostAsync<CreateSocietyRequest, string>(
+            "api/societies",
+            request,
+            cancellationToken);
     }
 
     /// <inheritdoc/>
-    public Task<string> JoinSocietyAsync(string societyId, JoinSocietyRequest request, CancellationToken cancellationToken = default)
+    public Task<string> JoinSocietyAsync(
+        string societyId,
+        JoinSocietyRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
         ArgumentNullException.ThrowIfNull(request);
-        return PostAsync<JoinSocietyRequest, string>($"api/societies/{societyId}/memberships", request, cancellationToken);
+        return PostAsync<JoinSocietyRequest, string>(
+            $"api/societies/{societyId}/memberships",
+            request,
+            cancellationToken);
     }
 
     /// <inheritdoc/>
-    public Task<string[]> GetMySocietyIdsAsync(CancellationToken cancellationToken = default)
-        => GetAsync<string[]>("api/societies/memberships/me", cancellationToken);
+    public Task<string[]> GetMySocietyIdsAsync(
+        CancellationToken cancellationToken)
+        => GetAsync<string[]>(
+            "api/societies/memberships/me",
+            cancellationToken);
 
     /// <inheritdoc/>
-    public Task LeaveSocietyAsync(string societyId, CancellationToken cancellationToken = default)
+    public Task LeaveSocietyAsync(
+        string societyId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
-        return DeleteAsync($"api/societies/{societyId}/memberships/me", cancellationToken);
+        return DeleteAsync(
+            $"api/societies/{societyId}/memberships/me",
+            cancellationToken);
     }
 }

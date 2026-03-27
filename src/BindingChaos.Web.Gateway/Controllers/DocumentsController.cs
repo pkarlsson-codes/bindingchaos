@@ -8,20 +8,17 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <summary>
 /// Controller for managing documents in the web gateway.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="DocumentsController"/> class.
+/// </remarks>
+/// <param name="documentsApiClient">The API client for interacting with the documents service.</param>
 [ApiController]
 [Route("api/v1/documents")]
-public sealed class DocumentsController : BaseApiController
+public sealed class DocumentsController(
+    IDocumentsApiClient documentsApiClient)
+    : BaseApiController
 {
-    private readonly IDocumentsApiClient _documentsApiClient;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DocumentsController"/> class.
-    /// </summary>
-    /// <param name="documentsApiClient">The API client for interacting with the documents service.</param>
-    public DocumentsController(IDocumentsApiClient documentsApiClient)
-    {
-        _documentsApiClient = documentsApiClient ?? throw new ArgumentNullException(nameof(documentsApiClient));
-    }
+    private readonly IDocumentsApiClient _documentsApiClient = documentsApiClient ?? throw new ArgumentNullException(nameof(documentsApiClient));
 
     /// <summary>
     /// Uploads a document file and stores it in the system.
@@ -35,7 +32,7 @@ public sealed class DocumentsController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> UploadDocument(
         [FromForm] IFormFile file,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(file);
 
@@ -44,7 +41,8 @@ public sealed class DocumentsController : BaseApiController
             return BadRequest("File cannot be empty.");
         }
 
-        var documentId = await _documentsApiClient.StoreDocumentAsync(file, cancellationToken).ConfigureAwait(false);
+        var documentId = await _documentsApiClient
+            .StoreDocumentAsync(file, cancellationToken);
 
         return Created(string.Empty, documentId);
     }
@@ -76,8 +74,10 @@ public sealed class DocumentsController : BaseApiController
             return BadRequest($"Invalid size parameter. Must be one of: {string.Join(", ", validSizes)}");
         }
 
-        var documentStream = await _documentsApiClient.GetDocumentContentAsync(documentId, cancellationToken).ConfigureAwait(false);
-        var documentMetadata = await _documentsApiClient.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
+        var documentStream = await _documentsApiClient
+            .GetDocumentContentAsync(documentId, cancellationToken);
+        var documentMetadata = await _documentsApiClient
+            .GetDocumentMetadataAsync(documentId, cancellationToken);
 
         if (documentStream == null)
         {
@@ -104,7 +104,7 @@ public sealed class DocumentsController : BaseApiController
     [EndpointName("getDocumentThumbnail")]
     public Task<IActionResult> GetDocumentThumbnail(
         [FromRoute] string documentId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         return GetDocument(documentId, "thumbnail", cancellationToken);
     }
@@ -122,7 +122,7 @@ public sealed class DocumentsController : BaseApiController
     [EndpointName("getDocumentDisplay")]
     public Task<IActionResult> GetDocumentDisplay(
         [FromRoute] string documentId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         return GetDocument(documentId, "display", cancellationToken);
     }

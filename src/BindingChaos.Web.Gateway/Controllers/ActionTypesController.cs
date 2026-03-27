@@ -9,20 +9,15 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <summary>
 /// Controller for querying the action type catalog.
 /// </summary>
+/// <param name="signalsApiClient">The API client for interacting with the signals service.</param>
 [ApiController]
 [Route("api/v1/action-types")]
-public sealed class ActionTypesController : BaseApiController
+public sealed class ActionTypesController(
+    ISignalsApiClient signalsApiClient)
+    : BaseApiController
 {
-    private readonly ISignalsApiClient _signalsApiClient;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ActionTypesController"/> class.
-    /// </summary>
-    /// <param name="signalsApiClient">The API client for interacting with the signals service.</param>
-    public ActionTypesController(ISignalsApiClient signalsApiClient)
-    {
-        _signalsApiClient = signalsApiClient ?? throw new ArgumentNullException(nameof(signalsApiClient));
-    }
+    private readonly ISignalsApiClient _signalsApiClient = signalsApiClient
+        ?? throw new ArgumentNullException(nameof(signalsApiClient));
 
     /// <summary>
     /// Returns all available action types.
@@ -35,9 +30,12 @@ public sealed class ActionTypesController : BaseApiController
     [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<ActionTypeResponse>), 200)]
     [EndpointName("getActionTypes")]
-    public async Task<IActionResult> GetActionTypes(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetActionTypes(
+        CancellationToken cancellationToken)
     {
-        var types = await _signalsApiClient.GetActionTypes(cancellationToken).ConfigureAwait(false);
+        var types = await _signalsApiClient
+            .GetActionTypes(cancellationToken);
+
         return Ok(types);
     }
 }

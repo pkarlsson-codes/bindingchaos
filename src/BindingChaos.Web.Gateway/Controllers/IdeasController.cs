@@ -14,7 +14,10 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <param name="societiesApiClient">Client for interacting with the Societies API.</param>
 [ApiController]
 [Route("api/v1/ideas")]
-public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesApiClient societiesApiClient) : BaseApiController
+public sealed class IdeasController(
+    IIdeasApiClient ideasApiClient,
+    ISocietiesApiClient societiesApiClient)
+    : BaseApiController
 {
     /// <summary>
     /// Gets all ideas with optional filtering and pagination.
@@ -24,12 +27,14 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
     /// <param name="query">Pagination and filter parameters.</param>
     /// <param name="filterToMySocieties">When true, restricts results to the current user's societies.</param>
     /// <returns>Paginated list of ideas with metadata.</returns>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IdeasFeedViewModel>), 200)]
     [EndpointName("getIdeas")]
     public async Task<OkObjectResult> GetIdeas(
         [FromQuery] PaginationQuerySpec<IdeasQueryFilter> query,
-        [FromQuery] bool filterToMySocieties = false)
+        [FromQuery] bool filterToMySocieties = false,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(query);
 
@@ -37,7 +42,8 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
 
         if (filterToMySocieties)
         {
-            var societyIds = await societiesApiClient.GetMySocietyIdsAsync().ConfigureAwait(false);
+            var societyIds = await societiesApiClient
+                .GetMySocietyIdsAsync(cancellationToken);
             normalizedQuery = new PaginationQuerySpec<IdeasQueryFilter>
             {
                 Page = normalizedQuery.Page,
@@ -46,7 +52,8 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
             };
         }
 
-        var result = await ideasApiClient.GetIdeasAsync(normalizedQuery).ConfigureAwait(false);
+        var result = await ideasApiClient
+            .GetIdeasAsync(normalizedQuery, cancellationToken);
 
         var response = new IdeasFeedViewModel
         {
@@ -61,11 +68,14 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
     /// Creates a new idea.
     /// </summary>
     /// <param name="request">The idea creation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created idea.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("authorIdea")]
-    public async Task<IActionResult> AuthorIdea([FromBody] AuthorIdeaRequest request)
+    public async Task<IActionResult> AuthorIdea(
+        [FromBody] AuthorIdeaRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -76,7 +86,8 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
             [.. request.SourceSignalIds],
             [.. request.Tags]);
 
-        var result = await ideasApiClient.AuthorIdeaAsync(domainRequest).ConfigureAwait(false);
+        var result = await ideasApiClient
+            .AuthorIdeaAsync(domainRequest, cancellationToken);
 
         return CreatedAtAction(nameof(GetIdeaDetails), new { ideaId = result }, result);
     }
@@ -86,15 +97,17 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient, ISocietiesAp
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea.</param>
     /// <returns>Detailed idea information with amendments and lineage.</returns>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     [HttpGet("{ideaId}")]
     [ProducesResponseType(typeof(ApiResponse<IdeaDetailViewModel>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getIdea")]
-    public async Task<IActionResult> GetIdeaDetails(string ideaId)
+    public async Task<IActionResult> GetIdeaDetails(string ideaId, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
 
-        var result = await ideasApiClient.GetIdeaAsync(ideaId).ConfigureAwait(false);
+        var result = await ideasApiClient
+            .GetIdeaAsync(ideaId, cancellationToken);
 
         var viewModel = new IdeaDetailViewModel
         {

@@ -15,5 +15,8 @@ public interface ITagsApiClient
     /// results.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Some tags.</returns>
-    public Task<TagResponse[]> GetTags(int limit, string? search = null, CancellationToken cancellationToken = default);
+    public Task<TagResponse[]> GetTags(
+        int limit,
+        string? search = null,
+        CancellationToken cancellationToken = default);
 }

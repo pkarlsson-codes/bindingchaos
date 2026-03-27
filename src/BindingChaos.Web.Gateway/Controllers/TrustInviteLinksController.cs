@@ -12,7 +12,9 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <param name="inviteLinksApiClient">Client for interacting with the Invite Links API.</param>
 [ApiController]
 [Route("api/v1/invite-links")]
-public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient inviteLinksApiClient) : BaseApiController
+public sealed class TrustInviteLinksController(
+    ITrustInviteLinksApiClient inviteLinksApiClient)
+    : BaseApiController
 {
     /// <summary>
     /// Gets all invite links for the authenticated participant, sorted by creation date descending.
@@ -22,9 +24,12 @@ public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient invite
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<TrustInviteLinkViewResponse>>), 200)]
     [EndpointName("getMyTrustInviteLinks")]
-    public async Task<IActionResult> GetMyTrustInviteLinks(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetMyTrustInviteLinks(
+        CancellationToken cancellationToken)
     {
-        var result = await inviteLinksApiClient.GetMyTrustInviteLinksAsync(cancellationToken).ConfigureAwait(false);
+        var result = await inviteLinksApiClient
+            .GetMyTrustInviteLinksAsync(cancellationToken);
+
         return Ok(result);
     }
 
@@ -37,11 +42,14 @@ public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient invite
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<TrustInviteLinkCreatedResponse>), 201)]
     [EndpointName("createTrustInviteLink")]
-    public async Task<IActionResult> CreateTrustInviteLink([FromBody] CreateTrustInviteLinkRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateTrustInviteLink(
+        [FromBody] CreateTrustInviteLinkRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var result = await inviteLinksApiClient.CreateTrustInviteLinkAsync(request, cancellationToken).ConfigureAwait(false);
+        var result = await inviteLinksApiClient
+            .CreateTrustInviteLinkAsync(request, cancellationToken);
 
         return CreatedAtAction(nameof(CreateTrustInviteLink), result);
     }
@@ -55,9 +63,12 @@ public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient invite
     [HttpGet("resolve")]
     [ProducesResponseType(typeof(ApiResponse<ResolvedInviteLinkResponse>), 200)]
     [EndpointName("resolveTrustInviteLink")]
-    public async Task<IActionResult> ResolveTrustInviteLink([FromQuery] string token, CancellationToken cancellationToken)
+    public async Task<IActionResult> ResolveTrustInviteLink(
+        [FromQuery] string token,
+        CancellationToken cancellationToken)
     {
-        var result = await inviteLinksApiClient.ResolveTrustInviteLinkAsync(token, cancellationToken).ConfigureAwait(false);
+        var result = await inviteLinksApiClient
+            .ResolveTrustInviteLinkAsync(token, cancellationToken);
         return Ok(result);
     }
 
@@ -72,9 +83,12 @@ public sealed class TrustInviteLinksController(ITrustInviteLinksApiClient invite
     [ProducesResponseType(403)]
     [ProducesResponseType(404)]
     [EndpointName("revokeTrustInviteLink")]
-    public async Task<IActionResult> RevokeTrustInviteLink([FromRoute] Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> RevokeTrustInviteLink(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
-        await inviteLinksApiClient.RevokeTrustInviteLinkAsync(id, cancellationToken).ConfigureAwait(false);
+        await inviteLinksApiClient
+            .RevokeTrustInviteLinkAsync(id, cancellationToken);
         return NoContent();
     }
 }

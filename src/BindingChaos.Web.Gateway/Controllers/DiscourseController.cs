@@ -15,7 +15,9 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <param name="discourseApiClient">The discourse API client.</param>
 [ApiController]
 [Route("api/discourse")]
-public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) : ControllerBase
+public sealed class DiscourseController(
+    IDiscourseApiClient discourseApiClient)
+    : BaseApiController
 {
     /// <summary>
     /// Gets root posts for a specific thread with cursor-based pagination.
@@ -24,6 +26,7 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     /// <param name="cursor">Cursor for pagination (null for first page).</param>
     /// <param name="limit">Maximum number of posts to return (default: 5).</param>
     /// <param name="direction">Direction of pagination (default: forward).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The root posts for the thread with cursor pagination.</returns>
     [HttpGet("threads/{threadId}/posts")]
     [ProducesResponseType(typeof(PostsViewModel), 200)]
@@ -34,21 +37,12 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
         string threadId,
         [FromQuery] string? cursor = null,
         [FromQuery] int limit = 5,
-        [FromQuery] CursorDirection direction = CursorDirection.Forward)
+        [FromQuery] CursorDirection direction = CursorDirection.Forward,
+        CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var result = await discourseApiClient.GetContributionsByThreadIdAsync(threadId, cursor, limit, direction).ConfigureAwait(false);
-            return Ok(DiscourseMapper.ToPostsViewModel(result));
-        }
-        catch (HttpRequestException ex) when (ex.Message.Contains("404"))
-        {
-            return NotFound($"No discourse thread found with ID {threadId}.");
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var result = await discourseApiClient
+            .GetContributionsByThreadIdAsync(threadId, cursor, limit, direction, cancellationToken);
+        return Ok(DiscourseMapper.ToPostsViewModel(result));
     }
 
     /// <summary>
@@ -59,6 +53,7 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     /// <param name="cursor">Cursor for pagination (null for first page).</param>
     /// <param name="limit">Maximum number of posts to return (default: 5).</param>
     /// <param name="direction">Direction of pagination (default: forward).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The root posts for the thread with cursor pagination.</returns>
     [HttpGet("threads/by-entity/{entityType}/{entityId}/posts")]
     [ProducesResponseType(typeof(PostsViewModel), 200)]
@@ -70,21 +65,12 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
         string entityId,
         [FromQuery] string? cursor = null,
         [FromQuery] int limit = 5,
-        [FromQuery] CursorDirection direction = CursorDirection.Forward)
+        [FromQuery] CursorDirection direction = CursorDirection.Forward,
+        CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var result = await discourseApiClient.GetContributionsByEntityAsync(entityType, entityId, cursor, limit, direction).ConfigureAwait(false);
-            return Ok(DiscourseMapper.ToPostsViewModel(result));
-        }
-        catch (HttpRequestException ex) when (ex.Message.Contains("404"))
-        {
-            return NotFound($"No discourse found for {entityType} with ID {entityId}.");
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var result = await discourseApiClient
+            .GetContributionsByEntityAsync(entityType, entityId, cursor, limit, direction, cancellationToken);
+        return Ok(DiscourseMapper.ToPostsViewModel(result));
     }
 
     /// <summary>
@@ -95,6 +81,7 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     /// <param name="cursor">Cursor for pagination (null for first page).</param>
     /// <param name="limit">Maximum number of replies to return (default: 5).</param>
     /// <param name="direction">Direction of pagination (default: forward).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The replies for the post with cursor pagination.</returns>
     [HttpGet("threads/{threadId}/posts/{postId}/replies")]
     [ProducesResponseType(typeof(PostRepliesViewModel), 200)]
@@ -106,21 +93,13 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
         string postId,
         [FromQuery] string? cursor = null,
         [FromQuery] int limit = 5,
-        [FromQuery] CursorDirection direction = CursorDirection.Forward)
+        [FromQuery] CursorDirection direction = CursorDirection.Forward,
+        CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var result = await discourseApiClient.GetContributionRepliesAsync(postId, cursor, limit, direction).ConfigureAwait(false);
-            return Ok(DiscourseMapper.ToPostRepliesViewModel(result));
-        }
-        catch (HttpRequestException ex) when (ex.Message.Contains("404"))
-        {
-            return NotFound($"Post with ID {postId} not found.");
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var result = await discourseApiClient
+            .GetContributionRepliesAsync(postId, cursor, limit, direction, cancellationToken);
+
+        return Ok(DiscourseMapper.ToPostRepliesViewModel(result));
     }
 
     /// <summary>
@@ -128,6 +107,7 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     /// </summary>
     /// <param name="threadId">The ID of the thread to post to.</param>
     /// <param name="request">The post creation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the created post.</returns>
     [HttpPost("threads/{threadId}/posts")]
     [ProducesResponseType(typeof(string), 201)]
@@ -135,13 +115,18 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     [EndpointName("createPost")]
     public async Task<IActionResult> CreatePost(
         string threadId,
-        [FromBody] CreatePostRequest request)
+        [FromBody] CreatePostRequest request,
+        CancellationToken cancellationToken)
     {
         try
         {
             var coreRequest = new PostContributionRequest(request.Content, null);
-            var result = await discourseApiClient.PostContributionToThreadAsync(threadId, coreRequest).ConfigureAwait(false);
-            return CreatedAtAction(nameof(GetPostsByThreadId), new { threadId }, result.ContributionId);
+            var result = await discourseApiClient
+                .PostContributionToThreadAsync(threadId, coreRequest, cancellationToken);
+
+            return CreatedAtAction(
+                nameof(GetPostsByThreadId),
+                new { threadId }, result.ContributionId);
         }
         catch (ArgumentException ex)
         {
@@ -155,6 +140,7 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     /// <param name="threadId">The ID of the thread.</param>
     /// <param name="postId">The ID of the post to reply to.</param>
     /// <param name="request">The reply creation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the created reply.</returns>
     [HttpPost("threads/{threadId}/posts/{postId}/replies")]
     [ProducesResponseType(typeof(string), 201)]
@@ -163,17 +149,17 @@ public sealed class DiscourseController(IDiscourseApiClient discourseApiClient) 
     public async Task<IActionResult> CreateReply(
         string threadId,
         string postId,
-        [FromBody] CreateReplyRequest request)
+        [FromBody] CreateReplyRequest request,
+        CancellationToken cancellationToken)
     {
-        try
-        {
-            var coreRequest = new PostContributionRequest(request.Content, postId);
-            var result = await discourseApiClient.PostContributionToThreadAsync(threadId, coreRequest).ConfigureAwait(false);
-            return CreatedAtAction(nameof(GetPostReplies), new { threadId, postId }, result.ContributionId);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        ArgumentNullException.ThrowIfNull(request);
+
+        var coreRequest = new PostContributionRequest(request.Content, postId);
+        var result = await discourseApiClient
+            .PostContributionToThreadAsync(threadId, coreRequest, cancellationToken);
+
+        return CreatedAtAction(
+            nameof(GetPostReplies),
+            new { threadId, postId }, result.ContributionId);
     }
 }

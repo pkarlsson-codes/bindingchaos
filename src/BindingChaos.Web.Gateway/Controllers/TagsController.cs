@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Clients;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BindingChaos.Web.Gateway.Controllers;
@@ -5,29 +6,30 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <summary>
 /// Controller for managing tags in the web gateway.
 /// </summary>
+/// <param name="tagsApiClient">The API client for interacting with the tags service.</param>
 [ApiController]
 [Route("api/v1/tags")]
-public sealed class TagsController : ControllerBase
+public sealed class TagsController(
+    ITagsApiClient tagsApiClient)
+    : ControllerBase
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TagsController"/> class.
-    /// </summary>
-    public TagsController()
-    {
-    }
+    private readonly ITagsApiClient _tagsApiClient = tagsApiClient;
 
     /// <summary>
     /// Gets popular tags based on usage frequency.
     /// </summary>
     /// <param name="limit">Maximum number of tags to return (default: 50, max: 100).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>List of popular tags with usage counts.</returns>
     [HttpGet("popular")]
     [ProducesResponseType(typeof(string[]), 200)]
     [ProducesResponseType(500)]
     [EndpointName("getPopularTags")]
     public OkObjectResult GetPopularTags(
-        [FromQuery] int limit = 50)
+        [FromQuery] int limit = 50,
+        CancellationToken cancellationToken = default)
     {
+        _tagsApiClient.GetTags(limit, null, cancellationToken);
         return Ok(Array.Empty<string>());
     }
 

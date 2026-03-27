@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Headers;
 using BindingChaos.CorePlatform.Contracts.Models;
 using BindingChaos.Infrastructure.API;
@@ -10,10 +9,6 @@ namespace BindingChaos.CorePlatform.Clients;
 /// <summary>
 /// Implementation of the Documents API client.
 /// </summary>
-/// <remarks>
-/// Initializes a new instance of the <see cref="DocumentsApiClient"/> class with the specified HTTP client and
-/// logger.
-/// </remarks>
 /// <param name="httpClient">The <see cref="HttpClient"/> instance used to send HTTP requests.</param>
 /// <param name="logger">The <see cref="ILogger{TCategoryName}"/> instance used to log diagnostic messages.</param>
 public partial class DocumentsApiClient(
@@ -21,9 +16,10 @@ public partial class DocumentsApiClient(
     ILogger<DocumentsApiClient> logger)
     : BaseApiClient(httpClient, logger), IDocumentsApiClient
 {
-
     /// <inheritdoc/>
-    public async Task<string> StoreDocumentAsync(IFormFile file, CancellationToken cancellationToken = default)
+    public async Task<string> StoreDocumentAsync(
+        IFormFile file,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(file);
 
@@ -34,25 +30,34 @@ public partial class DocumentsApiClient(
 
         formData.Add(streamContent, "file", file.FileName);
 
-        return await PostFormAsync<string>("api/documents", formData, cancellationToken).ConfigureAwait(false);
+        return await PostFormAsync<string>("api/documents", formData, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<Stream> GetDocumentContentAsync(string documentId, CancellationToken cancellationToken = default)
+    public async Task<Stream> GetDocumentContentAsync(
+        string documentId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(documentId);
 
-        var response = await HttpClient.GetAsync($"api/documents/{documentId}/content", cancellationToken).ConfigureAwait(false);
+        var response = await HttpClient
+            .GetAsync($"api/documents/{documentId}/content", cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        return await response.Content
+            .ReadAsStreamAsync(cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<DocumentMetadata> GetDocumentMetadataAsync(string documentId, CancellationToken cancellationToken = default)
+    public Task<DocumentMetadata> GetDocumentMetadataAsync(
+        string documentId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(documentId);
 
-        return await GetAsync<DocumentMetadata>($"api/documents/{documentId}", cancellationToken).ConfigureAwait(false);
+        return GetAsync<DocumentMetadata>($"api/documents/{documentId}", cancellationToken);
     }
 }

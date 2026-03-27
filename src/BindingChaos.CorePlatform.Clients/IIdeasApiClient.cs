@@ -17,7 +17,9 @@ public interface IIdeasApiClient
     /// <param name="query">The query specification for pagination and filtering.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A page of ideas.</returns>
-    Task<PaginatedResponse<IdeaListItemResponse>> GetIdeasAsync(PaginationQuerySpec<IdeasQueryFilter> query, CancellationToken cancellationToken = default);
+    Task<PaginatedResponse<IdeaListItemResponse>> GetIdeasAsync(
+        PaginationQuerySpec<IdeasQueryFilter> query,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets a specific idea by its identifier in the current locality.
@@ -25,7 +27,9 @@ public interface IIdeasApiClient
     /// <param name="ideaId">The identifier of the idea.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The idea response.</returns>
-    Task<IdeaResponse> GetIdeaAsync(string ideaId, CancellationToken cancellationToken = default);
+    Task<IdeaResponse> GetIdeaAsync(
+        string ideaId,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new idea in the current locality.
@@ -33,5 +37,7 @@ public interface IIdeasApiClient
     /// <param name="request">The idea creation request.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created idea.</returns>
-    Task<string> AuthorIdeaAsync(AuthorIdeaRequest request, CancellationToken cancellationToken = default);
+    Task<string> AuthorIdeaAsync(
+        AuthorIdeaRequest request,
+        CancellationToken cancellationToken);
 }

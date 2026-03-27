@@ -14,7 +14,9 @@ public interface IDocumentsApiClient
     /// <param name="file">The file to store.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The unique identifier of the stored document.</returns>
-    Task<string> StoreDocumentAsync(IFormFile file, CancellationToken cancellationToken = default);
+    Task<string> StoreDocumentAsync(
+        IFormFile file,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets document content as a stream.
@@ -22,7 +24,9 @@ public interface IDocumentsApiClient
     /// <param name="documentId">The document identifier.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The document content stream.</returns>
-    Task<Stream> GetDocumentContentAsync(string documentId, CancellationToken cancellationToken = default);
+    Task<Stream> GetDocumentContentAsync(
+        string documentId,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets document metadata.
@@ -30,5 +34,7 @@ public interface IDocumentsApiClient
     /// <param name="documentId">The document identifier.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The document metadata.</returns>
-    Task<DocumentMetadata> GetDocumentMetadataAsync(string documentId, CancellationToken cancellationToken = default);
+    Task<DocumentMetadata> GetDocumentMetadataAsync(
+        string documentId,
+        CancellationToken cancellationToken);
 }

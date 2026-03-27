@@ -90,9 +90,9 @@ public sealed class OidcController : ControllerBase
         string? idToken = null;
         if (!string.IsNullOrWhiteSpace(sessionId))
         {
-            var tokens = await _tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
+            var tokens = await _tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted);
             idToken = tokens?.idToken;
-            await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
+            await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted);
             Response.Cookies.Delete(GatewayDefaults.Cookies.SessionCookie);
             Response.Cookies.Delete(GatewayDefaults.Cookies.CsrfCookie);
         }
@@ -127,7 +127,7 @@ public sealed class OidcController : ControllerBase
             return Unauthorized(new { error = "No session" });
         }
 
-        var tokens = await _tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
+        var tokens = await _tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted);
         if (tokens is null || string.IsNullOrWhiteSpace(tokens.Value.refreshToken))
         {
             return Unauthorized(new { error = "No refresh token" });
@@ -152,13 +152,13 @@ public sealed class OidcController : ControllerBase
 
         var http = _httpClientFactory.CreateClient();
         using var content = new FormUrlEncodedContent(form);
-        var response = await http.PostAsync(tokenEndpoint, content).ConfigureAwait(false);
+        var response = await http.PostAsync(tokenEndpoint, content);
         if (!response.IsSuccessStatusCode)
         {
             return StatusCode(502, new { error = "Token endpoint error", status = (int)response.StatusCode });
         }
 
-        var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
         var newAccess = root.GetProperty("access_token").GetString();
@@ -166,8 +166,8 @@ public sealed class OidcController : ControllerBase
         var existingIdToken = tokens.Value.idToken;
 
         var newSessionId = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
-        await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
-        await _tokenStore.SaveTokensAsync(newSessionId, tokens.Value.userId, newAccess, newRefresh, existingIdToken, HttpContext.RequestAborted).ConfigureAwait(false);
+        await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted);
+        await _tokenStore.SaveTokensAsync(newSessionId, tokens.Value.userId, newAccess, newRefresh, existingIdToken, HttpContext.RequestAborted);
 
         var isProd = _env.IsProduction();
         Response.Cookies.Append(

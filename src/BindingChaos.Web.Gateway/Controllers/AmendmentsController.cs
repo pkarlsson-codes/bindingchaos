@@ -15,23 +15,30 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// <param name="amendmentsApiClient">Client for interacting with the Amendments API.</param>
 [ApiController]
 [Route("api/v1/ideas/{ideaId}/amendments")]
-public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClient) : BaseApiController
+public sealed class AmendmentsController(
+    IAmendmentsApiClient amendmentsApiClient)
+    : BaseApiController
 {
     /// <summary>
     /// Gets all amendments for an idea with optional filtering and pagination.
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea to retrieve amendments for.</param>
     /// <param name="query">Pagination and filter parameters.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Paginated list of ideas with metadata.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<AmendmentsListItemResponse>>), 200)]
     [EndpointName("getAmendments")]
-    public async Task<IActionResult> GetAmendments([FromRoute] string ideaId, [FromQuery] PaginationQuerySpec<AmendmentsQueryFilter> query)
+    public async Task<IActionResult> GetAmendments(
+        [FromRoute] string ideaId,
+        [FromQuery] PaginationQuerySpec<AmendmentsQueryFilter> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         ArgumentNullException.ThrowIfNull(query);
 
-        var amendmentsPage = await amendmentsApiClient.GetAmendmentsAsync(ideaId, query).ConfigureAwait(false);
+        var amendmentsPage = await amendmentsApiClient
+            .GetAmendmentsAsync(ideaId, query, cancellationToken);
 
         return Ok(amendmentsPage);
     }
@@ -41,17 +48,22 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea that contains the amendment.</param>
     /// <param name="amendmentId">The unique identifier of the amendment to retrieve.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Detailed amendment information if found; otherwise, a 404 Not Found response.</returns>
     [HttpGet("{amendmentId}")]
     [ProducesResponseType(typeof(ApiResponse<AmendmentViewModel>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getAmendmentDetails")]
-    public async Task<IActionResult> GetAmendmentDetails([FromRoute] string ideaId, [FromRoute] string amendmentId)
+    public async Task<IActionResult> GetAmendmentDetails(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         ArgumentNullException.ThrowIfNull(amendmentId);
 
-        var amendment = await amendmentsApiClient.GetAmendmentDetailsAsync(amendmentId).ConfigureAwait(false);
+        var amendment = await amendmentsApiClient
+            .GetAmendmentDetailsAsync(amendmentId, cancellationToken);
 
         if (amendment == null)
         {
@@ -87,18 +99,24 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// <param name="ideaId">The unique identifier of the idea that contains the amendment.</param>
     /// <param name="amendmentId">The unique identifier of the amendment to get supporters for.</param>
     /// <param name="query">The pagination query specification.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated response of supporters for the specified amendment.</returns>
     [HttpGet("{amendmentId}/supporters")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<AmendmentSupporterResponse>>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getAmendmentSupporters")]
-    public async Task<IActionResult> GetAmendmentSupporters([FromRoute] string ideaId, [FromRoute] string amendmentId, [FromQuery] PaginationQuerySpec<object> query)
+    public async Task<IActionResult> GetAmendmentSupporters(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        [FromQuery] PaginationQuerySpec<object> query,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         ArgumentNullException.ThrowIfNull(amendmentId);
         ArgumentNullException.ThrowIfNull(query);
 
-        var supporters = await amendmentsApiClient.GetAmendmentSupportersAsync(amendmentId, query).ConfigureAwait(false);
+        var supporters = await amendmentsApiClient
+            .GetAmendmentSupportersAsync(amendmentId, query, cancellationToken);
 
         return Ok(supporters);
     }
@@ -109,18 +127,24 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// <param name="ideaId">The unique identifier of the idea that contains the amendment.</param>
     /// <param name="amendmentId">The unique identifier of the amendment to get opponents for.</param>
     /// <param name="query">The pagination query specification.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated response of opponents for the specified amendment.</returns>
     [HttpGet("{amendmentId}/opponents")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<AmendmentOpponentResponse>>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getAmendmentOpponents")]
-    public async Task<IActionResult> GetAmendmentOpponents([FromRoute] string ideaId, [FromRoute] string amendmentId, [FromQuery] PaginationQuerySpec<object> query)
+    public async Task<IActionResult> GetAmendmentOpponents(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        [FromQuery] PaginationQuerySpec<object> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         ArgumentNullException.ThrowIfNull(amendmentId);
         ArgumentNullException.ThrowIfNull(query);
 
-        var opponents = await amendmentsApiClient.GetAmendmentOpponentsAsync(amendmentId, query).ConfigureAwait(false);
+        var opponents = await amendmentsApiClient
+            .GetAmendmentOpponentsAsync(amendmentId, query, cancellationToken);
 
         return Ok(opponents);
     }
@@ -130,17 +154,22 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea that contains the amendment.</param>
     /// <param name="amendmentId">The unique identifier of the amendment to get trend data for.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Support trend data for the specified amendment.</returns>
     [HttpGet("{amendmentId}/trend")]
     [ProducesResponseType(typeof(ApiResponse<AmendmentTrendResponse>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getAmendmentTrend")]
-    public async Task<IActionResult> GetAmendmentTrend([FromRoute] string ideaId, [FromRoute] string amendmentId)
+    public async Task<IActionResult> GetAmendmentTrend(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(ideaId);
         ArgumentNullException.ThrowIfNull(amendmentId);
 
-        var trend = await amendmentsApiClient.GetAmendmentTrendAsync(amendmentId).ConfigureAwait(false);
+        var trend = await amendmentsApiClient
+            .GetAmendmentTrendAsync(amendmentId, cancellationToken);
 
         return Ok(trend);
     }
@@ -150,13 +179,18 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea to amend.</param>
     /// <param name="request">The request containing amendment details.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Created response with the proposed amendment details.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<ProposeAmendmentResponse>), 201)]
     [EndpointName("proposeAmendment")]
-    public async Task<IActionResult> ProposeAmendment([FromRoute] string ideaId, [FromBody] ProposeAmendmentRequest request)
+    public async Task<IActionResult> ProposeAmendment(
+        [FromRoute] string ideaId,
+        [FromBody] ProposeAmendmentRequest request,
+        CancellationToken cancellationToken)
     {
-        var result = await amendmentsApiClient.ProposeAmendmentAsync(ideaId, request).ConfigureAwait(false);
+        var result = await amendmentsApiClient
+            .ProposeAmendmentAsync(ideaId, request, cancellationToken);
 
         return CreatedAtAction(nameof(GetAmendments), new { ideaId }, result);
     }
@@ -167,13 +201,19 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     /// <param name="ideaId">The unique identifier of the idea that contains the amendment.</param>
     /// <param name="amendmentId">The unique identifier of the amendment to support.</param>
     /// <param name="request">The request containing the reason for supporting the amendment.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The updated support and opposition counts for the amendment.</returns>
     [HttpPost("{amendmentId}/support")]
     [ProducesResponseType(typeof(AmendmentVoteResponse), 200)]
     [EndpointName("supportAmendment")]
-    public async Task<IActionResult> SupportAmendment([FromRoute] string ideaId, [FromRoute] string amendmentId, [FromBody] SupportAmendmentRequest request)
+    public async Task<IActionResult> SupportAmendment(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        [FromBody] SupportAmendmentRequest request,
+        CancellationToken cancellationToken)
     {
-        var response = await amendmentsApiClient.SupportAmendmentAsync(amendmentId, request).ConfigureAwait(false);
+        var response = await amendmentsApiClient
+            .SupportAmendmentAsync(amendmentId, request, cancellationToken);
         return Ok(response);
     }
 
@@ -188,9 +228,14 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     [HttpPost("{amendmentId}/oppose")]
     [ProducesResponseType(typeof(AmendmentVoteResponse), 200)]
     [EndpointName("opposeAmendment")]
-    public async Task<IActionResult> OpposeAmendment([FromRoute] string ideaId, [FromRoute] string amendmentId, [FromBody] OpposeAmendmentRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> OpposeAmendment(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        [FromBody] OpposeAmendmentRequest request,
+        CancellationToken cancellationToken)
     {
-        var response = await amendmentsApiClient.OpposeAmendmentAsync(amendmentId, request, cancellationToken).ConfigureAwait(false);
+        var response = await amendmentsApiClient
+            .OpposeAmendmentAsync(amendmentId, request, cancellationToken);
         return Ok(response);
     }
 
@@ -204,9 +249,13 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     [HttpPost("{amendmentId}/withdraw-support")]
     [ProducesResponseType(200)]
     [EndpointName("withdrawSupport")]
-    public async Task<IActionResult> WithdrawSupport([FromRoute] string ideaId, [FromRoute] string amendmentId, CancellationToken cancellationToken)
+    public async Task<IActionResult> WithdrawSupport(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        CancellationToken cancellationToken)
     {
-        var result = await amendmentsApiClient.WithdrawSupportAsync(amendmentId, cancellationToken).ConfigureAwait(false);
+        var result = await amendmentsApiClient
+            .WithdrawSupportAsync(amendmentId, cancellationToken);
         return Ok(result);
     }
 
@@ -220,11 +269,13 @@ public sealed class AmendmentsController(IAmendmentsApiClient amendmentsApiClien
     [HttpPost("{amendmentId}/withdraw-opposition")]
     [ProducesResponseType(typeof(AmendmentVoteResponse), 200)]
     [EndpointName("withdrawOpposition")]
-    public async Task<IActionResult> WithdrawOpposition([FromRoute] string ideaId, [FromRoute] string amendmentId, CancellationToken cancellationToken)
+    public async Task<IActionResult> WithdrawOpposition(
+        [FromRoute] string ideaId,
+        [FromRoute] string amendmentId,
+        CancellationToken cancellationToken)
     {
         var response = await amendmentsApiClient
-            .WithdrawOppositionAsync(amendmentId, cancellationToken)
-            .ConfigureAwait(false);
+            .WithdrawOppositionAsync(amendmentId, cancellationToken);
         return Ok(response);
     }
 }

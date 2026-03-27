@@ -21,15 +21,19 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// Gets a paginated list of societies with optional filtering.
     /// </summary>
     /// <param name="query">Pagination and filter parameters.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>Paginated list of societies.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<SocietiesFeedViewModel>), 200)]
     [EndpointName("getSocieties")]
-    public async Task<OkObjectResult> GetSocieties([FromQuery] PaginationQuerySpec<SocietiesQueryFilter> query)
+    public async Task<OkObjectResult> GetSocieties(
+        [FromQuery] PaginationQuerySpec<SocietiesQueryFilter> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(query);
 
-        var result = await societiesApiClient.GetSocietiesAsync(query.Normalize()).ConfigureAwait(false);
+        var result = await societiesApiClient
+            .GetSocietiesAsync(query.Normalize(), cancellationToken);
 
         var response = new SocietiesFeedViewModel
         {
@@ -43,16 +47,20 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// Gets detailed information about a specific society.
     /// </summary>
     /// <param name="societyId">The unique identifier of the society.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>Detailed society information.</returns>
     [HttpGet("{societyId}")]
     [ProducesResponseType(typeof(ApiResponse<SocietyDetailViewModel>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getSociety")]
-    public async Task<IActionResult> GetSocietyDetails(string societyId)
+    public async Task<IActionResult> GetSocietyDetails(
+        string societyId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
 
-        var result = await societiesApiClient.GetSocietyAsync(societyId).ConfigureAwait(false);
+        var result = await societiesApiClient
+            .GetSocietyAsync(societyId, cancellationToken);
 
         var viewModel = new SocietyDetailViewModel
         {
@@ -67,17 +75,25 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// </summary>
     /// <param name="societyId">The unique identifier of the society.</param>
     /// <param name="query">Pagination parameters.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>Paginated list of society members.</returns>
     [HttpGet("{societyId}/members")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<SocietyMemberResponse>>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getSocietyMembers")]
-    public async Task<IActionResult> GetSocietyMembers(string societyId, [FromQuery] PaginationQuerySpec<EmptyFilter> query)
+    public async Task<IActionResult> GetSocietyMembers(
+        string societyId,
+        [FromQuery] PaginationQuerySpec<EmptyFilter> query,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
         ArgumentNullException.ThrowIfNull(query);
 
-        var result = await societiesApiClient.GetSocietyMembersAsync(societyId, query.Normalize()).ConfigureAwait(false);
+        var result = await societiesApiClient
+        .GetSocietyMembersAsync(
+            societyId,
+            query.Normalize(),
+            cancellationToken);
 
         return Ok(result);
     }
@@ -86,19 +102,28 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// Creates a new society.
     /// </summary>
     /// <param name="request">The society creation request.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>The created society ID.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("createSociety")]
-    public async Task<IActionResult> CreateSociety([FromBody] CreateSocietyRequest request)
+    public async Task<IActionResult> CreateSociety(
+        [FromBody] CreateSocietyRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
         var bounds = request.GeographicBounds is not null
-            ? new DomainRequests.GeographicBoundsRequest(request.GeographicBounds.North, request.GeographicBounds.South, request.GeographicBounds.East, request.GeographicBounds.West)
+            ? new DomainRequests.GeographicBoundsRequest(
+                request.GeographicBounds.North,
+                request.GeographicBounds.South,
+                request.GeographicBounds.East,
+                request.GeographicBounds.West)
             : null;
         var center = request.Center is not null
-            ? new DomainRequests.CoordinatesRequest(request.Center.Latitude, request.Center.Longitude)
+            ? new DomainRequests.CoordinatesRequest(
+                request.Center.Latitude,
+                request.Center.Longitude)
             : null;
 
         var domainRequest = new DomainRequests.CreateSocietyRequest(
@@ -112,7 +137,9 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
             bounds,
             center);
 
-        var societyId = await societiesApiClient.CreateSocietyAsync(domainRequest).ConfigureAwait(false);
+        var societyId = await societiesApiClient.CreateSocietyAsync(
+            domainRequest,
+            cancellationToken);
 
         return CreatedAtAction(nameof(GetSocietyDetails), new { societyId }, societyId);
     }
@@ -122,31 +149,42 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// </summary>
     /// <param name="societyId">The unique identifier of the society to join.</param>
     /// <param name="request">The join request containing the social contract ID.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>The created membership ID.</returns>
     [HttpPost("{societyId}/memberships")]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("joinSociety")]
-    public async Task<IActionResult> JoinSociety(string societyId, [FromBody] DomainRequests.JoinSocietyRequest request)
+    public async Task<IActionResult> JoinSociety(
+        string societyId,
+        [FromBody] DomainRequests.JoinSocietyRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
         ArgumentNullException.ThrowIfNull(request);
 
-        var membershipId = await societiesApiClient.JoinSocietyAsync(societyId, request).ConfigureAwait(false);
+        var membershipId = await societiesApiClient
+            .JoinSocietyAsync(societyId, request, cancellationToken);
 
-        return CreatedAtAction(nameof(GetSocietyMembers), new { societyId }, membershipId);
+        return CreatedAtAction(
+            nameof(GetSocietyMembers),
+            new { societyId },
+            membershipId);
     }
 
     /// <summary>
     /// Gets the IDs of all societies the authenticated participant is an active member of.
     /// Returns an empty array for unauthenticated requests.
     /// </summary>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>An array of society ID strings.</returns>
     [HttpGet("memberships/me")]
     [ProducesResponseType(typeof(ApiResponse<string[]>), 200)]
     [EndpointName("getMySocietyIds")]
-    public async Task<IActionResult> GetMySocietyIds()
+    public async Task<IActionResult> GetMySocietyIds(
+        CancellationToken cancellationToken)
     {
-        var ids = await societiesApiClient.GetMySocietyIdsAsync().ConfigureAwait(false);
+        var ids = await societiesApiClient
+            .GetMySocietyIdsAsync(cancellationToken);
         return Ok(ids);
     }
 
@@ -154,15 +192,19 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// Removes the authenticated participant's membership from a society.
     /// </summary>
     /// <param name="societyId">The unique identifier of the society to leave.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>No content on success.</returns>
     [HttpDelete("{societyId}/memberships/me")]
     [ProducesResponseType(204)]
     [EndpointName("leaveSociety")]
-    public async Task<IActionResult> LeaveSociety(string societyId)
+    public async Task<IActionResult> LeaveSociety(
+        string societyId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
 
-        await societiesApiClient.LeaveSocietyAsync(societyId).ConfigureAwait(false);
+        await societiesApiClient
+            .LeaveSocietyAsync(societyId, cancellationToken);
 
         return NoContent();
     }

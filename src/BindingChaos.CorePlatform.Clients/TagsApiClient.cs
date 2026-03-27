@@ -13,17 +13,28 @@ namespace BindingChaos.CorePlatform.Clients;
 /// <param name="httpClient">The HTTP client used to send requests to the tags API. Must be configured with the appropriate base address and
 /// authentication settings.</param>
 /// <param name="logger">The logger used to record information and errors related to tag API operations.</param>
-public class TagsApiClient(HttpClient httpClient, ILogger<TagsApiClient> logger) : BaseApiClient(httpClient, logger), ITagsApiClient
+public class TagsApiClient(
+    HttpClient httpClient,
+    ILogger<TagsApiClient> logger)
+    : BaseApiClient(httpClient, logger), ITagsApiClient
 {
     /// <inheritdoc/>
-    public async Task<TagResponse[]> GetTags(int limit, string? search = null, CancellationToken cancellationToken = default)
+    public Task<TagResponse[]> GetTags(
+        int limit,
+        string? search = null,
+        CancellationToken cancellationToken = default)
     {
-        var queryString = QueryString.Create("limit", limit.ToString(CultureInfo.InvariantCulture));
+        var queryString = QueryString.Create(
+            "limit",
+            limit.ToString(CultureInfo.InvariantCulture));
+
         if (search != null)
         {
             queryString = queryString.Add("search", search);
         }
 
-        return await GetAsync<TagResponse[]>($"api/tags{queryString}", cancellationToken).ConfigureAwait(false);
+        return GetAsync<TagResponse[]>(
+            $"api/tags{queryString}",
+            cancellationToken);
     }
 }

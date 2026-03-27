@@ -51,17 +51,20 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse<SignalsFeedViewModel>), 200)]
     [EndpointName("getSignals")]
     [AllowAnonymous]
-    public async Task<OkObjectResult> GetSignals([FromQuery] PaginationQuerySpec<SignalsQueryFilter> query, CancellationToken cancellationToken)
+    public async Task<OkObjectResult> GetSignals(
+        [FromQuery] PaginationQuerySpec<SignalsQueryFilter> query,
+        CancellationToken cancellationToken)
     {
-        query = (query ?? new PaginationQuerySpec<SignalsQueryFilter>()).Normalize();
+        query = (query ?? new()).Normalize();
 
         var signalsTask = _signalsApiClient.GetSignals(query, cancellationToken);
+
         var tagsTask = _tagsApiClient.GetTags(20, null, cancellationToken);
 
-        await Task.WhenAll(signalsTask, tagsTask).ConfigureAwait(false);
+        await Task.WhenAll(signalsTask, tagsTask);
 
-        var signalsResult = await signalsTask.ConfigureAwait(false);
-        var tagsResult = await tagsTask.ConfigureAwait(false);
+        var signalsResult = signalsTask.Result;
+        var tagsResult = tagsTask.Result;
 
         var viewmodel = new SignalsFeedViewModel
         {
@@ -76,7 +79,8 @@ public sealed class SignalsController : BaseApiController
                 CreatedAt = s.CapturedAt.ToString("O") ?? string.Empty,
                 IsAmplifiedByCurrentUser = s.IsAmplifiedByCurrentUser,
                 IsOriginator = s.IsOriginator,
-                FirstAttachmentThumbnail = GetFirstAttachmentThumbnailUrl(s.Attachments),
+                FirstAttachmentThumbnail =
+                    GetFirstAttachmentThumbnailUrl(s.Attachments),
                 AttachmentCount = s.Attachments?.Length ?? 0,
             }),
             AvailableTags = [.. tagsResult.Select(t => t.Label)],
@@ -89,16 +93,20 @@ public sealed class SignalsController : BaseApiController
     /// Creates a new signal.
     /// </summary>
     /// <param name="request">The signal creation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created signal.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("captureSignal")]
     [AllowAnonymous]
-    public async Task<IActionResult> CaptureSignal([FromBody] CaptureSignalRequest request)
+    public async Task<IActionResult> CaptureSignal(
+        [FromBody] CaptureSignalRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var result = await _signalsApiClient.CaptureSignal(request).ConfigureAwait(false);
+        var result = await _signalsApiClient
+            .CaptureSignal(request, cancellationToken);
 
         return Created(string.Empty, result);
     }
@@ -107,6 +115,7 @@ public sealed class SignalsController : BaseApiController
     /// Gets detailed information about a specific signal including amplification history.
     /// </summary>
     /// <param name="signalId">The unique identifier of the signal.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Detailed signal information with amplification history.</returns>
     [HttpGet("{signalId}")]
     [ProducesResponseType(typeof(ApiResponse<SignalDetailViewModel>), 200)]
@@ -114,11 +123,14 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(500)]
     [EndpointName("getSignalDetails")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetSignalDetails([FromRoute(Name = "signalId")] string signalId)
+    public async Task<IActionResult> GetSignalDetails(
+        [FromRoute(Name = "signalId")] string signalId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
 
-        var signal = await _signalsApiClient.GetSignal(signalId).ConfigureAwait(false);
+        var signal = await _signalsApiClient
+            .GetSignal(signalId, cancellationToken);
 
         var viewModel = new SignalDetailViewModel
         {
@@ -128,9 +140,14 @@ public sealed class SignalsController : BaseApiController
             Tags = [],
             AuthorPseudonym = signal.OriginatorPseudonym,
             CreatedAt = signal.CapturedAt.ToString("O", CultureInfo.InvariantCulture),
-            LastAmplifiedAt = signal.Amplifications.DefaultIfEmpty().Max(a => a?.AmplifiedAt)?.ToString("O", CultureInfo.InvariantCulture) ?? null,
+            LastAmplifiedAt = signal.Amplifications
+                .DefaultIfEmpty()
+                .Max(a => a?.AmplifiedAt)
+                ?.ToString("O", CultureInfo.InvariantCulture)
+                ?? null,
             AmplifyCount = signal.Amplifications.Count,
-            Amplifications = [..signal.Amplifications.Select(a => new AmplificationViewModel
+            Amplifications = [..signal.Amplifications
+                .Select(a => new AmplificationViewModel
                 {
                     Id = a.AmplificationId,
                     AmplifierPseudonym = a.AmplifierPseudonym,
@@ -165,6 +182,7 @@ public sealed class SignalsController : BaseApiController
     /// </summary>
     /// <param name="signalId">The ID of the signal to amplify.</param>
     /// <param name="request">The amplification request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The amplification response with updated count.</returns>
     [HttpPost("{signalId}/amplifications")]
     [ProducesResponseType(typeof(ApiResponse<AmplifySignalResponse>), 200)]
@@ -172,13 +190,16 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [EndpointName("amplifySignal")]
-    public async Task<IActionResult> AmplifySignal(string signalId, [FromBody] AmplifySignalRequest request)
+    public async Task<IActionResult> AmplifySignal(
+        string signalId,
+        [FromBody] AmplifySignalRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
         ArgumentNullException.ThrowIfNull(request);
 
-        var response = await _signalsApiClient.AmplifySignal(signalId, request)
-            .ConfigureAwait(false);
+        var response = await _signalsApiClient
+            .AmplifySignal(signalId, request, cancellationToken);
 
         return Ok(response);
     }
@@ -187,6 +208,7 @@ public sealed class SignalsController : BaseApiController
     /// Removes a user's amplification from a signal.
     /// </summary>
     /// <param name="signalId">The ID of the signal to deamplify.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The deamplification response with updated count.</returns>
     [HttpDelete("{signalId}/amplifications")]
     [ProducesResponseType(typeof(ApiResponse<DeamplifySignalResponse>), 200)]
@@ -194,12 +216,14 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [EndpointName("deamplifySignal")]
-    public async Task<IActionResult> DeamplifySignal(string signalId)
+    public async Task<IActionResult> DeamplifySignal(
+        string signalId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
 
-        var response = await _signalsApiClient.DeamplifySignal(signalId)
-            .ConfigureAwait(false);
+        var response = await _signalsApiClient
+            .DeamplifySignal(signalId, cancellationToken);
 
         return Ok(response);
     }
@@ -216,12 +240,16 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
     [EndpointName("suggestAction")]
-    public async Task<IActionResult> SuggestAction(string signalId, [FromBody] SuggestActionRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> SuggestAction(
+        string signalId,
+        [FromBody] SuggestActionRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
         ArgumentNullException.ThrowIfNull(request);
 
-        await _signalsApiClient.SuggestAction(signalId, request, cancellationToken).ConfigureAwait(false);
+        await _signalsApiClient
+            .SuggestAction(signalId, request, cancellationToken);
 
         return Created(string.Empty, null);
     }
@@ -230,17 +258,22 @@ public sealed class SignalsController : BaseApiController
     /// Gets amplification trend data for a specific signal.
     /// </summary>
     /// <param name="signalId">The unique identifier of the signal.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Signal amplification trend data.</returns>
     [HttpGet("{signalId}/amplification-trend")]
     [ProducesResponseType(typeof(ApiResponse<SignalAmplificationTrendResponse>), 200)]
     [ProducesResponseType(404)]
     [EndpointName("getSignalAmplificationTrend")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetSignalAmplificationTrend([FromRoute] string signalId)
+    public async Task<IActionResult> GetSignalAmplificationTrend(
+        [FromRoute] string signalId,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
 
-        var trend = await _signalsApiClient.GetSignalAmplificationTrendAsync(signalId).ConfigureAwait(false);
+        var trend = await _signalsApiClient
+            .GetSignalAmplificationTrendAsync(signalId, cancellationToken);
+
         return Ok(trend);
     }
 
@@ -249,7 +282,8 @@ public sealed class SignalsController : BaseApiController
     /// </summary>
     /// <param name="attachments">The list of attachments.</param>
     /// <returns>The thumbnail URL or null if no image attachments exist.</returns>
-    private string? GetFirstAttachmentThumbnailUrl(AttachmentResponse[]? attachments)
+    private string? GetFirstAttachmentThumbnailUrl(
+        AttachmentResponse[]? attachments)
     {
         if (attachments == null || attachments.Length == 0)
         {
