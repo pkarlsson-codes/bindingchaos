@@ -16,13 +16,10 @@ Core business capabilities are split into modules such as:
 - Ideation
 - Tagging
 - CommunityDiscourse
-- LocalityManagement
+- Societies
 - IdentityProfile
-- Pseudonymity
-
-## Bounded Contexts (planned)
-
-- **Reputation** — trust graph, shunning, and societal approval standing. The primary sybil-resistance mechanism. See [trust-graph-sybil-resistance.md](../07-development-process/trust-graph-sybil-resistance.md).
+- Stigmergy
+- Reputation — trust graph, shunning, and societal approval standing. The primary sybil-resistance mechanism. See [trust-graph-sybil-resistance.md](../07-development-process/trust-graph-sybil-resistance.md).
 
 These modules are developed as separate projects and then wired together in the CorePlatform host.
 
@@ -41,7 +38,8 @@ This keeps cross-context dependencies looser than direct service-to-service call
 The solution uses a hybrid persistence model on PostgreSQL:
 
 - **Marten** for event/document-oriented modules and projections.
-- **EF Core (Npgsql)** for selected relational contexts (notably IdentityProfile and LocalityManagement).
+- **EF Core (Npgsql)** for selected relational contexts (notably IdentityProfile).
+- **Neo4j** for graph data (trust relationships in the Reputation bounded context).
 
 ## Cross-Cutting Foundations
 
@@ -61,7 +59,7 @@ Shared technical concerns are centralized in shared projects:
 ## Infrastructure (at a glance)
 
 - **Hosting/runtime**: ASP.NET Core (.NET 10) services for Gateway and CorePlatform.
-- **Data**: PostgreSQL as the main datastore, used via Marten and EF Core (Npgsql). Neo4j for graph data (trust relationships in the Reputation bounded context).
+- **Data**: PostgreSQL as the main datastore, used via Marten and EF Core (Npgsql). Neo4j for the Reputation bounded context (trust graph).
 - **Messaging/dispatch**: Wolverine for in-process command/query dispatch and message handling.
 - **Observability**: Serilog-based structured logging; health-check endpoints on hosts.
 - **Identity/session infra**: Keycloak (OIDC) integration at Gateway; Redis-backed token/session storage is configured infrastructure used by the Gateway token store when enabled.

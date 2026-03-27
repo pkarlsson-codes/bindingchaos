@@ -19,12 +19,21 @@
 
 ## Project Structure (Contexts)
 Refer to these for domain logic:
-- `SignalAwareness`, `Ideation`, `CommunityDiscourse`, `Societies`, `Tagging` (Marten)
-- `Pseudonymity`, `IdentityProfile` (EF Core)
+- `SignalAwareness`, `Ideation`, `CommunityDiscourse`, `Societies`, `Tagging`, `Stigmergy` (Marten)
+- `IdentityProfile` (EF Core)
+- `Reputation` (Neo4j — trust graph, shunning, societal standing)
 
 ## Additional documentation
 - docs/02-architecture/high-level.md
 - docs/07-development-process/adding-a-bounded-context.md
 - docs/07-development-process/adding-a-functional-slice.md
+- docs/07-development-process/application-layer-patterns.md
 - docs/07-development-process/authorization-flow.md
+- docs/07-development-process/base-api-client-usage.md
+- docs/07-development-process/base-api-controller-usage.md
+- docs/07-development-process/building-an-aggregate.md
 - docs/07-development-process/coding-standards.md
+- docs/07-development-process/commit-conventions.md
+- docs/07-development-process/gateway-api-workflow.md
+- docs/07-development-process/trust-graph-sybil-resistance.md
+- docs/testing-guide.md
