@@ -8,7 +8,7 @@ namespace BindingChaos.Web.Gateway.Configuration;
 /// <summary>
 /// MVC registration helpers.
 /// </summary>
-public static class MvcServiceCollectionExtensions
+public static class MvcExtensions
 {
     /// <summary>
     /// Adds controllers and registers the custom sort descriptors model binder.

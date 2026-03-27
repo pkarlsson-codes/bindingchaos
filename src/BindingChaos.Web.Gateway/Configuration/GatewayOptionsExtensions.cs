@@ -3,7 +3,7 @@ namespace BindingChaos.Web.Gateway.Configuration;
 /// <summary>
 /// General service registration helpers.
 /// </summary>
-public static class ServiceRegistrationExtensions
+public static class GatewayOptionsExtensions
 {
     /// <summary>
     /// Binds strongly-typed options used across the gateway.

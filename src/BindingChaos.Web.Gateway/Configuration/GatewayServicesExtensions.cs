@@ -3,7 +3,7 @@ namespace BindingChaos.Web.Gateway.Configuration;
 /// <summary>
 /// Extension methods for configuring WebApplicationBuilder services in logical groups.
 /// </summary>
-internal static class WebApplicationBuilderExtensions
+internal static class GatewayServicesExtensions
 {
     /// <summary>
     /// Registers all core Gateway services including MVC, API clients, and gateway options.
@@ -56,9 +56,7 @@ internal static class WebApplicationBuilderExtensions
     /// <returns>The service collection for chaining.</returns>
     public static IServiceCollection AddGatewayDevelopmentServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOpenApiDocumentation(configuration);
-
-        return services;
+        return services.AddOpenApiDocumentation(configuration);
     }
 
     /// <summary>

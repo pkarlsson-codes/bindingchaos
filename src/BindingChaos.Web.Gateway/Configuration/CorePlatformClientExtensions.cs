@@ -8,7 +8,7 @@ namespace BindingChaos.Web.Gateway.Configuration;
 /// <summary>
 /// Extension methods for registering Core Platform API clients in the Web Gateway.
 /// </summary>
-internal static class ServiceCollectionExtensions
+internal static class CorePlatformClientExtensions
 {
     /// <summary>
     /// Adds Core Platform API clients to the service collection.
