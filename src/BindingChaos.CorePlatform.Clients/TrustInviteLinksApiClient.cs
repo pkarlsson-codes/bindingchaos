@@ -21,10 +21,9 @@ public sealed class TrustInviteLinksApiClient(HttpClient httpClient, ILogger<Tru
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustInviteLinksAsync(CancellationToken cancellationToken = default)
+    public Task<TrustInviteLinksResponse> GetMyTrustInviteLinksAsync(CancellationToken cancellationToken = default)
     {
-        var result = await GetCollectionAsync<TrustInviteLinkViewResponse>("api/identity/invite-links", cancellationToken).ConfigureAwait(false);
-        return result.ToList();
+        return GetAsync<TrustInviteLinksResponse>("api/identity/invite-links", cancellationToken);
     }
 
     /// <inheritdoc/>

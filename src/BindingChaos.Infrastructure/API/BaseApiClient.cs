@@ -352,70 +352,6 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
-    /// Performs a GET request that returns a collection and handles empty responses gracefully.
-    /// </summary>
-    /// <typeparam name="T">The type to deserialize the response data to.</typeparam>
-    /// <param name="endpoint">The API endpoint to call.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The deserialized response data or an empty collection if null.</returns>
-    protected async Task<IEnumerable<T>> GetCollectionAsync<T>(
-        string endpoint,
-        CancellationToken cancellationToken)
-        where T : class
-    {
-        try
-        {
-            var context = ResilienceContextPool.Shared.Get(cancellationToken);
-            try
-            {
-                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline
-                    .ExecuteAsync(async ctx =>
-                        await HttpClient
-                            .GetAsync(endpoint, ctx.CancellationToken)
-                            .ConfigureAwait(false),
-                        context)
-                    .ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-
-                var apiResponse = await response.Content
-                    .ReadFromJsonAsync<ApiResponse<IEnumerable<T>>>(JsonOptions, cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (apiResponse?.Data == null)
-                {
-                    Logs.ApiResponseDataNull(Logger, endpoint);
-                    return [];
-                }
-
-                if (Logger.IsEnabled(LogLevel.Debug))
-                {
-                    var itemCount = apiResponse.Data is ICollection<T> collection
-                        ? collection.Count
-                        : apiResponse.Data.Count();
-                    Logs.RetrievedCollection(Logger, itemCount, endpoint);
-                }
-
-                return apiResponse.Data!;
-            }
-            finally
-            {
-                ResilienceContextPool.Shared.Return(context);
-            }
-        }
-        catch (HttpRequestException ex)
-        {
-            Logs.HttpRequestFailed(Logger, endpoint, ex);
-            throw;
-        }
-        catch (JsonException ex)
-        {
-            Logs.DeserializationFailed(Logger, endpoint, ex);
-            throw;
-        }
-    }
-
-    /// <summary>
     /// Performs a POST request with FormData and deserializes the response.
     /// </summary>
     /// <typeparam name="TResponse">The type to deserialize the response data to.</typeparam>
@@ -543,9 +479,6 @@ public abstract partial class BaseApiClient
 
     private static partial class Logs
     {
-        [LoggerMessage(EventId = 9, Level = LogLevel.Debug, Message = "Retrieved {Count} items from endpoint: {Endpoint}")]
-        internal static partial void RetrievedCollection(ILogger logger, int count, string endpoint);
-
         [LoggerMessage(EventId = 10, Level = LogLevel.Warning, Message = "API response data is null for endpoint: {Endpoint}")]
         internal static partial void ApiResponseDataNull(ILogger logger, string endpoint);
 

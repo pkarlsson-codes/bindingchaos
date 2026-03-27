@@ -23,7 +23,7 @@ public interface ITrustInviteLinksApiClient
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>All invite links (active and revoked) for the participant.</returns>
-    Task<IReadOnlyList<TrustInviteLinkViewResponse>> GetMyTrustInviteLinksAsync(
+    Task<TrustInviteLinksResponse> GetMyTrustInviteLinksAsync(
         CancellationToken cancellationToken);
 
     /// <summary>
