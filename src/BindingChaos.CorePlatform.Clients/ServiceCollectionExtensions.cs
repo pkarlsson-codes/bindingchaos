@@ -155,4 +155,25 @@ public static class ServiceCollectionExtensions
 
         return builder;
     }
+
+    /// <summary>
+    /// Adds the Invite Links API client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="baseAddress">The base address for the API.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IHttpClientBuilder AddInviteLinksApiClient(this IServiceCollection services, string baseAddress)
+    {
+        ArgumentNullException.ThrowIfNull(baseAddress);
+        services.TryAddScoped<CorrelationIdHandler>();
+
+        var builder = services.AddHttpClient<IInviteLinksApiClient, InviteLinksApiClient>(client =>
+        {
+            client.BaseAddress = new Uri(baseAddress);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+        builder.AddHttpMessageHandler<CorrelationIdHandler>();
+
+        return builder;
+    }
 }
