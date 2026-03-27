@@ -56,6 +56,7 @@ internal static class CorePlatformServiceCollectionExtensions
     {
         // UnhandledExceptionHandler must be last — it catches everything.
         services.AddExceptionHandler<AggregateNotFoundExceptionHandler>();
+        services.AddExceptionHandler<ForbiddenExceptionHandler>();
         services.AddExceptionHandler<DomainExceptionHandler>();
         services.AddExceptionHandler<UnhandledExceptionHandler>();
         return services;

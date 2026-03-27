@@ -80,6 +80,31 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     }
 
     /// <summary>
+    /// Revokes an invite link owned by the authenticated participant.
+    /// </summary>
+    /// <param name="id">The ID of the invite link to revoke.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>204 No Content on success; 403 if the caller does not own the link; 404 if not found.</returns>
+    [HttpDelete("invite-links/{id:guid}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    [EndpointName("revokeInviteLink")]
+    public async Task<IActionResult> RevokeInviteLink([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new RevokeInviteLink(id, participantId.Value);
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+
+        return NoContent();
+    }
+
+    /// <summary>
     /// Request to link an external identity to an internal user id.
     /// </summary>
     public sealed class LinkRequest

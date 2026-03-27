@@ -15,4 +15,12 @@ public interface IInviteLinksApiClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created invite link details.</returns>
     Task<InviteLinkCreatedResponse> CreateInviteLinkAsync(CreateInviteLinkRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Revokes an invite link owned by the authenticated participant.
+    /// </summary>
+    /// <param name="id">The ID of the invite link to revoke.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task RevokeInviteLinkAsync(Guid id, CancellationToken cancellationToken = default);
 }

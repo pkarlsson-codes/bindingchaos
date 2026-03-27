@@ -31,4 +31,21 @@ public sealed class InviteLinksController(IInviteLinksApiClient inviteLinksApiCl
 
         return CreatedAtAction(nameof(CreateInviteLink), result);
     }
+
+    /// <summary>
+    /// Revokes an invite link owned by the authenticated participant.
+    /// </summary>
+    /// <param name="id">The ID of the invite link to revoke.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>204 No Content on success; 403 if the caller does not own the link; 404 if not found.</returns>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    [EndpointName("revokeInviteLink")]
+    public async Task<IActionResult> RevokeInviteLink([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        await inviteLinksApiClient.RevokeInviteLinkAsync(id, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
 }

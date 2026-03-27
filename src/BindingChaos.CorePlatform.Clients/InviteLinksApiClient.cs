@@ -19,4 +19,10 @@ public sealed class InviteLinksApiClient(HttpClient httpClient, ILogger<InviteLi
         ArgumentNullException.ThrowIfNull(request);
         return PostAsync<CreateInviteLinkRequest, InviteLinkCreatedResponse>("api/identity/invite-links", request, cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public Task RevokeInviteLinkAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return DeleteAsync($"api/identity/invite-links/{id}", cancellationToken);
+    }
 }
