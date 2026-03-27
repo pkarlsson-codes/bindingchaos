@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using BindingChaos.Web.Gateway.Configuration;
 using BindingChaos.Web.Gateway.Models;
 using BindingChaos.Web.Gateway.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,6 @@ namespace BindingChaos.Web.Gateway.Controllers;
 [Route("api/v1/[controller]")]
 public sealed class AuthController(IHostEnvironment env) : ControllerBase
 {
-    private const string SessionCookieName = "bc_session";
-
     /// <summary>
     /// Issues a CSRF token cookie for anonymous visitors (double-submit cookie pattern).
     /// </summary>
@@ -26,7 +25,7 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
         var isProd = env.IsProduction();
         var csrfToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
         Response.Cookies.Append(
-            "bc_csrf",
+            GatewayDefaults.Cookies.CsrfCookie,
             csrfToken,
             new CookieOptions
             {
@@ -50,7 +49,7 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
     [EndpointName("getCurrentUser")]
     public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser([FromServices] ITokenStore tokenStore)
     {
-        var sessionId = Request.Cookies[SessionCookieName];
+        var sessionId = Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
 
         if (string.IsNullOrEmpty(sessionId))
         {

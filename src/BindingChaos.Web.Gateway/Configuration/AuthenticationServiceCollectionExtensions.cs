@@ -26,7 +26,7 @@ public static class AuthenticationServiceCollectionExtensions
             })
             .AddCookie(options =>
             {
-                options.Cookie.Name = "bc_auth";
+                options.Cookie.Name = GatewayDefaults.Cookies.AuthenticationCookie;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SameSite = SameSiteMode.Lax;
             })

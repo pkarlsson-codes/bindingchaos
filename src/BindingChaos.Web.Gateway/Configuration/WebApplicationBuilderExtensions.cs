@@ -1,4 +1,4 @@
-namespace BindingChaos.Web.Gateway.Configuration.Extensions;
+namespace BindingChaos.Web.Gateway.Configuration;
 
 /// <summary>
 /// Extension methods for configuring WebApplicationBuilder services in logical groups.

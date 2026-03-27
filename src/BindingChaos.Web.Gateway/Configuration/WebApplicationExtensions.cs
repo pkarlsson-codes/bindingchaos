@@ -1,6 +1,6 @@
 using BindingChaos.Web.Gateway.Middleware;
 
-namespace BindingChaos.Web.Gateway.Configuration.Extensions;
+namespace BindingChaos.Web.Gateway.Configuration;
 
 /// <summary>
 /// Extension methods for configuring the WebApplication middleware pipeline.

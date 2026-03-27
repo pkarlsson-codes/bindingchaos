@@ -1,3 +1,5 @@
+using BindingChaos.Web.Gateway.Configuration;
+
 namespace BindingChaos.Web.Gateway.Middleware;
 
 /// <summary>
@@ -33,7 +35,12 @@ public static class CsrfProtectionExtensions
             var origin = context.Request.Headers["Origin"].ToString();
             var referer = context.Request.Headers["Referer"].ToString();
             bool originOk = !string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase);
-            bool refererOk = !string.IsNullOrEmpty(referer) && allowedOrigins.Any(o => referer.StartsWith(o, StringComparison.OrdinalIgnoreCase));
+            bool refererOk = !string.IsNullOrEmpty(referer)
+                && Uri.TryCreate(referer, UriKind.Absolute, out var refererUri)
+                && allowedOrigins.Any(o => Uri.TryCreate(o, UriKind.Absolute, out var originUri)
+                    && string.Equals(refererUri.Scheme, originUri.Scheme, StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(refererUri.Host, originUri.Host, StringComparison.OrdinalIgnoreCase)
+                    && refererUri.Port == originUri.Port);
             if (!originOk && !refererOk)
             {
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
@@ -41,7 +48,7 @@ public static class CsrfProtectionExtensions
                 return;
             }
 
-            var csrfCookie = context.Request.Cookies["bc_csrf"];
+            var csrfCookie = context.Request.Cookies[GatewayDefaults.Cookies.CsrfCookie];
             context.Request.Headers.TryGetValue("X-CSRF-Token", out var csrfHeaderRaw);
             var csrfHeader = Uri.UnescapeDataString(csrfHeaderRaw.ToString());
             if (string.IsNullOrWhiteSpace(csrfCookie) || string.IsNullOrWhiteSpace(csrfHeader) || csrfCookie != csrfHeader)

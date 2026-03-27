@@ -1,3 +1,5 @@
+using BindingChaos.Web.Gateway.Configuration;
+
 namespace BindingChaos.Web.Gateway.Services;
 
 /// <summary>
@@ -22,7 +24,7 @@ public sealed class InternalServiceTokenHandler : DelegatingHandler
     /// <inheritdoc />
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var sessionId = _httpContextAccessor.HttpContext?.Request.Cookies["bc_session"];
+        var sessionId = _httpContextAccessor.HttpContext?.Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
         var token = _jwtService.GenerateServiceToken(sessionId);
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

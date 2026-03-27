@@ -1,5 +1,4 @@
 using BindingChaos.Web.Gateway.Configuration;
-using BindingChaos.Web.Gateway.Configuration.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using BindingChaos.Web.Gateway.Configuration;
 using BindingChaos.Web.Gateway.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,11 +16,10 @@ namespace BindingChaos.Web.Gateway.Controllers;
 [Route("auth")] // Matches redirect URI base
 public sealed class OidcController : ControllerBase
 {
-    private const string SessionCookieName = "bc_session";
-
     private readonly IConfiguration _configuration;
     private readonly ITokenStore _tokenStore;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHostEnvironment _env;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OidcController"/> class.
@@ -27,11 +27,13 @@ public sealed class OidcController : ControllerBase
     /// <param name="configuration">Application configuration.</param>
     /// <param name="tokenStore">Token store for managing server-side tokens.</param>
     /// <param name="httpClientFactory">Factory for creating HTTP clients.</param>
-    public OidcController(IConfiguration configuration, ITokenStore tokenStore, IHttpClientFactory httpClientFactory)
+    /// <param name="env">Host environment used to determine cookie security flags.</param>
+    public OidcController(IConfiguration configuration, ITokenStore tokenStore, IHttpClientFactory httpClientFactory, IHostEnvironment env)
     {
         _configuration = configuration;
         _tokenStore = tokenStore;
         _httpClientFactory = httpClientFactory;
+        _env = env;
     }
 
     /// <summary>
@@ -84,15 +86,15 @@ public sealed class OidcController : ControllerBase
     [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
-        var sessionId = Request.Cookies[SessionCookieName];
+        var sessionId = Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
         string? idToken = null;
         if (!string.IsNullOrWhiteSpace(sessionId))
         {
             var tokens = await _tokenStore.TryGetTokensAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
             idToken = tokens?.idToken;
             await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
-            Response.Cookies.Delete(SessionCookieName);
-            Response.Cookies.Delete("bc_csrf");
+            Response.Cookies.Delete(GatewayDefaults.Cookies.SessionCookie);
+            Response.Cookies.Delete(GatewayDefaults.Cookies.CsrfCookie);
         }
 
         var props = new AuthenticationProperties
@@ -119,7 +121,7 @@ public sealed class OidcController : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
-        var sessionId = Request.Cookies[SessionCookieName];
+        var sessionId = Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
         if (string.IsNullOrWhiteSpace(sessionId))
         {
             return Unauthorized(new { error = "No session" });
@@ -167,27 +169,28 @@ public sealed class OidcController : ControllerBase
         await _tokenStore.RemoveAsync(sessionId, HttpContext.RequestAborted).ConfigureAwait(false);
         await _tokenStore.SaveTokensAsync(newSessionId, tokens.Value.userId, newAccess, newRefresh, existingIdToken, HttpContext.RequestAborted).ConfigureAwait(false);
 
+        var isProd = _env.IsProduction();
         Response.Cookies.Append(
-            SessionCookieName,
+            GatewayDefaults.Cookies.SessionCookie,
             newSessionId,
             new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Lax,
-                Secure = false, // Use false for development
+                Secure = isProd,
                 Path = "/",
                 MaxAge = TimeSpan.FromDays(7),
             });
 
         var csrfToken = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
         Response.Cookies.Append(
-            "bc_csrf",
+            GatewayDefaults.Cookies.CsrfCookie,
             csrfToken,
             new CookieOptions
             {
                 HttpOnly = false,
                 SameSite = SameSiteMode.Lax,
-                Secure = false, // Use false for development
+                Secure = isProd,
                 Path = "/",
                 MaxAge = TimeSpan.FromDays(7),
             });

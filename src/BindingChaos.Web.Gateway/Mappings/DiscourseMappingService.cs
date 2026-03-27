@@ -1,6 +1,5 @@
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
-using BindingChaos.Infrastructure.Querying;
 using BindingChaos.Web.Gateway.Models;
 
 namespace BindingChaos.Web.Gateway.Mappings;

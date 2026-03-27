@@ -11,8 +11,6 @@ namespace BindingChaos.Web.Gateway.Services;
 public static class OidcEventsFactory
 {
     private const string ProviderKeycloak = "keycloak";
-    private const string CookieNameSession = "bc_session";
-    private const string CookieNameCsrf = "bc_csrf";
 
     /// <summary>
     /// Creates the <see cref="OpenIdConnectEvents"/> configured for the gateway.
@@ -189,7 +187,7 @@ public static class OidcEventsFactory
         var isProd = env.IsProduction();
 
         ctx.HttpContext.Response.Cookies.Append(
-            CookieNameSession,
+            GatewayDefaults.Cookies.SessionCookie,
             sessionId,
             new CookieOptions
             {
@@ -202,7 +200,7 @@ public static class OidcEventsFactory
 
         var csrfToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
         ctx.HttpContext.Response.Cookies.Append(
-            CookieNameCsrf,
+            GatewayDefaults.Cookies.CsrfCookie,
             csrfToken,
             new CookieOptions
             {
