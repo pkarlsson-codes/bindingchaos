@@ -17,7 +17,10 @@ public abstract partial class BaseApiClient
     /// <param name="httpClient">The HTTP client to use for API requests.</param>
     /// <param name="logger">The logger for this client.</param>
     /// <param name="pipeline">Optional resilience pipeline. If null, a default pipeline is created.</param>
-    protected BaseApiClient(HttpClient httpClient, ILogger logger, ResiliencePipeline<HttpResponseMessage>? pipeline = null)
+    protected BaseApiClient(
+        HttpClient httpClient,
+        ILogger logger,
+        ResiliencePipeline<HttpResponseMessage>? pipeline = null)
     {
         HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -57,22 +60,30 @@ public abstract partial class BaseApiClient
     /// <param name="endpoint">The API endpoint to call.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The deserialized response data.</returns>
-    protected async Task<T> GetAsync<T>(string endpoint, CancellationToken cancellationToken = default)
+    protected async Task<T> GetAsync<T>(
+        string endpoint,
+        CancellationToken cancellationToken)
         where T : class
     {
         try
         {
-            Logs.MakingGetRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
-                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.GetAsync(endpoint, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                context.Properties.Set(
+                    new ResiliencePropertyKey<string>("uri"),
+                    endpoint);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .GetAsync(endpoint, ctx.CancellationToken)
+                            .ConfigureAwait(false), context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<T>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<T>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (apiResponse?.Data == null)
                 {
@@ -80,7 +91,6 @@ public abstract partial class BaseApiClient
                     throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
                 }
 
-                Logs.SuccessfullyRetrievedData(Logger, endpoint);
                 return apiResponse.Data;
             }
             finally
@@ -109,7 +119,10 @@ public abstract partial class BaseApiClient
     /// <param name="request">The request data to send.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The deserialized response data.</returns>
-    protected async Task<TResponse> PostAsync<TRequest, TResponse>(string endpoint, TRequest request, CancellationToken cancellationToken = default)
+    protected async Task<TResponse> PostAsync<TRequest, TResponse>(
+        string endpoint,
+        TRequest request,
+        CancellationToken cancellationToken)
         where TRequest : class
         where TResponse : class
     {
@@ -117,17 +130,22 @@ public abstract partial class BaseApiClient
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            Logs.MakingPostRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.PostAsJsonAsync(endpoint, request, JsonOptions, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .PostAsJsonAsync(endpoint, request, JsonOptions, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (apiResponse?.Data == null)
                 {
@@ -135,7 +153,6 @@ public abstract partial class BaseApiClient
                     throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
                 }
 
-                Logs.SuccessfullyPostedData(Logger, endpoint);
                 return apiResponse.Data!;
             }
             finally
@@ -172,17 +189,22 @@ public abstract partial class BaseApiClient
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            Logs.MakingPutRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.PutAsJsonAsync(endpoint, request, JsonOptions, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .PutAsJsonAsync(endpoint, request, JsonOptions, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (apiResponse?.Data == null)
                 {
@@ -190,7 +212,6 @@ public abstract partial class BaseApiClient
                     throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
                 }
 
-                Logs.SuccessfullyUpdatedData(Logger, endpoint);
                 return apiResponse.Data!;
             }
             finally
@@ -220,17 +241,17 @@ public abstract partial class BaseApiClient
     {
         try
         {
-            Logs.MakingDeleteRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.DeleteAsync(endpoint, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient.DeleteAsync(endpoint, ctx.CancellationToken)
+                        .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-
-                Logs.SuccessfullyDeletedData(Logger, endpoint);
             }
             finally
             {
@@ -254,17 +275,16 @@ public abstract partial class BaseApiClient
     {
         try
         {
-            Logs.MakingPutRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.PutAsync(endpoint, null, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient.PutAsync(endpoint, null, ctx.CancellationToken).ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-
-                Logs.SuccessfullyUpdatedData(Logger, endpoint);
             }
             finally
             {
@@ -291,22 +311,27 @@ public abstract partial class BaseApiClient
     {
         try
         {
-            Logs.MakingDeleteRequest(Logger, endpoint);
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.DeleteAsync(endpoint, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .DeleteAsync(endpoint, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
                 if (apiResponse?.Data == null)
                 {
                     Logs.ApiResponseDataNull(Logger, endpoint);
                     throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
                 }
 
-                Logs.SuccessfullyDeletedData(Logger, endpoint);
                 return apiResponse.Data!;
             }
             finally
@@ -333,35 +358,42 @@ public abstract partial class BaseApiClient
     /// <param name="endpoint">The API endpoint to call.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The deserialized response data or an empty collection if null.</returns>
-    protected async Task<IEnumerable<T>> GetCollectionAsync<T>(string endpoint, CancellationToken cancellationToken = default)
+    protected async Task<IEnumerable<T>> GetCollectionAsync<T>(
+        string endpoint,
+        CancellationToken cancellationToken)
         where T : class
     {
         try
         {
-            Logs.MakingGetRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.GetAsync(endpoint, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .GetAsync(endpoint, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IEnumerable<T>>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<IEnumerable<T>>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (apiResponse?.Data == null)
                 {
                     Logs.ApiResponseDataNull(Logger, endpoint);
-                    return Enumerable.Empty<T>();
+                    return [];
                 }
 
-                if (Logger.IsEnabled(LogLevel.Information))
+                if (Logger.IsEnabled(LogLevel.Debug))
                 {
                     var itemCount = apiResponse.Data is ICollection<T> collection
                         ? collection.Count
                         : apiResponse.Data.Count();
-                    Logs.SuccessfullyRetrievedCollection(Logger, itemCount, endpoint);
+                    Logs.RetrievedCollection(Logger, itemCount, endpoint);
                 }
 
                 return apiResponse.Data!;
@@ -391,24 +423,32 @@ public abstract partial class BaseApiClient
     /// <param name="formData">The FormData content to send.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The deserialized response data.</returns>
-    protected async Task<TResponse> PostFormAsync<TResponse>(string endpoint, HttpContent formData, CancellationToken cancellationToken = default)
+    protected async Task<TResponse> PostFormAsync<TResponse>(
+        string endpoint,
+        HttpContent formData,
+        CancellationToken cancellationToken)
         where TResponse : class
     {
         try
         {
             ArgumentNullException.ThrowIfNull(formData);
 
-            Logs.MakingPostRequest(Logger, endpoint);
-
             var context = ResilienceContextPool.Shared.Get(cancellationToken);
             try
             {
                 context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
-                var response = await Pipeline.ExecuteAsync(async ctx =>
-                    await HttpClient.PostAsync(endpoint, formData, ctx.CancellationToken).ConfigureAwait(false), context).ConfigureAwait(false);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .PostAsync(endpoint, formData, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken).ConfigureAwait(false);
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (apiResponse?.Data == null)
                 {
@@ -416,7 +456,6 @@ public abstract partial class BaseApiClient
                     throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
                 }
 
-                Logs.SuccessfullyPostedData(Logger, endpoint);
                 return apiResponse.Data!;
             }
             finally
@@ -437,6 +476,47 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
+    /// Performs a GET request and returns the raw response stream.
+    /// </summary>
+    /// <param name="endpoint">The API endpoint to call.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The response content stream.</returns>
+    protected async Task<Stream> GetStreamAsync(
+        string endpoint,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var context = ResilienceContextPool.Shared.Get(cancellationToken);
+            try
+            {
+                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .GetAsync(endpoint, HttpCompletionOption.ResponseHeadersRead, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content
+                    .ReadAsStreamAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                ResilienceContextPool.Shared.Return(context);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Logs.HttpRequestFailed(Logger, endpoint, ex);
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Creates a default resilience pipeline with retry and timeout for resilient HTTP requests.
     /// </summary>
     /// <returns>A default resilience pipeline.</returns>
@@ -452,9 +532,10 @@ public abstract partial class BaseApiClient
                 ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
                     .Handle<HttpRequestException>()
                     .Handle<TaskCanceledException>()
-                    .HandleResult(response => !response.IsSuccessStatusCode &&
-                                             (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests ||
-                                              (int)response.StatusCode >= 500)),
+                    .HandleResult(response =>
+                        !response.IsSuccessStatusCode &&
+                        (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests ||
+                        (int)response.StatusCode >= 500)),
             })
             .AddTimeout(TimeSpan.FromSeconds(30))
             .Build();
@@ -462,32 +543,8 @@ public abstract partial class BaseApiClient
 
     private static partial class Logs
     {
-        [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Making GET request to endpoint: {Endpoint}")]
-        internal static partial void MakingGetRequest(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "Making POST request to endpoint: {Endpoint}")]
-        internal static partial void MakingPostRequest(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = "Making PUT request to endpoint: {Endpoint}")]
-        internal static partial void MakingPutRequest(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 4, Level = LogLevel.Debug, Message = "Making DELETE request to endpoint: {Endpoint}")]
-        internal static partial void MakingDeleteRequest(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "Successfully retrieved data from endpoint: {Endpoint}")]
-        internal static partial void SuccessfullyRetrievedData(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 6, Level = LogLevel.Debug, Message = "Successfully posted data to endpoint: {Endpoint}")]
-        internal static partial void SuccessfullyPostedData(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 7, Level = LogLevel.Debug, Message = "Successfully updated data at endpoint: {Endpoint}")]
-        internal static partial void SuccessfullyUpdatedData(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 8, Level = LogLevel.Debug, Message = "Successfully deleted data at endpoint: {Endpoint}")]
-        internal static partial void SuccessfullyDeletedData(ILogger logger, string endpoint);
-
-        [LoggerMessage(EventId = 9, Level = LogLevel.Debug, Message = "Successfully retrieved {Count} items from endpoint: {Endpoint}")]
-        internal static partial void SuccessfullyRetrievedCollection(ILogger logger, int count, string endpoint);
+        [LoggerMessage(EventId = 9, Level = LogLevel.Debug, Message = "Retrieved {Count} items from endpoint: {Endpoint}")]
+        internal static partial void RetrievedCollection(ILogger logger, int count, string endpoint);
 
         [LoggerMessage(EventId = 10, Level = LogLevel.Warning, Message = "API response data is null for endpoint: {Endpoint}")]
         internal static partial void ApiResponseDataNull(ILogger logger, string endpoint);

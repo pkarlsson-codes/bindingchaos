@@ -41,13 +41,7 @@ public partial class DocumentsApiClient(
     {
         ArgumentNullException.ThrowIfNull(documentId);
 
-        var response = await HttpClient
-            .GetAsync($"api/documents/{documentId}/content", cancellationToken)
-            .ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
-
-        return await response.Content
-            .ReadAsStreamAsync(cancellationToken)
+        return await GetStreamAsync($"api/documents/{documentId}/content", cancellationToken)
             .ConfigureAwait(false);
     }
 
