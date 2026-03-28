@@ -193,6 +193,362 @@
         { "authorIndex": 11, "content": "NHS social prescribing teams are actively looking for community spaces to refer to. A conversation with the Primary Care Network before the trust is formally established would open that funding door early.", "parentIndex": 2 },
         { "authorIndex": 5, "content": "Can we get a meeting with the head of the Carnegie UK Trust's library programme? They have supported transitions like this before and could be a lead funder as well as an adviser.", "parentIndex": null }
       ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 10,
+      "contributions": [
+        { "authorIndex": 20, "content": "The online booking system only works if you have a smartphone and know how to use it. My neighbour is 78 and has been turned away twice. The digital-only approach is a deliberate exclusion of older patients.", "parentIndex": null },
+        { "authorIndex": 21, "content": "The three-month wait for a routine appointment means people are showing up at A&E with conditions that could have been caught earlier. This will cost the NHS more, not less.", "parentIndex": null },
+        { "authorIndex": 24, "content": "This is a contracted service failure. The integrated care board sets the access standards and the practices are contracted to meet them. There is a formal complaint route.", "parentIndex": 0 },
+        { "authorIndex": 22, "content": "I know two people who have deferred treatment because they could not get an appointment. One is now dealing with a significantly worse situation as a result.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 11,
+      "contributions": [
+        { "authorIndex": 25, "content": "The station argument that it is not their responsibility and the council argument that it is not theirs leaves these people in a gap between institutions that simply does not serve them.", "parentIndex": null },
+        { "authorIndex": 26, "content": "Outreach services can achieve a great deal if they are properly resourced and are allowed to work at the pace of the person, not the institution. Neither of those conditions is currently met.", "parentIndex": null },
+        { "authorIndex": 27, "content": "The referral system exists. It just is not being acted on. That is not a capacity problem — it is a prioritisation problem. Someone has decided this is not urgent.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 12,
+      "contributions": [
+        { "authorIndex": 28, "content": "The car park was not just convenient. For the accessible bays it was the only option that worked for many blue badge holders. The gradient on the Riverside car park excludes anyone with significant mobility difficulties.", "parentIndex": null },
+        { "authorIndex": 29, "content": "The council received £3.2 million for that site. A fraction of that could fund a replacement short-stay facility. Has anyone asked where the money is going?", "parentIndex": null },
+        { "authorIndex": 30, "content": "Businesses on the high street are already reporting a drop in custom from customers who used to use Bridge Street. This will cost the local economy more than the sale generated.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 13,
+      "contributions": [
+        { "authorIndex": 31, "content": "The seniors' lunch club has been running for eleven years. It has never had to close before. Eleven years of community infrastructure closed by a boiler failure that should have been fixed in a week.", "parentIndex": null },
+        { "authorIndex": 32, "content": "The council has a duty of care to the community groups using this building. Allowing it to remain unusable for three months is not acceptable.", "parentIndex": null },
+        { "authorIndex": 33, "content": "Has anyone contacted the council's voluntary sector support team? They sometimes have emergency discretionary funds for exactly this kind of situation.", "parentIndex": 0 },
+        { "authorIndex": 34, "content": "The mental health peer support group moving to a commercial venue at £80 per session is simply not sustainable. They will run out of money in a few weeks and the group will collapse.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 14,
+      "contributions": [
+        { "authorIndex": 34, "content": "Victorian industrial buildings are almost never structurally unsound. They were overengineered by modern standards. The assumption that it needs to be demolished has not been tested.", "parentIndex": null },
+        { "authorIndex": 35, "content": "The planning system has specific protections for unlisted buildings of merit in conservation areas. Someone needs to check whether the Old Mill is within or adjacent to any designated area.", "parentIndex": null },
+        { "authorIndex": 36, "content": "There are several successful conversions of similar mill buildings elsewhere. Workspace, housing, cultural venues. The developer is choosing the lowest-effort option, not the only one.", "parentIndex": 0 },
+        { "authorIndex": 24, "content": "I have contacted the local history society. They are keen to be involved and may have documentation supporting a heritage significance statement.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 15,
+      "contributions": [
+        { "authorIndex": 37, "content": "The food bank was designed for emergencies. When emergencies become the permanent condition for hundreds of households, the model itself has to change. We cannot keep patching.", "parentIndex": null },
+        { "authorIndex": 38, "content": "Referral agencies are using the food bank as a first resort because their own provision has collapsed. We are absorbing demand that should be met by statutory services.", "parentIndex": null },
+        { "authorIndex": 39, "content": "The community pantry model is worth researching seriously. It is operating successfully in several UK towns and the dignity argument is compelling — members are customers, not recipients.", "parentIndex": 0 },
+        { "authorIndex": 40, "content": "The 300 percent increase in demand is not a food bank problem. It is evidence of a broader failure. The food bank is where that failure becomes visible.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 16,
+      "contributions": [
+        { "authorIndex": 41, "content": "The Ofsted report identified this five years ago. Five years of children standing inside at break time because of an inadequate surface. This is not a new problem — it is a neglected one.", "parentIndex": null },
+        { "authorIndex": 42, "content": "The physical activity implications are significant. Children who cannot play outside at school are less active, which affects concentration, sleep, and long-term health.", "parentIndex": null },
+        { "authorIndex": 43, "content": "Section 106 money for play and physical activity in this ward has not been fully allocated. Someone needs to check the position with the council planning team.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 17,
+      "contributions": [
+        { "authorIndex": 44, "content": "Eleven months in and we have had one telephone consultation. No plan, no timeline, no interim support. The GP told us at the referral that we would wait. We did not understand what that actually meant.", "parentIndex": null },
+        { "authorIndex": 45, "content": "School pastoral staff are carrying young people in crisis because there is nowhere else. They are doing it out of care, but they are not trained for it and they should not have to.", "parentIndex": null },
+        { "authorIndex": 46, "content": "The ICB publishes waiting time data quarterly. The last report showed CAMHS at 18.2 months average wait. That is almost double the NHS target. Where is the scrutiny?", "parentIndex": 0 },
+        { "authorIndex": 44, "content": "We found a private therapist but at £65 a session it is not sustainable. This is a service that should be free. We are paying because the state has stepped back.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 18,
+      "contributions": [
+        { "authorIndex": 47, "content": "I have been on the waiting list for four years and seven months. I have moved twice and changed jobs since I applied. The allotment I applied for has become something I dream about.", "parentIndex": null },
+        { "authorIndex": 48, "content": "The Greenfield Road site is council-owned, has been unused for years, and has road access. It is a straightforward case for development. The question is whether there is political will.", "parentIndex": null },
+        { "authorIndex": 49, "content": "Allotments are not a luxury. The evidence on food growing for physical and mental health is strong. The council's own public health strategy references it. The waiting list is a contradiction of the council's own stated priorities.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 19,
+      "contributions": [
+        { "authorIndex": 50, "content": "I have started wearing earplugs to bed. That should not be a requirement in my own home. The noise on Friday and Saturday nights is relentless until past 3 am.", "parentIndex": null },
+        { "authorIndex": 51, "content": "The council's monitoring visits have both been on weekday evenings. The problem is at weekends after midnight. The monitoring is either incompetent or deliberate.", "parentIndex": null },
+        { "authorIndex": 52, "content": "The licence allows amplified music until midnight. The noise continues until 3 am. That is a breach. The council has the power to revoke the licence. Why has it not acted?", "parentIndex": 0 },
+        { "authorIndex": 29, "content": "I have kept a log of every night with a noise incident since November. Timestamps and descriptions. If anyone wants to combine logs before a formal submission, contact me.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 20,
+      "contributions": [
+        { "authorIndex": 53, "content": "I have a medical appointment I have been unable to attend for six weeks because of the lifts. The housing association's response has been to send engineers who fix it temporarily and then it breaks again. That is not a repair — it is a cycle.", "parentIndex": null },
+        { "authorIndex": 54, "content": "The association's legal obligation is to carry out repairs within a reasonable time. Three months is not reasonable for a safety-critical item. There is a compensation route through the Housing Ombudsman.", "parentIndex": null },
+        { "authorIndex": 55, "content": "Four wheelchair users are housebound. This is not an inconvenience — it is a deprivation of liberty. The framing matters for any legal or regulatory action.", "parentIndex": 0 },
+        { "authorIndex": 53, "content": "I have written three formal letters and received three acknowledgements. No repair, no timeline, no alternative offered. The paper trail is there if we need it.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 21,
+      "contributions": [
+        { "authorIndex": 56, "content": "The disability cricket team has been training in a car park for two months. The adaptations they have made to play on an accessible surface are exactly what the pitch should have been providing.", "parentIndex": null },
+        { "authorIndex": 57, "content": "Six clubs, six sets of members, six sets of families affected. Between them they represent a significant number of residents. A collective approach to the council would carry real weight.", "parentIndex": null },
+        { "authorIndex": 58, "content": "The pitch generates income for the parks budget. If the parks department understood that every week of closure is a direct revenue loss, it might move faster.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 22,
+      "contributions": [
+        { "authorIndex": 59, "content": "Planning enforcement has the power to require removal of fly-posting on listed buildings. It has had that power for six months and has not used it once. There is no shortage of evidence.", "parentIndex": null },
+        { "authorIndex": 20, "content": "The stone damage from chemical cleaning is irreversible. Once that texture and surface is gone it cannot be restored. The cost of non-enforcement is being paid in heritage loss.", "parentIndex": null },
+        { "authorIndex": 21, "content": "A listing certificate changes what enforcement powers apply and how seriously the council is required to treat damage. That is the most durable protection.", "parentIndex": 0 },
+        { "authorIndex": 32, "content": "I have started photographing every instance as it appears and dating the photo. If we pool those records we have a documented pattern that enforcement cannot dismiss as anecdotal.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 23,
+      "contributions": [
+        { "authorIndex": 22, "content": "There is a formal process for designating banking deserts under the Financial Conduct Authority's access to cash rules. This area may qualify. Has anyone looked at the criteria?", "parentIndex": null },
+        { "authorIndex": 23, "content": "The two payday lenders that have opened charge APRs of over 1000 percent. For residents who cannot access mainstream credit, those are the only options. The banks have created the market they are now absent from.", "parentIndex": null },
+        { "authorIndex": 24, "content": "The Banking Hub initiative specifically targets areas that have lost their last branch. We may qualify. The application goes through Link and requires evidence of community need.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 24,
+      "contributions": [
+        { "authorIndex": 25, "content": "The loss of the FM licence is permanent. Once Westgate FM goes off-air the frequency returns to Ofcom and any future community radio in this area starts from zero. That is eleven years of trust and audience gone.", "parentIndex": null },
+        { "authorIndex": 26, "content": "Arts Council made this decision as part of a portfolio rebalancing, not because the station failed. That context matters for any alternative funding application — this is not a failed project.", "parentIndex": null },
+        { "authorIndex": 27, "content": "The young people who have gone through the media training programme are now working in radio, television, and journalism. That is a ten-year track record of community investment that should count for something with funders.", "parentIndex": 0 },
+        { "authorIndex": 34, "content": "I am in contact with the station director. They are exploring every option but they need community support and resources they do not have. Anyone who can contribute time or skills, please reach out.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 25,
+      "contributions": [
+        { "authorIndex": 29, "content": "I have walked Boundary Field every week for years. It is not just open space — it has significant wildflower grassland and an established hedgerow that provides a wildlife corridor. Losing it is an ecological loss as well as a community one.", "parentIndex": null },
+        { "authorIndex": 30, "content": "The legal basis for the green belt disposal is the question. The cabinet paper cites financial pressures as exceptional circumstances. That has been challenged successfully elsewhere through judicial review.", "parentIndex": null },
+        { "authorIndex": 31, "content": "The planning application is live. The five-week representation window is the opportunity to put concerns formally on record. We need to mobilise as many residents as possible to submit.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 26,
+      "contributions": [
+        { "authorIndex": 32, "content": "The 60 percent increase was introduced with no consultation with traders. The council simply announced the new rates. After eighteen years on this market that is a serious breach of trust.", "parentIndex": null },
+        { "authorIndex": 33, "content": "Three of the five traders who have left had been here for over twenty years. That is not churn — that is the destruction of something that took generations to build.", "parentIndex": null },
+        { "authorIndex": 34, "content": "A market with twelve stalls instead of seventeen looks half empty. Perception drives reality in retail. The council's fee increase is making the viability problem worse, not better.", "parentIndex": 0 },
+        { "authorIndex": 36, "content": "The remaining traders need to act collectively. Individually we are easy to ignore. Together we can negotiate, and if needed, demonstrate publicly.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 27,
+      "contributions": [
+        { "authorIndex": 35, "content": "I tried to submit a comment on a planning application last month. It took me forty minutes to create an account and I still could not find the right form. That is not accessible — it is deliberately obscure.", "parentIndex": null },
+        { "authorIndex": 36, "content": "The residents I support are not technophobic — they simply have not grown up with these systems. An hour of help would enable them to participate. They are currently excluded by complexity, not incapacity.", "parentIndex": null },
+        { "authorIndex": 37, "content": "The council's public sector equality duty requires accessible services. If the planning portal systematically excludes residents by age or digital literacy, that is a potential Equality Act issue.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 28,
+      "contributions": [
+        { "authorIndex": 39, "content": "The patch the council applied lasted six weeks before it broke up again. That is not maintenance — it is a temporary cosmetic fix that delays the proper repair while increasing the total cost.", "parentIndex": null },
+        { "authorIndex": 40, "content": "Three incidents in seven months on the same stretch of road. If a council knew about a pavement defect that caused three slips and injuries, they would face serious liability questions. The same logic applies here.", "parentIndex": null },
+        { "authorIndex": 41, "content": "The underlying road surface is failing. No amount of patching will fix that. The council needs to understand that the longer they defer the proper repair, the more expensive it becomes.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Signal",
+      "entityIndex": 29,
+      "contributions": [
+        { "authorIndex": 42, "content": "My mother budgets her heating around this payment. She received the letter saying it would not come and had to immediately work out how to cover the gap from a pension that has no spare capacity.", "parentIndex": null },
+        { "authorIndex": 43, "content": "The equality impact assessment was not completed before this decision was taken. That is procedurally wrong. The council has to understand who is affected before it cuts a benefit like this.", "parentIndex": null },
+        { "authorIndex": 44, "content": "There are seven months before the next payment would have been due. That is not a long window but it is enough time to seek replacement funding from charitable sources or to negotiate a partial reinstatement.", "parentIndex": 0 },
+        { "authorIndex": 39, "content": "The council's own data shows 400 eligible households. It knows who these people are. It could write to them with information about alternative support. That would cost almost nothing.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 9,
+      "contributions": [
+        { "authorIndex": 20, "content": "The hub model works where it has been properly resourced. The risk is that it becomes a way to rationalise further reductions in individual practice capacity rather than genuinely adding access.", "parentIndex": null },
+        { "authorIndex": 21, "content": "A pharmacist in the hub for medication queries and minor ailment assessment would significantly reduce GP demand. Many appointments that currently require a GP can be handled by a clinical pharmacist.", "parentIndex": null },
+        { "authorIndex": 24, "content": "The ICB has an access improvement fund. The challenge is that the application has to be led by a GP practice or primary care network, not a community group. We need a clinical partner.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 10,
+      "contributions": [
+        { "authorIndex": 25, "content": "The specialist homelessness charities operating in this area have existing relationships with the individuals at the station. Starting from scratch with a new provider wastes those relationships. Whoever we commission needs to engage the existing organisations.", "parentIndex": null },
+        { "authorIndex": 26, "content": "Seven days a week is the right specification. Rough sleeping does not take weekends off. Provision that is only available on weekdays leaves the most dangerous nights uncovered.", "parentIndex": null },
+        { "authorIndex": 27, "content": "The referral coordinator idea in the amendment is important. The barrier is rarely outreach — it is what happens after the outreach worker hands over to housing. That is where people get lost.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 11,
+      "contributions": [
+        { "authorIndex": 28, "content": "The Victoria Street service yard has been unused for three years. The council will need to carry out basic safety and drainage checks before it can be used for public parking. That could take a few weeks.", "parentIndex": null },
+        { "authorIndex": 29, "content": "A meanwhile licence can be structured to run for as long as the permanent solution takes. If we get this right it buys the council the time it needs to plan a proper replacement.", "parentIndex": null },
+        { "authorIndex": 30, "content": "The accessible bays must be included from day one. Retrofitting them later is expensive and the community that most needs this facility cannot afford to wait for phase two.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 12,
+      "contributions": [
+        { "authorIndex": 31, "content": "The emergency fund idea is sound but it needs a clear governance structure. Who decides which buildings qualify? The council cannot simply direct money to whichever building generates the most complaints.", "parentIndex": null },
+        { "authorIndex": 32, "content": "The energy efficiency requirement is the right condition. Buildings that receive emergency repair grants should not be in the same position again in five years.", "parentIndex": null },
+        { "authorIndex": 33, "content": "I looked into this. If the council holds the freehold and the lease includes a repairing obligation on the council, the boiler repair may not be a grant at all — it may be a legal obligation.", "parentIndex": 0 },
+        { "authorIndex": 34, "content": "A community energy scheme feasibility study alongside the repair fund makes sense. The running cost reduction would make these buildings more viable in the long term.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 13,
+      "contributions": [
+        { "authorIndex": 34, "content": "The listing application needs to be submitted before the demolition date. That is a hard deadline. Every week spent deliberating is a week closer to the point where intervention is impossible.", "parentIndex": null },
+        { "authorIndex": 35, "content": "Local listing through the council is faster than Historic England designation. It does not prevent demolition but it triggers a more formal assessment before any planning consent would be granted.", "parentIndex": null },
+        { "authorIndex": 36, "content": "The structural survey is the key. If we can demonstrate that the building is sound, the demolition argument collapses. Victorian industrial buildings are almost always reusable.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 14,
+      "contributions": [
+        { "authorIndex": 37, "content": "The community pantry model requires a fundamental shift in how the operation is managed — from a charity giving to recipients to a service that members use. The volunteer team needs to be part of designing that transition.", "parentIndex": null },
+        { "authorIndex": 38, "content": "The council partnership on premises is the critical dependency. Without a suitable building at low cost, the pantry model does not work financially.", "parentIndex": null },
+        { "authorIndex": 39, "content": "Supermarket partnerships for stock donation are essential. The pantry model only works if the value in the weekly shop significantly exceeds the member contribution.", "parentIndex": 0 },
+        { "authorIndex": 40, "content": "The cooking skills element in the amendment makes the pantry into a genuine community resource rather than just a dignified food bank. That distinction matters for how funders and council partners see it.", "parentIndex": null }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 15,
+      "contributions": [
+        { "authorIndex": 41, "content": "The parent fundraising group needs to be established quickly. The next academic year is not far away and the planning, procurement, and installation takes time once the money is in place.", "parentIndex": null },
+        { "authorIndex": 42, "content": "The Schools Playing Fields Association grant is worth pursuing. They have funded similar projects and the application is relatively straightforward.", "parentIndex": null },
+        { "authorIndex": 43, "content": "The Section 106 route needs a named officer to pursue it. That is not something parents can do alone — we need the school to formally request the allocation on our behalf.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 16,
+      "contributions": [
+        { "authorIndex": 44, "content": "The peer support model works when it is genuinely peer-led — by young people who have been through similar experiences, not by adults acting as proxies. That distinction matters enormously for trust and attendance.", "parentIndex": null },
+        { "authorIndex": 45, "content": "The school pastoral team are already in relationships with these young people. Any programme that bypasses those relationships will struggle to recruit participants.", "parentIndex": null },
+        { "authorIndex": 46, "content": "The ICB accountability amendment is as important as the peer programme itself. If we build provision that absorbs the demand, the pressure on CAMHS is reduced and the waiting times never improve.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 17,
+      "contributions": [
+        { "authorIndex": 47, "content": "The site assessment is the first step. Until we have a formal assessment it is all speculation. Someone needs to formally request it from the council's parks and open spaces team.", "parentIndex": null },
+        { "authorIndex": 48, "content": "The raised bed requirement in the amendment should be in the design brief from the start. Retrofitting accessible infrastructure onto a completed site always costs more and works less well.", "parentIndex": null },
+        { "authorIndex": 49, "content": "The therapeutic growing programme idea is genuinely innovative. If the horticultural therapy charity is willing to partner, this could attract health funding that goes well beyond what allotments alone would qualify for.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 18,
+      "contributions": [
+        { "authorIndex": 50, "content": "The acoustic assessment needs to be commissioned independently, not by the venue. Any assessment the venue commissions itself will not be trusted by residents or the licensing authority.", "parentIndex": null },
+        { "authorIndex": 51, "content": "The liaison group amendment is the most sustainable long-term solution. If residents and operators can work together, most of these issues can be resolved without the licensing authority needing to intervene.", "parentIndex": null },
+        { "authorIndex": 52, "content": "The licensing review requires evidence. The complaint log, combined with an independent acoustic assessment taken at the right times and locations, should be sufficient to request a formal review.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 19,
+      "contributions": [
+        { "authorIndex": 53, "content": "The Housing Ombudsman route is the right immediate step. They can direct the association to carry out repairs and award compensation to affected residents. The process is accessible to residents directly.", "parentIndex": null },
+        { "authorIndex": 54, "content": "The Regulator of Social Housing referral is the right longer-term step. If this association is failing on lift maintenance it is probably failing on other things too. A regulatory inspection would reveal that.", "parentIndex": null },
+        { "authorIndex": 55, "content": "The residents most affected — those who are housebound — need advocacy support. Not everyone has the capacity to pursue complaints and legal routes when they are also dealing with the health consequences of isolation.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 20,
+      "contributions": [
+        { "authorIndex": 56, "content": "The cooperative model gives the clubs a collective voice they currently lack. Individually we are tenants of a council pitch with no governance rights. Together we are a body that can hold a lease and invest.", "parentIndex": null },
+        { "authorIndex": 57, "content": "The Sport England application is worth pursuing seriously. The cooperative governance structure is exactly what they prefer and the facilities improvement case is strong.", "parentIndex": null },
+        { "authorIndex": 58, "content": "Floodlighting is the transformative element. Evening use would double the income-generating hours and allow the junior leagues to run fixtures that currently have to be cancelled when daylight ends.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 21,
+      "contributions": [
+        { "authorIndex": 59, "content": "The volunteer steward programme is a good first step but it addresses the consequence, not the cause. The listing application is the durable intervention.", "parentIndex": null },
+        { "authorIndex": 20, "content": "Historic England can move quickly on listing applications where demolition risk is documented and the building has clear heritage significance. We need to compile that evidence now.", "parentIndex": null },
+        { "authorIndex": 21, "content": "The conservation area designation is also relevant here. Any works to unlisted buildings within a conservation area require conservation area consent, which the council controls. That is a lever that currently is not being used.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 22,
+      "contributions": [
+        { "authorIndex": 22, "content": "The Banking Hub application goes through Link, the cash access coordination body. It is a formal process and requires evidence of community need — which we have. Someone needs to take on the coordination role.", "parentIndex": null },
+        { "authorIndex": 23, "content": "The credit union element is as important as the banking hub. For residents who cannot access mainstream credit, the credit union provides ethical lending that prevents them being forced to payday lenders.", "parentIndex": null },
+        { "authorIndex": 24, "content": "The debt advice colocation is the right addition. The residents who need a banking hub also disproportionately need debt advice. One visit can address both needs.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 23,
+      "contributions": [
+        { "authorIndex": 25, "content": "The six-week deadline is real. The fundraising campaign needs to start this week, not next week. Every day is a day closer to the point where keeping the transmitter running is no longer possible.", "parentIndex": null },
+        { "authorIndex": 26, "content": "The Community Radio Fund has a fast-track emergency grant process. The station needs to apply immediately — not wait for the governance review to complete first.", "parentIndex": null },
+        { "authorIndex": 34, "content": "The CIC transition is the right long-term direction. Community shares would allow listeners to invest and create a funding model that is not dependent on a single grant relationship.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 24,
+      "contributions": [
+        { "authorIndex": 29, "content": "A community land trust is the right vehicle but it takes time to establish. The planning representation window is five weeks. We need to do both simultaneously, not sequentially.", "parentIndex": null },
+        { "authorIndex": 30, "content": "The exceptional circumstances argument is the legal foundation for challenging the sale. Cabinet papers citing 'financial pressures' as exceptional circumstances have been successfully challenged before. We need a solicitor's opinion.", "parentIndex": null },
+        { "authorIndex": 31, "content": "The ecological survey is important but it needs to happen within the representation window. Does anyone have contacts with ecology surveyors who could move quickly?", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 25,
+      "contributions": [
+        { "authorIndex": 32, "content": "The cooperative needs a legal structure from day one. An informal collective of traders cannot hold a lease or open a bank account. We need to register as a cooperative society or CIC before we can proceed.", "parentIndex": null },
+        { "authorIndex": 33, "content": "The reserved pitch for community stalls is the right signal. It changes the market from a purely commercial space to a community resource. That is a different conversation with the council.", "parentIndex": null },
+        { "authorIndex": 36, "content": "The first task is to get the remaining traders to agree to cooperate. That requires a meeting. I am happy to organise it if people are willing to come.", "parentIndex": 0 }
+      ]
+    },
+    {
+      "entityType": "Idea",
+      "entityIndex": 26,
+      "contributions": [
+        { "authorIndex": 37, "content": "The planning portal is the most urgent use case because the representation window is time-limited. If residents cannot submit planning comments, they lose that right entirely for that application.", "parentIndex": null },
+        { "authorIndex": 57, "content": "The college partnership is the most sustainable model. If we rely on ad hoc volunteers the service will be inconsistent and will probably collapse within a year.", "parentIndex": null },
+        { "authorIndex": 58, "content": "The device lending scheme is the piece that makes everything else work. A one-hour drop-in session is not enough if residents have no device to use between visits.", "parentIndex": 0 },
+        { "authorIndex": 59, "content": "Connecting this to the library trust proposal makes strategic sense. A digital inclusion service strengthens the trust's funding case and the warm space argument simultaneously.", "parentIndex": null }
+      ]
     }
   ]
 }

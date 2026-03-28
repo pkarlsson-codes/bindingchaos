@@ -240,6 +240,365 @@
           "details": "Submit your views via the council's library services review page. Despite the cuts having already happened, the council is legally obliged to consider representations. Evidence of demand — particularly from residents with no alternative access — is the strongest argument."
         }
       ]
+    },
+    {
+      "originatorIndex": 20,
+      "title": "GP appointments unavailable for three months — routine care collapsing",
+      "description": "The three GP surgeries serving the eastern catchment area have suspended new patient registration and routine appointments are running at three-month waits. Repeat prescription reviews, diabetic and asthma checks, and non-urgent referrals are being deferred or refused. Patients without smartphones cannot access the online booking system at all.",
+      "tags": ["health", "access", "primary-care"],
+      "amplifications": [
+        { "participantIndex": 21, "reason": "PersonalExperience", "comment": "My mother missed her annual diabetic review because no appointment was available for four months." },
+        { "participantIndex": 22, "reason": "LocalImpact", "comment": "Patients are going to A&E for things that could be handled in a ten-minute GP appointment. The crisis is cascading." },
+        { "participantIndex": 24, "reason": "CommunityBenefit", "comment": "A functioning primary care system reduces pressure on every other part of the NHS. This is not a peripheral issue." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 23,
+          "phoneNumber": "01234 999001",
+          "details": "Call NHS England's primary care helpline to register a formal complaint about access to GP appointments. Ask for your call to be logged as a formal safety concern. Reference the three-month wait and the inability to register new patients."
+        },
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 20,
+          "url": "https://www.eastshire-council.gov.uk/health-and-wellbeing/primary-care-access",
+          "details": "Complete the council health and wellbeing team's access survey. The integrated care board reviews this data quarterly and it feeds directly into contract monitoring for the practices."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 20,
+          "description": "Survey of 47 residents in the eastern catchment area conducted by the neighbourhood forum in February 2026. 38 of 47 respondents reported being unable to obtain a same-week GP appointment. 12 reported going to A&E or an urgent treatment centre because they could not access their GP.",
+          "documentIds": ["gp-access-survey-feb-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 21,
+      "title": "Rough sleeper encampment at Westgate station with no statutory outreach",
+      "description": "An encampment of between six and twelve individuals has been established in the covered walkway of Westgate station for the past two months. The council's rough sleeper outreach team has not attended despite three formal referrals through the council's housing system. Two individuals are known to have complex health needs.",
+      "tags": ["housing", "social", "health"],
+      "amplifications": [
+        { "participantIndex": 25, "reason": "PersonalExperience", "comment": "I walk past every day. These are people in acute need. The absence of any response is not a policy — it is an abandonment." },
+        { "participantIndex": 26, "reason": "CommunityBenefit", "comment": "Effective outreach costs far less than repeated A&E admissions and police call-outs. The business case for early intervention is overwhelming." },
+        { "participantIndex": 27, "reason": "HighRelevance", "comment": "At least two of the people I have spoken to were made homeless by the end of a private tenancy, not by personal crisis. The housing system failed them first." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 21,
+          "phoneNumber": "0808 800 4444",
+          "details": "Call Shelter's emergency helpline to report the encampment and get advice on what statutory duties the council is not fulfilling. They can advise on formal routes for compelling a response."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 21,
+          "description": "Emails from the council's housing department dated 4 February, 19 February, and 3 March 2026 acknowledging receipt of rough sleeper referrals for the Westgate station site. None of the three referrals resulted in a documented outreach visit.",
+          "documentIds": ["westgate-referral-email-04-02-2026", "westgate-referral-email-19-02-2026", "westgate-referral-email-03-03-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 22,
+      "title": "Bridge Street short-stay car park sold — town centre without accessible parking",
+      "description": "The council has sold the 120-space Bridge Street short-stay car park to a residential developer. Demolition is scheduled for April. No replacement short-stay parking has been identified. The loss will particularly affect disabled users for whom the adjacent level surface and proximity to the high street was the only viable option.",
+      "tags": ["transport", "accessibility", "town-centre"],
+      "amplifications": [
+        { "participantIndex": 28, "reason": "LocalImpact", "comment": "I run a business on the high street. Without short-stay parking the footfall drop will be significant. Several customers have already said they will stop coming." },
+        { "participantIndex": 29, "reason": "HighRelevance", "comment": "The consultation on this sale lasted three weeks and was published only on the council website. Most residents had no idea it was happening." },
+        { "participantIndex": 30, "reason": "CommunityBenefit", "comment": "The accessibility argument is the strongest. The blue badge holders I know specifically chose this car park because of its surface and location. The next nearest option has a steep ramp." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 22,
+          "url": "https://www.eastshire-council.gov.uk/parking-strategy-consultation",
+          "details": "Submit your views to the council's ongoing parking strategy consultation. The decision on the Bridge Street sale has been made but the strategy for replacement provision is still open. Evidence of impact on disabled access is particularly important."
+        }
+      ]
+    },
+    {
+      "originatorIndex": 23,
+      "title": "Hillside Community Centre heating system failed — building closed in winter months",
+      "description": "The boiler at Hillside Community Centre failed in December 2025 and has not been repaired. The building has been effectively unusable for the three months of peak winter demand. Twelve community groups, including a parent and toddler group, a seniors' lunch club, and a mental health peer support group, have been displaced with nowhere to go.",
+      "tags": ["community", "infrastructure", "health"],
+      "amplifications": [
+        { "participantIndex": 31, "reason": "PersonalExperience", "comment": "The seniors' lunch club has nowhere to go. Several members have no other regular social contact. The isolation effect is real and immediate." },
+        { "participantIndex": 32, "reason": "CommunityBenefit", "comment": "The mental health peer support group has had to move to a venue that charges £80 a session. That is simply not sustainable for a volunteer-run group." },
+        { "participantIndex": 33, "reason": "UrgentAction", "comment": "Three months for a boiler repair is indefensible. If this were a business premises it would have been fixed in a week." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 23,
+          "description": "Letter from the community centre trust dated 8 January 2026 notifying user groups of the heating failure and temporary closure of the main hall and meeting rooms. The letter states that repair quotes have been sought but does not commit to a timeline.",
+          "documentIds": ["hillside-closure-letter-08-01-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 24,
+      "title": "Riverside Mill facing demolition — no listing, no public consultation",
+      "description": "The former Riverside Mill, a Victorian industrial building and the last intact example of its type in the area, has been acquired by a developer who has submitted a demolition notice. The building is not listed. The council's planning department has confirmed the demolition can proceed without a heritage impact assessment because the building has no statutory protection.",
+      "tags": ["heritage", "community", "planning"],
+      "amplifications": [
+        { "participantIndex": 34, "reason": "HighRelevance", "comment": "The mill is one of the few buildings that gives this town any architectural character. Once it is gone there is no getting it back." },
+        { "participantIndex": 35, "reason": "CommunityBenefit", "comment": "Buildings like this can be adapted for housing, workspace, or cultural use. Demolition is the least imaginative and arguably the least economically sound option." },
+        { "participantIndex": 36, "reason": "UrgentAction", "comment": "The demolition notice was submitted six weeks ago. The window for any meaningful intervention is closing." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "MakeACall",
+          "participantIndex": 24,
+          "phoneNumber": "0370 333 0607",
+          "details": "Call Historic England's national helpline to discuss whether the mill meets the criteria for emergency listing. They can advise on the threshold and the evidence required. A call before a formal application is recommended."
+        }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 24,
+          "description": "Copy of the developer's demolition notice submitted to the council planning department on 5 February 2026. The notice covers the main mill building, the wheel house, and the associated warehouse. The supporting statement does not include any heritage impact assessment.",
+          "documentIds": ["riverside-mill-demolition-notice-05-02-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 25,
+      "title": "Food bank operating beyond capacity — volunteers and supplies overwhelmed",
+      "description": "The community food bank at St. Matthew's Church has seen a 300 percent increase in demand over eighteen months. The volunteer team has doubled but cannot keep pace. Referrals are being turned away for the first time. The model of emergency provision for exceptional need has become permanent infrastructure for several hundred households.",
+      "tags": ["food", "poverty", "community"],
+      "amplifications": [
+        { "participantIndex": 37, "reason": "PersonalExperience", "comment": "I volunteer there every week. We are handing out the last items on the shelf at the end of each session and turning people away. It feels wrong." },
+        { "participantIndex": 38, "reason": "LocalImpact", "comment": "Referral agencies — the job centre, the housing office, the GP surgery — are relying on the food bank as the safety net when their own provision fails. The food bank cannot be the last line of everything." },
+        { "participantIndex": 39, "reason": "CommunityBenefit", "comment": "A community pantry model rather than emergency food bank provision would be more dignified, more sustainable, and would serve more people." },
+        { "participantIndex": 40, "reason": "HighRelevance", "comment": "The demand increase maps directly onto benefit sanction periods, UC reassessment delays, and rent increases. This is a policy failure presenting as a community problem." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 25,
+          "description": "Monthly usage data from the food bank management system covering January 2025 to February 2026. Shows an increase from 87 households per month in January 2025 to 263 in February 2026. Also shows twelve referrals turned away in February 2026 due to insufficient stock — the first time this has occurred.",
+          "documentIds": ["foodbank-usage-data-jan25-feb26"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 26,
+      "title": "St. Anne's Primary School play area an unusable mud field from October to April",
+      "description": "The playground at St. Anne's Primary School has no all-weather surface. From October through to late spring the entire area is waterlogged and unusable. Children spend breaks standing in covered areas or indoors. The surface was identified in an Ofsted report five years ago as inadequate but no capital funding has been committed.",
+      "tags": ["education", "children", "infrastructure"],
+      "amplifications": [
+        { "participantIndex": 41, "reason": "PersonalExperience", "comment": "My daughter comes home with mud-caked shoes all winter. But more than that, she says they stand inside all break time because there is nowhere to go outside. That is not good for any child." },
+        { "participantIndex": 42, "reason": "CommunityBenefit", "comment": "Outdoor play is critical for physical and cognitive development in this age group. This is not an amenity issue — it is an educational one." },
+        { "participantIndex": 43, "reason": "UrgentAction", "comment": "Five years since the Ofsted report flagged this. Five years without action. A child has spent their entire primary school life without a usable playground." }
+      ]
+    },
+    {
+      "originatorIndex": 27,
+      "title": "Young people waiting 18 months for CAMHS — GP unable to escalate",
+      "description": "The Child and Adolescent Mental Health Service serving this area has a documented average wait of 18 months for a first appointment after GP referral. GPs report that escalation pathways for urgent referrals are not functioning. Three families have been advised that their children are on the waiting list but have received no interim support.",
+      "tags": ["health", "youth", "mental-health"],
+      "amplifications": [
+        { "participantIndex": 44, "reason": "PersonalExperience", "comment": "My son was referred eleven months ago. We have received two letters since then. He has had one telephone consultation. The situation at home is very difficult." },
+        { "participantIndex": 45, "reason": "LocalImpact", "comment": "Teachers and school counsellors are absorbing the demand that CAMHS cannot meet. They are not trained for this and they should not have to do it." },
+        { "participantIndex": 46, "reason": "UrgentAction", "comment": "An 18-month wait for a child in crisis is not a waiting list. It is a refusal of care. That needs to be named for what it is." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 27,
+          "description": "Letter from the Eastshire Integrated Care Board dated 14 January 2026 in response to a formal complaint, confirming the average CAMHS first-appointment wait time is currently 18.2 months. The letter describes this as 'outside our target range' but does not commit to a recovery plan.",
+          "documentIds": ["icb-camhs-response-14-01-2026"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 28,
+      "title": "Allotment waiting list exceeds five years — no new sites planned",
+      "description": "The council's allotment waiting list now stands at 340 names with an average wait exceeding five years. The last new allotment site was created in 2011. A parcel of council-owned greenfield land on Greenfield Road has been identified by residents as a suitable site. No formal assessment has been initiated.",
+      "tags": ["environment", "community", "food"],
+      "amplifications": [
+        { "participantIndex": 47, "reason": "HighRelevance", "comment": "I applied four years ago and have heard nothing. The waiting list is a promise that is not being kept." },
+        { "participantIndex": 48, "reason": "CommunityBenefit", "comment": "Allotments produce food, reduce isolation, and improve physical and mental health. The evidence base is strong. The failure to invest is simply a lack of political will." },
+        { "participantIndex": 49, "reason": "LocalImpact", "comment": "The Greenfield Road site has been sitting unused for over a decade. It is an obvious opportunity. The question is why nothing has happened." }
+      ],
+      "suggestedActions": [
+        {
+          "type": "VisitAWebpage",
+          "participantIndex": 28,
+          "url": "https://www.eastshire-council.gov.uk/leisure/allotments",
+          "details": "Register on the allotment waiting list if you have not already done so, and submit a comment requesting that the Greenfield Road site be assessed. Volume of interest affects how the council prioritises site development."
+        }
+      ]
+    },
+    {
+      "originatorIndex": 29,
+      "title": "Late-night noise from Market Street venue disturbing residents nightly",
+      "description": "A new bar and events venue on Market Street has been operating since November 2025. Residents on the surrounding streets report bass noise and crowd noise from closing time until 3 am on weekends. Fourteen formal noise complaints have been submitted to the council. Two noise monitoring visits have taken place with no enforcement action taken.",
+      "tags": ["noise", "environment", "community"],
+      "amplifications": [
+        { "participantIndex": 50, "reason": "PersonalExperience", "comment": "I have not slept past 1 am on a weekend since November. I am a shift worker. The impact on my health is serious." },
+        { "participantIndex": 51, "reason": "LocalImpact", "comment": "Fourteen complaints and no action suggests the monitoring is not being done at the times or locations where the problem actually occurs." },
+        { "participantIndex": 52, "reason": "HighRelevance", "comment": "The premises licence allows amplified music until midnight. There is no dispute that the noise is continuing well beyond that. This is a licensing breach." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 29,
+          "description": "Log of fourteen noise complaints submitted to the council's environmental health team between 12 November 2025 and 5 March 2026, with complaint reference numbers. Also includes two monitoring visit reports, both conducted on weekday evenings rather than weekends when the problem occurs, with noise levels recorded within permissible limits.",
+          "documentIds": ["market-street-complaints-log", "noise-monitoring-reports-nov25-mar26"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 30,
+      "title": "Grange Estate tower block lifts broken for three months — residents trapped",
+      "description": "Both lifts in Ashworth Tower on the Grange Estate have been out of service since January 2026. The housing association responsible has carried out two repair attempts which failed within days. Twelve residents on upper floors are effectively housebound, including four wheelchair users and two residents with severe COPD. The housing association has not offered alternative accommodation.",
+      "tags": ["housing", "accessibility", "health"],
+      "amplifications": [
+        { "participantIndex": 53, "reason": "PersonalExperience", "comment": "I live on the fourteenth floor. I have not been outside in eleven weeks. My GP cannot visit and I cannot get to appointments. I am deteriorating." },
+        { "participantIndex": 54, "reason": "HighRelevance", "comment": "This is a clear breach of the housing association's repair obligations under the tenancy agreement. Three months for a safety-critical repair is unlawful." },
+        { "participantIndex": 55, "reason": "UrgentAction", "comment": "Wheelchair users on the upper floors are completely trapped. This is not a maintenance issue — it is a human rights issue." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 30,
+          "description": "Written log maintained by the Grange Estate Residents Association documenting lift failure dates, housing association repair visits, and re-failure dates from January to March 2026. Also includes correspondence from four residents documenting the health impact and requesting emergency rehousing, with the housing association's responses.",
+          "documentIds": ["grange-lift-failure-log-jan-mar26", "resident-health-impact-statements"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 31,
+      "title": "Northfields Road sports pitch closed after winter storm — no repair funding secured",
+      "description": "Storm damage in January 2026 left the main grass pitch at Northfields Road sports ground waterlogged and unsafe. The council parks department has inspected and confirmed the surface is beyond seasonal recovery without drainage works. No capital budget has been allocated. Six sports clubs, including a junior football league and a disability cricket team, have been without a home ground for two months.",
+      "tags": ["sport", "community", "infrastructure"],
+      "amplifications": [
+        { "participantIndex": 56, "reason": "PersonalExperience", "comment": "Our under-12s team has had to cancel four fixtures. Children who had just committed to playing regularly are already drifting away." },
+        { "participantIndex": 57, "reason": "CommunityBenefit", "comment": "The disability cricket team has nowhere else to go. This is the only accessible pitch in the area." },
+        { "participantIndex": 58, "reason": "LocalImpact", "comment": "The pitch generates rental income for the parks department from the clubs. Every week it is closed is money lost as well as sporting provision lost." }
+      ]
+    },
+    {
+      "originatorIndex": 32,
+      "title": "Systematic fly-posting and graffiti damaging listed buildings in the Old Quarter",
+      "description": "Over the past six months, listed buildings in the Old Quarter conservation area have been regularly targeted with fly-posting and spray-paint. The council's enforcement team has not issued a single removal notice. Cleaning costs are being borne by private owners who cannot afford it. Two buildings have suffered stone damage from chemical removal of adhesive.",
+      "tags": ["heritage", "environment", "planning"],
+      "amplifications": [
+        { "participantIndex": 59, "reason": "PersonalExperience", "comment": "I own a listed building on Church Lane. I have spent £800 on cleaning in six months. The council is enforcing nothing." },
+        { "participantIndex": 20, "reason": "HighRelevance", "comment": "Listed building consent would be required to make even minor alterations to these buildings. The same framework should mean the council actively defends them from damage." },
+        { "participantIndex": 21, "reason": "CommunityBenefit", "comment": "The conservation area is a reason visitors come to this town. If the council does not maintain it, the economic as well as cultural loss will be significant." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 32,
+          "description": "Photographic record covering twelve listed buildings in the Old Quarter conservation area taken in September 2025 and March 2026, showing progressive damage from fly-posting and graffiti. Also includes three unanswered letters to the council's planning enforcement team requesting removal notices.",
+          "documentIds": ["old-quarter-damage-photos-sep25", "old-quarter-damage-photos-mar26"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 33,
+      "title": "Last two bank branches closed — only payday lenders left on High Street",
+      "description": "The final two traditional bank branches on the High Street closed in February 2026. The Post Office counter service for basic banking, which was the intended replacement, closed in 2024. The area is now served only by two payday loan outlets and an ATM with a withdrawal charge. Residents without online banking — estimated at 30 percent of the local population — have no local access to financial services.",
+      "tags": ["economy", "poverty", "accessibility"],
+      "amplifications": [
+        { "participantIndex": 22, "reason": "LocalImpact", "comment": "My elderly neighbour pays bills with cash and needs to go to the bank monthly. She now has to travel six miles. That should not be a requirement of daily life." },
+        { "participantIndex": 23, "reason": "HighRelevance", "comment": "Payday lenders replacing banks is not a neutral market outcome. It is a cycle that increases financial exclusion and then profits from it." },
+        { "participantIndex": 24, "reason": "CommunityBenefit", "comment": "Banking hubs have been established in other towns in exactly this situation. There is a clear model and a clear funding route." }
+      ]
+    },
+    {
+      "originatorIndex": 34,
+      "title": "Westgate FM community radio station loses Arts Council funding — closes in six weeks",
+      "description": "Westgate FM, a community radio station operating for eleven years, has had its Arts Council England grant terminated following a budget reallocation. The station broadcasts local news, hosts community forums, and provides media training for young people. Without alternative funding it will cease broadcasting in six weeks. The FM licence cannot lie dormant — if the station closes, the frequency is lost permanently.",
+      "tags": ["culture", "community", "media"],
+      "amplifications": [
+        { "participantIndex": 25, "reason": "CommunityBenefit", "comment": "Westgate FM ran a segment that allowed residents to raise issues that never made the local paper. That kind of platform does not just disappear and get replaced by something else." },
+        { "participantIndex": 26, "reason": "UrgentAction", "comment": "The FM licence point is critical. Once they go off-air the frequency goes back to Ofcom and any future community radio here starts from zero." },
+        { "participantIndex": 27, "reason": "LocalImpact", "comment": "The young people's media training has placed dozens of people into media careers. That is a decade of community investment about to be deleted." },
+        { "participantIndex": 28, "reason": "HighRelevance", "comment": "Arts Council England cut eleven community radio grants simultaneously. This was a policy decision, not a performance assessment. The station was highly rated." }
+      ]
+    },
+    {
+      "originatorIndex": 35,
+      "title": "Green belt parcel on eastern edge sold to housing developer without community consultation",
+      "description": "A 4.2-hectare parcel of green belt land on the eastern edge of the town, known locally as Boundary Field, has been sold by the council to a residential developer. The site was designated green belt in the local plan. The sale was approved by the cabinet without a public consultation. Residents were informed by a planning application notice rather than any proactive engagement.",
+      "tags": ["environment", "planning", "housing"],
+      "amplifications": [
+        { "participantIndex": 29, "reason": "PersonalExperience", "comment": "I have walked across Boundary Field every week for twenty years. It was publicly accessible informal open space. That function has been sold without anyone asking us." },
+        { "participantIndex": 30, "reason": "HighRelevance", "comment": "Green belt disposal requires a local plan review or exceptional circumstances. I want to understand on what legal basis the sale was approved without one." },
+        { "participantIndex": 31, "reason": "UrgentAction", "comment": "The planning application is already live. The window for representations closes in five weeks." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 35,
+          "description": "Cabinet decision record dated 17 December 2025 approving the sale of Boundary Field for a sum described as 'commercially sensitive'. The decision record notes no public consultation was conducted and cites 'local authority financial pressures' as the exceptional circumstances justifying the disposal.",
+          "documentIds": ["boundary-field-cabinet-decision-dec25"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 36,
+      "title": "Market stall fees increased 60 percent — five long-standing traders have left",
+      "description": "The council has increased market stall rental fees by 60 percent from the start of the 2026 market season. Five of seventeen long-standing traders have given up their pitches citing unaffordability. Three of those were family businesses that had traded at the market for over twenty years. The council has not offered any hardship exemption or transition period.",
+      "tags": ["economy", "community", "town-centre"],
+      "amplifications": [
+        { "participantIndex": 32, "reason": "PersonalExperience", "comment": "I have traded here for eighteen years. The increase has turned a marginal business into an unviable one. I am trying to decide whether to leave." },
+        { "participantIndex": 33, "reason": "LocalImpact", "comment": "A market with twelve stalls instead of seventeen looks empty. That perception itself drives further decline. The council is accelerating the collapse it is supposed to be preventing." },
+        { "participantIndex": 34, "reason": "CommunityBenefit", "comment": "Local markets provide fresh food access, social connection, and economic opportunity. They should be treated as community infrastructure, not a revenue line." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 36,
+          "description": "Council market services fee schedule for 2025 and 2026 showing the full schedule of fee increases. Also includes written statements from three traders who have left the market citing the fee increase as the direct cause.",
+          "documentIds": ["market-fee-schedule-2025-2026", "trader-exit-statements"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 37,
+      "title": "Council planning portal inaccessible to residents without advanced internet skills",
+      "description": "The council's planning portal requires residents to create an account, navigate multiple systems, and understand technical planning language to submit comments on applications. Three community groups have reported that residents who wish to comment on local developments cannot do so without substantial assistance. An estimated 40 percent of the local population lack the digital literacy to use the system independently.",
+      "tags": ["digital", "democracy", "accessibility"],
+      "amplifications": [
+        { "participantIndex": 35, "reason": "HighRelevance", "comment": "Planning decisions affect everyone. A portal that effectively excludes 40 percent of residents from participation is not a consultation process — it is a barrier to democratic participation." },
+        { "participantIndex": 36, "reason": "LocalImpact", "comment": "I run a residents' association. Our members want to comment on developments in their neighbourhood. I spend hours each week acting as an intermediary because the system is too complex for most people to use alone." },
+        { "participantIndex": 32, "reason": "UrgentAction", "comment": "The council's own digital inclusion strategy commits to accessible services. The planning portal demonstrably fails that commitment." }
+      ]
+    },
+    {
+      "originatorIndex": 38,
+      "title": "Pothole cluster on Birchwood Avenue has caused three recorded cycle incidents",
+      "description": "A cluster of six potholes on Birchwood Avenue, between the junction with High Street and the school, has been present for seven months. Three cycle incidents have been formally recorded, one resulting in a fractured wrist. The council's highways team has patched one pothole which broke up again within six weeks. The underlying road surface is failing.",
+      "tags": ["safety", "infrastructure", "transport"],
+      "amplifications": [
+        { "participantIndex": 39, "reason": "PersonalExperience", "comment": "I came off my bike here in January. I was lucky. The surface is deteriorating faster than the council is patching it." },
+        { "participantIndex": 40, "reason": "LocalImpact", "comment": "Parents are driving children to school to avoid this stretch of road. More cars around the school creates a different hazard." },
+        { "participantIndex": 41, "reason": "UrgentAction", "comment": "Three incidents in seven months on the same stretch. The maintenance response has been inadequate. This needs a full carriageway repair, not patching." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 38,
+          "description": "Highways fault reports submitted via the council's online system for each of the six potholes, with reference numbers and submission dates showing the earliest was logged in August 2025. Also includes insurance claim records for three cycle incidents on Birchwood Avenue, the most recent resulting in medical treatment.",
+          "documentIds": ["birchwood-fault-reports", "birchwood-incident-records"]
+        }
+      ]
+    },
+    {
+      "originatorIndex": 39,
+      "title": "Winter Fuel Support Scheme cut — 400 local households lose cold weather payments",
+      "description": "The council's locally funded Winter Fuel Support Scheme, which had provided up to £200 per household annually for fuel costs, has been cut entirely in the 2026/27 budget. Approximately 400 households, primarily elderly residents and families with young children identified through the council tax database, have received letters advising them that no payment will be made. No alternative provision has been indicated.",
+      "tags": ["poverty", "housing", "health"],
+      "amplifications": [
+        { "participantIndex": 42, "reason": "PersonalExperience", "comment": "My mother received this payment for three years. It covered her heating for November and December. She cannot cover that from her pension alone." },
+        { "participantIndex": 43, "reason": "HighRelevance", "comment": "Cold-related illness in winter adds substantially to NHS costs. The council is saving £80,000 while creating a larger downstream cost that falls on the NHS budget instead." },
+        { "participantIndex": 44, "reason": "UrgentAction", "comment": "Letters went out in March. The next payment would have been October. There are seven months to find an alternative. That time should be used." }
+      ],
+      "evidence": [
+        {
+          "participantIndex": 39,
+          "description": "Copy of the budget decision paper removing the Winter Fuel Support Scheme from the 2026/27 council budget, dated 24 February 2026. Includes the figure of 400 eligible households and the projected saving of £82,000. Does not include an equality impact assessment.",
+          "documentIds": ["winter-fuel-cut-budget-paper-24-02-2026"]
+        }
+      ]
     }
   ]
 }
