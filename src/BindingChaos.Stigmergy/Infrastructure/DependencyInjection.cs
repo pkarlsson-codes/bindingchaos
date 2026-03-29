@@ -1,3 +1,4 @@
+using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.Ideas;
 using BindingChaos.Stigmergy.Domain.Projects;
@@ -23,6 +24,7 @@ public static class StigmergyServiceCollectionExtensions
     public static IServiceCollection AddStigmergy(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ICommonsRepository, CommonsRepository>();
+        services.AddScoped<IConcernRepository, ConcernRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IIdeaRepository, IdeaRepository>();
