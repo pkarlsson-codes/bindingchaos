@@ -1,23 +1,24 @@
 using BindingChaos.CorePlatform.Contracts.Filters;
-using BindingChaos.Ideation.Application.ReadModels;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
+using BindingChaos.SharedKernel.Specifications;
+using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Application.Specifications;
 using Marten;
 using Marten.Pagination;
 
-namespace BindingChaos.Ideation.Application.Queries;
+namespace BindingChaos.Stigmergy.Application.Queries;
 
 /// <summary>
-/// Represents a query for retrieving ideas with optional filtering and pagination.
+/// Query to retrieve ideas with optional filtering and pagination.
 /// </summary>
-/// <param name="QuerySpec">The specification for pagination and filtering of the ideas query.</param>
 public sealed record GetIdeas(PaginationQuerySpec<IdeasQueryFilter> QuerySpec);
 
-/// <summary>Handles <see cref="GetIdeas"/> requests by querying the read database.</summary>
+/// <summary>Handles the <see cref="GetIdeas"/> query.</summary>
 public static class GetIdeasHandler
 {
     /// <summary>Returns a paginated list of ideas matching the query criteria.</summary>
-    /// <param name="request">The query containing the pagination and filter specification.</param>
+    /// <param name="request">The query containing the filter specification.</param>
     /// <param name="querySession">Marten query session for read-model access.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated response of ideas matching the query criteria.</returns>
@@ -28,8 +29,15 @@ public static class GetIdeasHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var page = await querySession.Query<IdeasListItemView>()
-            .Sort(request.QuerySpec.SortDescriptors, IdeasListItemView.SortMappings)
+        var filter = request.QuerySpec.Filter;
+
+        var query = querySession.Query<IdeasListItemView>().Matching(
+            IdeasMatchingSearchTermSpecification.Optional(filter.SearchTerm)
+            .And(IdeasByStatusSpecification.Optional(filter.Status)));
+
+        query = query.Sort(request.QuerySpec.SortDescriptors, IdeasListItemView.SortMappings);
+
+        var page = await query
             .ToPagedListAsync(request.QuerySpec.Page.Number, request.QuerySpec.Page.Size, cancellationToken)
             .ConfigureAwait(false);
 

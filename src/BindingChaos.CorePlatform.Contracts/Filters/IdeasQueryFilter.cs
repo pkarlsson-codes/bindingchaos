@@ -6,17 +6,12 @@ namespace BindingChaos.CorePlatform.Contracts.Filters;
 public record IdeasQueryFilter
 {
     /// <summary>
-    /// Optional list of society IDs to scope the ideas to.
+    /// Optional free-text search term to match against idea title or description.
     /// </summary>
-    public string[]? SocietyIds { get; set; }
+    public string? SearchTerm { get; set; }
 
     /// <summary>
-    /// Search term to filter ideas by title or description.
+    /// Optional status filter (e.g., "Draft", "Published").
     /// </summary>
-    public string SearchTerm { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Filter by the tags associated with the idea.
-    /// </summary>
-    public string[] Tags { get; set; } = [];
+    public string? Status { get; set; }
 }
