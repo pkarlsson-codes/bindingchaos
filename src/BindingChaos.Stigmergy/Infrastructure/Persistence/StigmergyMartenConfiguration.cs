@@ -37,5 +37,25 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.CapturedById);
 
         options.Projections.Add<SignalViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<IdeasListItemView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.CreatedAt)
+            .Duplicate(x => x.LastUpdatedAt)
+            .Duplicate(x => x.AuthorId)
+            .Duplicate(x => x.Title)
+            .Duplicate(x => x.Status);
+
+        options.Projections.Add<IdeasListItemViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<IdeaView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.CreatedAt)
+            .Duplicate(x => x.AuthorId)
+            .Duplicate(x => x.Status);
+
+        options.Projections.Add<IdeaViewProjection>(ProjectionLifecycle.Async);
     }
 }
