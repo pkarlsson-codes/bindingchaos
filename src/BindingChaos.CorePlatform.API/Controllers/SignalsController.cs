@@ -6,14 +6,11 @@ using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
-using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Geography;
-using BindingChaos.SignalAwareness.Application.Commands;
-using BindingChaos.SignalAwareness.Application.DTOs;
-using BindingChaos.SignalAwareness.Application.Queries;
-using BindingChaos.SignalAwareness.Application.ReadModels;
-using BindingChaos.SignalAwareness.Domain.Signals;
-using BindingChaos.SignalAwareness.Domain.SuggestedActions;
+using BindingChaos.Stigmergy.Application.Commands;
+using BindingChaos.Stigmergy.Application.Queries;
+using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Domain.Signals;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -34,7 +31,7 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupSe
     /// </summary>
     /// <param name="signalIdString">The ID of the signal to retrieve.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns> A signal view model containing details about the signal.</returns>
+    /// <returns>A signal view model containing details about the signal.</returns>
     [HttpGet("{signalId}")]
     [ProducesResponseType(typeof(ApiResponse<SignalResponse>), 200)]
     [EndpointName("getSignal")]
@@ -53,9 +50,7 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupSe
 
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
 
-        var participantIds = signal.Amplifications.Select(a => a.AmplifierId)
-            .Concat(signal.SuggestedActions.Select(a => a.SuggestedById))
-            .Append(signal.OriginatorId);
+        var participantIds = signal.Amplifications.Select(a => a.AmplifiedById).Append(signal.CapturedById);
         var pseudonyms = await pseudonymService.GetPseudonymsAsync(participantIds, cancellationToken).ConfigureAwait(false);
 
         var contract = SignalMapper.ToSignalResponse(signal, currentParticipantId, pseudonyms);
@@ -83,13 +78,13 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupSe
 
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
 
-        var originatorIds = signalsPage.Items.Select(s => s.OriginatorId);
+        var originatorIds = signalsPage.Items.Select(s => s.CapturedById);
         var pseudonyms = await pseudonymService.GetPseudonymsAsync(originatorIds, cancellationToken).ConfigureAwait(false);
 
         var response = signalsPage.MapItems(signal =>
         {
-            pseudonyms.TryGetValue(signal.OriginatorId, out var originatorPseudonym);
-            return SignalMapper.ToSignalListItemResponse(signal, currentParticipantId, originatorPseudonym ?? signal.OriginatorId);
+            pseudonyms.TryGetValue(signal.CapturedById, out var originatorPseudonym);
+            return SignalMapper.ToSignalListItemResponse(signal, currentParticipantId, originatorPseudonym ?? signal.CapturedById);
         });
 
         return Ok(response);
@@ -99,181 +94,81 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupSe
     /// Creates a new signal.
     /// </summary>
     /// <param name="request">The signal creation request.</param>
-    /// <returns>The created signal.</returns>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The ID of the created signal.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("captureSignal")]
     [AllowAnonymous]
-    public async Task<IActionResult> CaptureSignal([FromBody] CaptureSignalRequest request)
+    public async Task<IActionResult> CaptureSignal([FromBody] CaptureSignalRequest request, CancellationToken cancellationToken)
     {
         if (request == null)
         {
             return BadRequest("Request body is required.");
         }
 
-        var originatorId = HttpContext.GetParticipantIdOrAnonymous();
+        var actorId = HttpContext.GetParticipantIdOrAnonymous();
 
         Coordinates? location = request.Latitude.HasValue && request.Longitude.HasValue
             ? new Coordinates(request.Latitude.Value, request.Longitude.Value)
             : null;
 
         var command = new CaptureSignal(
+            actorId,
             request.Title,
             request.Description,
-            originatorId,
-            location,
             [.. request.Tags],
-            [.. request.Attachments.Select(a => new AttachmentDto(a.DocumentId, a.Caption))]);
+            [.. request.AttachmentIds],
+            location);
 
-        var signalId = await messageBus.InvokeAsync<SignalId>(command).ConfigureAwait(false);
+        var signalId = await messageBus.InvokeAsync<SignalId>(command, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtAction(nameof(GetSignal), new { signalId }, signalId);
     }
 
     /// <summary>
-    /// Amplifies a signal by a participant.
+    /// Amplifies a signal by the current participant.
     /// </summary>
     /// <param name="signalId">The ID of the signal to amplify.</param>
-    /// <param name="request">The amplification request.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The updated signal information.</returns>
+    /// <returns>The amplification response.</returns>
     [HttpPost("{signalId}/amplifications")]
-    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
+    [ProducesResponseType(typeof(ApiResponse<AmplifySignalResponse>), 200)]
     [EndpointName("amplifySignal")]
-    public async Task<IActionResult> AmplifySignal(string signalId, [FromBody] AmplifySignalRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AmplifySignal(string signalId, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request);
-
-        var signalIdValue = SignalId.Create(signalId);
         var amplifierId = HttpContext.GetParticipantIdOrAnonymous();
         if (amplifierId.IsAnonymous)
         {
             return BadRequest("Anonymous participants cannot amplify signals.");
         }
 
-        var reason = request.Reason == null ? AmplificationReason.HighRelevance : AmplificationReason.FromDisplayName(request.Reason);
+        var command = new AmplifySignal(amplifierId, SignalId.Create(signalId));
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
 
-        var command = new AmplifySignal(signalIdValue, amplifierId, reason, request.Commentary);
-        var numberOfActiveAmplifications = await messageBus.InvokeAsync<int>(command, cancellationToken).ConfigureAwait(false);
-
-        return CreatedAtAction(nameof(GetSignal), new { signalId }, new AmplifySignalResponse(numberOfActiveAmplifications));
+        return CreatedAtAction(nameof(GetSignal), new { signalId }, new AmplifySignalResponse(0));
     }
 
     /// <summary>
-    /// Adds evidence to a signal.
+    /// Removes the current participant's amplification from a signal.
     /// </summary>
-    /// <param name="signalId">The unique identifier of the signal to add evidence to.</param>
-    /// <param name="request">The evidence request.</param>
+    /// <param name="signalId">The ID of the signal to withdraw amplification from.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The if of the added evidence.</returns>
-    [HttpPost("{signalId}/evidence")]
-    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
-    [EndpointName("addEvidence")]
-    public async Task<IActionResult> AddEvidence(string signalId, [FromBody] AddEvidenceRequest request, CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(request);
-        var addedBy = HttpContext.GetParticipantIdOrAnonymous();
-        if (addedBy.IsAnonymous)
-        {
-            return BadRequest("Anonymous participants cannot add evidence.");
-        }
-
-        var command = new AddEvidence(SignalId.Create(signalId), request.DocumentIds, request.Description, addedBy);
-        var evidenceId = await messageBus.InvokeAsync<string>(command, cancellationToken).ConfigureAwait(false);
-
-        return CreatedAtAction(nameof(GetSignal), evidenceId);
-    }
-
-    /// <summary>
-    /// Removes an amplification from the specified signal.
-    /// </summary>
-    /// <param name="signalId">The unique identifier of the signal to deamplify. Cannot be null, empty, or whitespace.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the unique identifier of the deamplified signal if the operation is
-    /// successful.</returns>
+    /// <returns>The withdrawal response.</returns>
     [HttpDelete("{signalId}/amplifications")]
-    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
+    [ProducesResponseType(typeof(ApiResponse<DeamplifySignalResponse>), 200)]
     [EndpointName("deamplifySignal")]
-    public async Task<IActionResult> DeamplifySignal(string signalId, CancellationToken cancellationToken)
+    public async Task<IActionResult> WithdrawAmplification(string signalId, CancellationToken cancellationToken)
     {
-        var signalIdValue = SignalId.Create(signalId);
         var amplifierId = HttpContext.GetParticipantIdOrAnonymous();
         if (amplifierId.IsAnonymous)
         {
-            return BadRequest("Anonymous participants cannot deamplify signals.");
+            return BadRequest("Anonymous participants cannot withdraw amplification.");
         }
 
-        var command = new DeamplifySignal(signalIdValue, amplifierId);
-        var numberOfActiveAmplifications = await messageBus.InvokeAsync<int>(command, cancellationToken).ConfigureAwait(false);
-        return Ok(new DeamplifySignalResponse(numberOfActiveAmplifications));
-    }
+        var command = new WithdrawAmplification(amplifierId, SignalId.Create(signalId));
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>
-    /// Suggests an action on a signal.
-    /// </summary>
-    /// <param name="signalId">The ID of the signal to suggest an action on.</param>
-    /// <param name="request">The action suggestion request.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A 201 Created response.</returns>
-    [HttpPost("{signalId}/suggested-actions")]
-    [ProducesResponseType(201)]
-    [EndpointName("suggestAction")]
-    public async Task<IActionResult> SuggestAction(string signalId, [FromBody] SuggestActionRequest request, CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(request);
-
-        var participantId = HttpContext.GetParticipantIdOrAnonymous();
-        if (participantId.IsAnonymous)
-        {
-            return BadRequest("Anonymous participants cannot suggest actions.");
-        }
-
-        var actionType = ActionType.FromDisplayName(request.ActionType!);
-        ActionParameters parameters;
-        if (actionType == ActionType.MakeACall)
-        {
-            parameters = new MakeACallParameters(request.PhoneNumber!, request.Details);
-        }
-        else if (actionType == ActionType.VisitAWebpage)
-        {
-            parameters = new VisitAWebpageParameters(request.Url!, request.Details);
-        }
-        else
-        {
-            return BadRequest($"Action type '{request.ActionType}' is not supported.");
-        }
-
-        var signalIdValue = SignalId.Create(signalId);
-        var command = new SuggestAction(signalIdValue, participantId, parameters);
-        await messageBus.InvokeAsync<int>(command, cancellationToken).ConfigureAwait(false);
-
-        return CreatedAtAction(nameof(GetSignal), new { signalId }, null);
-    }
-
-    /// <summary>
-    /// Gets amplification trend data for a specific signal.
-    /// </summary>
-    /// <param name="signalId">The ID of the signal to get trend data for.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The signal amplification trend data.</returns>
-    [HttpGet("{signalId}/amplification-trend")]
-    [ProducesResponseType(typeof(ApiResponse<SignalAmplificationTrendResponse>), 200)]
-    [ProducesResponseType(404)]
-    [EndpointName("getSignalAmplificationTrend")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetSignalAmplificationTrend([FromRoute] string signalId, CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(signalId);
-
-        var trendQuery = new GetSignalAmplificationTrend(signalId);
-        var trendResult = await messageBus.InvokeAsync<SignalAmplificationTrendView?>(trendQuery, cancellationToken).ConfigureAwait(false);
-
-        if (trendResult == null)
-        {
-            return NotFound();
-        }
-
-        var response = SignalMapper.ToSignalAmplificationTrendResponse(trendResult);
-        return Ok(response);
+        return Ok(new DeamplifySignalResponse(0));
     }
 }

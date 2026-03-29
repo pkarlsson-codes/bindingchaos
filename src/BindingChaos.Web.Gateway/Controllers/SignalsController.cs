@@ -58,7 +58,6 @@ public sealed class SignalsController : BaseApiController
         query = (query ?? new()).Normalize();
 
         var signalsTask = _signalsApiClient.GetSignals(query, cancellationToken);
-
         var tagsTask = _tagsApiClient.GetTags(20, null, cancellationToken);
 
         await Task.WhenAll(signalsTask, tagsTask);
@@ -71,7 +70,7 @@ public sealed class SignalsController : BaseApiController
             Signals = signalsResult.MapItems(s => new SignalViewModel
             {
                 Id = s.SignalId,
-                AuthorPseudonym = s.AuthorId ?? "Anonymous",
+                AuthorPseudonym = s.OriginatorPseudonym ?? "Anonymous",
                 Title = s.Title,
                 Description = s.Description,
                 Tags = s.Tags,
@@ -79,9 +78,8 @@ public sealed class SignalsController : BaseApiController
                 CreatedAt = s.CapturedAt.ToString("O") ?? string.Empty,
                 IsAmplifiedByCurrentUser = s.IsAmplifiedByCurrentUser,
                 IsOriginator = s.IsOriginator,
-                FirstAttachmentThumbnail =
-                    GetFirstAttachmentThumbnailUrl(s.Attachments),
-                AttachmentCount = s.Attachments?.Length ?? 0,
+                FirstAttachmentThumbnail = GetFirstAttachmentThumbnailUrl(s.AttachmentIds),
+                AttachmentCount = s.AttachmentIds?.Length ?? 0,
             }),
             AvailableTags = [.. tagsResult.Select(t => t.Label)],
         };
@@ -140,48 +138,33 @@ public sealed class SignalsController : BaseApiController
             Tags = [],
             AuthorPseudonym = signal.OriginatorPseudonym,
             CreatedAt = signal.CapturedAt.ToString("O", CultureInfo.InvariantCulture),
-            LastAmplifiedAt = signal.Amplifications
-                .DefaultIfEmpty()
-                .Max(a => a?.AmplifiedAt)
-                ?.ToString("O", CultureInfo.InvariantCulture)
-                ?? null,
+            LastAmplifiedAt = signal.LastAmplifiedAt
+                ?.ToString("O", CultureInfo.InvariantCulture),
             AmplifyCount = signal.Amplifications.Count,
-            Amplifications = [..signal.Amplifications
+            Amplifications = [.. signal.Amplifications
                 .Select(a => new AmplificationViewModel
                 {
-                    Id = a.AmplificationId,
                     AmplifierPseudonym = a.AmplifierPseudonym,
                     AmplifiedAt = a.AmplifiedAt.ToString("O", CultureInfo.InvariantCulture),
                 })],
             IsAmplifiedByCurrentUser = signal.IsAmplifiedByCurrentUser,
             IsOriginator = signal.IsOriginator,
-            Attachments = [..signal.Attachments.Select(a => new AttachmentDetailViewModel
+            Attachments = [.. signal.AttachmentIds.Select(id => new AttachmentDetailViewModel
                 {
-                    DocumentId = a.DocumentId,
-                    Caption = a.Caption,
-                    ThumbnailUrl = $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{a.DocumentId}/thumbnail",
-                    DisplayUrl = $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{a.DocumentId}/display",
+                    DocumentId = id,
+                    ThumbnailUrl = $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{id}/thumbnail",
+                    DisplayUrl = $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{id}/display",
                 })],
-            SuggestedActions = [..signal.SuggestedActions.Select(a => new SuggestedActionViewModel
-                {
-                    Id = a.ActionId,
-                    ActionType = a.ActionType,
-                    PhoneNumber = a.PhoneNumber,
-                    Url = a.Url,
-                    Details = a.Details,
-                    SuggestedByPseudonym = a.SuggestedByPseudonym,
-                    SuggestedAt = a.SuggestedAt.ToString("O", CultureInfo.InvariantCulture),
-                })],
+            SuggestedActions = [],
         };
 
         return Ok(viewModel);
     }
 
     /// <summary>
-    /// Amplifies a signal by a participant.
+    /// Amplifies a signal by the current participant.
     /// </summary>
     /// <param name="signalId">The ID of the signal to amplify.</param>
-    /// <param name="request">The amplification request.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The amplification response with updated count.</returns>
     [HttpPost("{signalId}/amplifications")]
@@ -192,14 +175,12 @@ public sealed class SignalsController : BaseApiController
     [EndpointName("amplifySignal")]
     public async Task<IActionResult> AmplifySignal(
         string signalId,
-        [FromBody] AmplifySignalRequest request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
-        ArgumentNullException.ThrowIfNull(request);
 
         var response = await _signalsApiClient
-            .AmplifySignal(signalId, request, cancellationToken);
+            .AmplifySignal(signalId, cancellationToken);
 
         return Ok(response);
     }
@@ -228,74 +209,19 @@ public sealed class SignalsController : BaseApiController
         return Ok(response);
     }
 
-    /// <summary>
-    /// Suggests an action on a signal.
-    /// </summary>
-    /// <param name="signalId">The ID of the signal.</param>
-    /// <param name="request">The action suggestion request.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A 201 Created response.</returns>
-    [HttpPost("{signalId}/suggested-actions")]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(404)]
-    [EndpointName("suggestAction")]
-    public async Task<IActionResult> SuggestAction(
-        string signalId,
-        [FromBody] SuggestActionRequest request,
-        CancellationToken cancellationToken)
+    private string? GetFirstAttachmentThumbnailUrl(string[]? attachmentIds)
     {
-        ArgumentNullException.ThrowIfNull(signalId);
-        ArgumentNullException.ThrowIfNull(request);
-
-        await _signalsApiClient
-            .SuggestAction(signalId, request, cancellationToken);
-
-        return Created(string.Empty, null);
-    }
-
-    /// <summary>
-    /// Gets amplification trend data for a specific signal.
-    /// </summary>
-    /// <param name="signalId">The unique identifier of the signal.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>Signal amplification trend data.</returns>
-    [HttpGet("{signalId}/amplification-trend")]
-    [ProducesResponseType(typeof(ApiResponse<SignalAmplificationTrendResponse>), 200)]
-    [ProducesResponseType(404)]
-    [EndpointName("getSignalAmplificationTrend")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetSignalAmplificationTrend(
-        [FromRoute] string signalId,
-        CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(signalId);
-
-        var trend = await _signalsApiClient
-            .GetSignalAmplificationTrendAsync(signalId, cancellationToken);
-
-        return Ok(trend);
-    }
-
-    /// <summary>
-    /// Gets the thumbnail URL for the first image attachment, if any exist.
-    /// </summary>
-    /// <param name="attachments">The list of attachments.</param>
-    /// <returns>The thumbnail URL or null if no image attachments exist.</returns>
-    private string? GetFirstAttachmentThumbnailUrl(
-        AttachmentResponse[]? attachments)
-    {
-        if (attachments == null || attachments.Length == 0)
+        if (attachmentIds == null || attachmentIds.Length == 0)
         {
             return null;
         }
 
-        var firstAttachment = attachments[0];
-        if (string.IsNullOrEmpty(firstAttachment.DocumentId))
+        var firstId = attachmentIds[0];
+        if (string.IsNullOrEmpty(firstId))
         {
             return null;
         }
 
-        return $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{firstAttachment.DocumentId}/thumbnail";
+        return $"{_gatewayBaseUrl.TrimEnd('/')}/api/v1/documents/{firstId}/thumbnail";
     }
 }

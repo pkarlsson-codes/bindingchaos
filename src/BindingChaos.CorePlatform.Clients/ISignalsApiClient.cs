@@ -42,15 +42,13 @@ public interface ISignalsApiClient
         CancellationToken cancellationToken);
 
     /// <summary>
-    /// Amplifies a signal by a participant.
+    /// Amplifies a signal by the current participant.
     /// </summary>
     /// <param name="signalId">The ID of the signal to amplify.</param>
-    /// <param name="request">The amplification request.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The updated signal information.</returns>
+    /// <returns>The amplification response.</returns>
     Task<AmplifySignalResponse> AmplifySignal(
         string signalId,
-        AmplifySignalRequest request,
         CancellationToken cancellationToken);
 
     /// <summary>

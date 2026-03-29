@@ -1,7 +1,6 @@
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SignalAwareness.Application.ReadModels;
-using BindingChaos.SignalAwareness.Domain.Signals;
+using BindingChaos.Stigmergy.Application.ReadModels;
 
 namespace BindingChaos.CorePlatform.API.Mappings;
 
@@ -19,41 +18,22 @@ internal static class SignalMapper
         IReadOnlyDictionary<string, string> pseudonyms)
     {
         var amplifications = signal.Amplifications.Select(amp => new SignalResponse.Amplification(
-            amp.Id,
-            pseudonyms[amp.AmplifierId],
-            AmplificationReason.FromValue(amp.Reason).DisplayName,
-            amp.Commentary,
+            pseudonyms.GetValueOrDefault(amp.AmplifiedById, "Unknown"),
             amp.AmplifiedAt)).ToList();
-
-        var attachments = signal.Attachments.Select(att => new AttachmentResponse(
-            att.Id,
-            att.DocumentId,
-            att.Caption,
-            att.CreatedAt)).ToArray();
-
-        var suggestedActions = signal.SuggestedActions.Select(a => new SignalResponse.SuggestedAction(
-            a.Id,
-            a.ActionTypeName,
-            a.PhoneNumber,
-            a.Url,
-            a.Details,
-            pseudonyms[a.SuggestedById],
-            a.SuggestedAt)).ToList();
 
         return new SignalResponse(
             signal.Id,
             signal.Title,
             signal.Description,
-            pseudonyms[signal.OriginatorId],
-            SignalStatus.FromValue(signal.Status).DisplayName,
+            pseudonyms.GetValueOrDefault(signal.CapturedById, signal.CapturedById),
             signal.CapturedAt,
+            signal.LastAmplifiedAt,
             signal.Latitude,
             signal.Longitude,
             amplifications,
-            signal.Amplifications.Any(a => a.AmplifierId == currentParticipantId.Value),
-            signal.OriginatorId == currentParticipantId.Value,
-            attachments,
-            suggestedActions);
+            signal.Amplifications.Any(a => a.AmplifiedById == currentParticipantId.Value),
+            signal.CapturedById == currentParticipantId.Value,
+            [.. signal.AttachmentIds]);
     }
 
     /// <summary>Maps a <see cref="SignalsListItemView"/> to a <see cref="SignalListItemResponse"/>.</summary>
@@ -66,47 +46,18 @@ internal static class SignalMapper
         ParticipantId currentParticipantId,
         string originatorPseudonym)
     {
-        var attachments = signal.Attachments.Select(att => new AttachmentResponse(
-            att.Id,
-            att.DocumentId,
-            att.Caption,
-            att.CreatedAt)).ToArray();
-
         return new SignalListItemResponse(
             signal.Id,
             signal.Title,
             signal.Description,
             originatorPseudonym,
-            SignalStatus.FromValue(signal.Status).DisplayName,
             signal.CapturedAt,
             signal.Latitude,
             signal.Longitude,
             signal.AmplificationCount,
             [.. signal.Tags],
             signal.AmplifierIds.Contains(currentParticipantId.Value),
-            signal.OriginatorId == currentParticipantId.Value,
-            attachments);
-    }
-
-    /// <summary>Maps a <see cref="SignalAmplificationTrendView"/> to a <see cref="SignalAmplificationTrendResponse"/>.</summary>
-    /// <param name="trendView">The trend data to map.</param>
-    /// <returns>The mapped <see cref="SignalAmplificationTrendResponse"/>.</returns>
-    internal static SignalAmplificationTrendResponse ToSignalAmplificationTrendResponse(
-        SignalAmplificationTrendView trendView)
-    {
-        var dataPoints = trendView.DataPoints
-            .OrderBy(dp => dp.Date)
-            .Select(dp => new TrendPointResponse
-            {
-                Date = dp.Date.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
-                EventType = dp.EventType,
-            })
-            .ToList();
-
-        return new SignalAmplificationTrendResponse
-        {
-            SignalId = trendView.SignalId,
-            DataPoints = dataPoints,
-        };
+            signal.CapturedById == currentParticipantId.Value,
+            [.. signal.AttachmentIds]);
     }
 }

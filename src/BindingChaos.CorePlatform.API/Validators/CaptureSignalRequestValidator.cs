@@ -21,8 +21,8 @@ internal sealed class CaptureSignalRequestValidator : AbstractValidator<CaptureS
             .NotEmpty()
             .WithMessage("Description is required.");
 
-        RuleFor(x => x.Attachments)
+        RuleFor(x => x.AttachmentIds)
             .NotNull()
-            .WithMessage("Attachments field is required.");
+            .WithMessage("AttachmentIds field is required.");
     }
 }

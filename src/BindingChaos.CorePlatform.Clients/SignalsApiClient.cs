@@ -60,15 +60,13 @@ public class SignalsApiClient(
     /// <inheritdoc/>
     public Task<AmplifySignalResponse> AmplifySignal(
         string signalId,
-        AmplifySignalRequest request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);
-        ArgumentNullException.ThrowIfNull(request);
 
-        return PostAsync<AmplifySignalRequest, AmplifySignalResponse>(
+        return PostAsync<object, AmplifySignalResponse>(
             $"api/signals/{signalId}/amplifications",
-            request,
+            new { },
             cancellationToken);
     }
 

@@ -39,7 +39,7 @@ public class SignalTests
             string[] attachmentIds = ["attachmentIds"];
             
             var act = () => Signal.Capture(
-                null, "Signal title","Signal description.", tags, attachmentIds, new Coordinates(1, 2));
+                null!, "Signal title","Signal description.", tags, attachmentIds, new Coordinates(1, 2));
 
             act.Should().Throw<ArgumentNullException>();
         }

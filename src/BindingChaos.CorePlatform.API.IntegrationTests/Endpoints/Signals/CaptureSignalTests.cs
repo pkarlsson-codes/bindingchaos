@@ -34,7 +34,7 @@ public class CaptureSignalTests(ApiFactory factory)
         Title: "A well-formed signal title",
         Description: "This is a sufficiently detailed description of the signal.",
         Tags: [],
-        Attachments: [],
+        AttachmentIds: [],
         Latitude: null,
         Longitude: null);
 }
