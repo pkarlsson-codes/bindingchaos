@@ -20,6 +20,9 @@ public sealed class Signal : AggregateRoot<SignalId>
     /// <returns>The captured signal.</returns>
     public static Signal Capture(ParticipantId actorId, string description, IReadOnlyList<string> tags)
     {
+        ArgumentNullException.ThrowIfNull(actorId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(description);
+
         var signal = new Signal();
         var aggregateId = SignalId.Generate();
         signal.ApplyChange(new SignalCaptured(aggregateId.Value, actorId.Value, description, tags));
