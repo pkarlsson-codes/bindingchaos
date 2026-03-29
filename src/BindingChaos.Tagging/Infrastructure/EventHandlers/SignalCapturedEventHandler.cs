@@ -1,5 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SignalAwareness.Contracts;
+using BindingChaos.Stigmergy.Contracts;
 using BindingChaos.Tagging.Application.Commands;
 using BindingChaos.Tagging.Domain.TaggableTargets;
 using Wolverine;
@@ -22,7 +22,7 @@ public static class SignalCapturedHandler
     public static async Task Handle(SignalCapturedIntegrationEvent message, IMessageBus messageBus)
     {
         var targetId = TaggableTargetId.ForEntity(message.SignalId);
-        var originatorId = ParticipantId.Create(message.OriginatorId);
+        var originatorId = ParticipantId.Create(message.CapturedById);
 
         var cmd = new CreateTaggableTarget(
             TargetId: targetId,

@@ -1,5 +1,5 @@
 using BindingChaos.CommunityDiscourse.Application.Commands;
-using BindingChaos.SignalAwareness.Contracts;
+using BindingChaos.Stigmergy.Contracts;
 using Wolverine;
 
 namespace BindingChaos.CommunityDiscourse.Infrastructure.EventHandlers;
