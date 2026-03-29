@@ -1,7 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.Ideas;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 

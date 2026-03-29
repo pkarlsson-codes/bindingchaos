@@ -29,6 +29,10 @@ public sealed class Concern : AggregateRoot<ConcernId>
     {
         ArgumentNullException.ThrowIfNull(actorId);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        if (signalIds.Count == 0)
+        {
+            throw new BusinessRuleViolationException("Cannot raise a concern with no signals.");
+        }
 
         var concern = new Concern();
         var concernId = ConcernId.Generate();

@@ -8,7 +8,7 @@ namespace BindingChaos.Stigmergy.Domain.Ideas;
 /// <summary>
 /// An Idea.
 /// </summary>
-public class Idea : AggregateRoot<IdeaId>
+public sealed class Idea : AggregateRoot<IdeaId>
 {
     private IdeaStatus _status;
     private ParticipantId _authorId;
@@ -104,6 +104,8 @@ public class Idea : AggregateRoot<IdeaId>
         switch (domainEvent)
         {
             case IdeaDrafted e: Apply(e); break;
+            case IdeaForked e: Apply(e); break;
+            case IdeaDraftUpdated e: Apply(e); break;
             case IdeaPublished e: Apply(e); break;
             default: throw new BusinessRuleViolationException("Unknown event type");
         }
@@ -115,6 +117,18 @@ public class Idea : AggregateRoot<IdeaId>
         _authorId = ParticipantId.Create(e.AuthorId);
         _status = IdeaStatus.Draft;
     }
+
+#pragma warning disable CA1822
+    private void Apply(IdeaForked e)
+    {
+        // Noop because there is no state to modify.
+    }
+
+    private void Apply(IdeaDraftUpdated e)
+    {
+        // Noop because there is no state to modify.
+    }
+#pragma warning restore CA1822
 
     private void Apply(IdeaPublished e)
     {

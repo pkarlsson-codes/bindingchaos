@@ -1,5 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
 
 namespace BindingChaos.Stigmergy.Domain.Signals;
@@ -7,7 +8,7 @@ namespace BindingChaos.Stigmergy.Domain.Signals;
 /// <summary>
 /// A Signal aggregate.
 /// </summary>
-public class Signal : AggregateRoot<SignalId>
+public sealed class Signal : AggregateRoot<SignalId>
 {
     private Signal() { }
 
@@ -32,6 +33,7 @@ public class Signal : AggregateRoot<SignalId>
         switch (domainEvent)
         {
             case SignalCaptured e: Apply(e); break;
+            default: throw new BusinessRuleViolationException("Unknown event type");
         }
     }
 

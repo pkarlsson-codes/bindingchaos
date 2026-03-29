@@ -22,7 +22,7 @@ public abstract record IntegrationEvent : IIntegrationEvent
     /// <summary>
     /// Gets the name of the bounded context that published this event.
     /// </summary>
-    public virtual string SourceBoundedContext => GetType().Namespace?.Split('.')[1] ?? "Unknown";
+    public virtual string SourceBoundedContext => GetType().Namespace?.Split('.')[1] ?? "Unknown"; // TODO: Yuck, this seems very fragile and undocumented.
 
     /// <inheritdoc />
     public override string ToString() => $"{GetType().Name}[{EventId}]";
