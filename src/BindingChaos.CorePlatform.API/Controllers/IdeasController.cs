@@ -35,7 +35,7 @@ public sealed class IdeasController(IMessageBus messageBus, IPseudonymLookupServ
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("authorIdea")]
-    public async Task<IActionResult> AuthorIdea([FromBody] AuthorIdeaRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AuthorIdea([FromBody] DraftIdeaRequest request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 

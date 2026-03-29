@@ -19,11 +19,11 @@ public class IdeasApiClient(
 {
     /// <inheritdoc/>
     public Task<string> AuthorIdeaAsync(
-        AuthorIdeaRequest request,
+        DraftIdeaRequest request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        return PostAsync<AuthorIdeaRequest, string>(
+        return PostAsync<DraftIdeaRequest, string>(
             "api/ideas",
             request,
             cancellationToken);

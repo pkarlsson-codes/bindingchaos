@@ -1,10 +1,10 @@
 namespace BindingChaos.CorePlatform.Contracts.Requests;
 
 /// <summary>
-/// Request model for creating an idea.
+/// Draft idea request model.
 /// </summary>
 /// <param name="Title">The title of the idea.</param>
 /// <param name="Description">The description of the idea.</param>
-public record AuthorIdeaRequest(
+public record DraftIdeaRequest(
     string Title,
     string Description);

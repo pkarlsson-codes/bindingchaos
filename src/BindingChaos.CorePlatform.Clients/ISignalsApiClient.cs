@@ -70,24 +70,4 @@ public interface ISignalsApiClient
     Task<SignalAmplificationTrendResponse> GetSignalAmplificationTrendAsync(
         string signalId,
         CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Suggests an action on a signal.
-    /// </summary>
-    /// <param name="signalId">The ID of the signal.</param>
-    /// <param name="request">The action suggestion request.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    Task SuggestAction(
-        string signalId,
-        SuggestActionRequest request,
-        CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Gets all available action types.
-    /// </summary>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The ordered list of available action types.</returns>
-    Task<IEnumerable<ActionTypeResponse>> GetActionTypes(
-        CancellationToken cancellationToken);
 }

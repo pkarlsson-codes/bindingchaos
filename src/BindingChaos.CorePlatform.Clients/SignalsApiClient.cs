@@ -93,28 +93,4 @@ public class SignalsApiClient(
             $"api/signals/{signalId}/amplification-trend",
             cancellationToken);
     }
-
-    /// <inheritdoc/>
-    public Task SuggestAction(
-        string signalId,
-        SuggestActionRequest request,
-        CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(signalId);
-        ArgumentNullException.ThrowIfNull(request);
-
-        return PostAsync<SuggestActionRequest, object>(
-            $"api/signals/{signalId}/suggested-actions",
-            request,
-            cancellationToken);
-    }
-
-    /// <inheritdoc/>
-    public Task<IEnumerable<ActionTypeResponse>> GetActionTypes(
-        CancellationToken cancellationToken)
-    {
-        return GetAsync<IEnumerable<ActionTypeResponse>>(
-            "api/action-types",
-            cancellationToken);
-    }
 }

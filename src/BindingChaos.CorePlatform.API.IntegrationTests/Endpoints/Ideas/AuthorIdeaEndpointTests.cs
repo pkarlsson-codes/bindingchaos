@@ -63,7 +63,7 @@ public partial class AuthorIdeaEndpointTests(ApiFactory factory)
         response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
     }
 
-    private static AuthorIdeaRequest ValidAuthorIdeaRequest() => new(
+    private static DraftIdeaRequest ValidAuthorIdeaRequest() => new(
         Title: "A well-formed test idea title",
         Description: "This is a sufficiently long description for the test idea to pass validation.");
 }

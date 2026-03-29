@@ -38,6 +38,6 @@ public interface IIdeasApiClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created idea.</returns>
     Task<string> AuthorIdeaAsync(
-        AuthorIdeaRequest request,
+        DraftIdeaRequest request,
         CancellationToken cancellationToken);
 }

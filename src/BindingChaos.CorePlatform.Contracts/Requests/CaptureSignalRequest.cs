@@ -1,7 +1,7 @@
 namespace BindingChaos.CorePlatform.Contracts.Requests;
 
 /// <summary>
-/// Request model for creating a signal.
+/// Capture signal request model.
 /// </summary>
 /// <param name="Title">The title of the signal.</param>
 /// <param name="Description">The description of the signal.</param>

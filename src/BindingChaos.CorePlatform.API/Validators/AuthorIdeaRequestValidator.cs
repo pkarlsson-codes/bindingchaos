@@ -4,9 +4,9 @@ using FluentValidation;
 namespace BindingChaos.CorePlatform.API.Validators;
 
 /// <summary>
-/// Validator for <see cref="AuthorIdeaRequest"/>.
+/// Validator for <see cref="DraftIdeaRequest"/>.
 /// </summary>
-internal sealed class AuthorIdeaRequestValidator : AbstractValidator<AuthorIdeaRequest>
+internal sealed class AuthorIdeaRequestValidator : AbstractValidator<DraftIdeaRequest>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthorIdeaRequestValidator"/> class.

@@ -56,7 +56,7 @@ public sealed class IdeasController(IIdeasApiClient ideasApiClient) : BaseApiCon
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var domainRequest = new CorePlatform.Contracts.Requests.AuthorIdeaRequest(
+        var domainRequest = new CorePlatform.Contracts.Requests.DraftIdeaRequest(
             request.Title,
             request.Description);
 
