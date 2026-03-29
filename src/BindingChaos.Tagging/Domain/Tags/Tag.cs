@@ -78,6 +78,7 @@ public sealed class Tag : AggregateRoot<TagId>
             case TagCreated x: Apply(x); break;
             case TagDeprecated x: Apply(x); break;
             case TagsMerged x: Apply(x); break;
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

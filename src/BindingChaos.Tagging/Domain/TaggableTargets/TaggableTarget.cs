@@ -97,6 +97,7 @@ public sealed class TaggableTarget : AggregateRoot<TaggableTargetId>
             case TagsAssigned e: Apply(e); break;
             case TagsRemoved e: Apply(e); break;
             case TaggableTargetCreated e: Apply(e); break;
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

@@ -1,6 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
-using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
 
 namespace BindingChaos.Stigmergy.Domain.Signals;
@@ -33,7 +32,7 @@ public sealed class Signal : AggregateRoot<SignalId>
         switch (domainEvent)
         {
             case SignalCaptured e: Apply(e); break;
-            default: throw new BusinessRuleViolationException("Unknown event type");
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

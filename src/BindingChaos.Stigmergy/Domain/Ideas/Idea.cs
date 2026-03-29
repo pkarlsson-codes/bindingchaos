@@ -107,7 +107,7 @@ public sealed class Idea : AggregateRoot<IdeaId>
             case IdeaForked e: Apply(e); break;
             case IdeaDraftUpdated e: Apply(e); break;
             case IdeaPublished e: Apply(e); break;
-            default: throw new BusinessRuleViolationException("Unknown event type");
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

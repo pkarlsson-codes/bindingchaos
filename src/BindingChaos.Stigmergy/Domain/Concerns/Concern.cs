@@ -47,7 +47,7 @@ public sealed class Concern : AggregateRoot<ConcernId>
         switch (domainEvent)
         {
             case ConcernRaised e: Apply(e); break;
-            default: throw new BusinessRuleViolationException("Invalid domain event");
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

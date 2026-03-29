@@ -65,7 +65,7 @@ public sealed class Commons : AggregateRoot<CommonsId>
             case CommonsCreated e: Apply(e); break;
             case CommonsActivated e: Apply(e); break;
             case CommonsRenamed e: Apply(e); break;
-            default: throw new InvalidOperationException($"Unsupported event type: {domainEvent.GetType().Name}");
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 

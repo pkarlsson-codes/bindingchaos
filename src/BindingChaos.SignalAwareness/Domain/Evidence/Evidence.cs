@@ -43,6 +43,7 @@ public class Evidence : AggregateRoot<EvidenceId>
         switch (domainEvent)
         {
             case EvidenceAdded e: Apply(e); break;
+            default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
 
