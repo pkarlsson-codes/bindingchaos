@@ -31,8 +31,6 @@ public static class SignalAwarenessMartenConfiguration
         options.Schema.For<SignalsListItemView>().DatabaseSchemaName(SignalAwarenessSchemaName);
         options.Schema.For<SignalAmplificationTrendView>().DatabaseSchemaName(SignalAwarenessSchemaName);
 
-        options.Projections.Add<SignalViewProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<SignalsListItemViewProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<SignalAmplificationTrendViewProjection>(ProjectionLifecycle.Async);
     }
 }

@@ -1,25 +1,10 @@
-using System.Linq.Expressions;
-
 namespace BindingChaos.Stigmergy.Application.ReadModels;
 
 /// <summary>
-/// A lightweight read model for signal list views.
+/// Read model for a single signal's full detail.
 /// </summary>
-public class SignalsListItemView
+public class SignalView
 {
-    /// <summary>
-    /// Sort mappings for signal list queries.
-    /// </summary>
-    public static readonly IReadOnlyDictionary<string, Expression<Func<SignalsListItemView, object>>> SortMappings =
-        new Dictionary<string, Expression<Func<SignalsListItemView, object>>>(StringComparer.OrdinalIgnoreCase)
-        {
-            ["capturedAt"] = s => s.CapturedAt,
-            ["createdAt"] = s => s.CapturedAt,
-            ["amplificationCount"] = s => s.AmplificationCount,
-            ["lastAmplifiedAt"] = s => s.LastAmplifiedAt!,
-            ["title"] = s => s.Title,
-        };
-
     /// <summary>Gets or sets the signal ID.</summary>
     required public string Id { get; set; }
 
@@ -44,8 +29,8 @@ public class SignalsListItemView
     /// <summary>Gets or sets the number of active amplifications.</summary>
     public int AmplificationCount { get; set; }
 
-    /// <summary>Gets or sets the IDs of participants who have amplified this signal.</summary>
-    public List<string> AmplifierIds { get; set; } = [];
+    /// <summary>Gets or sets the active amplifications for this signal.</summary>
+    public List<AmplificationEntry> Amplifications { get; set; } = [];
 
     /// <summary>Gets or sets when the signal was last amplified.</summary>
     public DateTimeOffset? LastAmplifiedAt { get; set; }
@@ -55,4 +40,16 @@ public class SignalsListItemView
 
     /// <summary>Gets or sets the longitude of where the signal was captured, if provided.</summary>
     public double? Longitude { get; set; }
+
+    /// <summary>
+    /// An individual amplification of a signal.
+    /// </summary>
+    public class AmplificationEntry
+    {
+        /// <summary>Gets or sets the ID of the participant who amplified the signal.</summary>
+        required public string AmplifiedById { get; set; }
+
+        /// <summary>Gets or sets when the amplification occurred.</summary>
+        required public DateTimeOffset AmplifiedAt { get; set; }
+    }
 }
