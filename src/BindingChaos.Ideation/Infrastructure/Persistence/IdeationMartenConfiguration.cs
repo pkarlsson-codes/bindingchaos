@@ -26,8 +26,6 @@ public static class IdeationMartenConfiguration
 
     private static void ConfigureProjections(StoreOptions options)
     {
-        options.Projections.Add<IdeaViewProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<IdeasListItemViewProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<AmendmentsListItemViewProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<AmendmentDetailViewProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<AmendmentSupporterViewProjection>(ProjectionLifecycle.Async);
@@ -37,10 +35,6 @@ public static class IdeationMartenConfiguration
 
     private static void ConfigureReadModels(StoreOptions options)
     {
-        options.Schema.For<IdeaView>()
-            .DatabaseSchemaName(IdeationSchemaName);
-        options.Schema.For<IdeasListItemView>()
-            .DatabaseSchemaName(IdeationSchemaName);
         options.Schema.For<AmendmentsListItemView>()
             .DatabaseSchemaName(IdeationSchemaName);
         options.Schema.For<AmendmentDetailView>()

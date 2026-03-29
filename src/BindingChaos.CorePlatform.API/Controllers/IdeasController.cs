@@ -3,19 +3,16 @@ using BindingChaos.CorePlatform.API.Mappings;
 using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
-using BindingChaos.Ideation.Application.Commands;
-using BindingChaos.Ideation.Application.Queries;
-using BindingChaos.Ideation.Application.ReadModels;
-using BindingChaos.Ideation.Domain.Ideas;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SignalAwareness.Application.Queries;
-using BindingChaos.SignalAwareness.Application.ReadModels;
+using BindingChaos.Stigmergy.Application.Commands;
+using BindingChaos.Stigmergy.Application.Queries;
+using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Domain.Ideas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Wolverine;
 
 namespace BindingChaos.CorePlatform.API.Controllers;
@@ -48,15 +45,8 @@ public sealed class IdeasController(IMessageBus messageBus, IPseudonymLookupServ
             return Unauthorized();
         }
 
-        var createIdeaCommand = new AuthorIdea(
-            request.Title,
-            request.Body,
-            participantId,
-            SocietyId.Create(request.SocietyId),
-            request.SourceSignalIds,
-            request.Tags);
-
-        var ideaId = await messageBus.InvokeAsync<IdeaId>(createIdeaCommand, cancellationToken).ConfigureAwait(false);
+        var command = new DraftIdea(participantId, request.Title, request.Description);
+        var ideaId = await messageBus.InvokeAsync<IdeaId>(command, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtAction(nameof(GetIdea), new { ideaId = ideaId.Value }, ideaId.Value);
     }
@@ -81,12 +71,9 @@ public sealed class IdeasController(IMessageBus messageBus, IPseudonymLookupServ
             return NotFound($"Idea with ID {ideaId} not found.");
         }
 
-        var signals = await messageBus.InvokeAsync<IReadOnlyList<SignalTitle>>(new GetSignalTitlesByIds([.. idea.SignalReferenceIds]), cancellationToken).ConfigureAwait(false);
-
-        var sourceSignals = signals.Select(s => new IdeaSourceSignal(s.SignalId, s.Title)).ToList();
         var authorPseudonym = await pseudonymService.GetPseudonymAsync(idea.AuthorId, cancellationToken).ConfigureAwait(false) ?? idea.AuthorId;
 
-        return Ok(IdeaMapper.ToIdeaResponse(idea, sourceSignals, authorPseudonym));
+        return Ok(IdeaMapper.ToIdeaResponse(idea, authorPseudonym));
     }
 
     /// <summary>

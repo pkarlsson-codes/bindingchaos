@@ -21,24 +21,12 @@ internal sealed class AuthorIdeaRequestValidator : AbstractValidator<AuthorIdeaR
             .MaximumLength(200)
             .WithMessage("Title cannot exceed 200 characters.");
 
-        RuleFor(x => x.Body)
+        RuleFor(x => x.Description)
             .NotEmpty()
-            .WithMessage("Body is required.")
+            .WithMessage("Description is required.")
             .MinimumLength(10)
-            .WithMessage("Body must be at least 10 characters long.")
+            .WithMessage("Description must be at least 10 characters long.")
             .MaximumLength(5000)
-            .WithMessage("Body cannot exceed 5000 characters.");
-
-        RuleFor(x => x.SocietyId)
-            .NotEmpty()
-            .WithMessage("SocietyId is required.");
-
-        RuleFor(x => x.Tags)
-            .NotNull()
-            .WithMessage("Tags collection must be provided.");
-
-        RuleFor(x => x.SourceSignalIds)
-            .NotNull()
-            .WithMessage("SourceSignalIds collection must be provided.");
+            .WithMessage("Description cannot exceed 5000 characters.");
     }
 }

@@ -1,7 +1,5 @@
 using BindingChaos.CorePlatform.Contracts.Responses;
-using BindingChaos.Ideation.Application.ReadModels;
-using BindingChaos.Ideation.Domain;
-using BindingChaos.Ideation.Domain.Ideas;
+using BindingChaos.Stigmergy.Application.ReadModels;
 
 namespace BindingChaos.CorePlatform.API.Mappings;
 
@@ -10,23 +8,18 @@ internal static class IdeaMapper
 {
     /// <summary>Maps a <see cref="IdeaView"/> to a <see cref="IdeaResponse"/>.</summary>
     /// <param name="idea">The idea read model to map.</param>
-    /// <param name="sourceSignals">The pre-resolved source signal titles for this idea.</param>
     /// <param name="authorPseudonym">The pseudonym for the idea's author.</param>
     /// <returns>The mapped <see cref="IdeaResponse"/>.</returns>
-    internal static IdeaResponse ToIdeaResponse(IdeaView idea, IReadOnlyList<IdeaSourceSignal> sourceSignals, string authorPseudonym)
+    internal static IdeaResponse ToIdeaResponse(IdeaView idea, string authorPseudonym)
     {
         return new IdeaResponse(
             idea.Id,
-            idea.CurrentTitle,
-            idea.CurrentBody,
-            idea.SocietyContext,
-            [.. sourceSignals],
+            idea.Title,
+            idea.Description,
             authorPseudonym,
-            OpenAmendmentCount: 0,
             idea.CreatedAt,
             idea.LastUpdatedAt,
-            [.. idea.Tags],
-            IdeaStatus.FromValue(idea.Status).DisplayName);
+            idea.Status);
     }
 
     /// <summary>Maps a <see cref="IdeasListItemView"/> to a <see cref="IdeaListItemResponse"/>.</summary>
@@ -37,13 +30,9 @@ internal static class IdeaMapper
         return new IdeaListItemResponse(
             idea.Id,
             idea.Title,
-            idea.Body,
-            idea.SocietyContext,
-            idea.SourceSignalIds,
-            idea.OpenAmendmentCount,
+            idea.Description,
             idea.CreatedAt,
             idea.LastUpdatedAt,
-            idea.Tags,
-            IdeaStatus.Published.DisplayName);
+            idea.Status);
     }
 }

@@ -14,19 +14,4 @@ public sealed class AuthorIdeaRequest
     /// The description of the idea.
     /// </summary>
     public string Description { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The tags associated with the idea.
-    /// </summary>
-    public string[] Tags { get; set; } = [];
-
-    /// <summary>
-    /// The IDs of the source signals.
-    /// </summary>
-    public string[] SourceSignalIds { get; set; } = [];
-
-    /// <summary>
-    /// The ID of the society context where the idea is being created.
-    /// </summary>
-    public string SocietyId { get; set; } = string.Empty;
 }

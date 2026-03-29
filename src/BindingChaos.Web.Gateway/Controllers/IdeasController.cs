@@ -11,54 +11,31 @@ namespace BindingChaos.Web.Gateway.Controllers;
 /// Controller for managing ideas in the web gateway.
 /// </summary>
 /// <param name="ideasApiClient">Client for interacting with the Ideas API.</param>
-/// <param name="societiesApiClient">Client for interacting with the Societies API.</param>
 [ApiController]
 [Route("api/v1/ideas")]
-public sealed class IdeasController(
-    IIdeasApiClient ideasApiClient,
-    ISocietiesApiClient societiesApiClient)
-    : BaseApiController
+public sealed class IdeasController(IIdeasApiClient ideasApiClient) : BaseApiController
 {
     /// <summary>
     /// Gets all ideas with optional filtering and pagination.
-    /// When <paramref name="filterToMySocieties"/> is <c>true</c>, results are scoped to the
-    /// authenticated participant's active society memberships. Anonymous users receive an empty list.
     /// </summary>
     /// <param name="query">Pagination and filter parameters.</param>
-    /// <param name="filterToMySocieties">When true, restricts results to the current user's societies.</param>
-    /// <returns>Paginated list of ideas with metadata.</returns>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>Paginated list of ideas with metadata.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IdeasFeedViewModel>), 200)]
     [EndpointName("getIdeas")]
     public async Task<OkObjectResult> GetIdeas(
         [FromQuery] PaginationQuerySpec<IdeasQueryFilter> query,
-        [FromQuery] bool filterToMySocieties = false,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(query);
 
-        var normalizedQuery = query.Normalize();
-
-        if (filterToMySocieties)
-        {
-            var societyIds = await societiesApiClient
-                .GetMySocietyIdsAsync(cancellationToken);
-            normalizedQuery = new PaginationQuerySpec<IdeasQueryFilter>
-            {
-                Page = normalizedQuery.Page,
-                Filter = (normalizedQuery.Filter ?? new IdeasQueryFilter()) with { SocietyIds = societyIds },
-                SortDescriptors = normalizedQuery.SortDescriptors,
-            };
-        }
-
         var result = await ideasApiClient
-            .GetIdeasAsync(normalizedQuery, cancellationToken);
+            .GetIdeasAsync(query.Normalize(), cancellationToken);
 
         var response = new IdeasFeedViewModel
         {
             Ideas = result,
-            AvailableTags = [.. result.Items.SelectMany(x => x.Tags)],
         };
 
         return Ok(response);
@@ -81,10 +58,7 @@ public sealed class IdeasController(
 
         var domainRequest = new CorePlatform.Contracts.Requests.AuthorIdeaRequest(
             request.Title,
-            request.Description,
-            request.SocietyId,
-            [.. request.SourceSignalIds],
-            [.. request.Tags]);
+            request.Description);
 
         var result = await ideasApiClient
             .AuthorIdeaAsync(domainRequest, cancellationToken);
@@ -93,11 +67,11 @@ public sealed class IdeasController(
     }
 
     /// <summary>
-    /// Gets detailed information about a specific idea including amendments and lineage.
+    /// Gets detailed information about a specific idea.
     /// </summary>
     /// <param name="ideaId">The unique identifier of the idea.</param>
-    /// <returns>Detailed idea information with amendments and lineage.</returns>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>Detailed idea information.</returns>
     [HttpGet("{ideaId}")]
     [ProducesResponseType(typeof(ApiResponse<IdeaDetailViewModel>), 200)]
     [ProducesResponseType(404)]

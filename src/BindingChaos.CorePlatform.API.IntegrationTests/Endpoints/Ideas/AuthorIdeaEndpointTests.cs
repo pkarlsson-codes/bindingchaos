@@ -42,10 +42,10 @@ public partial class AuthorIdeaEndpointTests(ApiFactory factory)
     }
 
     [Fact]
-    public async Task AuthorIdea_with_empty_body_returns_422()
+    public async Task AuthorIdea_with_empty_description_returns_422()
     {
         var client = factory.CreateClient().WithAuthToken();
-        var request = ValidAuthorIdeaRequest() with { Body = "" };
+        var request = ValidAuthorIdeaRequest() with { Description = "" };
 
         var response = await client.PostAsJsonAsync("/api/ideas", request, TestContext.Current.CancellationToken);
 
@@ -53,21 +53,10 @@ public partial class AuthorIdeaEndpointTests(ApiFactory factory)
     }
 
     [Fact]
-    public async Task AuthorIdea_with_short_body_returns_422()
+    public async Task AuthorIdea_with_short_description_returns_422()
     {
         var client = factory.CreateClient().WithAuthToken();
-        var request = ValidAuthorIdeaRequest() with { Body = "Too short" };
-
-        var response = await client.PostAsJsonAsync("/api/ideas", request, TestContext.Current.CancellationToken);
-
-        response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
-    }
-
-    [Fact]
-    public async Task AuthorIdea_with_missing_society_returns_422()
-    {
-        var client = factory.CreateClient().WithAuthToken();
-        var request = ValidAuthorIdeaRequest() with { SocietyId = "" };
+        var request = ValidAuthorIdeaRequest() with { Description = "Too short" };
 
         var response = await client.PostAsJsonAsync("/api/ideas", request, TestContext.Current.CancellationToken);
 
@@ -76,8 +65,5 @@ public partial class AuthorIdeaEndpointTests(ApiFactory factory)
 
     private static AuthorIdeaRequest ValidAuthorIdeaRequest() => new(
         Title: "A well-formed test idea title",
-        Body: "This is a sufficiently long body for the test idea to pass validation.",
-        SocietyId: "society-test-0001",
-        SourceSignalIds: [],
-        Tags: []);
+        Description: "This is a sufficiently long description for the test idea to pass validation.");
 }
