@@ -1,4 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Domain.Signals;
@@ -31,7 +32,13 @@ public class CaptureSignalHandlerTests
         [Fact]
         public async Task GivenValidCommand_WhenHandled_ThenStagesSignalAndCommits()
         {
-            var command = new CaptureSignal(ParticipantId.Generate(), "Something is happening", ["tag1", "tag2"]);
+            var command = new CaptureSignal(
+                ParticipantId.Generate(),
+                "Signal title",
+                "Something is happening",
+                ["tag1", "tag2"],
+                ["attachment1"],
+                new Coordinates(1, 2));
 
             var result = await CaptureSignalHandler.Handle(
                 command, testBed.SignalRepository.Object, testBed.UnitOfWork.Object, CancellationToken.None);

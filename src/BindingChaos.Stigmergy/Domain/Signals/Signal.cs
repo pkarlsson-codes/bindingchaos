@@ -1,5 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
 
 namespace BindingChaos.Stigmergy.Domain.Signals;
@@ -15,17 +16,35 @@ public sealed class Signal : AggregateRoot<SignalId>
     /// Capture a signal.
     /// </summary>
     /// <param name="actorId">Id of the actor capturing the signal.</param>
+    /// <param name="title">Title of the signal.</param>
     /// <param name="description">Description of the signal.</param>
     /// <param name="tags">Tags for the signal.</param>
+    /// <param name="attachmentIds">Ids of documents attached to the signal.</param>
+    /// <param name="coordinates">Optional coordinates of where the signal was captured.</param>
     /// <returns>The captured signal.</returns>
-    public static Signal Capture(ParticipantId actorId, string description, IReadOnlyList<string> tags)
+    public static Signal Capture(
+        ParticipantId actorId,
+        string title,
+        string description,
+        IReadOnlyList<string> tags,
+        IReadOnlyList<string> attachmentIds,
+        Coordinates? coordinates)
     {
         ArgumentNullException.ThrowIfNull(actorId);
         ArgumentException.ThrowIfNullOrWhiteSpace(description);
 
         var signal = new Signal();
         var aggregateId = SignalId.Generate();
-        signal.ApplyChange(new SignalCaptured(aggregateId.Value, actorId.Value, description, tags));
+        signal.ApplyChange(
+            new SignalCaptured(
+                aggregateId.Value,
+                actorId.Value,
+                title,
+                description,
+                tags,
+                attachmentIds,
+                coordinates?.Latitude,
+                coordinates?.Longitude));
         return signal;
     }
 

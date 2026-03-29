@@ -1,5 +1,6 @@
 using System.Reflection.Metadata;
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.Signals;
 
@@ -9,12 +10,18 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// Capture signal command.
 /// </summary>
 /// <param name="ActorId">Id of the actor capturing the signal.</param>
+/// <param name="Title">Title of the signal.</param>
 /// <param name="Description">Description of the signal.</param>
 /// <param name="Tags">Tags assigned to the signal.</param>
+/// <param name="AttachmentIds">Ids of documents attached to the signal.</param>
+/// <param name="Coordinates">Coordinates of where the signal was captured.</param>
 public record CaptureSignal(
     ParticipantId ActorId,
+    string Title,
     string Description,
-    IReadOnlyList<string> Tags);
+    IReadOnlyList<string> Tags,
+    IReadOnlyList<string> AttachmentIds,
+    Coordinates? Coordinates);
 
 /// <summary>
 /// A <see cref="CaptureSignal"/> command handler.
@@ -37,7 +44,13 @@ public static class CaptureSignalHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var signal = Signal.Capture(command.ActorId, command.Description, command.Tags);
+        var signal = Signal.Capture(
+            command.ActorId,
+            command.Title,
+            command.Description,
+            command.Tags,
+            command.AttachmentIds,
+            command.Coordinates);
         signalRepository.Stage(signal);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
         return signal.Id;

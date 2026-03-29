@@ -49,6 +49,11 @@ public sealed class Idea : AggregateRoot<IdeaId>
         ArgumentException.ThrowIfNullOrWhiteSpace(title);
         ArgumentException.ThrowIfNullOrWhiteSpace(description);
 
+        if (authorId != this._authorId && _status == IdeaStatus.Draft)
+        {
+            throw new ForbiddenException("Only the idea author can fork a draft.");
+        }
+
         var idea = new Idea();
         var aggregateId = IdeaId.Generate();
         idea.ApplyChange(new IdeaForked(aggregateId.Value, Id.Value, authorId.Value, title, description));

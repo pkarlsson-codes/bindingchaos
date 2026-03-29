@@ -54,10 +54,19 @@ public class IdeaTests
         private static Idea CreateDraftIdea() =>
             Idea.Draft(ParticipantId.Generate(), "Original idea", "Original description");
 
+        private static Idea CreatePublishedIdea()
+        {
+            var authorId = ParticipantId.Generate();
+            var idea = Idea.Draft(authorId, "Original idea", "Original description");
+            idea.Publish(authorId);
+            idea.UncommittedEvents.MarkAsCommitted();
+            return idea;
+        }
+
         [Fact]
         public void GivenValidInputs_WhenForked_ThenRaisesIdeaForkedEvent()
         {
-            var parent = CreateDraftIdea();
+            var parent = CreatePublishedIdea();
             var forkAuthorId = ParticipantId.Generate();
 
             var fork = parent.Fork(forkAuthorId, "Forked idea", "Forked description");
@@ -70,9 +79,19 @@ public class IdeaTests
         }
 
         [Fact]
-        public void GivenNullAuthorId_WhenForked_ThenThrowsArgumentNullException()
+        public void GivenDraftIdea_WhenForkedByNonAuthor_ThenThrowsForbiddenException()
         {
             var parent = CreateDraftIdea();
+
+            var act = () => parent.Fork(ParticipantId.Generate(), "Title", "Description");
+
+            act.Should().Throw<ForbiddenException>();
+        }
+
+        [Fact]
+        public void GivenNullAuthorId_WhenForked_ThenThrowsArgumentNullException()
+        {
+            var parent = CreatePublishedIdea();
 
             var act = () => parent.Fork(null!, "Title", "Description");
 
@@ -82,7 +101,7 @@ public class IdeaTests
         [Fact]
         public void GivenNullOrWhiteSpaceTitle_WhenForked_ThenThrowsArgumentException()
         {
-            var parent = CreateDraftIdea();
+            var parent = CreatePublishedIdea();
 
             var act = () => parent.Fork(ParticipantId.Generate(), "  ", "Description");
 
@@ -92,7 +111,7 @@ public class IdeaTests
         [Fact]
         public void GivenNullOrWhiteSpaceDescription_WhenForked_ThenThrowsArgumentException()
         {
-            var parent = CreateDraftIdea();
+            var parent = CreatePublishedIdea();
 
             var act = () => parent.Fork(ParticipantId.Generate(), "Title", "  ");
 
