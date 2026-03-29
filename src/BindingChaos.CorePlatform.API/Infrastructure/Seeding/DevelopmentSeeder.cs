@@ -1,5 +1,4 @@
 using BindingChaos.CommunityDiscourse.Infrastructure.Seeding;
-using BindingChaos.Ideation.Infrastructure.Seeding;
 using BindingChaos.Societies.Infrastructure.Seeding;
 using BindingChaos.Stigmergy.Infrastructure.Seeding;
 using Marten;
@@ -34,7 +33,6 @@ internal static class DevelopmentSeeder
         [
             new StigmergyInitialData(participants),
             new SocietiesInitialData(participants),
-            new IdeationInitialData(participants),
             new CommunityDiscourseInitialData(participants),
         ];
 

@@ -2,8 +2,6 @@ using BindingChaos.CommunityDiscourse.Infrastructure;
 using BindingChaos.CorePlatform.API.Infrastructure;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
-using BindingChaos.Ideation.Infrastructure;
-using BindingChaos.SignalAwareness.Infrastructure;
 using BindingChaos.Societies.Infrastructure;
 using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
@@ -30,8 +28,6 @@ try
     builder.Host.UseWolverine(opts =>
     {
         opts.Discovery.IncludeAssembly(typeof(CommunityDiscourseAssemblyReference).Assembly);
-        opts.Discovery.IncludeAssembly(typeof(SignalAwarenessAssemblyReference).Assembly);
-        opts.Discovery.IncludeAssembly(typeof(IdeationAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(TaggingAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(SocietiesAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(StigmergyAssemblyReference).Assembly);

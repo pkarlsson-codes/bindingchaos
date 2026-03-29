@@ -4,13 +4,9 @@ using BindingChaos.CommunityDiscourse.Infrastructure.Persistence;
 using BindingChaos.CorePlatform.API.Infrastructure.DocumentManagement;
 using BindingChaos.CorePlatform.API.Infrastructure.ExceptionHandling;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
-using BindingChaos.Ideation.Infrastructure;
-using BindingChaos.Ideation.Infrastructure.Persistence;
 using BindingChaos.IdentityProfile.Infrastructure;
 using BindingChaos.Reputation.Infrastructure;
 using BindingChaos.SharedKernel.Extensions;
-using BindingChaos.SignalAwareness.Infrastructure;
-using BindingChaos.SignalAwareness.Infrastructure.Persistence;
 using BindingChaos.Societies.Infrastructure;
 using BindingChaos.Societies.Infrastructure.Persistence;
 using BindingChaos.Stigmergy.Infrastructure;
@@ -67,8 +63,6 @@ internal static class CorePlatformServiceCollectionExtensions
         services.AddMemoryCache();
         services.AddIntegrationEventMappers(
             CommunityDiscourseAssemblyReference.Assembly,
-            SignalAwarenessAssemblyReference.Assembly,
-            IdeationAssemblyReference.Assembly,
             TaggingAssemblyReference.Assembly,
             StigmergyAssemblyReference.Assembly);
         services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
@@ -78,8 +72,6 @@ internal static class CorePlatformServiceCollectionExtensions
 
     private static IServiceCollection AddBoundedContexts(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSignalAwareness(configuration);
-        services.AddIdeation(configuration);
         services.AddTagging(configuration);
         services.AddIdentityProfile(configuration);
         services.AddCommunityDiscourse(configuration);
@@ -98,8 +90,6 @@ internal static class CorePlatformServiceCollectionExtensions
             connectionString,
             options =>
             {
-                SignalAwarenessMartenConfiguration.Configure(options);
-                IdeationMartenConfiguration.Configure(options);
                 CommunityDiscourseMartenConfiguration.Configure(options);
                 TaggingMartenConfiguration.Configure(options);
                 SocietiesMartenConfiguration.Configure(options);

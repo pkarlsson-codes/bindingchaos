@@ -1,6 +1,0 @@
-
-[**/{Commands,DTOs,Events,Queries}/*.cs]
-dotnet_diagnostic.SA1313.severity = none
-
-[**/*Spec.cs]
-dotnet_diagnostic.SA1313.severity = none

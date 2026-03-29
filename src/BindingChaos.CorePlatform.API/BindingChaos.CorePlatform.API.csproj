@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="BindingChaos.SignalAwareness.Tests" />
     <InternalsVisibleTo Include="BindingChaos.CorePlatform.API.Tests" />
   </ItemGroup>
 
@@ -26,8 +25,6 @@
     <ProjectReference Include="..\BindingChaos.CorePlatform.Contracts\BindingChaos.CorePlatform.Contracts.csproj" />
     <ProjectReference Include="..\BindingChaos.Infrastructure\BindingChaos.Infrastructure.csproj" />
     <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
-    <ProjectReference Include="..\BindingChaos.SignalAwareness\BindingChaos.SignalAwareness.csproj" />
-    <ProjectReference Include="..\BindingChaos.Ideation\BindingChaos.Ideation.csproj" />
     <ProjectReference Include="..\BindingChaos.Tagging\BindingChaos.Tagging.csproj" />
     <ProjectReference Include="..\BindingChaos.CommunityDiscourse\BindingChaos.CommunityDiscourse.csproj" />
     <ProjectReference Include="..\BindingChaos.Societies\BindingChaos.Societies.csproj" />

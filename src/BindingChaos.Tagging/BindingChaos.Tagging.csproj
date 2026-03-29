@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../BindingChaos.Stigmergy/BindingChaos.Stigmergy.csproj" />
-    <ProjectReference Include="..\BindingChaos.Ideation.Contracts\BindingChaos.Ideation.Contracts.csproj" />
+    <ProjectReference Include="..\BindingChaos.Stigmergy.Contracts\BindingChaos.Stigmergy.Contracts.csproj" />
     <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
     <ProjectReference Include="..\BindingChaos.Tagging.Contracts\BindingChaos.Tagging.Contracts.csproj" />
   </ItemGroup>
