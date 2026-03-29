@@ -1,3 +1,6 @@
+using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Infrastructure.Projections;
+using JasperFx.Events.Projections;
 using Marten;
 
 namespace BindingChaos.Stigmergy.Infrastructure.Persistence;
@@ -16,5 +19,15 @@ public static class StigmergyMartenConfiguration
     public static void Configure(StoreOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
+
+        options.Schema.For<SignalsListItemView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.CapturedAt)
+            .Duplicate(x => x.AmplificationCount)
+            .Duplicate(x => x.CapturedById)
+            .Duplicate(x => x.Title);
+
+        options.Projections.Add<SignalsListItemViewProjection>(ProjectionLifecycle.Async);
     }
 }

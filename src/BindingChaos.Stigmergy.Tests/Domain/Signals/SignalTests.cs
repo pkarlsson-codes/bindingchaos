@@ -1,4 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.Stigmergy.Domain.Signals;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
@@ -54,6 +55,77 @@ public class SignalTests
                 actorId, "Signal title"," ", tags, attachmentIds, new Coordinates(1, 2));
 
             act.Should().Throw<ArgumentException>();
+        }
+    }
+
+    public class TheAmplifyMethod
+    {
+        private static Signal CreateCapturedSignal()
+        {
+            var signal = Signal.Capture(
+                ParticipantId.Generate(), "Title", "Description", [], [], null);
+            signal.UncommittedEvents.MarkAsCommitted();
+            return signal;
+        }
+
+        [Fact]
+        public void GivenNewParticipant_WhenAmplified_ThenRaisesSignalAmplifiedEvent()
+        {
+            var sut = CreateCapturedSignal();
+            var actorId = ParticipantId.Generate();
+
+            sut.Amplify(actorId);
+
+            var e = sut.UncommittedEvents.Should().ContainSingle().Which.Should().BeOfType<SignalAmplified>().Subject;
+            e.AmplifiedById.Should().Be(actorId.Value);
+        }
+
+        [Fact]
+        public void GivenAlreadyAmplifiedByParticipant_WhenAmplifiedAgain_ThenThrowsBusinessRuleViolationException()
+        {
+            var sut = CreateCapturedSignal();
+            var actorId = ParticipantId.Generate();
+            sut.Amplify(actorId);
+            sut.UncommittedEvents.MarkAsCommitted();
+
+            var act = () => sut.Amplify(actorId);
+
+            act.Should().Throw<BusinessRuleViolationException>();
+        }
+    }
+
+    public class TheWithdrawAmplificationMethod
+    {
+        private static (Signal signal, ParticipantId amplifierId) CreateAmplifiedSignal()
+        {
+            var signal = Signal.Capture(
+                ParticipantId.Generate(), "Title", "Description", [], [], null);
+            signal.UncommittedEvents.MarkAsCommitted();
+            var amplifierId = ParticipantId.Generate();
+            signal.Amplify(amplifierId);
+            signal.UncommittedEvents.MarkAsCommitted();
+            return (signal, amplifierId);
+        }
+
+        [Fact]
+        public void GivenAmplifiedParticipant_WhenWithdrawn_ThenRaisesSignalAmplificationWithdrawnEvent()
+        {
+            var (sut, amplifierId) = CreateAmplifiedSignal();
+
+            sut.WithdrawAmplification(amplifierId);
+
+            var e = sut.UncommittedEvents.Should().ContainSingle().Which.Should().BeOfType<SignalAmplificationWithdrawn>().Subject;
+            e.AmplifierId.Should().Be(amplifierId.Value);
+        }
+
+        [Fact]
+        public void GivenParticipantWhoHasNotAmplified_WhenWithdrawn_ThenThrowsBusinessRuleViolationException()
+        {
+            var (sut, _) = CreateAmplifiedSignal();
+
+            var act = () => sut.WithdrawAmplification(ParticipantId.Generate());
+
+            act.Should().Throw<BusinessRuleViolationException>();
         }
     }
 }

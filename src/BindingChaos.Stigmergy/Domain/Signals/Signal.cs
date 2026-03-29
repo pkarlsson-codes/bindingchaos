@@ -1,5 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
+using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Domain.Geography;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
 
@@ -10,6 +11,8 @@ namespace BindingChaos.Stigmergy.Domain.Signals;
 /// </summary>
 public sealed class Signal : AggregateRoot<SignalId>
 {
+    private readonly List<Amplification> _amplifications = [];
+
     private Signal() { }
 
     /// <summary>
@@ -48,12 +51,42 @@ public sealed class Signal : AggregateRoot<SignalId>
         return signal;
     }
 
+    /// <summary>
+    /// Amplifies the signal.
+    /// </summary>
+    /// <param name="actorId">Id of actor amplifying the signal.</param>
+    public void Amplify(ParticipantId actorId)
+    {
+        if (_amplifications.Any(a => a.AmplifiedById == actorId))
+        {
+            throw new BusinessRuleViolationException("You have already amplified this signal.");
+        }
+
+        ApplyChange(new SignalAmplified(Id.Value, actorId.Value));
+    }
+
+    /// <summary>
+    /// Withdraws amplification of the signal.
+    /// </summary>
+    /// <param name="actorId">Id of actor that is withdrawing their amplification.</param>
+    public void WithdrawAmplification(ParticipantId actorId)
+    {
+        if (_amplifications.All(a => a.AmplifiedById != actorId))
+        {
+            throw new BusinessRuleViolationException("You have not amplified this signal.");
+        }
+
+        ApplyChange(new SignalAmplificationWithdrawn(Id.Value, actorId.Value));
+    }
+
     /// <inheritdoc/>
     protected override void ApplyEvent(IDomainEvent domainEvent)
     {
         switch (domainEvent)
         {
             case SignalCaptured e: Apply(e); break;
+            case SignalAmplified e: Apply(e); break;
+            case SignalAmplificationWithdrawn e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
@@ -61,5 +94,17 @@ public sealed class Signal : AggregateRoot<SignalId>
     private void Apply(SignalCaptured e)
     {
         Id = SignalId.Create(e.AggregateId);
+    }
+
+    private void Apply(SignalAmplified e)
+    {
+        var actorId = ParticipantId.Create(e.AmplifiedById);
+        _amplifications.Add(new Amplification(actorId));
+    }
+
+    private void Apply(SignalAmplificationWithdrawn e)
+    {
+        var actorId = ParticipantId.Create(e.AmplifierId);
+        _amplifications.RemoveAll(a => a.AmplifiedById == actorId);
     }
 }
