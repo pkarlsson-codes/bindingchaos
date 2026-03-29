@@ -2,36 +2,34 @@ using System.Text.Json;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Services;
 using BindingChaos.SharedKernel.Infrastructure.Services;
-using BindingChaos.SignalAwareness.Domain.Evidence;
-using BindingChaos.SignalAwareness.Domain.Signals;
-using BindingChaos.SignalAwareness.Domain.SuggestedActions;
+using BindingChaos.Stigmergy.Domain.Signals;
 using Marten;
 using Marten.Schema;
 
-namespace BindingChaos.SignalAwareness.Infrastructure.Seeding;
+namespace BindingChaos.Stigmergy.Infrastructure.Seeding;
 
 /// <summary>
-/// Development-only initial data seeding for Signal Awareness using Marten's initial data hook.
+/// Development-only initial data seeding for Stigmergy using Marten's initial data hook.
 /// Seeds signal events using aggregates to ensure domain logic integrity.
 /// Seed content is loaded from the embedded seed-data.json resource.
 /// </summary>
-public sealed class SignalAwarenessInitialData : IInitialData
+public sealed class StigmergyInitialData : IInitialData
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     private readonly ParticipantId[] _participants;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SignalAwarenessInitialData"/> class.
+    /// Initializes a new instance of the <see cref="StigmergyInitialData"/> class.
     /// </summary>
     /// <param name="participants">The ordered participant array shared across all seeders.</param>
-    public SignalAwarenessInitialData(ParticipantId[] participants)
+    public StigmergyInitialData(ParticipantId[] participants)
     {
         _participants = participants;
     }
 
     /// <summary>
-    /// Populates initial development data for Signal Awareness.
+    /// Populates initial development data for Stigmergy.
     /// </summary>
     /// <param name="store">The Marten document store.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
@@ -68,43 +66,20 @@ public sealed class SignalAwarenessInitialData : IInitialData
                 timeProvider.AdvanceHours(random.Next(2, 16));
 
                 var signal = Signal.Capture(
-                    SignalContent.Create(signalDto.Title, signalDto.Description),
                     _participants[signalDto.OriginatorIndex],
-                    null,
+                    signalDto.Title,
+                    signalDto.Description,
                     signalDto.Tags,
-                    []);
+                    [],
+                    null);
 
                 foreach (var amp in signalDto.Amplifications)
                 {
                     timeProvider.AdvanceHours(random.Next(1, 24));
-                    signal.Amplify(
-                        _participants[amp.ParticipantIndex],
-                        AmplificationReason.FromDisplayName(amp.Reason),
-                        amp.Comment);
+                    signal.Amplify(_participants[amp.ParticipantIndex]);
                 }
 
                 session.Events.Append(signal.Id.Value, [.. signal.UncommittedEvents]);
-
-                foreach (var actionDto in signalDto.SuggestedActions)
-                {
-                    timeProvider.AdvanceHours(random.Next(1, 12));
-                    var suggestedBy = _participants[actionDto.ParticipantIndex];
-                    var action = actionDto.Type switch
-                    {
-                        "MakeACall" => SuggestedAction.SuggestMakeACall(signal.Id, actionDto.PhoneNumber!, actionDto.Details, suggestedBy),
-                        "VisitAWebpage" => SuggestedAction.SuggestVisitAWebsite(signal.Id, actionDto.Url!, actionDto.Details, suggestedBy),
-                        _ => throw new InvalidOperationException($"Unknown suggested action type: {actionDto.Type}")
-                    };
-                    session.Events.Append(action.Id.Value, [.. action.UncommittedEvents]);
-                }
-
-                foreach (var evidenceDto in signalDto.Evidence)
-                {
-                    timeProvider.AdvanceHours(random.Next(1, 12));
-                    var addedBy = _participants[evidenceDto.ParticipantIndex];
-                    var evidence = Evidence.Add(signal.Id, evidenceDto.DocumentIds, evidenceDto.Description, addedBy);
-                    session.Events.Append(evidence.Id.Value, [.. evidence.UncommittedEvents]);
-                }
 
                 await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -117,8 +92,8 @@ public sealed class SignalAwarenessInitialData : IInitialData
 
     private static async Task<SignalSeedData> LoadSeedDataAsync(CancellationToken cancellationToken)
     {
-        var stream = typeof(SignalAwarenessInitialData).Assembly
-            .GetManifestResourceStream("BindingChaos.SignalAwareness.Infrastructure.Seeding.seed-data.json")
+        var stream = typeof(StigmergyInitialData).Assembly
+            .GetManifestResourceStream("BindingChaos.Stigmergy.Infrastructure.Seeding.seed-data.json")
             ?? throw new InvalidOperationException("seed-data.json embedded resource not found in SignalAwareness assembly.");
 
 #pragma warning disable CA2007

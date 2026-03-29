@@ -40,4 +40,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\Seeding\seed-data.json" />
+  </ItemGroup>
+  
 </Project>

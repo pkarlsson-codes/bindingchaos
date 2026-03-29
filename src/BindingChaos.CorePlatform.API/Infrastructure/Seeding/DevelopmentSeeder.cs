@@ -1,7 +1,7 @@
 using BindingChaos.CommunityDiscourse.Infrastructure.Seeding;
 using BindingChaos.Ideation.Infrastructure.Seeding;
-using BindingChaos.SignalAwareness.Infrastructure.Seeding;
 using BindingChaos.Societies.Infrastructure.Seeding;
+using BindingChaos.Stigmergy.Infrastructure.Seeding;
 using Marten;
 using Marten.Schema;
 using Minio;
@@ -32,7 +32,7 @@ internal static class DevelopmentSeeder
 
         IInitialData[] seeders =
         [
-            new SignalAwarenessInitialData(participants),
+            new StigmergyInitialData(participants),
             new SocietiesInitialData(participants),
             new IdeationInitialData(participants),
             new CommunityDiscourseInitialData(participants),
