@@ -27,6 +27,9 @@ public sealed class Concern : AggregateRoot<ConcernId>
         string name,
         IReadOnlyList<SignalId> signalIds)
     {
+        ArgumentNullException.ThrowIfNull(actorId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
         var concern = new Concern();
         var concernId = ConcernId.Generate();
         IReadOnlyList<string> signalIdValues = [..signalIds.Select(i => i.Value)];
