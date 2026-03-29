@@ -1,4 +1,5 @@
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
+using BindingChaos.Stigmergy.Domain.Ideas;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using BindingChaos.Stigmergy.Infrastructure.Persistence;
@@ -23,6 +24,7 @@ public static class StigmergyServiceCollectionExtensions
         services.AddScoped<ICommonsRepository, CommonsRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IIdeaRepository, IdeaRepository>();
         return services;
     }
 }
