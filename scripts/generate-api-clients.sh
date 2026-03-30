@@ -24,10 +24,18 @@ dotnet tool update --global NSwag.ConsoleCore 2>/dev/null \
     || dotnet tool install --global NSwag.ConsoleCore
 
 echo "Generating OpenAPI spec via NSwag..."
-nswag aspnetcore2openapi \
-    /project:"$CSPROJ_PATH" \
-    /output:"$PROJECT_ROOT/$OUTPUT_PATH" \
-    /configuration:"$CONFIGURATION"
+if command -v cygpath &>/dev/null; then
+    NSWAG_PROJECT="$(cygpath -w "$CSPROJ_PATH")"
+    NSWAG_OUTPUT="$(cygpath -w "$PROJECT_ROOT/$OUTPUT_PATH")"
+else
+    NSWAG_PROJECT="$CSPROJ_PATH"
+    NSWAG_OUTPUT="$PROJECT_ROOT/$OUTPUT_PATH"
+fi
+MSYS_NO_PATHCONV=1 nswag aspnetcore2openapi \
+    /project:"$NSWAG_PROJECT" \
+    /output:"$NSWAG_OUTPUT" \
+    /configuration:"$CONFIGURATION" \
+    /aspNetCoreEnvironment:Development
 
 FRONTEND_PATH="$PROJECT_ROOT/src/BindingChaos.Web"
 if [ ! -d "$FRONTEND_PATH/node_modules" ]; then
