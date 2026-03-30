@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
-    <PackageReference Include="Marten" Version="8.22.2" />
+    <PackageReference Include="Marten" Version="8.23.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
@@ -30,7 +30,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="WolverineFx.Marten" Version="5.17.0" />
+    <PackageReference Include="WolverineFx.Marten" Version="5.19.1" />
   </ItemGroup>
 
   <ItemGroup>
