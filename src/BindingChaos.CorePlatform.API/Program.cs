@@ -1,12 +1,15 @@
 using BindingChaos.CommunityDiscourse.Infrastructure;
 using BindingChaos.CorePlatform.API.Infrastructure;
+using BindingChaos.CorePlatform.API.Infrastructure.Configuration;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
 using BindingChaos.Societies.Infrastructure;
+using BindingChaos.Stigmergy.Contracts;
 using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
 using Serilog;
 using Wolverine;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +28,23 @@ try
     builder.Services.AddConfiguredCors(builder.Configuration);
     builder.Services.AddCorePlatformServices(builder.Configuration, builder.Environment);
 
+    var rabbitMqOptions = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>() ?? new RabbitMqOptions();
+
     builder.Host.UseWolverine(opts =>
     {
+        opts.UseRabbitMq(rabbit =>
+        {
+            rabbit.HostName = rabbitMqOptions.Host;
+            rabbit.Port = rabbitMqOptions.Port;
+            rabbit.UserName = rabbitMqOptions.Username;
+            rabbit.Password = rabbitMqOptions.Password;
+        }).AutoProvision();
+
+        opts.PublishMessage<SignalCapturedIntegrationEvent>()
+            .ToRabbitQueue("signal-processing");
+
+        opts.ListenToRabbitQueue("clusters-identified");
+
         opts.Discovery.IncludeAssembly(typeof(CommunityDiscourseAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(TaggingAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(SocietiesAssemblyReference).Assembly);
