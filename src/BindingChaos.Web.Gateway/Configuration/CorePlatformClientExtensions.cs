@@ -50,6 +50,8 @@ internal static class CorePlatformClientExtensions
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
         services.AddTrustInviteLinksApiClient(corePlatformBaseAddress)
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
+        services.AddEmergingPatternsApiClient(corePlatformBaseAddress)
+            .AddHttpMessageHandler<InternalGatewayAuthHandler>();
 
         return services;
     }
