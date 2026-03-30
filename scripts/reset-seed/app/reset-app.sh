@@ -32,7 +32,7 @@ reset_app_data() {
 
     echo "[Reset:app] Creating signal_processing schema and embeddings table..."
     execute_postgres_sql "$POSTGRES_DB" \
-        "CREATE SCHEMA signal_processing; CREATE TABLE signal_processing.signal_embeddings (signal_id UUID PRIMARY KEY, embedding vector(384));"
+        "CREATE SCHEMA signal_processing; CREATE TABLE signal_processing.signal_embeddings (signal_id TEXT PRIMARY KEY, embedding vector(384));"
 
     echo "[Reset:app] Re-applying EF migrations for EF-backed contexts..."
     dotnet ef database update \
