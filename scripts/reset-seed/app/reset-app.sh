@@ -14,6 +14,7 @@ reset_app_data() {
         "documents"
         "identity_profile"
         "societies"
+        "signal_processing"
     )
 
     local schema
@@ -25,6 +26,13 @@ reset_app_data() {
     echo "[Reset:app] Dropping and recreating public schema..."
     execute_postgres_sql "$POSTGRES_DB" \
         "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public AUTHORIZATION pg_database_owner;"
+
+    echo "[Reset:app] Enabling pgvector extension..."
+    execute_postgres_sql "$POSTGRES_DB" "CREATE EXTENSION IF NOT EXISTS vector;"
+
+    echo "[Reset:app] Creating signal_processing schema and embeddings table..."
+    execute_postgres_sql "$POSTGRES_DB" \
+        "CREATE SCHEMA signal_processing; CREATE TABLE signal_processing.signal_embeddings (signal_id UUID PRIMARY KEY, embedding vector(384));"
 
     echo "[Reset:app] Re-applying EF migrations for EF-backed contexts..."
     dotnet ef database update \
