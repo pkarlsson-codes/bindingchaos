@@ -79,6 +79,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reputation", "Reputation", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingChaos.Stigmergy.Contracts", "BindingChaos.Stigmergy.Contracts\BindingChaos.Stigmergy.Contracts.csproj", "{05E4DBCE-D7C2-4CF6-B76E-5BB3ECBD6016}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingChaos.SignalProcessing", "BindingChaos.SignalProcessing\BindingChaos.SignalProcessing.csproj", "{A8BCD152-5068-43F2-989F-1A1BE86E156A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -365,6 +367,18 @@ Global
 		{05E4DBCE-D7C2-4CF6-B76E-5BB3ECBD6016}.Release|x64.Build.0 = Release|Any CPU
 		{05E4DBCE-D7C2-4CF6-B76E-5BB3ECBD6016}.Release|x86.ActiveCfg = Release|Any CPU
 		{05E4DBCE-D7C2-4CF6-B76E-5BB3ECBD6016}.Release|x86.Build.0 = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|x64.Build.0 = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Debug|x86.Build.0 = Debug|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|x64.ActiveCfg = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|x64.Build.0 = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|x86.ActiveCfg = Release|Any CPU
+		{A8BCD152-5068-43F2-989F-1A1BE86E156A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
