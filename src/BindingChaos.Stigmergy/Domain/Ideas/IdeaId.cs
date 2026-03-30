@@ -7,7 +7,7 @@ namespace BindingChaos.Stigmergy.Domain.Ideas;
 /// </summary>
 public class IdeaId : EntityId<IdeaId>
 {
-    private const string Prefix = "stigmergyidea";
+    private const string Prefix = "idea";
 
     private IdeaId(string value)
         : base(value, Prefix)

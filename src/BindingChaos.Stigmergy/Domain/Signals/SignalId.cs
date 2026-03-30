@@ -7,7 +7,7 @@ namespace BindingChaos.Stigmergy.Domain.Signals;
 /// </summary>
 public class SignalId : EntityId<SignalId>
 {
-    private const string Prefix = "stigmergysignal";
+    private const string Prefix = "signal";
 
     private SignalId(string value)
         : base(value, Prefix)

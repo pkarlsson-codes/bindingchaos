@@ -8,7 +8,7 @@ namespace BindingChaos.Stigmergy.Infrastructure.Projections;
 /// <summary>
 /// Projects amplification data points into the read model view.
 /// </summary>
-internal sealed class AmplificationDataPointViewProjection
+internal sealed class AmplificationTrendViewProjection
 : SingleStreamProjection<AmplificationTrendView, string>
 {
     /// <summary>

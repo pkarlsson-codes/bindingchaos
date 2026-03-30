@@ -30,5 +30,4 @@ public class AmplificationTrendView
         /// </summary>
         required public bool IsAmplified { get; set; }
     }
-
 }

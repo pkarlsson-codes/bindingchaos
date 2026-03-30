@@ -62,7 +62,13 @@ public static class StigmergyMartenConfiguration
             .Identity(x => x.SignalId)
             .DatabaseSchemaName(StigmergySchemaName);
 
-        options.Projections.Add<AmplificationDataPointViewProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<AmplificationTrendViewProjection>(ProjectionLifecycle.Async);
 
+        options.Schema.For<EmergingPatternView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.ClusterLabel)
+            .Duplicate(x => x.SignalCount)
+            .Duplicate(x => x.LastUpdatedAt);
     }
 }
