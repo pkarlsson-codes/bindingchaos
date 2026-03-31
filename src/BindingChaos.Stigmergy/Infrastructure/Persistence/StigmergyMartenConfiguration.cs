@@ -70,5 +70,12 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.ClusterLabel)
             .Duplicate(x => x.SignalCount)
             .Duplicate(x => x.LastUpdatedAt);
+
+        options.Schema.For<ConcernsListItemView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.RaisedById);
+
+        options.Projections.Add<ConcernsListItemViewProjection>(ProjectionLifecycle.Async);
     }
 }

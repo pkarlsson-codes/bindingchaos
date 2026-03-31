@@ -1,27 +1,37 @@
-using System.Security.Cryptography.X509Certificates;
 using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.Concerns.Events;
-using Marten.Events.Aggregation;
+using Marten;
+using Marten.Events.Projections;
 
 namespace BindingChaos.Stigmergy.Infrastructure.Projections;
 
 /// <summary>
 /// Projection for <see cref="ConcernsListItemView"/>.
 /// </summary>
-internal sealed class ConcernsListItemViewProjection
-: SingleStreamProjection<ConcernsListItemView, string>
+internal sealed class ConcernsListItemViewProjection : EventProjection
 {
     /// <summary>
-    /// Creates a new <see cref="ConcernsListItemView"/> from a <see cref="ConcernRaised"/> event.
+    /// Creates a new <see cref="ConcernsListItemView"/> from a <see cref="ConcernRaised"/> event,
+    /// enriching signal references with titles loaded from <see cref="SignalsListItemView"/>.
     /// </summary>
-    /// <param name="e">The <see cref="ConcernRaised"/> event to create the read model from.</param>
-    /// <returns>A new <see cref="ConcernsListItemView"/> representing the concern raised event.</returns>
-    public static ConcernsListItemView Create(ConcernRaised e) => new()
+    /// <param name="e">The <see cref="ConcernRaised"/> event.</param>
+    /// <param name="ops">The document operations used to load signal data and store the view.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task Project(ConcernRaised e, IDocumentOperations ops)
     {
-        Id = e.AggregateId,
-        RaisedById = e.ActorId,
-        Name = e.Name,
-        Tags = [.. e.Tags],
-        SignalIds = [.. e.SignalIds],
-    };
+        var signals = await ops
+            .LoadManyAsync<SignalsListItemView>(e.SignalIds.ToArray())
+            .ConfigureAwait(false);
+
+        ops.Store(new ConcernsListItemView
+        {
+            Id = e.AggregateId,
+            RaisedById = e.ActorId,
+            Name = e.Name,
+            Tags = [.. e.Tags],
+            Signals = [.. signals
+                .Where(s => s is not null)
+                .Select(s => new ConcernsListItemView.ReferenceSignal { Id = s.Id, Title = s.Title })],
+        });
+    }
 }
