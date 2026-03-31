@@ -1,8 +1,6 @@
-import { useCallback, useMemo, useEffect } from 'react';
-import { Button } from '../../../../shared/components/layout/Button';
+import { useState, useEffect, useRef } from 'react';
 import { BoltIcon } from '@heroicons/react/24/outline';
-import { AmplifyCommentaryForm } from './AmplifyCommentaryForm';
-import { DeamplifyInlineConfirmation } from './DeamplifyInlineConfirmation';
+import { Button } from '../../../../shared/components/layout/Button';
 import { AuthRequiredButton } from '../../../../features/auth';
 import { useAmplifyState } from './useAmplifyState';
 
@@ -15,149 +13,106 @@ export interface AmplifyButtonProps {
   className?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
-  reason?: string;
 }
 
+type ConfirmState = 'none' | 'confirm-amplify' | 'confirm-withdraw';
 
-
-export function AmplifyButton({ 
-  signalId, 
-  amplifyCount = 0, 
+export function AmplifyButton({
+  signalId,
+  amplifyCount = 0,
   isAmplifiedByCurrentUser = false,
   isOriginator = false,
   size = 'sm',
   className = '',
   onSuccess,
   onError,
-  reason = 'HighRelevance'
 }: AmplifyButtonProps) {
-  
-  const {
-    // State from custom hook
-    amplifyCount: localAmplifyCount,
-    isAmplified: localIsAmplified,
-    isPending,
-    showCommentary,
-    showDeamplifyConfirm,
-    
-    // Actions
-    setShowCommentary,
-    setShowDeamplifyConfirm,
-    updateFromProps,
-    
-    // Mutations
-    amplifySignalMutation,
-    deamplifySignalMutation
-  } = useAmplifyState({
+  const { amplifyCount: localCount, isAmplified, isPending, amplify, deamplify } = useAmplifyState({
     signalId,
     initialAmplifyCount: amplifyCount,
     initialIsAmplified: isAmplifiedByCurrentUser,
-    reason,
-    onSuccess,
-    onError
+    onAmplifySuccess: onSuccess,
+    onDeamplifySuccess: onSuccess,
+    onAmplifyError: onError,
+    onDeamplifyError: onError,
   });
 
-  // Update state when props change (e.g., from query refetch)
+  const [confirmState, setConfirmState] = useState<ConfirmState>('none');
+  const [isHovering, setIsHovering] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    updateFromProps(amplifyCount, isAmplifiedByCurrentUser);
-  }, [amplifyCount, isAmplifiedByCurrentUser, updateFromProps]);
+    if (!isPending) setConfirmState('none');
+  }, [isPending]);
 
-  const handleAmplifyClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    
-    if (localIsAmplified) {
-      if (showDeamplifyConfirm) {
-        // Execute deamplify
-        deamplifySignalMutation.mutate();
-      } else {
-        // Show deamplify confirmation
-        setShowDeamplifyConfirm(true);
+  const phase = confirmState !== 'none' ? confirmState : isAmplified ? 'amplified' : 'idle';
+
+  useEffect(() => {
+    if (confirmState === 'none') return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setConfirmState('none');
       }
-    } else if (showCommentary) {
-      amplifySignalMutation.mutate('');
-    } else {
-      setShowCommentary(true);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [confirmState]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (phase === 'idle') {
+      setConfirmState('confirm-amplify');
+    } else if (phase === 'confirm-amplify') {
+      amplify();
+    } else if (phase === 'amplified') {
+      setConfirmState('confirm-withdraw');
+    } else if (phase === 'confirm-withdraw') {
+      deamplify();
     }
-  }, [localIsAmplified, showCommentary, showDeamplifyConfirm, amplifySignalMutation, deamplifySignalMutation, setShowCommentary, setShowDeamplifyConfirm]);
+  };
 
-  const handleCommentarySubmit = useCallback((commentary: string) => {
-    amplifySignalMutation.mutate(commentary);
-  }, [amplifySignalMutation]);
+  const label = (() => {
+    if (phase === 'confirm-amplify') return 'Confirm?';
+    if (phase === 'amplified') return isHovering ? 'Withdraw?' : 'Amplified';
+    if (phase === 'confirm-withdraw') return 'Confirm?';
+    return 'Amplify';
+  })();
 
-  const handleCommentaryCancel = useCallback(() => {
-    setShowCommentary(false);
-  }, [setShowCommentary]);
+  const variant = (() => {
+    if (phase === 'confirm-withdraw') return 'danger' as const;
+    if (phase === 'amplified') return 'outline' as const;
+    return 'primary' as const;
+  })();
 
-
-
-  const handleDeamplifyCancel = useCallback(() => {
-    setShowDeamplifyConfirm(false);
-  }, [setShowDeamplifyConfirm]);
-
-  // Memoized button content
-  const buttonContent = useMemo(() => {
-    return (
-      <>
-        {localIsAmplified ? (
-          <>
-            <BoltIcon className="w-4 h-4" aria-hidden="true" />
-            <span>{showDeamplifyConfirm ? 'Confirm' : 'Deamplify'}</span>
-          </>
-        ) : (
-          <>
-            <BoltIcon className="w-4 h-4" aria-hidden="true" />
-            <span>Amplify</span>
-          </>
-        )}
-        {localAmplifyCount > 0 && (
-          <span 
-            className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-medium ${
-              isPending 
-                ? 'bg-primary-foreground/10 animate-pulse' 
-                : 'bg-primary-foreground/20'
-            }`}
-            aria-label={`${localAmplifyCount} amplifications`}
-          >
-            {isPending ? '...' : localAmplifyCount}
-          </span>
-        )}
-      </>
-    );
-  }, [localIsAmplified, showDeamplifyConfirm, localAmplifyCount, isPending]);
+  const extraClassName = phase === 'confirm-amplify'
+    ? 'border-green-500 bg-green-600 hover:bg-green-700 text-white'
+    : '';
 
   return (
-    <div className="relative">
-      <AuthRequiredButton action={localIsAmplified ? "deamplify this signal" : "amplify this signal"}>
+    <div ref={containerRef} className="relative inline-block">
+      <AuthRequiredButton action={isAmplified ? 'deamplify this signal' : 'amplify this signal'}>
         <Button
-          onClick={handleAmplifyClick}
+          onClick={handleClick}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
           size={size}
-          variant={localIsAmplified && showDeamplifyConfirm ? "danger" : localIsAmplified ? "outline" : "primary"}
+          variant={variant}
           disabled={isPending || isOriginator}
-          className={`flex items-center gap-2 ${className}`}
-          aria-label={`${localIsAmplified ? (showDeamplifyConfirm ? 'Confirm deamplify' : 'Deamplify') : 'Amplify'} signal${localAmplifyCount > 0 ? ` (${localAmplifyCount} amplifications)` : ''}`}
-          aria-expanded={showCommentary || showDeamplifyConfirm}
-          aria-haspopup="dialog"
-          data-amplify-button
+          loading={isPending}
+          className={`flex items-center gap-2 ${extraClassName} ${className}`}
+          aria-label={`${label} signal`}
         >
-          {buttonContent}
+          <BoltIcon className="w-4 h-4" aria-hidden="true" />
+          <span>{label}</span>
+          {localCount > 0 && (
+            <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs font-medium bg-current/20">
+              {localCount}
+            </span>
+          )}
         </Button>
       </AuthRequiredButton>
-
-      {showCommentary && (
-        <AmplifyCommentaryForm
-          signalId={signalId}
-          onSubmit={handleCommentarySubmit}
-          onCancel={handleCommentaryCancel}
-          isSubmitting={isPending}
-        />
-      )}
-
-      {showDeamplifyConfirm && (
-        <DeamplifyInlineConfirmation
-          onCancel={handleDeamplifyCancel}
-          isSubmitting={isPending}
-        />
-      )}
     </div>
   );
-} 
+}

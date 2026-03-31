@@ -1,11 +1,9 @@
 import type { SignalDetailViewModel } from '../../../api/models';
-import { Button } from '../../../shared/components/layout/Button';
 import { Card } from '../../../shared/components/layout/Card';
 import { TagBag } from '../../tags/components/TagBag';
 import { Icon } from '../../../shared/components/layout/Icon';
 import { SafeHtmlRenderer } from '../../../shared/components/feedback/SafeHtmlRenderer';
 import { AmplifyButtonWithErrorBoundary } from './amplify-button';
-import { AuthRequiredButton } from '../../auth';
 import { AttachmentGallery } from './AttachmentGallery';
 
 interface SignalDetailsCardProps {
@@ -76,22 +74,6 @@ export function SignalDetailsCard({ signalDetail, onProposeIdea }: SignalDetails
               </div>
             )}
           </div>
-
-          {/* Propose Idea Button */}
-          {onProposeIdea && (
-            <div className="ml-auto">
-              <AuthRequiredButton action="propose an idea">
-                <Button
-                  onClick={onProposeIdea}
-                  variant="primary"
-                  size="sm"
-                  icon="lightbulb"
-                >
-                  I have an idea
-                </Button>
-              </AuthRequiredButton>
-            </div>
-          )}
         </div>
       }
     />

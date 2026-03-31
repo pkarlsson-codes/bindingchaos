@@ -8,11 +8,11 @@ import { SignalFeed } from '../features/signals/components/SignalFeed';
 import { SignalDetailsPage } from '../features/signals/components/SignalDetailsPage';
 import { IdeasPage } from '../features/ideas/components/IdeasPage';
 import { IdeaDetailsPage } from '../features/ideas/components/IdeaDetailsPage';
-import { ProposeAmendmentPage } from '../features/amendments/components/ProposeAmendmentPage';
-import { AmendmentDetailsPage } from '../features/amendments/components/AmendmentDetailsPage';
 import { SocietiesPage } from '../features/societies/components/SocietiesPage';
 import { SocietyDetailPage } from '../features/societies/components/SocietyDetailPage';
 import { InvitePage } from '../features/trust/components/InvitePage';
+import { EmergingPatternsPage } from '../features/emerging-patterns/components/EmergingPatternsPage';
+import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
 
 import {
   AuthProvider,
@@ -52,12 +52,14 @@ function App() {
                       {/* Ideas */}
                       <Route path="/ideas" element={<IdeasPage />} />
                       <Route path="/ideas/:ideaId" element={<IdeaDetailsPage />} />
-                      <Route path="/ideas/:ideaId/amendments/new" element={<ProposeAmendmentPage />} />
-                      <Route path="/ideas/:ideaId/amendments/:amendmentId" element={<AmendmentDetailsPage />} />
 
                       {/* Societies */}
                       <Route path="/societies" element={<SocietiesPage />} />
                       <Route path="/societies/:societyId" element={<SocietyDetailPage />} />
+
+                      {/* Emerging Patterns */}
+                      <Route path="/patterns" element={<EmergingPatternsPage />} />
+                      <Route path="/patterns/:clusterLabel" element={<EmergingPatternDetailsPage />} />
 
                       {/* Invites */}
                       <Route path="/invite/:token" element={<InvitePage />} />

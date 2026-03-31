@@ -4,14 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
 import { Button } from '../../../shared/components/ui/button';
 import { Card } from '../../../shared/components/layout/Card';
-import type { IdeaDetailViewModel, AmendmentsListItemResponse } from '../../../api/models';
 import { IdeaDetailsCard } from './IdeaDetailsCard';
 import { CommentsCard } from '../../comments';
-import { AmendmentsCard } from './AmendmentsCard';
-import { SupportStatisticsCard } from './SupportStatisticsCard';
-import { SupportHistoryCard } from './SupportHistoryCard';
-import { AuthRequiredButton } from '../../auth';
-import { CreateActionOpportunityModal } from '../../actions/components/CreateActionOpportunityModal';
 
 export function IdeaDetailsPage() {
   const navigate = useNavigate();
@@ -71,16 +65,8 @@ export function IdeaDetailsPage() {
     );
   }
 
-
-
-  // TODO: Calculate support/opposition totals from amendments data
-  // For now, we'll set these to 0 and update the calculation when we have the data
-  const totalSupporters = 0;
-  const totalOpponents = 0;
-
   return (
     <div className="space-y-6">
-      {/* Header with back button */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button onClick={() => navigate(`/ideas`)} variant="ghost" size="sm">
@@ -88,61 +74,19 @@ export function IdeaDetailsPage() {
           </Button>
           <h1 className="text-2xl font-bold text-foreground">{ideaDetail.idea?.title}</h1>
         </div>
-        <div className="flex gap-2">
-          <AuthRequiredButton action="create an action opportunity">
-            <Button onClick={() => setShowCreateActionOpportunity(true)}>
-              Create Action Opportunity
-            </Button>
-          </AuthRequiredButton>
-          <AuthRequiredButton action="propose an amendment">
-            <Button onClick={() => navigate(`/ideas/${ideaId}/amendments/new`)}>
-              Propose Amendment
-            </Button>
-          </AuthRequiredButton>
-        </div>
       </div>
 
-      {/* Main content - Two column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left column - Wide (3/4) */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Idea details card */}
-          <IdeaDetailsCard 
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+        <IdeaDetailsCard 
             idea={ideaDetail.idea!}
           />
 
-          {/* Comment threads */}
           <CommentsCard
             entityType="idea"
             entityId={ideaId!}
             allowEditing={true}
           />
-        </div>
-
-        {/* Right column - Narrow (1/4) */}
-        <div className="space-y-6">
-          {/* Amendments list */}
-          <AmendmentsCard />
-
-          {/* Support/opposition statistics */}
-          <SupportStatisticsCard 
-            totalSupporters={totalSupporters}
-            totalOpponents={totalOpponents}
-          />
-
-          {/* Historical support graph placeholder */}
-          <SupportHistoryCard />
-        </div>
       </div>
-
-      {/* Create Action Opportunity Modal */}
-      {ideaDetail && (
-        <CreateActionOpportunityModal
-          isOpen={showCreateActionOpportunity}
-          onClose={() => setShowCreateActionOpportunity(false)}
-          idea={ideaDetail}
-        />
-      )}
     </div>
   );
 } 

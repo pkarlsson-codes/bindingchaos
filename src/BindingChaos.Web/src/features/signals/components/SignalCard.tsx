@@ -35,7 +35,6 @@ export function SignalCard({ signal }: SignalCardProps) {
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">
-          {/* Main content area */}
           <div className="flex-1">
             <p className="text-muted-foreground mb-4">{signal.description}</p>
             <div className="flex gap-2">

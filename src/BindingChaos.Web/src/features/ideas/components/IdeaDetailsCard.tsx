@@ -29,7 +29,7 @@ export function IdeaDetailsCard({ idea }: IdeaDetailsCardProps) {
       </CardHeader>
       <CardContent>
         <div className="prose prose-sm max-w-none mb-6">
-          <p className="text-muted-foreground">{idea.body}</p>
+          <p className="text-muted-foreground">{idea.description}</p>
         </div>
         
         <div className="flex justify-between items-center">

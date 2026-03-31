@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
-import { IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi, ActionOpportunitiesApi, AmendmentsApi, SocietiesApi, Configuration } from '@/api';
+import {
+  IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi, SocietiesApi,
+  EmergingPatternsApi, Configuration
+} from '@/api';
 import { API_CONFIG } from '@/config/api';
 import { useOptionalAuth } from '../../features/auth/contexts/AuthContext';
 
@@ -73,9 +76,8 @@ export function useApiClient() {
       discourse: new DiscourseApi(config),
       tags: new TagsApi(config),
       auth: new AuthApi(config),
-      actionOpportunities: new ActionOpportunitiesApi(config),
-      amendments: new AmendmentsApi(config),
       societies: new SocietiesApi(config),
+      emergingPatterns: new EmergingPatternsApi(config),
     };
   }, [user]);
 

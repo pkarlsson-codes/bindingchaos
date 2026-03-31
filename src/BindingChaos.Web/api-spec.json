@@ -130,7 +130,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostsViewModel"
+                  "$ref": "#/components/schemas/ApiEnvelopeOfPostsViewModel"
                 }
               }
             }
@@ -194,7 +194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ApiEnvelopeOfString"
                 }
               }
             }
@@ -282,7 +282,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostsViewModel"
+                  "$ref": "#/components/schemas/ApiEnvelopeOfPostsViewModel"
                 }
               }
             }
@@ -380,7 +380,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostRepliesViewModel"
+                  "$ref": "#/components/schemas/ApiEnvelopeOfPostRepliesViewModel"
                 }
               }
             }
@@ -454,7 +454,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ApiEnvelopeOfString"
                 }
               }
             }
@@ -1877,6 +1877,31 @@
           }
         }
       },
+      "ApiEnvelopeOfPostsViewModel": {
+        "type": "object",
+        "description": "Generic API response envelope that wraps data with metadata.",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for the request."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp when the response was generated.",
+            "format": "date-time"
+          },
+          "data": {
+            "description": "The actual data payload.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PostsViewModel"
+              }
+            ]
+          }
+        }
+      },
       "PostsViewModel": {
         "type": "object",
         "description": "Represents posts for a specific thread in the gateway with cursor-based pagination.",
@@ -2026,6 +2051,31 @@
           "Backward"
         ]
       },
+      "ApiEnvelopeOfPostRepliesViewModel": {
+        "type": "object",
+        "description": "Generic API response envelope that wraps data with metadata.",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for the request."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp when the response was generated.",
+            "format": "date-time"
+          },
+          "data": {
+            "description": "The actual data payload.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PostRepliesViewModel"
+              }
+            ]
+          }
+        }
+      },
       "PostRepliesViewModel": {
         "type": "object",
         "description": "Represents replies to a post with cursor-based pagination.",
@@ -2131,6 +2181,27 @@
           "hasMoreReplies": {
             "type": "boolean",
             "description": "Gets or sets whether there are nested replies."
+          }
+        }
+      },
+      "ApiEnvelopeOfString": {
+        "type": "object",
+        "description": "Generic API response envelope that wraps data with metadata.",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for the request."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp when the response was generated.",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "string",
+            "description": "The actual data payload.",
+            "nullable": true
           }
         }
       },

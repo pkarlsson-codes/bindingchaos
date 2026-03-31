@@ -35,7 +35,6 @@ export function CommentsCard({
   const [loadedReplies, setLoadedReplies] = useState<Record<string, ReplyViewModel[]>>({});
   const [threadId, setThreadId] = useState<string>('');
 
-  // Fetch comments with infinite scroll using cursor-based pagination
   const {
     data,
     fetchNextPage,
@@ -55,22 +54,20 @@ export function CommentsCard({
         direction: CursorDirection.Forward
       });
       
-      // Store thread ID from the first response
-      if (!threadId && response.threadId) {
-        setThreadId(response.threadId);
+      if (!threadId && response.data?.threadId) {
+        setThreadId(response.data?.threadId);
       }
       
       return {
-        contributions: response.posts?.items || [],
-        nextCursor: response.posts?.nextCursor || null,
-        hasMore: !!response.posts?.nextCursor
+        contributions: response.data?.posts?.items || [],
+        nextCursor: response.data?.posts?.nextCursor || null,
+        hasMore: !!response.data?.posts?.nextCursor
       };
     },
     getNextPageParam: (lastPage) => lastPage.nextCursor,
     enabled: !!entityId
   });
 
-  // Infinite scroll observer
   const lastCommentRef = useCallback((node: HTMLDivElement) => {
     if (isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
@@ -107,7 +104,7 @@ export function CommentsCard({
         direction: CursorDirection.Forward
       });
       
-      const replies = response.replies?.items || [];
+      const replies = response.data?.replies?.items || [];
       setLoadedReplies(prev => ({
         ...prev,
         [commentId]: replies
@@ -123,7 +120,6 @@ export function CommentsCard({
         const currentReplies = prev[newReply.parentPostId as string] || [];
         
         if (oldReplyId) {
-          // Replace existing reply
           return {
             ...prev,
             [newReply.parentPostId as string]: currentReplies.map(reply => 

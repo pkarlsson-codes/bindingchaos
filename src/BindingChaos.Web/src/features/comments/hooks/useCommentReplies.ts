@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
-import type { ReplyViewModel } from '../../../api/models';
-import { CursorDirection } from '../../../api/models';
+import { CursorDirection } from '@/api';
 
 interface UseCommentRepliesProps {
   entityType: 'idea' | 'signal' | 'amendment';
@@ -20,10 +19,9 @@ export function useCommentReplies({ entityType, entityId }: UseCommentRepliesPro
         limit,
         direction: CursorDirection.Forward
       });
-      return { postId, replies: response.replies?.items || [] };
+      return { postId, replies: response.data?.replies?.items || [] };
     },
     onSuccess: ({ postId, replies }) => {
-      // Invalidate the contributions query to refresh the reply count
       queryClient.invalidateQueries({ queryKey: ['contributions', entityType, entityId] });
     }
   });

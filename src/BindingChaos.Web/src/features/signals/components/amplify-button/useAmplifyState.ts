@@ -1,204 +1,105 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useApiClient } from '../../../../shared/hooks/useApiClient';
+import { toast } from '../../../../shared/components/ui/toast';
 
 interface UseAmplifyStateProps {
   signalId: string;
   initialAmplifyCount: number;
   initialIsAmplified: boolean;
-  reason?: string;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-}
-
-interface AmplifyState {
-  amplifyCount: number;
-  isAmplified: boolean;
-  isPending: boolean;
-  showCommentary: boolean;
-  showDeamplifyConfirm: boolean;
+  onAmplifySuccess?: () => void;
+  onDeamplifySuccess?: () => void;
+  onAmplifyError?: (error: Error) => void;
+  onDeamplifyError?: (error: Error) => void;
 }
 
 export function useAmplifyState({
   signalId,
   initialAmplifyCount,
   initialIsAmplified,
-  reason = 'HighRelevance',
-  onSuccess,
-  onError
+  onAmplifySuccess,
+  onDeamplifySuccess,
+  onAmplifyError,
+  onDeamplifyError,
 }: UseAmplifyStateProps) {
   const apiClient = useApiClient();
 
-  // Use refs to track the latest state values to avoid stale closures
-  const stateRef = useRef<{ amplifyCount: number; isAmplified: boolean }>({
-    amplifyCount: initialAmplifyCount,
-    isAmplified: initialIsAmplified
-  });
+  const [amplifyCount, setAmplifyCount] = useState(initialAmplifyCount);
+  const [isAmplified, setIsAmplified] = useState(initialIsAmplified);
+  const [isPending, setIsPending] = useState(false);
 
-  const [state, setState] = useState<AmplifyState>({
-    amplifyCount: initialAmplifyCount,
-    isAmplified: initialIsAmplified,
-    isPending: false,
-    showCommentary: false,
-    showDeamplifyConfirm: false
-  });
+  // Track pre-mutation state for rollback
+  const preUpdateRef = useRef({ amplifyCount: initialAmplifyCount, isAmplified: initialIsAmplified });
 
-  // Update refs whenever state changes
+  // Read isPending via ref so the props-sync effect below doesn't re-trigger
+  // when isPending flips false after a mutation (which would overwrite the optimistic update).
+  const isPendingRef = useRef(isPending);
+  isPendingRef.current = isPending;
+
+  // Sync from props when the parent query provides fresh data. Intentionally
+  // omits isPending from deps — we check the ref to guard against running
+  // mid-mutation, but we don't want the transition from pending→settled to
+  // trigger this sync before the parent has refetched.
   useEffect(() => {
-    stateRef.current = {
-      amplifyCount: state.amplifyCount,
-      isAmplified: state.isAmplified
-    };
-  }, [state.amplifyCount, state.isAmplified]);
-
-  // Update state from props (e.g., when query refetches)
-  const updateFromProps = useCallback((amplifyCount: number, isAmplified: boolean) => {
-    setState(prev => {
-      // Don't update if we're in a pending state
-      if (prev.isPending) {
-        return prev;
-      }
-      
-      // Don't update if the values are the same
-      if (prev.amplifyCount === amplifyCount && prev.isAmplified === isAmplified) {
-        return prev;
-      }
-      
-      return {
-        ...prev,
-        amplifyCount,
-        isAmplified
-      };
-    });
-  }, []);
-
-  const handleAmplify = useCallback(async (commentary?: string) => {
-    try {
-      const response = await apiClient.signals.amplifySignal({
-        signalId,
-        amplifySignalRequest: {
-          reason,
-          commentary: commentary?.trim() || null
-        }
-      });
-      return response;
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error : new Error('Failed to amplify signal');
-      onError?.(errorMessage);
-      throw error;
+    if (!isPendingRef.current) {
+      setAmplifyCount(initialAmplifyCount);
+      setIsAmplified(initialIsAmplified);
     }
-  }, [apiClient, signalId, reason, onError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialAmplifyCount, initialIsAmplified]);
 
-  const handleDeamplify = useCallback(async () => {
-    try {
-      const response = await apiClient.signals.deamplifySignal({
-        signalId
-      });
-      return response;
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error : new Error('Failed to deamplify signal');
-      onError?.(errorMessage);
-      throw error;
-    }
-  }, [apiClient, signalId, onError]);
-
-  const amplifySignalMutation = useMutation({
-    mutationFn: handleAmplify,
-    onMutate: async () => {
-      // Optimistic update
-      setState(prev => ({
-        ...prev,
-        isPending: true,
-        amplifyCount: prev.amplifyCount + 1,
-        isAmplified: true,
-        showCommentary: false
-      }));
+  const amplifyMutation = useMutation({
+    mutationFn: () =>
+      apiClient.signals.amplifySignal({ signalId }),
+    onMutate: () => {
+      preUpdateRef.current = { amplifyCount, isAmplified };
+      setIsPending(true);
+      setIsAmplified(true);
+      setAmplifyCount(c => c + 1);
     },
-    onSuccess: (response) => {
-      if (response.data) {
-        // Update with actual server response
-        setState(prev => ({
-          ...prev,
-          isPending: false,
-          amplifyCount: response.data?.newAmplifyCount ?? prev.amplifyCount,
-          isAmplified: true,
-          showCommentary: false
-        }));
+    onSuccess: response => {
+      const serverCount = response.data?.newAmplifyCount;
+      if (serverCount !== undefined && serverCount !== null) {
+        setAmplifyCount(serverCount);
       }
-
-      onSuccess?.();
+      setIsPending(false);
+      toast.success('Signal amplified');
+      onAmplifySuccess?.();
     },
     onError: (error: Error) => {
-      // Revert optimistic update on error
-      setState(prev => ({
-        ...prev,
-        isPending: false,
-        amplifyCount: stateRef.current.amplifyCount,
-        isAmplified: stateRef.current.isAmplified,
-        showCommentary: false
-      }));
-      onError?.(error);
-    }
+      setAmplifyCount(preUpdateRef.current.amplifyCount);
+      setIsAmplified(preUpdateRef.current.isAmplified);
+      setIsPending(false);
+      onAmplifyError?.(error);
+    },
   });
 
-  const deamplifySignalMutation = useMutation({
-    mutationFn: handleDeamplify,
-    onMutate: async () => {
-      // Optimistic update
-      setState(prev => ({
-        ...prev,
-        isPending: true,
-        amplifyCount: Math.max(0, prev.amplifyCount - 1),
-        isAmplified: false,
-        showDeamplifyConfirm: false
-      }));
+  const deamplifyMutation = useMutation({
+    mutationFn: () => apiClient.signals.deamplifySignal({ signalId }),
+    onMutate: () => {
+      preUpdateRef.current = { amplifyCount, isAmplified };
+      setIsPending(true);
+      setIsAmplified(false);
+      setAmplifyCount(c => Math.max(0, c - 1));
     },
-    onSuccess: (response) => {
-      if (response.data) {
-        // Update with actual server response
-        setState(prev => ({
-          ...prev,
-          isPending: false,
-          amplifyCount: response.data?.newAmplifyCount ?? prev.amplifyCount,
-          isAmplified: false,
-          showDeamplifyConfirm: false
-        }));
+    onSuccess: response => {
+      const serverCount = response.data?.newAmplifyCount;
+      if (serverCount !== undefined && serverCount !== null) {
+        setAmplifyCount(serverCount);
       }
-
-      onSuccess?.();
+      setIsPending(false);
+      onDeamplifySuccess?.();
     },
     onError: (error: Error) => {
-      // Revert optimistic update on error
-      setState(prev => ({
-        ...prev,
-        isPending: false,
-        amplifyCount: stateRef.current.amplifyCount,
-        isAmplified: stateRef.current.isAmplified,
-        showDeamplifyConfirm: false
-      }));
-      onError?.(error);
-    }
+      setAmplifyCount(preUpdateRef.current.amplifyCount);
+      setIsAmplified(preUpdateRef.current.isAmplified);
+      setIsPending(false);
+      onDeamplifyError?.(error);
+    },
   });
 
-  const setShowCommentary = useCallback((show: boolean) => {
-    setState(prev => ({ ...prev, showCommentary: show }));
-  }, []);
+  const amplify = useCallback(() => amplifyMutation.mutate(), [amplifyMutation]);
+  const deamplify = useCallback(() => deamplifyMutation.mutate(), [deamplifyMutation]);
 
-  const setShowDeamplifyConfirm = useCallback((show: boolean) => {
-    setState(prev => ({ ...prev, showDeamplifyConfirm: show }));
-  }, []);
-
-  return {
-    // State
-    ...state,
-    
-    // Actions
-    setShowCommentary,
-    setShowDeamplifyConfirm,
-    updateFromProps,
-    
-    // Mutations
-    amplifySignalMutation,
-    deamplifySignalMutation
-  };
+  return { amplifyCount, isAmplified, isPending, amplify, deamplify };
 }

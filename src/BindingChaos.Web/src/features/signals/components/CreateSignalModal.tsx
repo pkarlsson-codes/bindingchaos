@@ -70,17 +70,14 @@ export function CreateSignalModal({ isOpen, onClose }: CreateSignalModalProps) {
           title: data.title,
           description: data.description,
           tags: data.tags || [],
-          attachments: attachedDocuments.map(doc => ({
-            documentId: doc.id,
-            caption: null
-          }))
+          attachmentIds: attachedDocuments.map(doc => doc.id)
         },
       });
 
       if (response.data) {
         toast.success('Signal created successfully!');
         reset();
-        setAttachedDocuments([]); // Clear documents
+        setAttachedDocuments([]);
         onClose();
       } else {
         toast.error('Failed to create signal');
@@ -95,7 +92,7 @@ export function CreateSignalModal({ isOpen, onClose }: CreateSignalModalProps) {
 
   const handleClose = () => {
     reset();
-    setAttachedDocuments([]); // Clear documents
+    setAttachedDocuments([]);
     onClose();
   };
 
