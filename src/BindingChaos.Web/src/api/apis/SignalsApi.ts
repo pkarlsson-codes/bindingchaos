@@ -15,27 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  AmplifySignalRequest,
   ApiResponseOfAmplifySignalResponse,
   ApiResponseOfDeamplifySignalResponse,
-  ApiResponseOfSignalAmplificationTrendResponse,
   ApiResponseOfSignalDetailViewModel,
   ApiResponseOfSignalsFeedViewModel,
   ApiResponseOfString,
   CaptureSignalRequest,
   ProblemDetails,
   SortDescriptor,
-  SuggestActionRequest,
 } from '../models/index';
 import {
-    AmplifySignalRequestFromJSON,
-    AmplifySignalRequestToJSON,
     ApiResponseOfAmplifySignalResponseFromJSON,
     ApiResponseOfAmplifySignalResponseToJSON,
     ApiResponseOfDeamplifySignalResponseFromJSON,
     ApiResponseOfDeamplifySignalResponseToJSON,
-    ApiResponseOfSignalAmplificationTrendResponseFromJSON,
-    ApiResponseOfSignalAmplificationTrendResponseToJSON,
     ApiResponseOfSignalDetailViewModelFromJSON,
     ApiResponseOfSignalDetailViewModelToJSON,
     ApiResponseOfSignalsFeedViewModelFromJSON,
@@ -48,13 +41,10 @@ import {
     ProblemDetailsToJSON,
     SortDescriptorFromJSON,
     SortDescriptorToJSON,
-    SuggestActionRequestFromJSON,
-    SuggestActionRequestToJSON,
 } from '../models/index';
 
-export interface AmplifySignalOperationRequest {
+export interface AmplifySignalRequest {
     signalId: string;
-    amplifySignalRequest: AmplifySignalRequest;
 }
 
 export interface CaptureSignalOperationRequest {
@@ -62,10 +52,6 @@ export interface CaptureSignalOperationRequest {
 }
 
 export interface DeamplifySignalRequest {
-    signalId: string;
-}
-
-export interface GetSignalAmplificationTrendRequest {
     signalId: string;
 }
 
@@ -83,11 +69,6 @@ export interface GetSignalsRequest {
     sort?: Array<SortDescriptor>;
 }
 
-export interface SuggestActionOperationRequest {
-    signalId: string;
-    suggestActionRequest: SuggestActionRequest;
-}
-
 /**
  * SignalsApi - interface
  * 
@@ -97,19 +78,18 @@ export interface SuggestActionOperationRequest {
 export interface SignalsApiInterface {
     /**
      * 
-     * @summary Amplifies a signal by a participant.
+     * @summary Amplifies a signal by the current participant.
      * @param {string} signalId The ID of the signal to amplify.
-     * @param {AmplifySignalRequest} amplifySignalRequest The amplification request.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignalsApiInterface
      */
-    amplifySignalRaw(requestParameters: AmplifySignalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfAmplifySignalResponse>>;
+    amplifySignalRaw(requestParameters: AmplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfAmplifySignalResponse>>;
 
     /**
-     * Amplifies a signal by a participant.
+     * Amplifies a signal by the current participant.
      */
-    amplifySignal(requestParameters: AmplifySignalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfAmplifySignalResponse>;
+    amplifySignal(requestParameters: AmplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfAmplifySignalResponse>;
 
     /**
      * 
@@ -140,21 +120,6 @@ export interface SignalsApiInterface {
      * Removes a user\'s amplification from a signal.
      */
     deamplifySignal(requestParameters: DeamplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfDeamplifySignalResponse>;
-
-    /**
-     * 
-     * @summary Gets amplification trend data for a specific signal.
-     * @param {string} signalId The unique identifier of the signal.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SignalsApiInterface
-     */
-    getSignalAmplificationTrendRaw(requestParameters: GetSignalAmplificationTrendRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfSignalAmplificationTrendResponse>>;
-
-    /**
-     * Gets amplification trend data for a specific signal.
-     */
-    getSignalAmplificationTrend(requestParameters: GetSignalAmplificationTrendRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfSignalAmplificationTrendResponse>;
 
     /**
      * 
@@ -192,22 +157,6 @@ export interface SignalsApiInterface {
      */
     getSignals(requestParameters: GetSignalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfSignalsFeedViewModel>;
 
-    /**
-     * 
-     * @summary Suggests an action on a signal.
-     * @param {string} signalId The ID of the signal.
-     * @param {SuggestActionRequest} suggestActionRequest The action suggestion request.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SignalsApiInterface
-     */
-    suggestActionRaw(requestParameters: SuggestActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Suggests an action on a signal.
-     */
-    suggestAction(requestParameters: SuggestActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
 }
 
 /**
@@ -216,9 +165,9 @@ export interface SignalsApiInterface {
 export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
 
     /**
-     * Amplifies a signal by a participant.
+     * Amplifies a signal by the current participant.
      */
-    async amplifySignalRaw(requestParameters: AmplifySignalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfAmplifySignalResponse>> {
+    async amplifySignalRaw(requestParameters: AmplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfAmplifySignalResponse>> {
         if (requestParameters['signalId'] == null) {
             throw new runtime.RequiredError(
                 'signalId',
@@ -226,18 +175,9 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
             );
         }
 
-        if (requestParameters['amplifySignalRequest'] == null) {
-            throw new runtime.RequiredError(
-                'amplifySignalRequest',
-                'Required parameter "amplifySignalRequest" was null or undefined when calling amplifySignal().'
-            );
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
 
 
         let urlPath = `/api/v1/signals/{signalId}/amplifications`;
@@ -248,16 +188,15 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AmplifySignalRequestToJSON(requestParameters['amplifySignalRequest']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfAmplifySignalResponseFromJSON(jsonValue));
     }
 
     /**
-     * Amplifies a signal by a participant.
+     * Amplifies a signal by the current participant.
      */
-    async amplifySignal(requestParameters: AmplifySignalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfAmplifySignalResponse> {
+    async amplifySignal(requestParameters: AmplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfAmplifySignalResponse> {
         const response = await this.amplifySignalRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -335,43 +274,6 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
      */
     async deamplifySignal(requestParameters: DeamplifySignalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfDeamplifySignalResponse> {
         const response = await this.deamplifySignalRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Gets amplification trend data for a specific signal.
-     */
-    async getSignalAmplificationTrendRaw(requestParameters: GetSignalAmplificationTrendRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfSignalAmplificationTrendResponse>> {
-        if (requestParameters['signalId'] == null) {
-            throw new runtime.RequiredError(
-                'signalId',
-                'Required parameter "signalId" was null or undefined when calling getSignalAmplificationTrend().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/api/v1/signals/{signalId}/amplification-trend`;
-        urlPath = urlPath.replace(`{${"signalId"}}`, encodeURIComponent(String(requestParameters['signalId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfSignalAmplificationTrendResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Gets amplification trend data for a specific signal.
-     */
-    async getSignalAmplificationTrend(requestParameters: GetSignalAmplificationTrendRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfSignalAmplificationTrendResponse> {
-        const response = await this.getSignalAmplificationTrendRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -467,52 +369,6 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
     async getSignals(requestParameters: GetSignalsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfSignalsFeedViewModel> {
         const response = await this.getSignalsRaw(requestParameters, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Suggests an action on a signal.
-     */
-    async suggestActionRaw(requestParameters: SuggestActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['signalId'] == null) {
-            throw new runtime.RequiredError(
-                'signalId',
-                'Required parameter "signalId" was null or undefined when calling suggestAction().'
-            );
-        }
-
-        if (requestParameters['suggestActionRequest'] == null) {
-            throw new runtime.RequiredError(
-                'suggestActionRequest',
-                'Required parameter "suggestActionRequest" was null or undefined when calling suggestAction().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-
-        let urlPath = `/api/v1/signals/{signalId}/suggested-actions`;
-        urlPath = urlPath.replace(`{${"signalId"}}`, encodeURIComponent(String(requestParameters['signalId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: SuggestActionRequestToJSON(requestParameters['suggestActionRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Suggests an action on a signal.
-     */
-    async suggestAction(requestParameters: SuggestActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.suggestActionRaw(requestParameters, initOverrides);
     }
 
 }

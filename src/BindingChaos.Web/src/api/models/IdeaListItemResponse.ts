@@ -36,25 +36,7 @@ export interface IdeaListItemResponse {
      * @type {string}
      * @memberof IdeaListItemResponse
      */
-    body?: string;
-    /**
-     * The ID of the society where this idea is proposed.
-     * @type {string}
-     * @memberof IdeaListItemResponse
-     */
-    societyContext?: string;
-    /**
-     * The collection of signal IDs that this idea was derived from or references.
-     * @type {Array<string>}
-     * @memberof IdeaListItemResponse
-     */
-    sourceSignalIds?: Array<string>;
-    /**
-     * The number of amendments that are currently open for voting on this idea.
-     * @type {number}
-     * @memberof IdeaListItemResponse
-     */
-    openAmendmentCount?: number;
+    description?: string;
     /**
      * The timestamp when the idea was originally created.
      * @type {Date}
@@ -68,13 +50,7 @@ export interface IdeaListItemResponse {
      */
     lastUpdatedAt?: Date;
     /**
-     * The collection of tags associated with this idea for categorization and discovery.
-     * @type {Array<string>}
-     * @memberof IdeaListItemResponse
-     */
-    tags?: Array<string>;
-    /**
-     * The current status of the idea (e.g., "published", "archived").
+     * The current status of the idea (e.g., "Draft", "Published").
      * @type {string}
      * @memberof IdeaListItemResponse
      */
@@ -100,13 +76,9 @@ export function IdeaListItemResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'id': json['id'] == null ? undefined : json['id'],
         'title': json['title'] == null ? undefined : json['title'],
-        'body': json['body'] == null ? undefined : json['body'],
-        'societyContext': json['societyContext'] == null ? undefined : json['societyContext'],
-        'sourceSignalIds': json['sourceSignalIds'] == null ? undefined : json['sourceSignalIds'],
-        'openAmendmentCount': json['openAmendmentCount'] == null ? undefined : json['openAmendmentCount'],
+        'description': json['description'] == null ? undefined : json['description'],
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'lastUpdatedAt': json['lastUpdatedAt'] == null ? undefined : (new Date(json['lastUpdatedAt'])),
-        'tags': json['tags'] == null ? undefined : json['tags'],
         'status': json['status'] == null ? undefined : json['status'],
     };
 }
@@ -124,13 +96,9 @@ export function IdeaListItemResponseToJSONTyped(value?: IdeaListItemResponse | n
         
         'id': value['id'],
         'title': value['title'],
-        'body': value['body'],
-        'societyContext': value['societyContext'],
-        'sourceSignalIds': value['sourceSignalIds'],
-        'openAmendmentCount': value['openAmendmentCount'],
+        'description': value['description'],
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'lastUpdatedAt': value['lastUpdatedAt'] == null ? undefined : ((value['lastUpdatedAt']).toISOString()),
-        'tags': value['tags'],
         'status': value['status'],
     };
 }

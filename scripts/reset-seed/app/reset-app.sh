@@ -7,8 +7,7 @@ reset_app_data() {
 
     local schemas=(
         "bindingchaos_events"
-        "signal_awareness"
-        "ideation"
+        "stigmergy"
         "community_discourse"
         "tagging"
         "documents"

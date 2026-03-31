@@ -17,825 +17,6 @@
     }
   ],
   "paths": {
-    "/api/v1/action-opportunities": {
-      "get": {
-        "tags": [
-          "ActionOpportunities"
-        ],
-        "summary": "Gets all action opportunities with optional filtering and pagination.",
-        "operationId": "getActionOpportunities",
-        "parameters": [
-          {
-            "name": "searchTerm",
-            "in": "query",
-            "description": "Search term for title and description.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status filter: emerging, in-progress, completed.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          },
-          {
-            "name": "parentIdeaId",
-            "in": "query",
-            "description": "Filter by parent idea ID.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 3
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "description": "Sort option: recent, updated, title, participants, progress.",
-            "schema": {
-              "type": "string",
-              "default": "recent",
-              "nullable": true
-            },
-            "x-position": 4
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            },
-            "x-position": 5
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Number of items per page (default: 20, max: 100).",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 20
-            },
-            "x-position": 6
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Paginated list of action opportunities with metadata.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionOpportunitiesFeedViewModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "ActionOpportunities"
-        ],
-        "summary": "Creates a new action opportunity from an idea.",
-        "operationId": "createActionOpportunity",
-        "requestBody": {
-          "x-name": "request",
-          "description": "The action opportunity creation request.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateActionOpportunityRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "201": {
-            "description": "The created action opportunity.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiEnvelopeOfActionOpportunityResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/v1/action-opportunities/{actionOpportunityId}": {
-      "get": {
-        "tags": [
-          "ActionOpportunities"
-        ],
-        "summary": "Gets detailed information about a specific action opportunity.",
-        "operationId": "getActionOpportunityDetails",
-        "parameters": [
-          {
-            "name": "actionOpportunityId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the action opportunity.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Detailed action opportunity information.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiEnvelopeOfActionOpportunityResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/v1/action-types": {
-      "get": {
-        "tags": [
-          "ActionTypes"
-        ],
-        "summary": "Returns all available action types.\nDisplay labels are the responsibility of the presentation layer;\nuse the Name field as the ActionType value when submitting a suggestion.",
-        "operationId": "getActionTypes",
-        "responses": {
-          "200": {
-            "description": "The ordered list of available action types.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ActionTypeResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments": {
-      "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Gets all amendments for an idea with optional filtering and pagination.",
-        "operationId": "getAmendments",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea to retrieve amendments for.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          },
-          {
-            "name": "Filter.IdeaId",
-            "in": "query",
-            "description": "Gets or sets the unique identifier of the idea associated with the amendments.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 4
-          },
-          {
-            "name": "Filter.StatusFilter",
-            "in": "query",
-            "description": "Gets or sets the status filter for amendments.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 5
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortDescriptor"
-              }
-            },
-            "x-position": 6
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Paginated list of ideas with metadata.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfAmendmentsListItemResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Proposes a new amendment to an existing idea.",
-        "operationId": "proposeAmendment",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea to amend.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "request",
-          "description": "The request containing amendment details.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProposeAmendmentRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "201": {
-            "description": "Created response with the proposed amendment details.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfProposeAmendmentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}": {
-      "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Gets detailed information about a specific amendment.",
-        "operationId": "getAmendmentDetails",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to retrieve.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Detailed amendment information if found; otherwise, a 404 Not Found response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfAmendmentViewModel"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/supporters": {
-      "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Gets supporters for a specific amendment with pagination support.",
-        "operationId": "getAmendmentSupporters",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to get supporters for.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 4
-          },
-          {
-            "name": "Filter",
-            "in": "query",
-            "description": "Typed filter payload bound from the filter.* prefix (e.g., filter.status).",
-            "schema": {},
-            "x-position": 5
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortDescriptor"
-              }
-            },
-            "x-position": 6
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A paginated response of supporters for the specified amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfAmendmentSupporterResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/opponents": {
-      "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Gets opponents for a specific amendment with pagination support.",
-        "operationId": "getAmendmentOpponents",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to get opponents for.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 4
-          },
-          {
-            "name": "Filter",
-            "in": "query",
-            "description": "Typed filter payload bound from the filter.* prefix (e.g., filter.status).",
-            "schema": {},
-            "x-position": 5
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortDescriptor"
-              }
-            },
-            "x-position": 6
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A paginated response of opponents for the specified amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfAmendmentOpponentResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/trend": {
-      "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Gets support trend data for a specific amendment.",
-        "operationId": "getAmendmentTrend",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to get trend data for.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Support trend data for the specified amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfAmendmentTrendResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/support": {
-      "post": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Adds support for an amendment.",
-        "operationId": "supportAmendment",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to support.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "requestBody": {
-          "x-name": "request",
-          "description": "The request containing the reason for supporting the amendment.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportAmendmentRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 3
-        },
-        "responses": {
-          "200": {
-            "description": "The updated support and opposition counts for the amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentVoteResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/oppose": {
-      "post": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Adds opposition to an amendment.",
-        "operationId": "opposeAmendment",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to oppose.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "requestBody": {
-          "x-name": "request",
-          "description": "The request containing the reason for opposing the amendment.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OpposeAmendmentRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 3
-        },
-        "responses": {
-          "200": {
-            "description": "The updated support and opposition counts for the amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentVoteResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/withdraw-support": {
-      "post": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Withdraws support for an amendment.",
-        "operationId": "withdrawSupport",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to withdraw support from.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The updated support and opposition counts for the amendment."
-          }
-        }
-      }
-    },
-    "/api/v1/ideas/{ideaId}/amendments/{amendmentId}/withdraw-opposition": {
-      "post": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Withdraws opposition to an amendment.",
-        "operationId": "withdrawOpposition",
-        "parameters": [
-          {
-            "name": "ideaId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the idea that contains the amendment.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the amendment to withdraw opposition from.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The updated support and opposition counts for the amendment.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentVoteResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/Auth/csrf": {
       "get": {
         "tags": [
@@ -1465,12 +646,33 @@
         }
       }
     },
+    "/api/v1/emerging-patterns": {
+      "get": {
+        "tags": [
+          "EmergingPatterns"
+        ],
+        "summary": "Returns all currently identified emerging signal patterns.",
+        "operationId": "getEmergingPatterns",
+        "responses": {
+          "200": {
+            "description": "A feed of emerging patterns ordered by cluster label.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfEmergingPatternsFeedViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/ideas": {
       "get": {
         "tags": [
           "Ideas"
         ],
-        "summary": "Gets all ideas with optional filtering and pagination.\nWhen filterToMySocieties is true, results are scoped to the\nauthenticated participant's active society memberships. Anonymous users receive an empty list.",
+        "summary": "Gets all ideas with optional filtering and pagination.",
         "operationId": "getIdeas",
         "parameters": [
           {
@@ -1494,42 +696,24 @@
             "x-position": 2
           },
           {
-            "name": "Filter.SocietyIds",
+            "name": "Filter.SearchTerm",
             "in": "query",
-            "style": "form",
-            "explode": true,
-            "description": "Optional list of society IDs to scope the ideas to.",
+            "description": "Optional free-text search term to match against idea title or description.",
             "schema": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "type": "string"
-              }
+              "type": "string",
+              "nullable": true
             },
             "x-position": 3
           },
           {
-            "name": "Filter.SearchTerm",
+            "name": "Filter.Status",
             "in": "query",
-            "description": "Search term to filter ideas by title or description.",
+            "description": "Optional status filter (e.g., \"Draft\", \"Published\").",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "nullable": true
             },
             "x-position": 4
-          },
-          {
-            "name": "Filter.Tags",
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "description": "Filter by the tags associated with the idea.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "x-position": 5
           },
           {
             "name": "sort",
@@ -1543,17 +727,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 6
-          },
-          {
-            "name": "filterToMySocieties",
-            "in": "query",
-            "description": "When true, restricts results to the current user's societies.",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 7
+            "x-position": 5
           }
         ],
         "responses": {
@@ -1607,7 +781,7 @@
         "tags": [
           "Ideas"
         ],
-        "summary": "Gets detailed information about a specific idea including amendments and lineage.",
+        "summary": "Gets detailed information about a specific idea.",
         "operationId": "getIdea",
         "parameters": [
           {
@@ -1623,7 +797,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Detailed idea information with amendments and lineage.",
+            "description": "Detailed idea information.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1655,6 +829,28 @@
         "responses": {
           "200": {
             "description": "Redirect to the identity provider's authorize endpoint.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "get": {
+        "tags": [
+          "Oidc"
+        ],
+        "summary": "Initiates the OIDC authorization request with prompt=create to open the registration UI directly.",
+        "operationId": "Oidc_Register",
+        "responses": {
+          "200": {
+            "description": "Redirect to the identity provider's registration screen.",
             "content": {
               "application/octet-stream": {
                 "schema": {
@@ -1895,7 +1091,7 @@
         "tags": [
           "Signals"
         ],
-        "summary": "Amplifies a signal by a participant.",
+        "summary": "Amplifies a signal by the current participant.",
         "operationId": "amplifySignal",
         "parameters": [
           {
@@ -1909,19 +1105,6 @@
             "x-position": 1
           }
         ],
-        "requestBody": {
-          "x-name": "request",
-          "description": "The amplification request.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AmplifySignalRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
         "responses": {
           "200": {
             "description": "The amplification response with updated count.",
@@ -2009,108 +1192,6 @@
           },
           "500": {
             "description": ""
-          }
-        }
-      }
-    },
-    "/api/v1/signals/{signalId}/suggested-actions": {
-      "post": {
-        "tags": [
-          "Signals"
-        ],
-        "summary": "Suggests an action on a signal.",
-        "operationId": "suggestAction",
-        "parameters": [
-          {
-            "name": "signalId",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the signal.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "request",
-          "description": "The action suggestion request.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SuggestActionRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "201": {
-            "description": "A 201 Created response."
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/signals/{signalId}/amplification-trend": {
-      "get": {
-        "tags": [
-          "Signals"
-        ],
-        "summary": "Gets amplification trend data for a specific signal.",
-        "operationId": "getSignalAmplificationTrend",
-        "parameters": [
-          {
-            "name": "signalId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the signal.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Signal amplification trend data.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfSignalAmplificationTrendResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
           }
         }
       }
@@ -2583,917 +1664,142 @@
           }
         }
       }
+    },
+    "/api/v1/invite-links": {
+      "get": {
+        "tags": [
+          "TrustInviteLinks"
+        ],
+        "summary": "Gets all invite links for the authenticated participant, sorted by creation date descending.",
+        "operationId": "getMyTrustInviteLinks",
+        "responses": {
+          "200": {
+            "description": "All invite links (active and revoked) for the participant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfTrustInviteLinkViewResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TrustInviteLinks"
+        ],
+        "summary": "Creates an invite link for the authenticated participant.",
+        "operationId": "createTrustInviteLink",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The invite link creation request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTrustInviteLinkRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "The created invite link details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfTrustInviteLinkCreatedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invite-links/resolve": {
+      "get": {
+        "tags": [
+          "TrustInviteLinks"
+        ],
+        "summary": "Resolves an invite link token to the inviter's user ID. Accessible without authentication.",
+        "operationId": "resolveTrustInviteLink",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "The URL-safe base64url token from the invite link.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The inviter's user ID if the token is valid; 404 if not found or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfResolvedInviteLinkResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invite-links/{id}": {
+      "delete": {
+        "tags": [
+          "TrustInviteLinks"
+        ],
+        "summary": "Revokes an invite link owned by the authenticated participant.",
+        "operationId": "revokeTrustInviteLink",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the invite link to revoke.",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204 No Content on success; 403 if the caller does not own the link; 404 if not found."
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ActionOpportunitiesFeedViewModel": {
-        "type": "object",
-        "description": "View model for the action opportunities feed page, including action opportunities and metadata for filtering.",
-        "additionalProperties": false,
-        "properties": {
-          "actionOpportunities": {
-            "description": "The paginated action opportunities data.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/PaginatedResponseOfActionOpportunityListResponse"
-              }
-            ]
-          },
-          "availableStatuses": {
-            "type": "array",
-            "description": "All available statuses across all action opportunities (for filtering).",
-            "items": {
-              "type": "string"
-            }
-          },
-          "appliedFilters": {
-            "description": "The current filter state applied to this response.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ActionOpportunitiesFilterStateViewModel"
-              }
-            ]
-          }
-        }
-      },
-      "PaginatedResponseOfActionOpportunityListResponse": {
-        "type": "object",
-        "description": "Generic paginated response wrapper for API endpoints.",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "description": "The items for the current page.",
-            "items": {
-              "$ref": "#/components/schemas/ActionOpportunityListResponse"
-            }
-          },
-          "hasNextPage": {
-            "type": "boolean",
-            "description": "Indicates whether there is a next page of results."
-          },
-          "pageNumber": {
-            "type": "integer",
-            "description": "The current page number (1-based).",
-            "format": "int64"
-          },
-          "pageSize": {
-            "type": "integer",
-            "description": "The number of items per page.",
-            "format": "int64"
-          },
-          "totalCount": {
-            "type": "integer",
-            "description": "The total number of items across all pages.",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "description": "The total number of pages.",
-            "format": "int64"
-          }
-        }
-      },
-      "ActionOpportunityListResponse": {
-        "type": "object",
-        "description": "Response model for action opportunity list items.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the action opportunity."
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the action opportunity."
-          },
-          "description": {
-            "type": "string",
-            "description": "A brief description of the action opportunity."
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the action opportunity."
-          },
-          "parentIdeaId": {
-            "type": "string",
-            "description": "The ID of the parent idea that spawned this action opportunity."
-          },
-          "parentIdeaTitle": {
-            "type": "string",
-            "description": "The title of the parent idea."
-          },
-          "creatorId": {
-            "type": "string",
-            "description": "The ID of the creator."
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "The name of the creator."
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "The creation timestamp in ISO 8601 format."
-          },
-          "updatedAt": {
-            "type": "string",
-            "description": "The last update timestamp in ISO 8601 format."
-          },
-          "participantCount": {
-            "type": "integer",
-            "description": "The number of participants committed to this action opportunity.",
-            "format": "int32"
-          },
-          "progressPercentage": {
-            "type": "integer",
-            "description": "The current progress percentage (0-100).",
-            "format": "int32"
-          },
-          "isCommitted": {
-            "type": "boolean",
-            "description": "Whether the current user has committed to this action opportunity."
-          },
-          "userCommitmentType": {
-            "type": "string",
-            "description": "The current user's commitment type if committed.",
-            "nullable": true
-          }
-        }
-      },
-      "ActionOpportunitiesFilterStateViewModel": {
-        "type": "object",
-        "description": "Represents the filter state that was applied to generate this response.",
-        "additionalProperties": false,
-        "properties": {
-          "searchTerm": {
-            "type": "string",
-            "description": "The search term that was applied.",
-            "nullable": true
-          },
-          "status": {
-            "type": "string",
-            "description": "The status filter that was applied."
-          },
-          "parentIdeaId": {
-            "type": "string",
-            "description": "The parent idea ID filter that was applied.",
-            "nullable": true
-          },
-          "sortBy": {
-            "type": "string",
-            "description": "The sort option that was applied."
-          }
-        }
-      },
-      "ApiEnvelopeOfActionOpportunityResponse": {
-        "type": "object",
-        "description": "Generic API response envelope that wraps data with metadata.",
-        "additionalProperties": false,
-        "properties": {
-          "requestId": {
-            "type": "string",
-            "description": "Unique identifier for the request."
-          },
-          "timestamp": {
-            "type": "string",
-            "description": "Timestamp when the response was generated.",
-            "format": "date-time"
-          },
-          "data": {
-            "description": "The actual data payload.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ActionOpportunityResponse"
-              }
-            ]
-          }
-        }
-      },
-      "ActionOpportunityResponse": {
-        "type": "object",
-        "description": "Response model for action opportunity details.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the action opportunity."
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the action opportunity."
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the action opportunity."
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the action opportunity."
-          },
-          "societyContext": {
-            "type": "string",
-            "description": "The society context where this action opportunity is scoped."
-          },
-          "parentIdeaId": {
-            "type": "string",
-            "description": "The ID of the parent idea that spawned this action opportunity."
-          },
-          "parentIdeaTitle": {
-            "type": "string",
-            "description": "The title of the parent idea."
-          },
-          "creatorId": {
-            "type": "string",
-            "description": "The ID of the creator."
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "The name of the creator."
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "The creation timestamp in ISO 8601 format."
-          },
-          "updatedAt": {
-            "type": "string",
-            "description": "The last update timestamp in ISO 8601 format."
-          },
-          "participantCount": {
-            "type": "integer",
-            "description": "The number of participants committed to this action opportunity.",
-            "format": "int32"
-          },
-          "progressPercentage": {
-            "type": "integer",
-            "description": "The current progress percentage (0-100).",
-            "format": "int32"
-          },
-          "latestProgressUpdate": {
-            "type": "string",
-            "description": "The latest progress update.",
-            "nullable": true
-          },
-          "latestProgressUpdateAt": {
-            "type": "string",
-            "description": "The timestamp of the latest progress update.",
-            "nullable": true
-          },
-          "isCommitted": {
-            "type": "boolean",
-            "description": "Whether the current user has committed to this action opportunity."
-          },
-          "userCommitmentType": {
-            "type": "string",
-            "description": "The current user's commitment type if committed.",
-            "nullable": true
-          }
-        }
-      },
-      "ProblemDetails": {
-        "type": "object",
-        "additionalProperties": {
-          "nullable": true
-        },
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "CreateActionOpportunityRequest": {
-        "type": "object",
-        "description": "Request model for creating a new action opportunity.",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "The title of the action opportunity."
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the action opportunity."
-          },
-          "parentIdeaId": {
-            "type": "string",
-            "description": "The ID of the parent idea that spawned this action opportunity."
-          }
-        }
-      },
-      "ActionTypeResponse": {
-        "type": "object",
-        "description": "Response model representing an available action type in the catalog.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The stable integer identifier used in events and API calls.",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "The code name of the action type (e.g. MakeACall).\nUse this value as ActionType when submitting a suggested action.\nDisplay labels for this name are the responsibility of the presentation layer."
-          }
-        }
-      },
-      "ApiResponseOfPaginatedResponseOfAmendmentsListItemResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/PaginatedResponseOfAmendmentsListItemResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "PaginatedResponseOfAmendmentsListItemResponse": {
-        "type": "object",
-        "description": "Generic paginated response wrapper for API endpoints.",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "description": "The items for the current page.",
-            "items": {
-              "$ref": "#/components/schemas/AmendmentsListItemResponse"
-            }
-          },
-          "hasNextPage": {
-            "type": "boolean",
-            "description": "Indicates whether there is a next page of results."
-          },
-          "pageNumber": {
-            "type": "integer",
-            "description": "The current page number (1-based).",
-            "format": "int64"
-          },
-          "pageSize": {
-            "type": "integer",
-            "description": "The number of items per page.",
-            "format": "int64"
-          },
-          "totalCount": {
-            "type": "integer",
-            "description": "The total number of items across all pages.",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "description": "The total number of pages.",
-            "format": "int64"
-          }
-        }
-      },
-      "AmendmentsListItemResponse": {
-        "type": "object",
-        "description": "Represents a response for an amendments list item.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Gets the amendment identifier."
-          },
-          "ideaId": {
-            "type": "string",
-            "description": "Gets the identifier of the idea this amendment belongs to."
-          },
-          "authoredByCurrentUser": {
-            "type": "boolean",
-            "description": "Gets a value indicating whether the content was authored by the current user."
-          },
-          "authorPseudonym": {
-            "type": "string",
-            "description": "Gets the author identifier."
-          },
-          "amendmentTitle": {
-            "type": "string",
-            "description": "Gets the amendment title."
-          },
-          "amendmentDescription": {
-            "type": "string",
-            "description": "Gets the amendment description."
-          },
-          "status": {
-            "type": "string",
-            "description": "Gets the status of the amendment."
-          },
-          "opponentCount": {
-            "type": "integer",
-            "description": "Gets the number of opponents for this amendment.",
-            "format": "int32"
-          },
-          "opposedByCurrentUser": {
-            "type": "boolean",
-            "description": "Gets a value indicating whether the current user has opposed the item."
-          },
-          "supporterCount": {
-            "type": "integer",
-            "description": "Gets the number of supporters for this amendment.",
-            "format": "int32"
-          },
-          "supportedByCurrentUser": {
-            "type": "boolean",
-            "description": "Gets the number of items or features supported by the current user."
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "Gets when the amendment was created.",
-            "format": "date-time"
-          }
-        }
-      },
-      "ApiResponse": {
-        "type": "object",
-        "description": "Static factory methods for creating API responses.",
-        "additionalProperties": false
-      },
-      "SortDescriptor": {
-        "type": "object",
-        "description": "Describes a single sort operation against a logical field.",
-        "additionalProperties": false,
-        "properties": {
-          "field": {
-            "type": "string",
-            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
-          },
-          "direction": {
-            "description": "Sort direction.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/SortDirection"
-              }
-            ]
-          }
-        }
-      },
-      "SortDirection": {
-        "type": "string",
-        "description": "Sort direction for a field.",
-        "x-enumNames": [
-          "Asc",
-          "Desc"
-        ],
-        "enum": [
-          "Asc",
-          "Desc"
-        ]
-      },
-      "ApiResponseOfAmendmentViewModel": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/AmendmentViewModel"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "AmendmentViewModel": {
-        "type": "object",
-        "description": "View model for idea amendments, tailored for frontend display.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the amendment."
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the amendment."
-          },
-          "shortDescription": {
-            "type": "string",
-            "description": "A short description of the amendment for display in lists."
-          },
-          "proposedTitle": {
-            "type": "string",
-            "description": "The proposed title for the idea."
-          },
-          "proposedBody": {
-            "type": "string",
-            "description": "The proposed body/content for the idea."
-          },
-          "proposedByCurrentUser": {
-            "type": "boolean",
-            "description": "Gets or sets a value indicating whether the proposal was made by the current user."
-          },
-          "proposerPseudonym": {
-            "type": "string",
-            "description": "The pseudonym of the proposer."
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the amendment: open, approved, rejected, withdrawn, outdated."
-          },
-          "targetVersionNumber": {
-            "type": "integer",
-            "description": "The version number of the target idea this amendment applies to.",
-            "format": "int32"
-          },
-          "propsedAt": {
-            "type": "string",
-            "description": "The creation timestamp in ISO 8601 format."
-          },
-          "supporterCount": {
-            "type": "integer",
-            "description": "The total number of supporters.",
-            "format": "int32"
-          },
-          "opponentCount": {
-            "type": "integer",
-            "description": "The total number of opponents.",
-            "format": "int32"
-          },
-          "acceptedOn": {
-            "type": "string",
-            "description": "The acceptance timestamp in ISO 8601 format (if approved).",
-            "nullable": true
-          },
-          "rejectedOn": {
-            "type": "string",
-            "description": "The rejection timestamp in ISO 8601 format (if rejected).",
-            "nullable": true
-          },
-          "supportedByCurrentUser": {
-            "type": "boolean",
-            "description": "Whether the current user has supported this amendment."
-          },
-          "opposedByCurrentUser": {
-            "type": "boolean",
-            "description": "Whether the current user has opposed this amendment."
-          }
-        }
-      },
-      "ApiResponseOfPaginatedResponseOfAmendmentSupporterResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/PaginatedResponseOfAmendmentSupporterResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "PaginatedResponseOfAmendmentSupporterResponse": {
-        "type": "object",
-        "description": "Generic paginated response wrapper for API endpoints.",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "description": "The items for the current page.",
-            "items": {
-              "$ref": "#/components/schemas/AmendmentSupporterResponse"
-            }
-          },
-          "hasNextPage": {
-            "type": "boolean",
-            "description": "Indicates whether there is a next page of results."
-          },
-          "pageNumber": {
-            "type": "integer",
-            "description": "The current page number (1-based).",
-            "format": "int64"
-          },
-          "pageSize": {
-            "type": "integer",
-            "description": "The number of items per page.",
-            "format": "int64"
-          },
-          "totalCount": {
-            "type": "integer",
-            "description": "The total number of items across all pages.",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "description": "The total number of pages.",
-            "format": "int64"
-          }
-        }
-      },
-      "AmendmentSupporterResponse": {
-        "type": "object",
-        "description": "Response model for an amendment supporter.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Gets the unique identifier of the supporter record."
-          },
-          "pseudonym": {
-            "type": "string",
-            "description": "Gets the pseudonym of the supporter."
-          },
-          "reason": {
-            "type": "string",
-            "description": "Gets the reason provided by the supporter for supporting the amendment."
-          },
-          "supportedAt": {
-            "type": "string",
-            "description": "Gets when the support was added."
-          }
-        }
-      },
-      "ApiResponseOfPaginatedResponseOfAmendmentOpponentResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/PaginatedResponseOfAmendmentOpponentResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "PaginatedResponseOfAmendmentOpponentResponse": {
-        "type": "object",
-        "description": "Generic paginated response wrapper for API endpoints.",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "description": "The items for the current page.",
-            "items": {
-              "$ref": "#/components/schemas/AmendmentOpponentResponse"
-            }
-          },
-          "hasNextPage": {
-            "type": "boolean",
-            "description": "Indicates whether there is a next page of results."
-          },
-          "pageNumber": {
-            "type": "integer",
-            "description": "The current page number (1-based).",
-            "format": "int64"
-          },
-          "pageSize": {
-            "type": "integer",
-            "description": "The number of items per page.",
-            "format": "int64"
-          },
-          "totalCount": {
-            "type": "integer",
-            "description": "The total number of items across all pages.",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "description": "The total number of pages.",
-            "format": "int64"
-          }
-        }
-      },
-      "AmendmentOpponentResponse": {
-        "type": "object",
-        "description": "Response model for an amendment opponent.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Gets the unique identifier of the opponent record."
-          },
-          "pseudonym": {
-            "type": "string",
-            "description": "Gets the pseudonym of the opponent."
-          },
-          "reason": {
-            "type": "string",
-            "description": "Gets the reason provided by the opponent for opposing the amendment."
-          },
-          "opposedAt": {
-            "type": "string",
-            "description": "Gets when the opposition was added."
-          }
-        }
-      },
-      "ApiResponseOfAmendmentTrendResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/AmendmentTrendResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "AmendmentTrendResponse": {
-        "type": "object",
-        "description": "Response model for amendment support trend data.",
-        "additionalProperties": false,
-        "properties": {
-          "amendmentId": {
-            "type": "string",
-            "description": "Gets the amendment identifier."
-          },
-          "dataPoints": {
-            "type": "array",
-            "description": "Gets the collection of trend data points showing supporter/opponent counts over time.",
-            "items": {
-              "$ref": "#/components/schemas/TrendPointResponse"
-            }
-          }
-        }
-      },
-      "TrendPointResponse": {
-        "type": "object",
-        "description": "Generic response model for a single data point in any trend.",
-        "additionalProperties": false,
-        "properties": {
-          "date": {
-            "type": "string",
-            "description": "Gets the date and time of this trend point in ISO 8601 format."
-          },
-          "eventType": {
-            "type": "string",
-            "description": "Gets the type of event that occurred at this point in time.\nThe specific values depend on the context (e.g., \"support\", \"oppose\", \"amplify\", \"attenuate\")."
-          }
-        }
-      },
-      "ApiResponseOfProposeAmendmentResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/ProposeAmendmentResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "ProposeAmendmentResponse": {
-        "type": "object",
-        "description": "Response model for amendment proposal.",
-        "additionalProperties": false,
-        "properties": {
-          "amendmentId": {
-            "type": "string",
-            "description": "The ID of the created amendment."
-          }
-        }
-      },
-      "ProposeAmendmentRequest": {
-        "type": "object",
-        "description": "Request model for proposing an amendment to an existing idea.",
-        "additionalProperties": false,
-        "properties": {
-          "targetIdeaVersion": {
-            "type": "integer",
-            "description": "Gets or sets the version number of the target idea this amendment applies to.",
-            "format": "int32"
-          },
-          "proposedTitle": {
-            "type": "string",
-            "description": "Gets or sets the proposed title for the amendment."
-          },
-          "proposedBody": {
-            "type": "string",
-            "description": "Gets or sets the proposed body/content for the amendment."
-          },
-          "amendmentTitle": {
-            "type": "string",
-            "description": "Gets or sets the title of the amendment."
-          },
-          "amendmentDescription": {
-            "type": "string",
-            "description": "Gets or sets the description of the amendment."
-          }
-        }
-      },
-      "AmendmentVoteResponse": {
-        "type": "object",
-        "description": "Response model for amendment voting operations (support, oppose, withdraw support, withdraw opposition).",
-        "additionalProperties": false,
-        "properties": {
-          "supporterCount": {
-            "type": "integer",
-            "description": "The updated number of supporters for this amendment.",
-            "format": "int32"
-          },
-          "opponentCount": {
-            "type": "integer",
-            "description": "The updated number of opponents for this amendment.",
-            "format": "int32"
-          }
-        }
-      },
-      "SupportAmendmentRequest": {
-        "type": "object",
-        "description": "Request model for supporting an amendment.",
-        "additionalProperties": false,
-        "properties": {
-          "reason": {
-            "type": "string",
-            "description": "The reason provided by the participant for supporting the amendment."
-          }
-        }
-      },
-      "OpposeAmendmentRequest": {
-        "type": "object",
-        "description": "Request model for opposing an amendment.",
-        "additionalProperties": false,
-        "properties": {
-          "reason": {
-            "type": "string",
-            "description": "The reason provided by the participant for opposing the amendment."
-          }
-        }
-      },
       "GetCurrentUserResponse": {
         "type": "object",
         "description": "Response returned when querying the current authenticated user.",
@@ -3539,6 +1845,35 @@
           "email": {
             "type": "string",
             "description": "Gets or sets the user's email address."
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": {
+          "nullable": true
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3840,6 +2175,77 @@
           }
         ]
       },
+      "ApiResponse": {
+        "type": "object",
+        "description": "Static factory methods for creating API responses.",
+        "additionalProperties": false
+      },
+      "ApiResponseOfEmergingPatternsFeedViewModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/EmergingPatternsFeedViewModel"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "EmergingPatternsFeedViewModel": {
+        "type": "object",
+        "description": "View model for the emerging patterns feed.",
+        "additionalProperties": false,
+        "properties": {
+          "patterns": {
+            "type": "array",
+            "description": "The identified emerging patterns, ordered by cluster label.",
+            "items": {
+              "$ref": "#/components/schemas/EmergingPatternResponse"
+            }
+          }
+        }
+      },
+      "EmergingPatternResponse": {
+        "type": "object",
+        "description": "Represents a cluster of signals forming an emerging pattern.",
+        "additionalProperties": false,
+        "properties": {
+          "clusterLabel": {
+            "type": "integer",
+            "description": "The HDBSCAN cluster label.",
+            "format": "int32"
+          },
+          "signalIds": {
+            "type": "array",
+            "description": "IDs of the signals assigned to this cluster.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "signalCount": {
+            "type": "integer",
+            "description": "Number of signals in this cluster.",
+            "format": "int32"
+          },
+          "lastUpdatedAt": {
+            "type": "string",
+            "description": "When this pattern was last updated by a clustering run.",
+            "format": "date-time"
+          }
+        }
+      },
       "ApiResponseOfIdeasFeedViewModel": {
         "allOf": [
           {
@@ -3865,7 +2271,7 @@
       },
       "IdeasFeedViewModel": {
         "type": "object",
-        "description": "View model for the ideas feed page, including ideas and metadata for filtering.",
+        "description": "View model for the ideas feed page.",
         "additionalProperties": false,
         "properties": {
           "ideas": {
@@ -3875,13 +2281,6 @@
                 "$ref": "#/components/schemas/PaginatedResponseOfIdeaListItemResponse"
               }
             ]
-          },
-          "availableTags": {
-            "type": "array",
-            "description": "All available tags across all ideas (for filtering).",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -3936,25 +2335,9 @@
             "type": "string",
             "description": "The title of the idea."
           },
-          "body": {
+          "description": {
             "type": "string",
             "description": "The body content describing the idea."
-          },
-          "societyContext": {
-            "type": "string",
-            "description": "The ID of the society where this idea is proposed."
-          },
-          "sourceSignalIds": {
-            "type": "array",
-            "description": "The collection of signal IDs that this idea was derived from or references.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "openAmendmentCount": {
-            "type": "integer",
-            "description": "The number of amendments that are currently open for voting on this idea.",
-            "format": "int32"
           },
           "createdAt": {
             "type": "string",
@@ -3966,18 +2349,42 @@
             "description": "The timestamp when the idea was last modified or updated.",
             "format": "date-time"
           },
-          "tags": {
-            "type": "array",
-            "description": "The collection of tags associated with this idea for categorization and discovery.",
-            "items": {
-              "type": "string"
-            }
-          },
           "status": {
             "type": "string",
-            "description": "The current status of the idea (e.g., \"published\", \"archived\")."
+            "description": "The current status of the idea (e.g., \"Draft\", \"Published\")."
           }
         }
+      },
+      "SortDescriptor": {
+        "type": "object",
+        "description": "Describes a single sort operation against a logical field.",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
+          },
+          "direction": {
+            "description": "Sort direction.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "Sort direction for a field.",
+        "x-enumNames": [
+          "Asc",
+          "Desc"
+        ],
+        "enum": [
+          "Asc",
+          "Desc"
+        ]
       },
       "AuthorIdeaRequest": {
         "type": "object",
@@ -3991,24 +2398,6 @@
           "description": {
             "type": "string",
             "description": "The description of the idea."
-          },
-          "tags": {
-            "type": "array",
-            "description": "The tags associated with the idea.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "sourceSignalIds": {
-            "type": "array",
-            "description": "The IDs of the source signals.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "societyId": {
-            "type": "string",
-            "description": "The ID of the society context where the idea is being created."
           }
         }
       },
@@ -4063,29 +2452,13 @@
             "type": "string",
             "description": "The title of the idea."
           },
-          "body": {
+          "description": {
             "type": "string",
             "description": "The description of the idea."
-          },
-          "societyContext": {
-            "type": "string",
-            "description": "The ID of the society where this idea is proposed."
-          },
-          "sourceSignals": {
-            "type": "array",
-            "description": "The source signals associated with this idea.",
-            "items": {
-              "$ref": "#/components/schemas/IdeaSourceSignal"
-            }
           },
           "authorPseudonym": {
             "type": "string",
             "description": "The pseudonym of the author who created the idea."
-          },
-          "openAmendmentCount": {
-            "type": "integer",
-            "description": "The number of amendments made to this idea.",
-            "format": "int32"
           },
           "createdAt": {
             "type": "string",
@@ -4097,31 +2470,9 @@
             "description": "When the idea was last updated.",
             "format": "date-time"
           },
-          "tags": {
-            "type": "array",
-            "description": "The tags associated with this idea.",
-            "items": {
-              "type": "string"
-            }
-          },
           "status": {
             "type": "string",
             "description": "The status of the idea."
-          }
-        }
-      },
-      "IdeaSourceSignal": {
-        "type": "object",
-        "description": "Represents a source signal associated with an idea.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the source signal."
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the source signal."
           }
         }
       },
@@ -4311,7 +2662,7 @@
       },
       "CaptureSignalRequest": {
         "type": "object",
-        "description": "Request model for creating a signal.",
+        "description": "Capture signal request model.",
         "additionalProperties": false,
         "properties": {
           "title": {
@@ -4324,16 +2675,16 @@
           },
           "tags": {
             "type": "array",
-            "description": "The tags for the signal, comma-separated.",
+            "description": "The tags for the signal.",
             "items": {
               "type": "string"
             }
           },
-          "attachments": {
+          "attachmentIds": {
             "type": "array",
-            "description": "The attachments associated with the signal.",
+            "description": "The document IDs of attachments to associate with the signal.",
             "items": {
-              "$ref": "#/components/schemas/Attachment"
+              "type": "string"
             }
           },
           "latitude": {
@@ -4346,22 +2697,6 @@
             "type": "number",
             "description": "Optional longitude coordinate of the signal's location.",
             "format": "double",
-            "nullable": true
-          }
-        }
-      },
-      "Attachment": {
-        "type": "object",
-        "description": "Represents an attachment associated with a document, including its identifier and an optional caption.",
-        "additionalProperties": false,
-        "properties": {
-          "documentId": {
-            "type": "string",
-            "description": "The unique identifier of the document associated with the attachment. This value cannot be null."
-          },
-          "caption": {
-            "type": "string",
-            "description": "An optional caption describing the attachment. This value can be null.",
             "nullable": true
           }
         }
@@ -4586,23 +2921,6 @@
           }
         }
       },
-      "AmplifySignalRequest": {
-        "type": "object",
-        "description": "Request model for amplifying a signal.",
-        "additionalProperties": false,
-        "properties": {
-          "reason": {
-            "type": "string",
-            "description": "The reason for amplifying the signal.",
-            "nullable": true
-          },
-          "commentary": {
-            "type": "string",
-            "description": "Optional commentary about the amplification.",
-            "nullable": true
-          }
-        }
-      },
       "ApiResponseOfDeamplifySignalResponse": {
         "allOf": [
           {
@@ -4634,74 +2952,6 @@
           "newAmplifyCount": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "SuggestActionRequest": {
-        "type": "object",
-        "description": "Request model for suggesting a structured action on a signal.",
-        "additionalProperties": false,
-        "properties": {
-          "actionType": {
-            "type": "string",
-            "description": "The action type name (e.g. MakeACall, VisitAWebpage).\nMust match the Name of a value returned by GET /api/action-types.",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "The phone number to call. Required when ActionType is MakeACall.",
-            "nullable": true
-          },
-          "url": {
-            "type": "string",
-            "description": "The URL to visit. Required when ActionType is VisitAWebpage.",
-            "nullable": true
-          },
-          "details": {
-            "type": "string",
-            "description": "Optional free-text context applicable to any action type.",
-            "nullable": true
-          }
-        }
-      },
-      "ApiResponseOfSignalAmplificationTrendResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/SignalAmplificationTrendResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "SignalAmplificationTrendResponse": {
-        "type": "object",
-        "description": "Response model for signal amplification trend data.",
-        "additionalProperties": false,
-        "properties": {
-          "signalId": {
-            "type": "string",
-            "description": "Gets the signal identifier."
-          },
-          "dataPoints": {
-            "type": "array",
-            "description": "Gets the collection of trend data points showing amplification events over time.",
-            "items": {
-              "$ref": "#/components/schemas/TrendPointResponse"
-            }
           }
         }
       },
@@ -5165,6 +3415,153 @@
             }
           }
         ]
+      },
+      "ApiResponseOfIReadOnlyListOfTrustInviteLinkViewResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/TrustInviteLinkViewResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "TrustInviteLinkViewResponse": {
+        "type": "object",
+        "description": "A read-only view of an invite link returned from the API.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The invite link ID.",
+            "format": "guid"
+          },
+          "token": {
+            "type": "string",
+            "description": "The URL-safe base64url token."
+          },
+          "note": {
+            "type": "string",
+            "description": "The optional private note visible only to the creator.",
+            "nullable": true
+          },
+          "isRevoked": {
+            "type": "boolean",
+            "description": "Whether the link has been revoked."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "UTC timestamp of creation.",
+            "format": "date-time"
+          }
+        }
+      },
+      "ApiResponseOfTrustInviteLinkCreatedResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TrustInviteLinkCreatedResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "TrustInviteLinkCreatedResponse": {
+        "type": "object",
+        "description": "Response returned when an invite link is successfully created.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The invite link ID.",
+            "format": "guid"
+          },
+          "token": {
+            "type": "string",
+            "description": "The URL-safe base64url token."
+          },
+          "note": {
+            "type": "string",
+            "description": "The optional private note supplied by the creator.",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "UTC timestamp of creation.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateTrustInviteLinkRequest": {
+        "type": "object",
+        "description": "Request body for creating an invite link.",
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "type": "string",
+            "description": "An optional private note visible only to the creator.",
+            "nullable": true
+          }
+        }
+      },
+      "ApiResponseOfResolvedInviteLinkResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ResolvedInviteLinkResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ResolvedInviteLinkResponse": {
+        "type": "object",
+        "description": "The result of resolving an invite link token.",
+        "additionalProperties": false,
+        "properties": {
+          "inviterUserId": {
+            "type": "string",
+            "description": "The internal user ID of the participant who created the invite link."
+          }
+        }
       }
     }
   }

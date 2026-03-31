@@ -1,0 +1,816 @@
+{
+  "ideas": [
+    {
+      "creatorIndex": 6,
+      "title": "Upgrade storm drain capacity at Elm Street underpass",
+      "body": "Commission a hydraulic engineering assessment and upgrade the storm drain at the Elm Street underpass. Reroute surface water runoff from surrounding streets into an enlarged drain. Estimated cost: £40,000 from the highways maintenance fund.",
+      "signalIndices": [0],
+      "tags": ["infrastructure", "flooding"],
+      "amendments": [
+        {
+          "creatorIndex": 7,
+          "proposedTitle": "Upgrade Elm Street underpass: drain, lighting, and cycle access",
+          "proposedBody": "Commission a hydraulic engineering assessment and upgrade the storm drain at the Elm Street underpass. Reroute surface water runoff from surrounding streets into an enlarged drain. Estimated cost: £40,000 from the highways maintenance fund. Extend the scope to include improved lighting, tactile paving, and a separated one-metre cycle lane through the underpass.",
+          "amendmentTitle": "Add pedestrian and cycle safety improvements",
+          "amendmentDescription": "The underpass is narrow and poorly lit regardless of flooding. A coordinated project is more cost-effective and is more likely to attract active travel funding that the drain upgrade alone would not qualify for.",
+          "supporters": [
+            { "participantIndex": 0, "reason": "Cycling through there is genuinely dangerous. Combining the projects makes sense." },
+            { "participantIndex": 2, "reason": "Active travel funding could cover a significant portion of the additional cost." }
+          ],
+          "opponents": [
+            { "participantIndex": 15, "reason": "Expanding scope risks delaying the drain fix, which is the urgent problem." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 5,
+      "title": "Community garden on Pine Avenue vacant lot",
+      "body": "Work with the council to convert the vacant lot at 14 Pine Avenue into allotment plots. Establish a resident committee to manage applications, the waiting list, and shared maintenance. Target: operational within 12 months.",
+      "signalIndices": [1],
+      "tags": ["environment", "community"],
+      "amendments": [
+        {
+          "creatorIndex": 3,
+          "proposedTitle": "Community garden with tool library and composting bays",
+          "proposedBody": "Work with the council to convert the vacant lot at 14 Pine Avenue into allotment plots. Establish a resident committee to manage applications, the waiting list, and shared maintenance. Target: operational within 12 months. Include a shared tool store (stocked via donation drive) and at least two composting bays serving the wider street.",
+          "amendmentTitle": "Add shared tool library and composting bays",
+          "amendmentDescription": "A tool store removes the main cost barrier for new plot holders. The composting bays would serve the whole street and reduce organic waste going to landfill.",
+          "supporters": [
+            { "participantIndex": 8, "reason": "Tools are the main cost barrier for new growers. A shared store makes this accessible." },
+            { "participantIndex": 10, "reason": "Composting bays would be useful for residents well beyond the garden itself." },
+            { "participantIndex": 12, "reason": "Donation drives work well for tools. Low cost, high community involvement." }
+          ],
+          "opponents": []
+        },
+        {
+          "creatorIndex": 4,
+          "proposedTitle": "Community garden with priority allocation for households without garden access",
+          "proposedBody": "Work with the council to convert the vacant lot at 14 Pine Avenue into allotment plots. Establish a resident committee to manage applications, the waiting list, and shared maintenance. Target: operational within 12 months. Reserve at least half of all plots, by ballot, for households with no private outdoor growing space.",
+          "amendmentTitle": "Reserve plots for households without garden access",
+          "amendmentDescription": "Without an allocation policy the plots will go to whoever applies first, which tends to favour those already well-resourced. A reserved allocation ensures the garden serves residents with the greatest need.",
+          "supporters": [
+            { "participantIndex": 14, "reason": "Flat allocation means residents with gardens get allotments while flat dwellers miss out." },
+            { "participantIndex": 16, "reason": "A ballot is fair and transparent." }
+          ],
+          "opponents": [
+            { "participantIndex": 9, "reason": "Verifying 'no garden' status could be burdensome and contentious to administer." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 9,
+      "title": "Replace failing Maple Road lamp columns with LED fittings",
+      "body": "Replace the seven failing sodium lamp columns on Maple Road with full-spectrum LED fittings on a managed maintenance contract. Extend the lighting zone 80 metres north to cover the school gate approach. Funding to be drawn from the highways capital improvement budget. Target completion before the autumn term.",
+      "signalIndices": [3, 8],
+      "tags": ["safety", "infrastructure"],
+      "amendments": [
+        {
+          "creatorIndex": 11,
+          "proposedTitle": "Replace Maple Road lamp columns and introduce timed dimming to reduce light pollution",
+          "proposedBody": "Replace the seven failing sodium lamp columns on Maple Road with full-spectrum LED fittings on a managed maintenance contract. Extend the lighting zone 80 metres north to cover the school gate approach. Funding to be drawn from the highways capital improvement budget. Target completion before the autumn term. Configure all new fittings with timed dimming between midnight and 5 am to reduce light pollution and energy costs.",
+          "amendmentTitle": "Add timed dimming to reduce light pollution and energy use",
+          "amendmentDescription": "Modern LED columns support dimming schedules at no additional hardware cost. Night-time dimming reduces ecological light pollution and lowers the running cost, improving the long-term case for the upgrade.",
+          "supporters": [
+            { "participantIndex": 3, "reason": "The ecological argument is sound. Full brightness at 3 am serves almost no one." },
+            { "participantIndex": 18, "reason": "Lower energy costs make this an easier sell to the council finance team." }
+          ],
+          "opponents": [
+            { "participantIndex": 10, "reason": "Any dimming scheme must still guarantee visibility outside the school. The timings need careful design." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 12,
+      "title": "Commission a full accessibility audit and phased resurfacing of Riverside Park paths",
+      "body": "Commission an independent accessibility audit of all Riverside Park footpaths to identify and prioritise sections that exclude wheelchair users and pushchair users. Use audit findings to produce a phased resurfacing plan, with the northern loop section completed first. Apply for Sport England Inclusive Activity funding to supplement the parks maintenance budget.",
+      "signalIndices": [4],
+      "tags": ["accessibility", "parks", "infrastructure"],
+      "amendments": [
+        {
+          "creatorIndex": 0,
+          "proposedTitle": "Riverside Park accessibility audit, resurfacing, and new rest seating",
+          "proposedBody": "Commission an independent accessibility audit of all Riverside Park footpaths to identify and prioritise sections that exclude wheelchair users and pushchair users. Use audit findings to produce a phased resurfacing plan, with the northern loop section completed first. Apply for Sport England Inclusive Activity funding to supplement the parks maintenance budget. Include installation of six additional benches at regular intervals along the main loop, reducing the distance between rest points to no more than 100 metres.",
+          "amendmentTitle": "Include rest seating at regular intervals",
+          "amendmentDescription": "Older residents and those with limited mobility are excluded not only by surface quality but by the absence of places to rest. Additional seating is low cost and dramatically increases how far many people can comfortably walk.",
+          "supporters": [
+            { "participantIndex": 6, "reason": "My father uses the park but cannot complete the loop without somewhere to sit. Seating would transform his experience." },
+            { "participantIndex": 12, "reason": "Seating is cheap relative to resurfacing but high impact for older users." },
+            { "participantIndex": 15, "reason": "This should have been part of the original park design. Fixing it now is overdue." }
+          ],
+          "opponents": []
+        },
+        {
+          "creatorIndex": 14,
+          "proposedTitle": "Riverside Park accessibility audit with co-design sessions led by disabled residents",
+          "proposedBody": "Commission an independent accessibility audit of all Riverside Park footpaths to identify and prioritise sections that exclude wheelchair users and pushchair users. Use audit findings to produce a phased resurfacing plan, with the northern loop section completed first. Apply for Sport England Inclusive Activity funding to supplement the parks maintenance budget. Convene at least two co-design sessions with disabled residents and pushchair users before finalising the resurfacing specification, to ensure lived-experience priorities are reflected.",
+          "amendmentTitle": "Require co-design with disabled residents before finalising specification",
+          "amendmentDescription": "Technical audits identify deficiencies but do not capture the routes and features that disabled residents actually want. Co-design sessions ensure money is spent on changes that matter most to the people affected.",
+          "supporters": [
+            { "participantIndex": 0, "reason": "As a wheelchair user I would rather be consulted than have someone guess what I need." },
+            { "participantIndex": 9, "reason": "Co-design produces better outcomes and increases community ownership of the result." }
+          ],
+          "opponents": [
+            { "participantIndex": 17, "reason": "Co-design adds time. The northern section is already impassable and needs fixing now, not after two consultation rounds." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 1,
+      "title": "Establish a community-run meanwhile space in the Cedar Lane Youth Centre building",
+      "body": "Negotiate a meanwhile licence with the council for the Cedar Lane Youth Centre building. Form a volunteer steering group to operate a weekly programme of evening activities for 11–18 year olds while a longer-term funding solution is sought. Partner with local sports clubs and arts organisations to provide activities at low or no cost.",
+      "signalIndices": [5],
+      "tags": ["youth", "community", "social"],
+      "amendments": [
+        {
+          "creatorIndex": 19,
+          "proposedTitle": "Community meanwhile space in Cedar Lane Youth Centre with youth-led programme committee",
+          "proposedBody": "Negotiate a meanwhile licence with the council for the Cedar Lane Youth Centre building. Form a volunteer steering group to operate a weekly programme of evening activities for 11–18 year olds while a longer-term funding solution is sought. Partner with local sports clubs and arts organisations to provide activities at low or no cost. Establish a programme committee where at least half the seats are held by young people aged 14–18, with meaningful decision-making authority over what activities run.",
+          "amendmentTitle": "Give young people majority control of the programme committee",
+          "amendmentDescription": "Adult-designed youth provision often misses what young people actually want. A programme committee with genuine youth majority ensures activities are relevant and increases attendance and ownership.",
+          "supporters": [
+            { "participantIndex": 3, "reason": "Every youth programme I have seen that was designed without young people struggled with attendance." },
+            { "participantIndex": 7, "reason": "Young people knowing they have real authority is itself a valuable experience." },
+            { "participantIndex": 11, "reason": "This is straightforward to implement and makes the whole project more credible." }
+          ],
+          "opponents": []
+        },
+        {
+          "creatorIndex": 13,
+          "proposedTitle": "Community meanwhile space in Cedar Lane with parallel application for statutory youth funding",
+          "proposedBody": "Negotiate a meanwhile licence with the council for the Cedar Lane Youth Centre building. Form a volunteer steering group to operate a weekly programme of evening activities for 11–18 year olds while a longer-term funding solution is sought. Partner with local sports clubs and arts organisations to provide activities at low or no cost. Simultaneously submit a formal application under the council's Section 106 youth provision obligation to restore statutory funding for the facility.",
+          "amendmentTitle": "Pursue statutory Section 106 funding in parallel",
+          "amendmentDescription": "The council has planning contributions earmarked for youth provision under Section 106 agreements. The meanwhile space addresses the immediate gap, but a formal funding application pursues the permanent solution in parallel rather than treating the temporary arrangement as an end state.",
+          "supporters": [
+            { "participantIndex": 5, "reason": "Voluntary effort should not become a substitute for statutory provision. We need both tracks running." },
+            { "participantIndex": 16, "reason": "The Section 106 argument is strong. The council has obligations here." }
+          ],
+          "opponents": [
+            { "participantIndex": 8, "reason": "A funding application will take months. The meanwhile space should open immediately without waiting." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 16,
+      "title": "Meanwhile use programme for vacant High Street units",
+      "body": "Work with the council's economic development team and the Business Improvement District to offer a meanwhile use licence to local makers, artists, community groups, and social enterprises for High Street units that have been vacant for more than twelve months. Target a minimum of five units activated within six months. Active frontages improve the experience for remaining businesses and demonstrate to landlords that occupancy is achievable.",
+      "signalIndices": [5, 6],
+      "tags": ["economy", "community", "town-centre"],
+      "amendments": [
+        {
+          "creatorIndex": 2,
+          "proposedTitle": "Meanwhile use programme with priority for community and social enterprise occupiers",
+          "proposedBody": "Work with the council's economic development team and the Business Improvement District to offer a meanwhile use licence to local makers, artists, community groups, and social enterprises for High Street units that have been vacant for more than twelve months. Target a minimum of five units activated within six months. Active frontages improve the experience for remaining businesses and demonstrate to landlords that occupancy is achievable. Reserve at least three of the five initial units for non-commercial community or social enterprise use, to ensure the programme serves public benefit and not only commercial revival.",
+          "amendmentTitle": "Reserve majority of units for community and social enterprise use",
+          "amendmentDescription": "Without explicit allocation, meanwhile use programmes are quickly dominated by commercial pop-ups with low community benefit. Reserving units for non-commercial occupiers creates spaces that residents actually use and generates broader support for the programme.",
+          "supporters": [
+            { "participantIndex": 6, "reason": "Commercial pop-ups are fine but they serve customers. Community spaces serve residents. We need both." },
+            { "participantIndex": 10, "reason": "A repair café or food bank in a High Street unit would do more for the community than another market stall." },
+            { "participantIndex": 18, "reason": "Non-commercial use is also easier to get landlord agreement on — less risk of tenancy disputes." }
+          ],
+          "opponents": [
+            { "participantIndex": 16, "reason": "The programme needs to be attractive to a wide range of occupiers. Rigid quotas may reduce take-up." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 8,
+      "title": "Expand the community air quality sensor network and require council response protocol",
+      "body": "Extend the existing community sensor network around the Northfield Industrial Estate from six to twenty sensors to provide full coverage of the affected residential area. Publish real-time data on an open dashboard. Submit formal evidence to the council's Environmental Health team under the Environment Act and request a written response within 28 days committing to an investigation timeline.",
+      "signalIndices": [7],
+      "tags": ["environment", "health", "pollution"],
+      "amendments": [
+        {
+          "creatorIndex": 4,
+          "proposedTitle": "Expand sensor network and commission independent health impact assessment",
+          "proposedBody": "Extend the existing community sensor network around the Northfield Industrial Estate from six to twenty sensors to provide full coverage of the affected residential area. Publish real-time data on an open dashboard. Submit formal evidence to the council's Environmental Health team under the Environment Act and request a written response within 28 days committing to an investigation timeline. Commission an independent health impact assessment of the estate's emissions, drawing on GP respiratory referral data where consent allows, to build an evidence base that cannot be dismissed.",
+          "amendmentTitle": "Commission independent health impact assessment using NHS data",
+          "amendmentDescription": "Sensor data alone can be contested by the operators. A health impact assessment linking emissions to recorded respiratory outcomes creates a much stronger case for regulatory action and demonstrates the human cost rather than just the technical exceedance.",
+          "supporters": [
+            { "participantIndex": 1, "reason": "My daughter's asthma records are exactly the kind of evidence this assessment would use." },
+            { "participantIndex": 7, "reason": "Operators will challenge sensor methodology. Health data is much harder to dismiss." },
+            { "participantIndex": 13, "reason": "This also creates a baseline for monitoring whether conditions improve after any intervention." }
+          ],
+          "opponents": [
+            { "participantIndex": 3, "reason": "A health impact assessment takes time and money. The sensor evidence is already clear enough to demand action now." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 17,
+      "title": "Install a signalised pedestrian crossing on School Road",
+      "body": "Apply to the council's highways team for a signalised crossing on School Road at the midpoint between Park Lane junction and the school gate, approximately 175 metres from each end. Present the documented near-miss incidents as grounds for a formal road safety assessment. Request that the assessment be completed and a decision issued within three months.",
+      "signalIndices": [8],
+      "tags": ["safety", "children", "transport"],
+      "amendments": [
+        {
+          "creatorIndex": 10,
+          "proposedTitle": "Signalised crossing on School Road with 20 mph zone and pavement widening",
+          "proposedBody": "Apply to the council's highways team for a signalised crossing on School Road at the midpoint between Park Lane junction and the school gate, approximately 175 metres from each end. Present the documented near-miss incidents as grounds for a formal road safety assessment. Request that the assessment be completed and a decision issued within three months. Extend the scope of the application to include a 20 mph zone covering the full length of School Road and widening of the pavement on the school-side footway to allow two pushchairs to pass.",
+          "amendmentTitle": "Add 20 mph zone and pavement widening to scope",
+          "amendmentDescription": "A single crossing addresses one point but not the broader danger. A 20 mph zone reduces vehicle speed for the whole route and is proven to reduce both the frequency and severity of collisions. Pavement widening removes a separate hazard where parents and children must step into the road to pass each other.",
+          "supporters": [
+            { "participantIndex": 0, "reason": "The crossing is the minimum. 20 mph and a wider pavement make the whole street safe." },
+            { "participantIndex": 4, "reason": "20 mph zones are consistently effective and cost far less than collision response." },
+            { "participantIndex": 19, "reason": "Schools should be in low-speed zones as a default, not an exception." }
+          ],
+          "opponents": [
+            { "participantIndex": 15, "reason": "Expanding scope risks the whole application being deferred for a wider traffic study. A crossing is achievable now." }
+          ]
+        },
+        {
+          "creatorIndex": 6,
+          "proposedTitle": "Signalised crossing on School Road with School Streets restriction at peak times",
+          "proposedBody": "Apply to the council's highways team for a signalised crossing on School Road at the midpoint between Park Lane junction and the school gate, approximately 175 metres from each end. Present the documented near-miss incidents as grounds for a formal road safety assessment. Request that the assessment be completed and a decision issued within three months. In parallel, pilot a School Streets restriction closing School Road to through-traffic between 8–9 am and 3–4 pm on school days, using volunteer marshals initially and Traffic Regulation Orders if the pilot succeeds.",
+          "amendmentTitle": "Pilot a School Streets restriction to close the road at pick-up and drop-off",
+          "amendmentDescription": "The danger is concentrated at peak school times. Closing the road to through-traffic during those windows removes the hazard entirely rather than managing it. School Streets pilots are low cost, reversible, and have strong track records in other areas.",
+          "supporters": [
+            { "participantIndex": 11, "reason": "School Streets schemes are proven. The risk is low and the benefit could be transformative." },
+            { "participantIndex": 17, "reason": "A pilot is inherently reversible. If it does not work, it costs little." }
+          ],
+          "opponents": [
+            { "participantIndex": 2, "reason": "Closing the road will push traffic onto residential side streets. We need to model the displacement before committing." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 15,
+      "title": "Restore Central Library to seven-day opening through a community trust model",
+      "body": "Establish a community trust to take on operational management of the Central Library under a peppercorn lease from the council, enabling the building to remain open seven days a week. The trust model removes the facility from the direct council budget while keeping it in community ownership. Seek grant funding from Arts Council England and the Carnegie UK Trust for the transition and first three years of operation.",
+      "signalIndices": [5, 9],
+      "tags": ["education", "community", "social"],
+      "amendments": [
+        {
+          "creatorIndex": 18,
+          "proposedTitle": "Community trust library with warm space, digital access hub, and peer support services",
+          "proposedBody": "Establish a community trust to take on operational management of the Central Library under a peppercorn lease from the council, enabling the building to remain open seven days a week. The trust model removes the facility from the direct council budget while keeping it in community ownership. Seek grant funding from Arts Council England and the Carnegie UK Trust for the transition and first three years of operation. Formalise the library's role as a warm space and digital access hub, and co-locate a peer support drop-in service for adults experiencing social isolation.",
+          "amendmentTitle": "Formalise warm space, digital access, and peer support co-location",
+          "amendmentDescription": "The library already serves these functions informally. Naming them explicitly in the trust's remit unlocks specific funding streams (DCMS Warm Spaces, National Lottery Community Fund, NHS social prescribing budgets) that the library alone would not qualify for.",
+          "supporters": [
+            { "participantIndex": 2, "reason": "The library is already a de facto warm space. Making it official brings funding." },
+            { "participantIndex": 5, "reason": "Digital access and job search support could be formalised alongside this at almost no extra cost." },
+            { "participantIndex": 11, "reason": "Social prescribing referrals from the GP surgery two streets away would be a natural fit." }
+          ],
+          "opponents": []
+        },
+        {
+          "creatorIndex": 7,
+          "proposedTitle": "Restore library hours through community trust while pursuing judicial review of consultation failure",
+          "proposedBody": "Establish a community trust to take on operational management of the Central Library under a peppercorn lease from the council, enabling the building to remain open seven days a week. The trust model removes the facility from the direct council budget while keeping it in community ownership. Seek grant funding from Arts Council England and the Carnegie UK Trust for the transition and first three years of operation. In parallel, commission a legal opinion on whether the council's failure to conduct a public consultation before cutting library hours breached its statutory obligations, with a view to a judicial review application if the opinion is favourable.",
+          "amendmentTitle": "Pursue legal challenge to the consultation failure in parallel",
+          "amendmentDescription": "The council cut hours without any public consultation. That may constitute an unlawful failure of due process. A judicial review would not reverse the cuts immediately but would establish accountability and set a precedent that prevents the same approach being used to cut other services.",
+          "supporters": [
+            { "participantIndex": 18, "reason": "The community trust is the practical solution. The legal route is about accountability. Both are necessary." },
+            { "participantIndex": 15, "reason": "If the council did breach its duties, that should be established on the record." }
+          ],
+          "opponents": [
+            { "participantIndex": 9, "reason": "A legal challenge could antagonise the council at exactly the moment we need their cooperation on the trust lease." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 40,
+      "title": "Establish an extended-hours GP access hub at Northgate Health Centre",
+      "body": "Commission a feasibility study and business case for an extended-hours GP access hub operating seven days a week at Northgate Health Centre. The hub would provide access to a GP, nurse, and pharmacist for acute and urgent appointments that cannot wait for a standard practice slot. Funding to be sought from the Eastshire Integrated Care Board's primary care access improvement allocation, with a formal submission within six weeks.",
+      "signalIndices": [10],
+      "tags": ["health", "access", "primary-care"],
+      "amendments": [
+        {
+          "creatorIndex": 23,
+          "proposedTitle": "Extended-hours GP access hub with home visiting service for housebound patients",
+          "proposedBody": "Commission a feasibility study and business case for an extended-hours GP access hub operating seven days a week at Northgate Health Centre. The hub would provide access to a GP, nurse, and pharmacist for acute and urgent appointments that cannot wait for a standard practice slot. Funding to be sought from the Eastshire Integrated Care Board's primary care access improvement allocation, with a formal submission within six weeks. Include a scheduled home visiting service for patients who cannot attend the hub in person, operating twice-weekly and coordinated through the hub's clinical team.",
+          "amendmentTitle": "Add home visiting for housebound patients",
+          "amendmentDescription": "Extended hours at a hub only helps people who can travel to it. The patients most underserved by the current system — elderly, disabled, and isolated residents — cannot attend in person. A home visiting element ensures the hub improves access for those with the greatest need, not just those who are able to travel.",
+          "supporters": [
+            { "participantIndex": 44, "reason": "The housebound patients I know are invisible to services because they cannot present themselves. A visiting element would reach them." },
+            { "participantIndex": 46, "reason": "Housebound patients are also the highest users of emergency services. Early intervention via home visits should reduce A&E demand." }
+          ],
+          "opponents": [
+            { "participantIndex": 42, "reason": "Home visiting is significantly more expensive per patient than hub attendance. The business case needs to be clear that this element is separately funded." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 41,
+      "title": "Establish a seven-day street outreach programme for rough sleepers at Westgate station",
+      "body": "Commission a specialist homelessness charity to operate a seven-day street outreach programme at Westgate station and the surrounding area. The programme should include needs assessment, referral to emergency accommodation, and continuity with health services including the GP rough sleeper registration scheme. Funding to be sought from the council's homelessness prevention budget and the rough sleeping initiative grant.",
+      "signalIndices": [11],
+      "tags": ["housing", "social", "health"],
+      "amendments": [
+        {
+          "creatorIndex": 26,
+          "proposedTitle": "Street outreach programme with single-point referral coordinator embedded in the council",
+          "proposedBody": "Commission a specialist homelessness charity to operate a seven-day street outreach programme at Westgate station and the surrounding area. The programme should include needs assessment, referral to emergency accommodation, and continuity with health services including the GP rough sleeper registration scheme. Funding to be sought from the council's homelessness prevention budget and the rough sleeping initiative grant. Embed a single referral coordinator within the council housing department with named case responsibility for each individual identified through outreach, to ensure continuity across the multiple agencies involved and prevent individuals being lost between services.",
+          "amendmentTitle": "Embed a referral coordinator within the council housing team",
+          "amendmentDescription": "Outreach programmes fail when there is no single person with named responsibility for each individual. A coordinator embedded in the council housing team creates accountability, ensures referrals are followed through, and prevents the most complex cases from cycling indefinitely without progress.",
+          "supporters": [
+            { "participantIndex": 28, "reason": "Every case I have heard of where someone fell through the net involved multiple agencies each assuming someone else was responsible." },
+            { "participantIndex": 30, "reason": "A named coordinator is also a point of contact for residents reporting concerns. That matters." }
+          ],
+          "opponents": [
+            { "participantIndex": 41, "reason": "Embedding a coordinator in the council housing team risks the outreach work becoming compliance-focused rather than person-centred." }
+          ]
+        },
+        {
+          "creatorIndex": 27,
+          "proposedTitle": "Street outreach programme with formal proposal for a night shelter in the former council depot",
+          "proposedBody": "Commission a specialist homelessness charity to operate a seven-day street outreach programme at Westgate station and the surrounding area. The programme should include needs assessment, referral to emergency accommodation, and continuity with health services including the GP rough sleeper registration scheme. Funding to be sought from the council's homelessness prevention budget and the rough sleeping initiative grant. In parallel, submit a formal proposal to the council to use the vacant former depot on Albert Road as a temporary night shelter, with the outreach charity operating the facility under a meanwhile licence.",
+          "amendmentTitle": "Open a night shelter in the vacant council depot building",
+          "amendmentDescription": "Outreach without somewhere to refer people to is limited in what it can achieve. The former depot has been vacant for two years and could be operational as a shelter within weeks with minimal conversion. A meanwhile licence keeps the arrangement time-limited and low risk for the council.",
+          "supporters": [
+            { "participantIndex": 25, "reason": "Outreach that cannot offer accommodation ends with the same people in the same situation the next night." },
+            { "participantIndex": 21, "reason": "The depot has been sitting empty. If the council is serious about the problem it has the building to act on it." }
+          ],
+          "opponents": [
+            { "participantIndex": 29, "reason": "A night shelter requires specialist management, safeguarding, and 24-hour staffing. The delivery risk is significant and should not be underestimated." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 42,
+      "title": "Open council-owned service yard on Victoria Street as temporary short-stay car park",
+      "body": "Negotiate with the council's asset management team to open the unused service yard on Victoria Street as a temporary short-stay car park on a meanwhile basis while the Bridge Street replacement strategy is developed. The yard has capacity for approximately 40 vehicles. A simple barrier and payment system could be operational within weeks at minimal capital cost.",
+      "signalIndices": [12],
+      "tags": ["transport", "accessibility", "town-centre"],
+      "amendments": [
+        {
+          "creatorIndex": 29,
+          "proposedTitle": "Temporary short-stay car park on Victoria Street with accessible bays and EV charging",
+          "proposedBody": "Negotiate with the council's asset management team to open the unused service yard on Victoria Street as a temporary short-stay car park on a meanwhile basis while the Bridge Street replacement strategy is developed. The yard has capacity for approximately 40 vehicles. A simple barrier and payment system could be operational within weeks at minimal capital cost. Require that at least four bays are designated accessible bays meeting BS 8300 dimensions, and that provision is made for at least two electric vehicle charge points as a condition of the meanwhile licence.",
+          "amendmentTitle": "Include accessible bays and EV charging from day one",
+          "amendmentDescription": "The Bridge Street car park's specific value to disabled users was its level surface and accessible bays. If the Victoria Street facility does not include compliant accessible spaces from the outset it will not serve the residents who needed Bridge Street most. EV charging is inexpensive to add at the outset and expensive to retrofit.",
+          "supporters": [
+            { "participantIndex": 22, "reason": "The accessibility point is the most important. Without it this just helps able-bodied commuters." },
+            { "participantIndex": 30, "reason": "EV charging is a basic expectation now. Adding it later will cost three times as much." }
+          ],
+          "opponents": [
+            { "participantIndex": 42, "reason": "Accessible bay dimensions and EV infrastructure add to the upfront cost and may slow the opening. Speed is the priority given the gap we are trying to fill." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 43,
+      "title": "Establish an emergency repair fund and energy audit programme for community buildings",
+      "body": "Establish a ring-fenced emergency repair fund for voluntary and community sector buildings, administered by the council's voluntary sector partnership. Hillside Community Centre to be the immediate recipient of a grant to cover the boiler replacement. Require all recipient buildings to complete an energy efficiency assessment and produce a five-year maintenance plan as a condition of grant support.",
+      "signalIndices": [13],
+      "tags": ["community", "infrastructure", "energy"],
+      "amendments": [
+        {
+          "creatorIndex": 31,
+          "proposedTitle": "Emergency repair fund linked to a community energy scheme for long-term cost reduction",
+          "proposedBody": "Establish a ring-fenced emergency repair fund for voluntary and community sector buildings, administered by the council's voluntary sector partnership. Hillside Community Centre to be the immediate recipient of a grant to cover the boiler replacement. Require all recipient buildings to complete an energy efficiency assessment and produce a five-year maintenance plan as a condition of grant support. Commission a feasibility study for a community energy scheme serving voluntary sector buildings in the area, using roof-mounted solar and battery storage, to reduce energy costs and provide resilience against future system failures.",
+          "amendmentTitle": "Commission a community energy scheme feasibility study alongside the repair fund",
+          "amendmentDescription": "Emergency repair funds address the immediate crisis but leave buildings dependent on expensive energy. A community energy scheme — already established in several comparable areas — could permanently reduce running costs and provide greater resilience. The feasibility study should run in parallel, not as a future phase.",
+          "supporters": [
+            { "participantIndex": 32, "reason": "Community energy is proven at this scale. The capital cost is typically recovered within eight years and the buildings own the asset." },
+            { "participantIndex": 34, "reason": "Reducing running costs is the only way to make these buildings sustainable for the long term. Patch repairs alone are not enough." }
+          ],
+          "opponents": [
+            { "participantIndex": 43, "reason": "A feasibility study risks becoming a reason to defer the boiler replacement. The immediate repair must not wait for the longer-term solution." }
+          ]
+        },
+        {
+          "creatorIndex": 33,
+          "proposedTitle": "Emergency repair fund with formal council duty to maintain community buildings under lease",
+          "proposedBody": "Establish a ring-fenced emergency repair fund for voluntary and community sector buildings, administered by the council's voluntary sector partnership. Hillside Community Centre to be the immediate recipient of a grant to cover the boiler replacement. Require all recipient buildings to complete an energy efficiency assessment and produce a five-year maintenance plan as a condition of grant support. Require a formal legal review of the council's obligations as freeholder of buildings leased to community organisations, and if those obligations include maintenance of structural systems, require the council to carry out the Hillside boiler repair directly rather than as a discretionary grant.",
+          "amendmentTitle": "Require the council to fulfil its legal maintenance obligations before treating this as a grant",
+          "amendmentDescription": "If the council holds the freehold of Hillside Community Centre and the lease requires it to maintain structural systems, the boiler repair is an obligation, not a favour. The community should not have to apply for a grant to receive what the council is already legally required to provide.",
+          "supporters": [
+            { "participantIndex": 36, "reason": "This is exactly right. Framing statutory obligations as discretionary grants is how public assets end up being run on voluntary subsidy." },
+            { "participantIndex": 31, "reason": "A legal review would clarify the position for multiple buildings at once, not just Hillside." }
+          ],
+          "opponents": [
+            { "participantIndex": 43, "reason": "The legal review will take time. The community groups using the building cannot wait for a solicitor's opinion before the heating is fixed." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 44,
+      "title": "Apply for local listing and Historic England assessment of Riverside Mill",
+      "body": "Submit a formal application to Historic England requesting an urgent listing assessment for Riverside Mill, and simultaneously apply to the council for local listing under the local plan heritage policy. Commission and publish a heritage significance statement demonstrating the mill's architectural and industrial heritage value. The heritage significance statement would support both applications and any subsequent public campaign.",
+      "signalIndices": [14],
+      "tags": ["heritage", "community", "planning"],
+      "amendments": [
+        {
+          "creatorIndex": 34,
+          "proposedTitle": "Heritage listing application with independent structural survey to establish reuse options",
+          "proposedBody": "Submit a formal application to Historic England requesting an urgent listing assessment for Riverside Mill, and simultaneously apply to the council for local listing under the local plan heritage policy. Commission and publish a heritage significance statement demonstrating the mill's architectural and industrial heritage value. Commission an independent structural survey of the mill before the demolition date to establish whether the building is structurally sound for adaptive reuse. The survey findings to be published and submitted as evidence with the listing applications.",
+          "amendmentTitle": "Commission a structural survey to establish adaptive reuse feasibility",
+          "amendmentDescription": "Developers often claim that listed buildings are beyond repair to justify demolition. An independent structural survey commissioned by the community creates an alternative evidence base. If the mill is structurally sound — which Victorian industrial buildings typically are — the case for demolition becomes very difficult to sustain.",
+          "supporters": [
+            { "participantIndex": 24, "reason": "A structural survey is the single most useful piece of evidence we can have. It addresses the developer's strongest argument before they make it." },
+            { "participantIndex": 44, "reason": "The survey cost is small relative to the heritage value. It should happen regardless of the listing applications." }
+          ],
+          "opponents": [
+            { "participantIndex": 35, "reason": "If the survey reveals significant structural problems it could be used against us. We should understand the risk before commissioning it." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 45,
+      "title": "Transition the food bank to a community pantry model with council partnership",
+      "body": "Work with the food bank management committee, the council's communities team, and local supermarkets to transition from emergency food bank provision to a dignified community pantry model. Members pay a small weekly contribution in exchange for access to food from a range worth ten times the value. The model reduces stigma, improves nutritional variety, and operates sustainably at significantly higher capacity. Seek the council's partnership for a suitable premises and referral pathway integration.",
+      "signalIndices": [15],
+      "tags": ["food", "poverty", "community"],
+      "amendments": [
+        {
+          "creatorIndex": 37,
+          "proposedTitle": "Community pantry with cooking skills programme and community kitchen",
+          "proposedBody": "Work with the food bank management committee, the council's communities team, and local supermarkets to transition from emergency food bank provision to a dignified community pantry model. Members pay a small weekly contribution in exchange for access to food from a range worth ten times the value. The model reduces stigma, improves nutritional variety, and operates sustainably at significantly higher capacity. Seek the council's partnership for a suitable premises and referral pathway integration. Integrate a weekly cooking skills programme for pantry members, using the pantry produce as ingredients, and explore whether a community kitchen licence can be obtained for the premises.",
+          "amendmentTitle": "Add cooking skills programme and community kitchen capability",
+          "amendmentDescription": "A pantry addresses food access but not food skills or cooking infrastructure. Many residents in hardship have inadequate cooking facilities as well as low food budgets. A cooking programme creates skills, builds community, and the community kitchen enables people who cannot cook at home to still access hot meals.",
+          "supporters": [
+            { "participantIndex": 39, "reason": "Cooking skills are the other side of food poverty. Providing ingredients without skills is only half the solution." },
+            { "participantIndex": 40, "reason": "A community kitchen has uses beyond the pantry — community meals, social enterprise catering, training. The investment is broader than it first appears." }
+          ],
+          "opponents": [
+            { "participantIndex": 45, "reason": "A cooking programme and community kitchen are a significant extension of scope. The pantry transition is already a substantial change. Adding more risks none of it happening." }
+          ]
+        },
+        {
+          "creatorIndex": 38,
+          "proposedTitle": "Community pantry with formal hospital food service partnership to reduce waste",
+          "proposedBody": "Work with the food bank management committee, the council's communities team, and local supermarkets to transition from emergency food bank provision to a dignified community pantry model. Members pay a small weekly contribution in exchange for access to food from a range worth ten times the value. The model reduces stigma, improves nutritional variety, and operates sustainably at significantly higher capacity. Seek the council's partnership for a suitable premises and referral pathway integration. Establish a formal partnership with the hospital's catering team to redirect daily surplus food from the hospital kitchen to the pantry, adding 200–300 portions to the pantry's weekly stock.",
+          "amendmentTitle": "Partner with the hospital food service to redirect surplus food",
+          "amendmentDescription": "Hospital kitchens produce significant surplus daily. Redirecting it to the pantry reduces the hospital's waste disposal costs and adds a nutritious food stream to the pantry at no cost. Food partnerships of this kind are established in several other areas and the regulatory framework is well understood.",
+          "supporters": [
+            { "participantIndex": 37, "reason": "Hospital surplus food is high quality. This would improve the nutritional offer of the pantry significantly." },
+            { "participantIndex": 25, "reason": "The hospital benefits from reduced waste costs. This is not charity — it is a mutually beneficial arrangement." }
+          ],
+          "opponents": [
+            { "participantIndex": 12, "reason": "Hospital food surplus varies unpredictably. The pantry cannot build its model around a supply that may not materialise on a given week." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 46,
+      "title": "Resurface St. Anne's School play area through parent fundraising, grants, and planning obligation",
+      "body": "Form a parent-led fundraising group to raise 50 percent of the estimated £35,000 cost of an all-weather play area surface through community fundraising and charitable grants including the Schools Playing Fields Association fund. Simultaneously apply to the council to release Section 106 planning obligation funds for children's play and physical activity in the school's ward to cover the remaining 50 percent. Target completion before the next academic year.",
+      "signalIndices": [16],
+      "tags": ["education", "children", "infrastructure"],
+      "amendments": [
+        {
+          "creatorIndex": 41,
+          "proposedTitle": "School play area resurfacing with a sensory garden co-designed with disabled pupils",
+          "proposedBody": "Form a parent-led fundraising group to raise 50 percent of the estimated £35,000 cost of an all-weather play area surface through community fundraising and charitable grants including the Schools Playing Fields Association fund. Simultaneously apply to the council to release Section 106 planning obligation funds for children's play and physical activity in the school's ward to cover the remaining 50 percent. Target completion before the next academic year. Include a sensory garden element adjacent to the main play area, co-designed in workshops with disabled pupils and their parents, to ensure the outdoor space is usable and valued by pupils with a wide range of needs.",
+          "amendmentTitle": "Include a sensory garden co-designed with disabled pupils",
+          "amendmentDescription": "Standard play area surfaces serve many children but do not address the needs of children who are sensory-sensitive or have limited mobility. A sensory garden element co-designed with the pupils who most need it ensures the investment serves its full potential audience and reflects those children's priorities, not adults' assumptions about what they need.",
+          "supporters": [
+            { "participantIndex": 26, "reason": "The sensory garden idea came from a parent of a child with autism. The school has twelve children with sensory processing needs. This matters to real families." },
+            { "participantIndex": 42, "reason": "Co-design with the pupils is the right approach regardless. Children should have a say in what gets built for them." }
+          ],
+          "opponents": []
+        }
+      ]
+    },
+    {
+      "creatorIndex": 47,
+      "title": "Establish a peer support network for young people on the CAMHS waiting list",
+      "body": "Work with the school pastoral team, the youth service, and trained volunteers to establish a structured peer support programme for young people currently waiting for CAMHS appointments. The programme would provide weekly facilitated peer groups, a befriending scheme, and a regular check-in system to monitor wellbeing while young people wait. Referrals to come through the same CAMHS referral pathway.",
+      "signalIndices": [17],
+      "tags": ["health", "youth", "mental-health"],
+      "amendments": [
+        {
+          "creatorIndex": 44,
+          "proposedTitle": "CAMHS peer support network with co-trained school staff as facilitators",
+          "proposedBody": "Work with the school pastoral team, the youth service, and trained volunteers to establish a structured peer support programme for young people currently waiting for CAMHS appointments. The programme would provide weekly facilitated peer groups, a befriending scheme, and a regular check-in system to monitor wellbeing while young people wait. Referrals to come through the same CAMHS referral pathway. Provide a structured mental health first aid and peer support facilitation training programme for school pastoral staff, delivered in partnership with a specialist mental health charity, so that trained staff co-facilitate the peer groups.",
+          "amendmentTitle": "Train school staff to co-facilitate peer support groups",
+          "amendmentDescription": "Volunteer-only facilitation of groups for vulnerable young people carries a safeguarding risk and limits quality assurance. Co-facilitation by trained school staff addresses both concerns, embeds the programme within existing school relationships, and builds lasting mental health capacity in the school.",
+          "supporters": [
+            { "participantIndex": 45, "reason": "School staff already have pastoral relationships with these young people. Using that is more effective than bringing in strangers." },
+            { "participantIndex": 47, "reason": "Staff training is an investment that outlasts the programme. The school becomes more capable regardless of what happens to CAMHS." }
+          ],
+          "opponents": [
+            { "participantIndex": 27, "reason": "School staff are already at capacity. Adding facilitator duties without additional resource risks the programme collapsing on goodwill." }
+          ]
+        },
+        {
+          "creatorIndex": 46,
+          "proposedTitle": "CAMHS peer support network with formal ICB accountability for waiting time reduction",
+          "proposedBody": "Work with the school pastoral team, the youth service, and trained volunteers to establish a structured peer support programme for young people currently waiting for CAMHS appointments. The programme would provide weekly facilitated peer groups, a befriending scheme, and a regular check-in system to monitor wellbeing while young people wait. Referrals to come through the same CAMHS referral pathway. Formally nominate two parent representatives and one young person to join the ICB's CAMHS service review group, and require the ICB to publish a quarterly dashboard showing waiting times, capacity, and recovery trajectory.",
+          "amendmentTitle": "Establish formal ICB accountability alongside the peer support programme",
+          "amendmentDescription": "Peer support is a response to a crisis that should not exist. Without parallel accountability for the statutory service, the peer programme becomes a substitute for what the ICB is failing to provide. Accountability and community action must go together or the ICB simply waits for the community to absorb the problem.",
+          "supporters": [
+            { "participantIndex": 44, "reason": "This is the right framing. The peer programme is a bridge, not a solution. Naming that publicly matters." },
+            { "participantIndex": 27, "reason": "An ICB that knows parents are on its review group will prioritise recovery more seriously." }
+          ],
+          "opponents": [
+            { "participantIndex": 47, "reason": "Combining advocacy with programme delivery risks the ICB becoming uncooperative. The programme needs the ICB's referral pathway. We should separate the two tracks." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 48,
+      "title": "Develop the Greenfield Road council-owned site as a new allotment facility",
+      "body": "Commission a site assessment of the council-owned land on Greenfield Road to establish its suitability for allotment development. If suitable, develop a phased scheme providing at least 60 new plots in year one, with infrastructure including water, paths, and secure fencing. Apply for funding through the National Lottery Community Fund and the local authority's open spaces capital programme. Target first allocation within 18 months.",
+      "signalIndices": [18],
+      "tags": ["environment", "community", "food"],
+      "amendments": [
+        {
+          "creatorIndex": 49,
+          "proposedTitle": "New allotment site with raised beds and accessible paths designed for wheelchair users",
+          "proposedBody": "Commission a site assessment of the council-owned land on Greenfield Road to establish its suitability for allotment development. If suitable, develop a phased scheme providing at least 60 new plots in year one, with infrastructure including water, paths, and secure fencing. Apply for funding through the National Lottery Community Fund and the local authority's open spaces capital programme. Target first allocation within 18 months. Require that at least 10 percent of all plots are raised bed plots with level, hard-surface paths, designed for wheelchair users and people with limited bending mobility, and include these in the standard allocation.",
+          "amendmentTitle": "Include raised beds and accessible paths as a core design requirement",
+          "amendmentDescription": "Standard allotment plots are largely inaccessible to wheelchair users and people who cannot kneel or bend. Including raised beds from the design stage is no more expensive than retrofitting, and integrating them into standard allocation removes the stigma of a separate disabled provision. The aim is allotments that serve the full community.",
+          "supporters": [
+            { "participantIndex": 48, "reason": "The existing allotments were never designed with accessibility in mind. Doing this right from the start is the opportunity." },
+            { "participantIndex": 40, "reason": "A waiting list of 340 people includes many who currently cannot use a standard plot. Raised beds would serve people who have given up applying." }
+          ],
+          "opponents": []
+        },
+        {
+          "creatorIndex": 50,
+          "proposedTitle": "New allotment site with therapeutic growing sessions for mental health referrals",
+          "proposedBody": "Commission a site assessment of the council-owned land on Greenfield Road to establish its suitability for allotment development. If suitable, develop a phased scheme providing at least 60 new plots in year one, with infrastructure including water, paths, and secure fencing. Apply for funding through the National Lottery Community Fund and the local authority's open spaces capital programme. Target first allocation within 18 months. Partner with the local horticultural therapy charity to operate a therapeutic growing programme for residents referred by GPs and mental health services, using a designated block of plots managed cooperatively by participants.",
+          "amendmentTitle": "Include a therapeutic growing programme for mental health referrals",
+          "amendmentDescription": "The evidence for horticultural therapy in improving mental health outcomes is strong. An allotment site created from scratch is an ideal opportunity to embed this from the start rather than retrofitting it later. The programme would be managed by a specialist charity and funded through social prescribing and health budgets.",
+          "supporters": [
+            { "participantIndex": 39, "reason": "Green social prescribing has strong evidence behind it. A new allotment site that includes this from the start would be genuinely innovative." },
+            { "participantIndex": 45, "reason": "This would create a direct pathway from GP and mental health services into the community. That is a rare opportunity." }
+          ],
+          "opponents": [
+            { "participantIndex": 48, "reason": "A therapeutic growing programme changes the character of the site. Some allotment holders may be uncomfortable with a health facility on the same site." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 49,
+      "title": "Commission an independent acoustic assessment and request a licensing review for the Market Street venue",
+      "body": "Commission an independent acoustic assessment of the Market Street venue, including measurements at the times and locations where residents report the greatest impact. Submit the assessment to the council's licensing authority with a formal request for a review of the premises licence, with proposed conditions including an acoustic limiter, earlier closing time for amplified music, and an agreed noise monitoring protocol.",
+      "signalIndices": [19],
+      "tags": ["noise", "environment", "licensing"],
+      "amendments": [
+        {
+          "creatorIndex": 51,
+          "proposedTitle": "Acoustic assessment and licensing review with permanent resident-operator liaison group",
+          "proposedBody": "Commission an independent acoustic assessment of the Market Street venue, including measurements at the times and locations where residents report the greatest impact. Submit the assessment to the council's licensing authority with a formal request for a review of the premises licence, with proposed conditions including an acoustic limiter, earlier closing time for amplified music, and an agreed noise monitoring protocol. Require the establishment of a permanent resident-operator liaison group as a condition of any renewed licence, with quarterly meetings and a named contact at the venue for immediate noise concerns.",
+          "amendmentTitle": "Require a resident-operator liaison group as a licensing condition",
+          "amendmentDescription": "Licensing conditions are enforced intermittently. A liaison group creates an ongoing relationship that can resolve issues informally before they become complaints, and provides a forum for residents to raise concerns directly rather than through the council complaint system. The venue has an interest in good community relations and a liaison group benefits both parties.",
+          "supporters": [
+            { "participantIndex": 29, "reason": "A direct line to the venue is more useful than fourteen complaints that go nowhere." },
+            { "participantIndex": 50, "reason": "Liaison groups have worked well elsewhere. They shift the relationship from adversarial to collaborative." }
+          ],
+          "opponents": [
+            { "participantIndex": 52, "reason": "A liaison group is only useful if the operator is cooperative. If they are not, it creates a process that delays enforcement rather than enabling it." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 50,
+      "title": "Resident campaign to compel lift repair and demand accountability from Grange Estate housing association",
+      "body": "Form a formal residents' group for Ashworth Tower and submit a collective complaint to the housing association under their stage two complaints procedure. Simultaneously notify the Housing Ombudsman of the failure to repair within the statutory timeframe. Seek legal advice on whether the association has breached its repair obligations under the tenancy agreement and whether damages are available to residents who have been housebound.",
+      "signalIndices": [20],
+      "tags": ["housing", "accessibility", "legal"],
+      "amendments": [
+        {
+          "creatorIndex": 52,
+          "proposedTitle": "Lift repair campaign with formal referral to the Regulator of Social Housing",
+          "proposedBody": "Form a formal residents' group for Ashworth Tower and submit a collective complaint to the housing association under their stage two complaints procedure. Simultaneously notify the Housing Ombudsman of the failure to repair within the statutory timeframe. Seek legal advice on whether the association has breached its repair obligations under the tenancy agreement and whether damages are available to residents who have been housebound. Submit a formal referral to the Regulator of Social Housing citing the lift failures as evidence of systemic failure to maintain safe and decent homes.",
+          "amendmentTitle": "Refer the association to the Regulator of Social Housing",
+          "amendmentDescription": "The Ombudsman can direct compensation and good practice. The Regulator can impose structural change. If this association is failing on lifts it is likely failing on other maintenance too. A regulatory referral triggers an inspection of the whole organisation and is the most powerful tool available to residents short of litigation.",
+          "supporters": [
+            { "participantIndex": 53, "reason": "The Regulator's consumer standards give residents more power than ever before. This is exactly the kind of failure they were designed to address." },
+            { "participantIndex": 54, "reason": "The threat of regulatory action is often enough to produce rapid repairs. The housing association will understand the consequences." }
+          ],
+          "opponents": [
+            { "participantIndex": 50, "reason": "A regulatory referral takes time. The residents who are housebound now need the lift fixed now. We cannot let the longer-term action delay the immediate pressure." }
+          ]
+        },
+        {
+          "creatorIndex": 53,
+          "proposedTitle": "Lift repair campaign with demand for independent whole-estate condition survey",
+          "proposedBody": "Form a formal residents' group for Ashworth Tower and submit a collective complaint to the housing association under their stage two complaints procedure. Simultaneously notify the Housing Ombudsman of the failure to repair within the statutory timeframe. Seek legal advice on whether the association has breached its repair obligations under the tenancy agreement and whether damages are available to residents who have been housebound. As part of the formal complaint, demand an independent whole-estate condition survey carried out by a surveyor appointed by the residents, with the cost to be borne by the association.",
+          "amendmentTitle": "Demand an independent condition survey of the whole estate",
+          "amendmentDescription": "The lift failure is unlikely to be isolated. An independent survey reveals the full picture of deferred maintenance and creates a documented basis for a repair programme. Having residents appoint the surveyor is important — a survey commissioned by the housing association will not be trusted by the community and may not be objective.",
+          "supporters": [
+            { "participantIndex": 50, "reason": "An independent survey is the only way to know what else is failing before it becomes a crisis." },
+            { "participantIndex": 55, "reason": "The residents should own the evidence. That means appointing the surveyor themselves." }
+          ],
+          "opponents": [
+            { "participantIndex": 52, "reason": "The housing association will resist bearing the cost of an independently appointed surveyor. This could become a protracted legal argument." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 51,
+      "title": "Establish a community pitch maintenance cooperative for Northfields Road sports ground",
+      "body": "Form a cooperative between the six sports clubs using Northfields Road to fund and manage the ongoing maintenance of the pitch surface. Pool the existing pitch rental contributions into a maintenance fund administered by the cooperative. Commission the initial drainage repair through the cooperative, with costs shared by clubs in proportion to pitch hours used. Negotiate a long-term lease with the council parks department to give the cooperative security of tenure.",
+      "signalIndices": [21],
+      "tags": ["sport", "community", "infrastructure"],
+      "amendments": [
+        {
+          "creatorIndex": 57,
+          "proposedTitle": "Pitch maintenance cooperative with Sport England funding bid for drainage and floodlighting",
+          "proposedBody": "Form a cooperative between the six sports clubs using Northfields Road to fund and manage the ongoing maintenance of the pitch surface. Pool the existing pitch rental contributions into a maintenance fund administered by the cooperative. Commission the initial drainage repair through the cooperative, with costs shared by clubs in proportion to pitch hours used. Negotiate a long-term lease with the council parks department to give the cooperative security of tenure. Apply for funding through Sport England's Facilities Fund for the drainage works and installation of floodlighting, which would allow evening use and significantly increase the number of hours the pitch can generate income.",
+          "amendmentTitle": "Apply for Sport England funding to add drainage and floodlighting",
+          "amendmentDescription": "A cooperative with a long-term lease is exactly the governance structure Sport England prefers for facilities funding. Adding floodlighting while doing the drainage work significantly increases the pitch's income-generating potential and makes the cooperative financially sustainable. Without floodlighting the pitch is limited to daytime use, which reduces both income and community benefit.",
+          "supporters": [
+            { "participantIndex": 56, "reason": "Floodlighting would allow evening fixtures. The junior league has had to cancel games because daylight runs out. This would transform the season." },
+            { "participantIndex": 51, "reason": "Sport England funding is available and the cooperative structure makes us eligible. We should apply." }
+          ],
+          "opponents": [
+            { "participantIndex": 58, "reason": "Floodlighting adds complexity and cost to the application. The drainage repair is urgent. We should not let a bigger bid delay the immediate fix." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 52,
+      "title": "Establish a heritage volunteer steward programme for the Old Quarter conservation area",
+      "body": "Recruit and train a team of volunteer heritage stewards to carry out weekly monitoring of listed and locally listed buildings in the Old Quarter, photograph and report damage, and liaise with the council's planning enforcement team to escalate fly-posting and graffiti incidents. Partner with Historic England's volunteer heritage programmes for training and accreditation. The steward programme would generate a documented evidence base that the enforcement team cannot ignore.",
+      "signalIndices": [22],
+      "tags": ["heritage", "environment", "community"],
+      "amendments": [
+        {
+          "creatorIndex": 59,
+          "proposedTitle": "Heritage volunteer programme with Historic England listing applications for at-risk buildings",
+          "proposedBody": "Recruit and train a team of volunteer heritage stewards to carry out weekly monitoring of listed and locally listed buildings in the Old Quarter, photograph and report damage, and liaise with the council's planning enforcement team to escalate fly-posting and graffiti incidents. Partner with Historic England's volunteer heritage programmes for training and accreditation. As part of the programme's first phase, identify the three most at-risk unlisted buildings in the conservation area and submit listing applications to Historic England, using the photographic record generated by the steward programme as supporting evidence.",
+          "amendmentTitle": "Submit Historic England listing applications for the most at-risk buildings",
+          "amendmentDescription": "Volunteer monitoring addresses the symptom. Listing addresses the cause. Buildings that are not listed can be demolished or materially altered without consent. Getting the most vulnerable buildings listed protects them permanently and changes the enforcement context — damage to a listed building is a criminal offence, not an administrative matter.",
+          "supporters": [
+            { "participantIndex": 32, "reason": "Listing is the only durable protection. Everything else is managing the damage." },
+            { "participantIndex": 20, "reason": "The photographic record the stewards generate will be exactly the evidence Historic England needs for urgency applications." }
+          ],
+          "opponents": [
+            { "participantIndex": 52, "reason": "Listing applications can take over a year. The damage is happening now. The monitoring programme is more urgent." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 53,
+      "title": "Establish a community banking hub and credit union branch on the High Street",
+      "body": "Lead a local application to the Banking Hub initiative, jointly funded by the major banks under the Payment Systems Regulator's community access to cash scheme. A banking hub provides cash, banking counter services, and private appointments with each bank's advisers in a single shared location. In parallel, negotiate with a credit union to establish a branch within the hub providing savings accounts and ethical lending for residents excluded from mainstream banking.",
+      "signalIndices": [23],
+      "tags": ["economy", "poverty", "accessibility"],
+      "amendments": [
+        {
+          "creatorIndex": 22,
+          "proposedTitle": "Community banking hub with Citizens Advice debt advice session co-located",
+          "proposedBody": "Lead a local application to the Banking Hub initiative, jointly funded by the major banks under the Payment Systems Regulator's community access to cash scheme. A banking hub provides cash, banking counter services, and private appointments with each bank's advisers in a single shared location. In parallel, negotiate with a credit union to establish a branch within the hub providing savings accounts and ethical lending for residents excluded from mainstream banking. Require the inclusion of a weekly debt advice session from Citizens Advice as a co-located service within the hub premises, covering priority debt, benefit entitlement, and the breathing space scheme.",
+          "amendmentTitle": "Include a weekly Citizens Advice debt advice session in the hub",
+          "amendmentDescription": "Residents who have lost access to mainstream banking often have debt and benefit issues alongside the access problem. A debt advice session in the same building removes the barrier of finding and attending a separate service. Citizens Advice already provides this service — it needs a location.",
+          "supporters": [
+            { "participantIndex": 33, "reason": "The hub location is perfect for this. Many of the residents who need banking access also need debt advice." },
+            { "participantIndex": 23, "reason": "Colocation reduces the shame barrier. Attending a banking hub is normal. Separately attending a debt advice service feels stigmatising." }
+          ],
+          "opponents": [
+            { "participantIndex": 53, "reason": "The banking hub application is assessed partly on the commercial banking access case. Adding debt advice may complicate the application process." }
+          ]
+        },
+        {
+          "creatorIndex": 23,
+          "proposedTitle": "Community banking hub with Post Office counter banking partnership",
+          "proposedBody": "Lead a local application to the Banking Hub initiative, jointly funded by the major banks under the Payment Systems Regulator's community access to cash scheme. A banking hub provides cash, banking counter services, and private appointments with each bank's advisers in a single shared location. In parallel, negotiate with a credit union to establish a branch within the hub providing savings accounts and ethical lending for residents excluded from mainstream banking. Negotiate with the Post Office to restore counter banking services within the hub premises, enabling basic transactions for all major banks' current account holders.",
+          "amendmentTitle": "Restore Post Office counter banking at the hub",
+          "amendmentDescription": "Post Office counter banking is already agreed with all major banks — the infrastructure exists and just needs a Post Office counter. Restoring a Post Office within the hub building gives the broadest possible banking access without duplicating the hub's core function. It is also the simplest route to cash access for residents who only need withdrawal and deposit services.",
+          "supporters": [
+            { "participantIndex": 22, "reason": "A Post Office counter banking service would serve more residents than a full banking hub. Combining both is the comprehensive solution." },
+            { "participantIndex": 33, "reason": "The Post Office also provides other services — bill payment, identity, parcel collection — that residents also lack without it." }
+          ],
+          "opponents": [
+            { "participantIndex": 34, "reason": "The Post Office has been declining nationally. Establishing a new counter within the hub may not be viable if the national network contracts further." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 54,
+      "title": "Emergency grant campaign and governance review to sustain Westgate FM",
+      "body": "Launch an emergency community fundraising campaign targeting £40,000 to sustain Westgate FM's operations for twelve months while a long-term sustainability plan is developed. Submit applications to the Community Radio Fund, the National Lottery Community Fund's media strand, and local charitable foundations. In parallel, convene a governance review to assess whether the current structure is sustainable or whether a different organisational model would better support long-term funding.",
+      "signalIndices": [24],
+      "tags": ["culture", "community", "media"],
+      "amendments": [
+        {
+          "creatorIndex": 34,
+          "proposedTitle": "Emergency funding campaign with structured transition to Community Interest Company",
+          "proposedBody": "Launch an emergency community fundraising campaign targeting £40,000 to sustain Westgate FM's operations for twelve months while a long-term sustainability plan is developed. Submit applications to the Community Radio Fund, the National Lottery Community Fund's media strand, and local charitable foundations. In parallel, convene a governance review to assess whether the current structure is sustainable or whether a different organisational model would better support long-term funding. Commission a formal assessment of converting Westgate FM to a Community Interest Company with an asset lock and community shares scheme.",
+          "amendmentTitle": "Assess transition to Community Interest Company model",
+          "amendmentDescription": "Charitable and voluntary-run radio stations are structurally fragile. A CIC with community shares creates an ownership model that diversifies risk, enables community investment, and signals to funders that the station has long-term structural sustainability. Several community radio stations have made this transition successfully.",
+          "supporters": [
+            { "participantIndex": 25, "reason": "A community shares offer would allow listeners to invest in the station directly. That is a much stronger funding model than grant dependency." },
+            { "participantIndex": 26, "reason": "CIC status would also allow the station to generate income through social enterprise activity alongside the broadcast." }
+          ],
+          "opponents": [
+            { "participantIndex": 54, "reason": "Governance restructuring during a financial crisis risks paralysing the organisation. The immediate priority is the money. Structure can wait." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 55,
+      "title": "Establish a community land trust to acquire and steward the Boundary Field site",
+      "body": "Register a community land trust (CLT) to bid for the Boundary Field site or, if the sale cannot be reversed, to enter negotiations with the developer for a community land agreement that preserves public access and delivers a meaningful proportion of genuinely affordable homes. Apply for support from Community Land Trust Network and explore Homes England's CLT capacity funding. In parallel, submit a formal objection to the planning application seeking an independent assessment of whether exceptional circumstances for the green belt disposal genuinely exist.",
+      "signalIndices": [25],
+      "tags": ["environment", "planning", "housing"],
+      "amendments": [
+        {
+          "creatorIndex": 30,
+          "proposedTitle": "Community land trust bid with independent ecological survey prior to any development brief",
+          "proposedBody": "Register a community land trust (CLT) to bid for the Boundary Field site or, if the sale cannot be reversed, to enter negotiations with the developer for a community land agreement that preserves public access and delivers a meaningful proportion of genuinely affordable homes. Apply for support from Community Land Trust Network and explore Homes England's CLT capacity funding. In parallel, submit a formal objection to the planning application seeking an independent assessment of whether exceptional circumstances for the green belt disposal genuinely exist. Commission an independent ecological survey of Boundary Field before any development brief is issued, to establish what biodiversity and green infrastructure value the site holds.",
+          "amendmentTitle": "Commission an ecological survey before any development brief is written",
+          "amendmentDescription": "Green belt land on the edge of a town frequently has significant ecological value that is not apparent from aerial survey. An ecological survey establishes what is at risk before any planning decision is made and creates a basis for biodiversity net gain requirements. Without it, any development proceeds without knowing what it is destroying.",
+          "supporters": [
+            { "participantIndex": 29, "reason": "Boundary Field has significant hedgerow and wet grass habitat. An ecological survey would likely show protected species. That changes the planning argument significantly." },
+            { "participantIndex": 35, "reason": "The ecological survey also strengthens the exceptional circumstances challenge. Green belt with high ecological value is harder to justify disposing of." }
+          ],
+          "opponents": [
+            { "participantIndex": 55, "reason": "The planning application is already live. The survey would need to be completed and submitted within the representation period. That timeline is very tight." }
+          ]
+        },
+        {
+          "creatorIndex": 31,
+          "proposedTitle": "Community land trust bid with fifty percent affordable housing requirement by ballot",
+          "proposedBody": "Register a community land trust (CLT) to bid for the Boundary Field site or, if the sale cannot be reversed, to enter negotiations with the developer for a community land agreement that preserves public access and delivers a meaningful proportion of genuinely affordable homes. Apply for support from Community Land Trust Network and explore Homes England's CLT capacity funding. In parallel, submit a formal objection to the planning application seeking an independent assessment of whether exceptional circumstances for the green belt disposal genuinely exist. Require as a CLT condition that any residential development on the site delivers at least fifty percent affordable homes allocated by ballot open to residents on the council's housing register, with preference for households from the immediate area.",
+          "amendmentTitle": "Require fifty percent genuinely affordable housing allocated by ballot",
+          "amendmentDescription": "CLTs exist to deliver community benefit, not commercial returns. A fifty percent affordable requirement by ballot ensures the housing serves local need rather than market demand. 'Affordable' in planning terms often means 80 percent of market rate, which is not affordable for households in need. The CLT's constitution should define affordability in relation to local incomes, not market rates.",
+          "supporters": [
+            { "participantIndex": 30, "reason": "A CLT that delivers market-rate housing with a veneer of community ownership is not a CLT — it is a marketing exercise." },
+            { "participantIndex": 55, "reason": "The ballot allocation is the right mechanism. It is transparent, verifiable, and prioritises need." }
+          ],
+          "opponents": [
+            { "participantIndex": 29, "reason": "A fifty percent affordable requirement may make the CLT bid financially unviable. The CLT needs to generate some income to function. The percentage should be set after the financial model is established." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 56,
+      "title": "Establish a trader cooperative to take over governance of the market",
+      "body": "Form a formal cooperative among the remaining twelve market traders to negotiate collectively with the council's market services team over fee structures, pitch allocation, and market development. The cooperative would provide a single governance partner for the council, give traders a formal voice in decisions that affect them, and create a structure through which the traders can collectively invest in market improvements including weather protection, marketing, and new trader support.",
+      "signalIndices": [26],
+      "tags": ["economy", "community", "town-centre"],
+      "amendments": [
+        {
+          "creatorIndex": 36,
+          "proposedTitle": "Trader cooperative with reserved allocation for first-time traders and community stalls",
+          "proposedBody": "Form a formal cooperative among the remaining twelve market traders to negotiate collectively with the council's market services team over fee structures, pitch allocation, and market development. The cooperative would provide a single governance partner for the council, give traders a formal voice in decisions that affect them, and create a structure through which the traders can collectively invest in market improvements including weather protection, marketing, and new trader support. Reserve at least two pitches in the cooperative's allocation for first-time traders at a subsidised rate, and at least one pitch permanently for a community stall operated by a local charity or social enterprise at a peppercorn rent.",
+          "amendmentTitle": "Reserve pitches for first-time traders and community organisations",
+          "amendmentDescription": "A trader cooperative that only serves existing traders risks becoming a closed shop. Reserved pitches for new traders at subsidised rates maintain market dynamism and support local entrepreneurship. A permanent community stall ensures the market serves public benefit as well as commercial interest, which strengthens the case for council support.",
+          "supporters": [
+            { "participantIndex": 32, "reason": "Without new trader support the market will gradually age and homogenise. Fresh entrants keep markets alive." },
+            { "participantIndex": 56, "reason": "A community stall changes the character of the market — it becomes a community resource, not just a commercial space." }
+          ],
+          "opponents": [
+            { "participantIndex": 35, "reason": "Reserved pitches reduce income for the cooperative at a time when it needs to be financially viable. The principle is right but the timing may be wrong." }
+          ]
+        }
+      ]
+    },
+    {
+      "creatorIndex": 57,
+      "title": "Establish a weekly digital inclusion drop-in service at the Central Library",
+      "body": "Establish a weekly digital inclusion drop-in session at the Central Library, staffed by trained volunteers, to provide one-to-one support for residents who cannot use online services independently. Priority areas to include the council's planning portal, universal credit online management, NHS online appointment booking, and banking apps. Seek funding from the DCMS Digital Inclusion programme and the local community foundation.",
+      "signalIndices": [9, 27],
+      "tags": ["digital", "democracy", "accessibility"],
+      "amendments": [
+        {
+          "creatorIndex": 58,
+          "proposedTitle": "Digital inclusion drop-in with volunteers trained by the local college computing course",
+          "proposedBody": "Establish a weekly digital inclusion drop-in session at the Central Library, staffed by trained volunteers, to provide one-to-one support for residents who cannot use online services independently. Priority areas to include the council's planning portal, universal credit online management, NHS online appointment booking, and banking apps. Seek funding from the DCMS Digital Inclusion programme and the local community foundation. Partner with the further education college to provide computing course students with structured volunteering placements at the drop-in as part of their assessed programme.",
+          "amendmentTitle": "Partner with the FE college computing course to supply trained volunteers",
+          "amendmentDescription": "Volunteer sustainability is the most common reason digital inclusion programmes fail. Partnering with the college computing course creates a structured and renewable volunteer pipeline, with quality assurance built in. Students are assessed on their communication and support skills alongside their technical knowledge, which benefits residents.",
+          "supporters": [
+            { "participantIndex": 57, "reason": "A college partnership solves the volunteer sustainability problem from day one. This is a better structure than ad hoc recruitment." },
+            { "participantIndex": 37, "reason": "The college already has links to the library for study space. The relationship is there to build on." }
+          ],
+          "opponents": [
+            { "participantIndex": 59, "reason": "Students on placements have variable availability during exam periods. The drop-in needs continuity. We should ensure there are non-student volunteers as backup." }
+          ]
+        },
+        {
+          "creatorIndex": 59,
+          "proposedTitle": "Digital inclusion drop-in with device lending scheme for residents without internet hardware",
+          "proposedBody": "Establish a weekly digital inclusion drop-in session at the Central Library, staffed by trained volunteers, to provide one-to-one support for residents who cannot use online services independently. Priority areas to include the council's planning portal, universal credit online management, NHS online appointment booking, and banking apps. Seek funding from the DCMS Digital Inclusion programme and the local community foundation. Establish a device lending scheme within the library enabling residents to borrow refurbished laptops or tablets for up to a month at a time, sourced through the council's IT asset disposal programme and corporate donations.",
+          "amendmentTitle": "Add a device lending scheme for residents without internet hardware",
+          "amendmentDescription": "Digital skills training fails to take hold if residents have no device to practise on between sessions. A device lending scheme closes the hardware gap and enables residents to consolidate skills independently. Sourcing devices through IT asset disposal programmes means the hardware costs are minimal.",
+          "supporters": [
+            { "participantIndex": 58, "reason": "Without a device to use at home, a one-hour drop-in does not produce lasting change. The lending scheme is the key element." },
+            { "participantIndex": 57, "reason": "Council IT asset disposal produces dozens of usable devices each year. Redirecting them to residents is a better outcome than recycling." }
+          ],
+          "opponents": [
+            { "participantIndex": 37, "reason": "Device lending requires a checkout system, a security deposit scheme, and a process for loss or damage. The administrative overhead is not trivial." }
+          ]
+        }
+      ]
+    }
+  ]
+}

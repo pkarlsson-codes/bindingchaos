@@ -64,6 +64,20 @@ export interface OidcApiInterface {
      */
     oidcRefresh(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
 
+    /**
+     * 
+     * @summary Initiates the OIDC authorization request with prompt=create to open the registration UI directly.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OidcApiInterface
+     */
+    oidcRegisterRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>>;
+
+    /**
+     * Initiates the OIDC authorization request with prompt=create to open the registration UI directly.
+     */
+    oidcRegister(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
+
 }
 
 /**
@@ -155,6 +169,35 @@ export class OidcApi extends runtime.BaseAPI implements OidcApiInterface {
      */
     async oidcRefresh(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
         const response = await this.oidcRefreshRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Initiates the OIDC authorization request with prompt=create to open the registration UI directly.
+     */
+    async oidcRegisterRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/auth/register`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     * Initiates the OIDC authorization request with prompt=create to open the registration UI directly.
+     */
+    async oidcRegister(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.oidcRegisterRaw(initOverrides);
         return await response.value();
     }
 

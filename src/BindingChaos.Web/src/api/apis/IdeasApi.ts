@@ -48,11 +48,9 @@ export interface GetIdeaRequest {
 export interface GetIdeasRequest {
     pageNumber?: number;
     pageSize?: number;
-    filterSocietyIds?: Array<string> | null;
-    filterSearchTerm?: string;
-    filterTags?: Array<string>;
+    filterSearchTerm?: string | null;
+    filterStatus?: string | null;
     sort?: Array<SortDescriptor>;
-    filterToMySocieties?: boolean;
 }
 
 /**
@@ -79,7 +77,7 @@ export interface IdeasApiInterface {
 
     /**
      * 
-     * @summary Gets detailed information about a specific idea including amendments and lineage.
+     * @summary Gets detailed information about a specific idea.
      * @param {string} ideaId The unique identifier of the idea.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -88,20 +86,18 @@ export interface IdeasApiInterface {
     getIdeaRaw(requestParameters: GetIdeaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIdeaDetailViewModel>>;
 
     /**
-     * Gets detailed information about a specific idea including amendments and lineage.
+     * Gets detailed information about a specific idea.
      */
     getIdea(requestParameters: GetIdeaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIdeaDetailViewModel>;
 
     /**
      * 
-     * @summary Gets all ideas with optional filtering and pagination. When filterToMySocieties is true, results are scoped to the authenticated participant\'s active society memberships. Anonymous users receive an empty list.
+     * @summary Gets all ideas with optional filtering and pagination.
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
-     * @param {Array<string>} [filterSocietyIds] Optional list of society IDs to scope the ideas to.
-     * @param {string} [filterSearchTerm] Search term to filter ideas by title or description.
-     * @param {Array<string>} [filterTags] Filter by the tags associated with the idea.
+     * @param {string} [filterSearchTerm] Optional free-text search term to match against idea title or description.
+     * @param {string} [filterStatus] Optional status filter (e.g., \&quot;Draft\&quot;, \&quot;Published\&quot;).
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
-     * @param {boolean} [filterToMySocieties] When true, restricts results to the current user\&#39;s societies.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IdeasApiInterface
@@ -109,7 +105,7 @@ export interface IdeasApiInterface {
     getIdeasRaw(requestParameters: GetIdeasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIdeasFeedViewModel>>;
 
     /**
-     * Gets all ideas with optional filtering and pagination. When filterToMySocieties is true, results are scoped to the authenticated participant\'s active society memberships. Anonymous users receive an empty list.
+     * Gets all ideas with optional filtering and pagination.
      */
     getIdeas(requestParameters: GetIdeasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIdeasFeedViewModel>;
 
@@ -160,7 +156,7 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
     }
 
     /**
-     * Gets detailed information about a specific idea including amendments and lineage.
+     * Gets detailed information about a specific idea.
      */
     async getIdeaRaw(requestParameters: GetIdeaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIdeaDetailViewModel>> {
         if (requestParameters['ideaId'] == null) {
@@ -189,7 +185,7 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
     }
 
     /**
-     * Gets detailed information about a specific idea including amendments and lineage.
+     * Gets detailed information about a specific idea.
      */
     async getIdea(requestParameters: GetIdeaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIdeaDetailViewModel> {
         const response = await this.getIdeaRaw(requestParameters, initOverrides);
@@ -197,7 +193,7 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
     }
 
     /**
-     * Gets all ideas with optional filtering and pagination. When filterToMySocieties is true, results are scoped to the authenticated participant\'s active society memberships. Anonymous users receive an empty list.
+     * Gets all ideas with optional filtering and pagination.
      */
     async getIdeasRaw(requestParameters: GetIdeasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIdeasFeedViewModel>> {
         const queryParameters: any = {};
@@ -210,24 +206,16 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
             queryParameters['Page.Size'] = requestParameters['pageSize'];
         }
 
-        if (requestParameters['filterSocietyIds'] != null) {
-            queryParameters['Filter.SocietyIds'] = requestParameters['filterSocietyIds'];
-        }
-
         if (requestParameters['filterSearchTerm'] != null) {
             queryParameters['Filter.SearchTerm'] = requestParameters['filterSearchTerm'];
         }
 
-        if (requestParameters['filterTags'] != null) {
-            queryParameters['Filter.Tags'] = requestParameters['filterTags'];
+        if (requestParameters['filterStatus'] != null) {
+            queryParameters['Filter.Status'] = requestParameters['filterStatus'];
         }
 
         if (requestParameters['sort'] != null) {
             queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        if (requestParameters['filterToMySocieties'] != null) {
-            queryParameters['filterToMySocieties'] = requestParameters['filterToMySocieties'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -246,7 +234,7 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
     }
 
     /**
-     * Gets all ideas with optional filtering and pagination. When filterToMySocieties is true, results are scoped to the authenticated participant\'s active society memberships. Anonymous users receive an empty list.
+     * Gets all ideas with optional filtering and pagination.
      */
     async getIdeas(requestParameters: GetIdeasRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIdeasFeedViewModel> {
         const response = await this.getIdeasRaw(requestParameters, initOverrides);

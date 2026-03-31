@@ -13,16 +13,8 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Attachment } from './Attachment';
-import {
-    AttachmentFromJSON,
-    AttachmentFromJSONTyped,
-    AttachmentToJSON,
-    AttachmentToJSONTyped,
-} from './Attachment';
-
 /**
- * Request model for creating a signal.
+ * Capture signal request model.
  * @export
  * @interface CaptureSignalRequest
  */
@@ -40,17 +32,17 @@ export interface CaptureSignalRequest {
      */
     description?: string;
     /**
-     * The tags for the signal, comma-separated.
+     * The tags for the signal.
      * @type {Array<string>}
      * @memberof CaptureSignalRequest
      */
     tags?: Array<string>;
     /**
-     * The attachments associated with the signal.
-     * @type {Array<Attachment>}
+     * The document IDs of attachments to associate with the signal.
+     * @type {Array<string>}
      * @memberof CaptureSignalRequest
      */
-    attachments?: Array<Attachment>;
+    attachmentIds?: Array<string>;
     /**
      * Optional latitude coordinate of the signal's location.
      * @type {number}
@@ -85,7 +77,7 @@ export function CaptureSignalRequestFromJSONTyped(json: any, ignoreDiscriminator
         'title': json['title'] == null ? undefined : json['title'],
         'description': json['description'] == null ? undefined : json['description'],
         'tags': json['tags'] == null ? undefined : json['tags'],
-        'attachments': json['attachments'] == null ? undefined : ((json['attachments'] as Array<any>).map(AttachmentFromJSON)),
+        'attachmentIds': json['attachmentIds'] == null ? undefined : json['attachmentIds'],
         'latitude': json['latitude'] == null ? undefined : json['latitude'],
         'longitude': json['longitude'] == null ? undefined : json['longitude'],
     };
@@ -105,7 +97,7 @@ export function CaptureSignalRequestToJSONTyped(value?: CaptureSignalRequest | n
         'title': value['title'],
         'description': value['description'],
         'tags': value['tags'],
-        'attachments': value['attachments'] == null ? undefined : ((value['attachments'] as Array<any>).map(AttachmentToJSON)),
+        'attachmentIds': value['attachmentIds'],
         'latitude': value['latitude'],
         'longitude': value['longitude'],
     };

@@ -22,7 +22,7 @@ import {
 } from './PaginatedResponseOfIdeaListItemResponse';
 
 /**
- * View model for the ideas feed page, including ideas and metadata for filtering.
+ * View model for the ideas feed page.
  * @export
  * @interface IdeasFeedViewModel
  */
@@ -33,12 +33,6 @@ export interface IdeasFeedViewModel {
      * @memberof IdeasFeedViewModel
      */
     ideas?: PaginatedResponseOfIdeaListItemResponse;
-    /**
-     * All available tags across all ideas (for filtering).
-     * @type {Array<string>}
-     * @memberof IdeasFeedViewModel
-     */
-    availableTags?: Array<string>;
 }
 
 /**
@@ -59,7 +53,6 @@ export function IdeasFeedViewModelFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'ideas': json['ideas'] == null ? undefined : PaginatedResponseOfIdeaListItemResponseFromJSON(json['ideas']),
-        'availableTags': json['availableTags'] == null ? undefined : json['availableTags'],
     };
 }
 
@@ -75,7 +68,6 @@ export function IdeasFeedViewModelToJSONTyped(value?: IdeasFeedViewModel | null,
     return {
         
         'ideas': PaginatedResponseOfIdeaListItemResponseToJSON(value['ideas']),
-        'availableTags': value['availableTags'],
     };
 }
 

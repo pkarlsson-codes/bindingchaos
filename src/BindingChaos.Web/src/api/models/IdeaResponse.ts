@@ -13,14 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { IdeaSourceSignal } from './IdeaSourceSignal';
-import {
-    IdeaSourceSignalFromJSON,
-    IdeaSourceSignalFromJSONTyped,
-    IdeaSourceSignalToJSON,
-    IdeaSourceSignalToJSONTyped,
-} from './IdeaSourceSignal';
-
 /**
  * Response model for idea information.
  * @export
@@ -44,31 +36,13 @@ export interface IdeaResponse {
      * @type {string}
      * @memberof IdeaResponse
      */
-    body?: string;
-    /**
-     * The ID of the society where this idea is proposed.
-     * @type {string}
-     * @memberof IdeaResponse
-     */
-    societyContext?: string;
-    /**
-     * The source signals associated with this idea.
-     * @type {Array<IdeaSourceSignal>}
-     * @memberof IdeaResponse
-     */
-    sourceSignals?: Array<IdeaSourceSignal>;
+    description?: string;
     /**
      * The pseudonym of the author who created the idea.
      * @type {string}
      * @memberof IdeaResponse
      */
     authorPseudonym?: string;
-    /**
-     * The number of amendments made to this idea.
-     * @type {number}
-     * @memberof IdeaResponse
-     */
-    openAmendmentCount?: number;
     /**
      * When the idea was created.
      * @type {Date}
@@ -81,12 +55,6 @@ export interface IdeaResponse {
      * @memberof IdeaResponse
      */
     lastUpdatedAt?: Date;
-    /**
-     * The tags associated with this idea.
-     * @type {Array<string>}
-     * @memberof IdeaResponse
-     */
-    tags?: Array<string>;
     /**
      * The status of the idea.
      * @type {string}
@@ -114,14 +82,10 @@ export function IdeaResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'] == null ? undefined : json['id'],
         'title': json['title'] == null ? undefined : json['title'],
-        'body': json['body'] == null ? undefined : json['body'],
-        'societyContext': json['societyContext'] == null ? undefined : json['societyContext'],
-        'sourceSignals': json['sourceSignals'] == null ? undefined : ((json['sourceSignals'] as Array<any>).map(IdeaSourceSignalFromJSON)),
+        'description': json['description'] == null ? undefined : json['description'],
         'authorPseudonym': json['authorPseudonym'] == null ? undefined : json['authorPseudonym'],
-        'openAmendmentCount': json['openAmendmentCount'] == null ? undefined : json['openAmendmentCount'],
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'lastUpdatedAt': json['lastUpdatedAt'] == null ? undefined : (new Date(json['lastUpdatedAt'])),
-        'tags': json['tags'] == null ? undefined : json['tags'],
         'status': json['status'] == null ? undefined : json['status'],
     };
 }
@@ -139,14 +103,10 @@ export function IdeaResponseToJSONTyped(value?: IdeaResponse | null, ignoreDiscr
         
         'id': value['id'],
         'title': value['title'],
-        'body': value['body'],
-        'societyContext': value['societyContext'],
-        'sourceSignals': value['sourceSignals'] == null ? undefined : ((value['sourceSignals'] as Array<any>).map(IdeaSourceSignalToJSON)),
+        'description': value['description'],
         'authorPseudonym': value['authorPseudonym'],
-        'openAmendmentCount': value['openAmendmentCount'],
         'createdAt': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'lastUpdatedAt': value['lastUpdatedAt'] == null ? undefined : ((value['lastUpdatedAt']).toISOString()),
-        'tags': value['tags'],
         'status': value['status'],
     };
 }

@@ -31,24 +31,6 @@ export interface AuthorIdeaRequest {
      * @memberof AuthorIdeaRequest
      */
     description?: string;
-    /**
-     * The tags associated with the idea.
-     * @type {Array<string>}
-     * @memberof AuthorIdeaRequest
-     */
-    tags?: Array<string>;
-    /**
-     * The IDs of the source signals.
-     * @type {Array<string>}
-     * @memberof AuthorIdeaRequest
-     */
-    sourceSignalIds?: Array<string>;
-    /**
-     * The ID of the society context where the idea is being created.
-     * @type {string}
-     * @memberof AuthorIdeaRequest
-     */
-    societyId?: string;
 }
 
 /**
@@ -70,9 +52,6 @@ export function AuthorIdeaRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'title': json['title'] == null ? undefined : json['title'],
         'description': json['description'] == null ? undefined : json['description'],
-        'tags': json['tags'] == null ? undefined : json['tags'],
-        'sourceSignalIds': json['sourceSignalIds'] == null ? undefined : json['sourceSignalIds'],
-        'societyId': json['societyId'] == null ? undefined : json['societyId'],
     };
 }
 
@@ -89,9 +68,6 @@ export function AuthorIdeaRequestToJSONTyped(value?: AuthorIdeaRequest | null, i
         
         'title': value['title'],
         'description': value['description'],
-        'tags': value['tags'],
-        'sourceSignalIds': value['sourceSignalIds'],
-        'societyId': value['societyId'],
     };
 }
 
