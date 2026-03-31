@@ -4,6 +4,7 @@ import { useEmergingPatterns } from '../../../shared/hooks/useEmergingPatterns';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
+import { Badge } from '../../../shared/components/ui/badge';
 import type { SignalDetailViewModel } from '../../../api/models';
 
 function useSignalDetails(signalId: string) {
@@ -103,18 +104,29 @@ export function EmergingPatternDetailsPage() {
             </div>
           ))}
         </div>
-      ) : signalIds.length === 0 ? (
-        <Card
-          title="No signals"
-          content={<p className="text-muted-foreground">This pattern has no signals assigned to it.</p>}
-        />
       ) : (
-        <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">{signalIds.length} signal{signalIds.length !== 1 ? 's' : ''}</p>
-          {signalIds.map(id => (
-            <SignalRow key={id} signalId={id} />
-          ))}
-        </div>
+        <>
+          {pattern?.keywords && pattern.keywords.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {pattern.keywords.map(kw => (
+                <Badge key={kw} variant="secondary">{kw}</Badge>
+              ))}
+            </div>
+          )}
+          {signalIds.length === 0 ? (
+            <Card
+              title="No signals"
+              content={<p className="text-muted-foreground">This pattern has no signals assigned to it.</p>}
+            />
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">{signalIds.length} signal{signalIds.length !== 1 ? 's' : ''}</p>
+              {signalIds.map(id => (
+                <SignalRow key={id} signalId={id} />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

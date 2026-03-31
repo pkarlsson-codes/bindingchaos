@@ -5,7 +5,8 @@ namespace BindingChaos.SignalProcessing;
 /// </summary>
 /// <param name="SignalId">The signal identifier.</param>
 /// <param name="Embedding">The vector embedding.</param>
-public sealed record SignalEmbedding(string SignalId, float[] Embedding);
+/// <param name="SignalText">The source text that was embedded.</param>
+public sealed record SignalEmbedding(string SignalId, float[] Embedding, string SignalText);
 
 /// <summary>
 /// Stores signal embeddings for later similarity and clustering queries.
@@ -17,7 +18,8 @@ public interface ISignalEmbeddingRepository
     /// </summary>
     /// <param name="signalId">The signal identifier.</param>
     /// <param name="embedding">The vector embedding.</param>
-    Task UpsertAsync(string signalId, float[] embedding);
+    /// <param name="signalText">The source text that was embedded.</param>
+    Task UpsertAsync(string signalId, float[] embedding, string signalText);
 
     /// <summary>
     /// Returns all stored signal embeddings.

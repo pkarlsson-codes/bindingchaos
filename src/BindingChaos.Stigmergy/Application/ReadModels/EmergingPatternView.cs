@@ -30,4 +30,9 @@ public sealed class EmergingPatternView
     /// When this pattern was last updated by a clustering run.
     /// </summary>
     required public DateTimeOffset LastUpdatedAt { get; set; }
+
+    /// <summary>
+    /// Top TF-IDF keywords extracted by the clustering sidecar for this cluster.
+    /// </summary>
+    required public List<string> Keywords { get; set; }
 }

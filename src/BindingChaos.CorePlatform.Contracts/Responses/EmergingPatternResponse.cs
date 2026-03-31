@@ -24,4 +24,9 @@ public sealed record EmergingPatternResponse
     /// When this pattern was last updated by a clustering run.
     /// </summary>
     public DateTimeOffset LastUpdatedAt { get; init; }
+
+    /// <summary>
+    /// Top TF-IDF keywords for this cluster.
+    /// </summary>
+    public IReadOnlyList<string> Keywords { get; init; } = [];
 }

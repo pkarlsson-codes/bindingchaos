@@ -40,6 +40,7 @@ public sealed class EmergingPatternsController(IMessageBus messageBus) : BaseApi
                     SignalIds = p.SignalIds,
                     SignalCount = p.SignalCount,
                     LastUpdatedAt = p.LastUpdatedAt,
+                    Keywords = p.Keywords,
                 })
                 .ToList(),
         };

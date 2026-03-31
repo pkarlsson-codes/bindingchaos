@@ -9,7 +9,7 @@ namespace BindingChaos.SignalProcessing;
 public sealed class SignalEmbeddingRepository(NpgsqlDataSource dataSource) : ISignalEmbeddingRepository
 {
     /// <inheritdoc />
-    public async Task UpsertAsync(string signalId, float[] embedding)
+    public async Task UpsertAsync(string signalId, float[] embedding, string signalText)
     {
         var connection = await dataSource.OpenConnectionAsync().ConfigureAwait(false);
         await using (connection.ConfigureAwait(false))
@@ -18,12 +18,13 @@ public sealed class SignalEmbeddingRepository(NpgsqlDataSource dataSource) : ISi
             await using (cmd.ConfigureAwait(false))
             {
                 cmd.CommandText = """
-                    INSERT INTO signal_processing.signal_embeddings (signal_id, embedding)
-                    VALUES ($1, $2)
-                    ON CONFLICT (signal_id) DO UPDATE SET embedding = $2
+                    INSERT INTO signal_processing.signal_embeddings (signal_id, embedding, signal_text)
+                    VALUES ($1, $2, $3)
+                    ON CONFLICT (signal_id) DO UPDATE SET embedding = $2, signal_text = $3
                     """;
                 cmd.Parameters.AddWithValue(signalId);
                 cmd.Parameters.AddWithValue(new Vector(embedding));
+                cmd.Parameters.AddWithValue(signalText);
                 await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
             }
         }
@@ -38,7 +39,7 @@ public sealed class SignalEmbeddingRepository(NpgsqlDataSource dataSource) : ISi
             var cmd = connection.CreateCommand();
             await using (cmd.ConfigureAwait(false))
             {
-                cmd.CommandText = "SELECT signal_id, embedding FROM signal_processing.signal_embeddings";
+                cmd.CommandText = "SELECT signal_id, embedding, signal_text FROM signal_processing.signal_embeddings";
                 var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
                 await using (reader.ConfigureAwait(false))
                 {
@@ -47,7 +48,8 @@ public sealed class SignalEmbeddingRepository(NpgsqlDataSource dataSource) : ISi
                     {
                         var signalId = reader.GetString(0);
                         var vector = reader.GetFieldValue<Vector>(1);
-                        results.Add(new SignalEmbedding(signalId, vector.ToArray()));
+                        var signalText = reader.GetString(2);
+                        results.Add(new SignalEmbedding(signalId, vector.ToArray(), signalText));
                     }
 
                     return results;

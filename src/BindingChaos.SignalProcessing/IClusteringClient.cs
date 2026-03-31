@@ -18,4 +18,5 @@ public interface IClusteringClient
 /// </summary>
 /// <param name="SignalId">The signal identifier.</param>
 /// <param name="ClusterLabel">The assigned cluster label; <c>-1</c> means noise/unclustered.</param>
-public sealed record SignalClusterResult(string SignalId, int ClusterLabel);
+/// <param name="Keywords">Top TF-IDF keywords for this signal's cluster. Empty for noise signals.</param>
+public sealed record SignalClusterResult(string SignalId, int ClusterLabel, IReadOnlyList<string> Keywords);

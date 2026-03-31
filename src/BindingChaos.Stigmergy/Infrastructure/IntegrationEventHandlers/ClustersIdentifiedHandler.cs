@@ -40,6 +40,7 @@ public static class ClustersIdentifiedHandler
                 SignalIds = [.. g.Select(a => a.SignalId)],
                 SignalCount = g.Count(),
                 LastUpdatedAt = now,
+                Keywords = [.. g.First().Keywords],
             });
 
         foreach (var pattern in patterns)

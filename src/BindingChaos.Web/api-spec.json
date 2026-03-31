@@ -2314,6 +2314,13 @@
             "type": "string",
             "description": "When this pattern was last updated by a clustering run.",
             "format": "date-time"
+          },
+          "keywords": {
+            "type": "array",
+            "description": "Top TF-IDF keywords for this cluster.",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

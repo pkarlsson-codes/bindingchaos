@@ -15,4 +15,5 @@ public sealed record ClustersIdentifiedIntegrationEvent(
 /// </summary>
 /// <param name="SignalId">Id of the signal.</param>
 /// <param name="ClusterLabel">Cluster label; <c>-1</c> means noise/unclustered.</param>
-public sealed record SignalClusterAssignment(string SignalId, int ClusterLabel);
+/// <param name="Keywords">Top TF-IDF keywords for this signal's cluster. Empty for noise signals.</param>
+public sealed record SignalClusterAssignment(string SignalId, int ClusterLabel, IReadOnlyList<string> Keywords);

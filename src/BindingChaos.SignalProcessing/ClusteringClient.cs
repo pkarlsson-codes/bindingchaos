@@ -15,7 +15,8 @@ public sealed class ClusteringClient(IHttpClientFactory httpClientFactory) : ICl
 
         var request = new ClusterRequest(
             embeddings.Select(e => e.SignalId).ToArray(),
-            embeddings.Select(e => e.Embedding).ToArray());
+            embeddings.Select(e => e.Embedding).ToArray(),
+            embeddings.Select(e => e.SignalText).ToArray());
 
         var response = await client.PostAsJsonAsync("/cluster", request).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
@@ -24,18 +25,20 @@ public sealed class ClusteringClient(IHttpClientFactory httpClientFactory) : ICl
                      ?? throw new InvalidOperationException("Clustering service returned null response");
 
         return result.Results
-            .Select(r => new SignalClusterResult(r.SignalId, r.ClusterLabel))
+            .Select(r => new SignalClusterResult(r.SignalId, r.ClusterLabel, r.Keywords ?? []))
             .ToList();
     }
 
     private sealed record ClusterRequest(
         [property: JsonPropertyName("signal_ids")] string[] SignalIds,
-        [property: JsonPropertyName("embeddings")] float[][] Embeddings);
+        [property: JsonPropertyName("embeddings")] float[][] Embeddings,
+        [property: JsonPropertyName("signal_texts")] string[] SignalTexts);
 
     private sealed record ClusterResponse(
         [property: JsonPropertyName("results")] ClusterResultItem[] Results);
 
     private sealed record ClusterResultItem(
         [property: JsonPropertyName("signal_id")] string SignalId,
-        [property: JsonPropertyName("cluster_label")] int ClusterLabel);
+        [property: JsonPropertyName("cluster_label")] int ClusterLabel,
+        [property: JsonPropertyName("keywords")] List<string>? Keywords);
 }

@@ -43,6 +43,12 @@ export interface EmergingPatternResponse {
      * @memberof EmergingPatternResponse
      */
     lastUpdatedAt?: Date;
+    /**
+     * Top TF-IDF keywords for this cluster.
+     * @type {Array<string>}
+     * @memberof EmergingPatternResponse
+     */
+    keywords?: Array<string>;
 }
 
 /**
@@ -66,6 +72,7 @@ export function EmergingPatternResponseFromJSONTyped(json: any, ignoreDiscrimina
         'signalIds': json['signalIds'] == null ? undefined : json['signalIds'],
         'signalCount': json['signalCount'] == null ? undefined : json['signalCount'],
         'lastUpdatedAt': json['lastUpdatedAt'] == null ? undefined : (new Date(json['lastUpdatedAt'])),
+        'keywords': json['keywords'] == null ? undefined : json['keywords'],
     };
 }
 
@@ -84,6 +91,7 @@ export function EmergingPatternResponseToJSONTyped(value?: EmergingPatternRespon
         'signalIds': value['signalIds'],
         'signalCount': value['signalCount'],
         'lastUpdatedAt': value['lastUpdatedAt'] == null ? undefined : ((value['lastUpdatedAt']).toISOString()),
+        'keywords': value['keywords'],
     };
 }
 

@@ -26,7 +26,7 @@ public sealed class ClusteringJobHandler(
         var results = await clusteringClient.ClusterAsync(embeddings).ConfigureAwait(false);
 
         var assignments = results
-            .Select(r => new SignalClusterAssignment(r.SignalId, r.ClusterLabel))
+            .Select(r => new SignalClusterAssignment(r.SignalId, r.ClusterLabel, r.Keywords))
             .ToList();
 
         await bus.PublishAsync(new ClustersIdentifiedIntegrationEvent(assignments)).ConfigureAwait(false);

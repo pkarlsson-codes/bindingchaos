@@ -3,6 +3,7 @@ import { useEmergingPatterns } from '../../../shared/hooks/useEmergingPatterns';
 import type { EmergingPatternResponse } from '../../../api/models';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
+import { Badge } from '../../../shared/components/ui/badge';
 
 function formatDate(date: Date | undefined): string {
   if (!date) return 'Unknown';
@@ -25,11 +26,20 @@ function PatternCard({ pattern }: { pattern: EmergingPatternResponse }) {
         </button>
       }
       content={
-        <div className="flex items-center gap-6 text-sm text-muted-foreground">
-          <span>
-            <span className="font-semibold text-foreground">{pattern.signalCount ?? 0}</span> signals
-          </span>
-          <span>Last updated {formatDate(pattern.lastUpdatedAt)}</span>
+        <div className="space-y-2">
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <span>
+              <span className="font-semibold text-foreground">{pattern.signalCount ?? 0}</span> signals
+            </span>
+            <span>Last updated {formatDate(pattern.lastUpdatedAt)}</span>
+          </div>
+          {pattern.keywords && pattern.keywords.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {pattern.keywords.map(kw => (
+                <Badge key={kw} variant="secondary">{kw}</Badge>
+              ))}
+            </div>
+          )}
         </div>
       }
     />

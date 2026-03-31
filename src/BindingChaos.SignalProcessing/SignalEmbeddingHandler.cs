@@ -18,7 +18,7 @@ public sealed class SignalEmbeddingHandler(
     {
         var text = BuildEmbeddingText(message);
         var embedding = await teiClient.GetEmbeddingAsync(text).ConfigureAwait(false);
-        await embeddingRepository.UpsertAsync(message.SignalId, embedding).ConfigureAwait(false);
+        await embeddingRepository.UpsertAsync(message.SignalId, embedding, text).ConfigureAwait(false);
     }
 
     private static string BuildEmbeddingText(SignalCapturedIntegrationEvent message)
