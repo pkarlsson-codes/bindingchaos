@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace BindingChaos.Stigmergy.Application.ReadModels;
 
 /// <summary>
@@ -5,6 +7,15 @@ namespace BindingChaos.Stigmergy.Application.ReadModels;
 /// </summary>
 public class ConcernsListItemView
 {
+    /// <summary>
+    /// Maps sortable property names to expressions for ordering query results.
+    /// </summary>
+    public static readonly IReadOnlyDictionary<string, Expression<Func<ConcernsListItemView, object>>> SortMappings =
+        new Dictionary<string, Expression<Func<ConcernsListItemView, object>>>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["name"] = x => x.Name,
+        };
+
     /// <summary>
     /// The unique identifier of the concern.
     /// </summary>
