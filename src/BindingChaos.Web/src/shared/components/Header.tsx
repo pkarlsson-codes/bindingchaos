@@ -28,6 +28,7 @@ export function Header() {
     { path: '/patterns', label: 'Patterns', onClick: () => navigate('/patterns') },
     { path: '/ideas', label: 'Ideas', onClick: () => navigate('/ideas') },
     { path: '/societies', label: 'Societies', onClick: () => navigate('/societies') },
+    { path: '/about', label: 'About', onClick: () => navigate('/about') },
   ];
 
   return (

@@ -13,6 +13,7 @@ import { SocietyDetailPage } from '../features/societies/components/SocietyDetai
 import { InvitePage } from '../features/trust/components/InvitePage';
 import { EmergingPatternsPage } from '../features/emerging-patterns/components/EmergingPatternsPage';
 import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
+import { AboutPage } from '../features/about/components/AboutPage';
 
 import {
   AuthProvider,
@@ -60,6 +61,9 @@ function App() {
                       {/* Emerging Patterns */}
                       <Route path="/patterns" element={<EmergingPatternsPage />} />
                       <Route path="/patterns/:clusterLabel" element={<EmergingPatternDetailsPage />} />
+
+                      {/* About */}
+                      <Route path="/about" element={<AboutPage />} />
 
                       {/* Invites */}
                       <Route path="/invite/:token" element={<InvitePage />} />

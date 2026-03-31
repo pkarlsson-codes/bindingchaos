@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { ProcessTimeline } from './ProcessTimeline';
 import { StageCard } from './StageCard';
 import { Lightbulb, BookOpen, Edit3, Zap } from 'lucide-react';
-import { useLocality } from '../../../features/locality/hooks/useLocality';
 
 interface Stage {
   id: string;
@@ -75,7 +75,7 @@ const stages: Stage[] = [
 ];
 
 export function AboutPage() {
-  const { navigateToSignals } = useLocality();
+  const navigate = useNavigate();
   const [expandedStage, setExpandedStage] = useState<string | null>(null);
 
   const toggleStage = (stageId: string) => {
@@ -181,7 +181,7 @@ export function AboutPage() {
           </p>
         }
         footer={
-          <Button onClick={navigateToSignals} variant="primary">
+          <Button onClick={() => navigate('/signals')} variant="primary">
             Explore Signals
           </Button>
         }
