@@ -50,6 +50,7 @@ export * from './PostRepliesViewModel';
 export * from './PostViewModel';
 export * from './PostsViewModel';
 export * from './ProblemDetails';
+export * from './RaiseConcernRequest';
 export * from './ReplyViewModel';
 export * from './ResolvedInviteLinkResponse';
 export * from './SignalDetailViewModel';

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useEmergingPatterns } from '../../../shared/hooks/useEmergingPatterns';
@@ -5,7 +6,8 @@ import { useApiClient } from '../../../shared/hooks/useApiClient';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
-import type { SignalDetailViewModel } from '../../../api/models';
+import { RaiseConcernModal } from '../../concerns/components/RaiseConcernModal';
+import type { SignalDetailViewModel } from '@/api/models';
 
 function useSignalDetails(signalId: string) {
   const apiClient = useApiClient();
@@ -52,6 +54,7 @@ function SignalRow({ signalId }: { signalId: string }) {
 export function EmergingPatternDetailsPage() {
   const { clusterLabel } = useParams<{ clusterLabel: string }>();
   const navigate = useNavigate();
+  const [isConcernModalOpen, setIsConcernModalOpen] = useState(false);
   const { data: patterns = [], isLoading, error } = useEmergingPatterns();
 
   const clusterLabelNum = clusterLabel !== undefined ? parseInt(clusterLabel, 10) : NaN;
@@ -93,7 +96,17 @@ export function EmergingPatternDetailsPage() {
       <div className="flex items-center gap-4">
         <Button onClick={() => navigate('/patterns')} variant="secondary">← Back</Button>
         <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+        {!isNoise && pattern && (
+          <Button onClick={() => setIsConcernModalOpen(true)} variant="primary">Raise Concern</Button>
+        )}
       </div>
+
+      <RaiseConcernModal
+        isOpen={isConcernModalOpen}
+        onClose={() => setIsConcernModalOpen(false)}
+        initialSignalIds={pattern?.signalIds ?? []}
+        initialTags={pattern?.keywords ?? []}
+      />
 
       {isLoading ? (
         <div className="space-y-3">
@@ -108,7 +121,7 @@ export function EmergingPatternDetailsPage() {
         <>
           {pattern?.keywords && pattern.keywords.length > 0 && (
             <div className="flex gap-2 flex-wrap">
-              {pattern.keywords.map(kw => (
+              {pattern.keywords.map((kw: string) => (
                 <Badge key={kw} variant="secondary">{kw}</Badge>
               ))}
             </div>
@@ -121,7 +134,7 @@ export function EmergingPatternDetailsPage() {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">{signalIds.length} signal{signalIds.length !== 1 ? 's' : ''}</p>
-              {signalIds.map(id => (
+              {signalIds.map((id: string) => (
                 <SignalRow key={id} signalId={id} />
               ))}
             </div>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
-  IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi, SocietiesApi,
-  EmergingPatternsApi, Configuration
+  ConcernsApi,IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi,
+  SocietiesApi, EmergingPatternsApi, Configuration
 } from '@/api';
 import { API_CONFIG } from '@/config/api';
 import { useOptionalAuth } from '../../features/auth/contexts/AuthContext';
@@ -71,6 +71,7 @@ export function useApiClient() {
     const config = withCsrfMiddleware(baseConfig);
 
     return {
+      concerns: new ConcernsApi(config),
       ideas: new IdeasApi(config),
       signals: new SignalsApi(config),
       discourse: new DiscourseApi(config),

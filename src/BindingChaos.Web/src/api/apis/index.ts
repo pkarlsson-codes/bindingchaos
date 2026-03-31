@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AuthApi';
+export * from './ConcernsApi';
 export * from './DiscourseApi';
 export * from './DocumentsApi';
 export * from './EmergingPatternsApi';

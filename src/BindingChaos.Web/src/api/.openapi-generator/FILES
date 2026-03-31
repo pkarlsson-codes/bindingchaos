@@ -1,5 +1,6 @@
 .openapi-generator-ignore
 apis/AuthApi.ts
+apis/ConcernsApi.ts
 apis/DiscourseApi.ts
 apis/DocumentsApi.ts
 apis/EmergingPatternsApi.ts
@@ -61,6 +62,7 @@ models/PostRepliesViewModel.ts
 models/PostViewModel.ts
 models/PostsViewModel.ts
 models/ProblemDetails.ts
+models/RaiseConcernRequest.ts
 models/ReplyViewModel.ts
 models/ResolvedInviteLinkResponse.ts
 models/SignalDetailViewModel.ts

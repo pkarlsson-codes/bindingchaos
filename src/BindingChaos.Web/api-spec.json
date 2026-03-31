@@ -70,6 +70,50 @@
         }
       }
     },
+    "/api/v1/concerns": {
+      "post": {
+        "tags": [
+          "Concerns"
+        ],
+        "summary": "Forwards a request to raise a new concern to the concerns API.",
+        "operationId": "raiseConcern",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request containing the details of the concern to raise.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RaiseConcernRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "The ID of the raised concern as a string.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/discourse/threads/{threadId}/posts": {
       "get": {
         "tags": [
@@ -1877,6 +1921,55 @@
           }
         }
       },
+      "ApiResponseOfString": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "string",
+                "description": "Gets or sets the response data.",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "ApiResponse": {
+        "type": "object",
+        "description": "Static factory methods for creating API responses.",
+        "additionalProperties": false
+      },
+      "RaiseConcernRequest": {
+        "type": "object",
+        "description": "Request used to raise a new concern in the system.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the concern being raised."
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags associated with the raised concern.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "signalIds": {
+            "type": "array",
+            "description": "Ids of signals associated with the concern.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "ApiEnvelopeOfPostsViewModel": {
         "type": "object",
         "description": "Generic API response envelope that wraps data with metadata.",
@@ -2226,30 +2319,6 @@
             "description": "Gets or sets the content of the reply."
           }
         }
-      },
-      "ApiResponseOfString": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "type": "string",
-                "description": "Gets or sets the response data.",
-                "nullable": true
-              }
-            }
-          }
-        ]
-      },
-      "ApiResponse": {
-        "type": "object",
-        "description": "Static factory methods for creating API responses.",
-        "additionalProperties": false
       },
       "ApiResponseOfEmergingPatternsFeedViewModel": {
         "allOf": [
