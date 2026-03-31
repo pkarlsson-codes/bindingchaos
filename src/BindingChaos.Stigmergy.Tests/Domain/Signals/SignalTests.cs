@@ -29,7 +29,7 @@ public class SignalTests
             e.AttachmentIds.Should().BeEquivalentTo(attachmentIds);
             e.Latitude.Should().Be(1);
             e.Longitude.Should().Be(2);
-            sut.Id.Value.Should().StartWith("stigmergysignal");
+            sut.Id.Value.Should().StartWith("signal");
         }
 
         [Fact]

@@ -21,7 +21,7 @@ public class IdeaTests
             e.AuthorId.Should().Be(authorId.Value);
             e.Title.Should().Be("Better coordination");
             e.Description.Should().Be("A description");
-            sut.Id.Value.Should().StartWith("stigmergyidea");
+            sut.Id.Value.Should().StartWith("idea");
         }
 
         [Fact]
