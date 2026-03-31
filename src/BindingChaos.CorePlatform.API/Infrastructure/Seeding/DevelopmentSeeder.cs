@@ -31,7 +31,8 @@ internal static class DevelopmentSeeder
 
         IInitialData[] seeders =
         [
-            new StigmergyInitialData(participants),
+            new SignalsInitialData(participants),
+            new IdeasInitialData(participants),
             new SocietiesInitialData(participants),
             new CommunityDiscourseInitialData(participants),
         ];

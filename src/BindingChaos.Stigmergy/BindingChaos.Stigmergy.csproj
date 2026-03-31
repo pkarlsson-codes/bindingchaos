@@ -41,7 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Infrastructure\Seeding\seed-data.json" />
+    <EmbeddedResource Include="Infrastructure\Seeding\signal-seed-data.json" />
+    <EmbeddedResource Include="Infrastructure\Seeding\idea-seed-data.json" />
   </ItemGroup>
   
 </Project>

@@ -1,31 +1,30 @@
 using System.Text.Json;
-using BindingChaos.Ideation.Domain.Amendments;
-using BindingChaos.Ideation.Domain.Ideas;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Services;
 using BindingChaos.SharedKernel.Infrastructure.Services;
+using BindingChaos.Stigmergy.Domain.Ideas;
 using Marten;
 using Marten.Schema;
 
-namespace BindingChaos.Ideation.Infrastructure.Seeding;
+namespace BindingChaos.Stigmergy.Infrastructure.Seeding;
 
 /// <summary>
 /// Development-only initial data seeding for Ideation using Marten's initial data hook.
 /// Seeds idea and amendment events using aggregates to ensure domain logic integrity.
 /// Depends on signals being seeded first via SignalAwarenessInitialData.
-/// Seed content is loaded from the embedded seed-data.json resource.
+/// Seed content is loaded from the embedded idea-seed-data.json resource.
 /// </summary>
-public sealed class IdeationInitialData : IInitialData
+public sealed class IdeasInitialData : IInitialData
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     private readonly ParticipantId[] _participants;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IdeationInitialData"/> class.
+    /// Initializes a new instance of the <see cref="IdeasInitialData"/> class.
     /// </summary>
     /// <param name="participants">The ordered participant array shared across all seeders.</param>
-    public IdeationInitialData(ParticipantId[] participants)
+    public IdeasInitialData(ParticipantId[] participants)
     {
         _participants = participants;
     }
@@ -53,30 +52,6 @@ public sealed class IdeationInitialData : IInitialData
             return;
         }
 
-        var signalIds = await session.Events.QueryAllRawEvents()
-            .Where(e => e.DotNetTypeName.Contains("SignalCaptured") && e.StreamKey != null)
-            .Select(e => e.StreamKey!)
-            .Distinct()
-            .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        if (signalIds.Count == 0)
-        {
-            return;
-        }
-
-        var societyIds = await session.Events.QueryAllRawEvents()
-            .Where(e => e.DotNetTypeName.Contains("SocietyCreated") && e.StreamKey != null)
-            .Select(e => e.StreamKey!)
-            .Distinct()
-            .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        if (societyIds.Count == 0)
-        {
-            return;
-        }
-
         var data = await LoadSeedDataAsync(cancellationToken).ConfigureAwait(false);
 
         var baseTime = DateTimeOffset.UtcNow.AddDays(-25);
@@ -93,28 +68,17 @@ public sealed class IdeationInitialData : IInitialData
             {
                 timeProvider.AdvanceHours(random.Next(6, 18));
 
-                var referencedSignals = ideaDto.SignalIndices
-                    .Where(i => i < signalIds.Count)
-                    .Select(i => signalIds[i])
-                    .ToArray();
-
-                var idea = Idea.Author(
-                    SocietyId.Create(societyIds[0]),
-                    _participants[ideaDto.CreatorIndex],
+                var authorId = _participants[ideaDto.CreatorIndex];
+                var idea = Idea.Draft(
+                    authorId,
                     ideaDto.Title,
-                    ideaDto.Body,
-                    referencedSignals,
-                    ideaDto.Tags);
+                    ideaDto.Body);
 
-                session.Events.Append(idea.Id.Value, idea.UncommittedEvents.ToArray());
+                idea.Publish(authorId);
+
+                session.Events.Append(idea.Id.Value, [.. idea.UncommittedEvents]);
                 await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
                 createdIdeas.Add(idea.Id);
-            }
-
-            for (var i = 0; i < data.Ideas.Count; i++)
-            {
-                await CreateAmendmentsForIdea(
-                    session, createdIdeas[i], data.Ideas[i].Amendments, random, timeProvider, cancellationToken).ConfigureAwait(false);
             }
         }
         finally
@@ -125,54 +89,16 @@ public sealed class IdeationInitialData : IInitialData
 
     private static async Task<IdeaSeedData> LoadSeedDataAsync(CancellationToken cancellationToken)
     {
-        var stream = typeof(IdeationInitialData).Assembly
-            .GetManifestResourceStream("BindingChaos.Ideation.Infrastructure.Seeding.seed-data.json")
-            ?? throw new InvalidOperationException("seed-data.json embedded resource not found in Ideation assembly.");
+        var stream = typeof(IdeasInitialData).Assembly
+            .GetManifestResourceStream("BindingChaos.Stigmergy.Infrastructure.Seeding.idea-seed-data.json")
+            ?? throw new InvalidOperationException("idea-seed-data.json embedded resource not found in Stigmergy assembly.");
 
 #pragma warning disable CA2007
         await using (stream)
 #pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<IdeaSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
-                ?? throw new InvalidOperationException("Failed to deserialize Ideation seed-data.json.");
-        }
-    }
-
-    private async Task CreateAmendmentsForIdea(
-        IDocumentSession session,
-        IdeaId ideaId,
-        List<AmendmentDto> amendments,
-        Random random,
-        ControllableTimeProvider timeProvider,
-        CancellationToken cancellationToken)
-    {
-        foreach (var dto in amendments)
-        {
-            timeProvider.AdvanceHours(random.Next(12, 48));
-
-            var amendment = Amendment.Propose(
-                ideaId,
-                1,
-                _participants[dto.CreatorIndex],
-                dto.ProposedTitle,
-                dto.ProposedBody,
-                dto.AmendmentTitle,
-                dto.AmendmentDescription);
-
-            foreach (var supporter in dto.Supporters)
-            {
-                timeProvider.AdvanceHours(random.Next(2, 18));
-                amendment.AddSupport(new Supporter(_participants[supporter.ParticipantIndex], supporter.Reason));
-            }
-
-            foreach (var opponent in dto.Opponents)
-            {
-                timeProvider.AdvanceHours(random.Next(2, 18));
-                amendment.AddOpposition(new Opponent(_participants[opponent.ParticipantIndex], opponent.Reason));
-            }
-
-            session.Events.Append(amendment.Id.Value, amendment.UncommittedEvents.ToArray());
-            await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                ?? throw new InvalidOperationException("Failed to deserialize Stigmergy idea-seed-data.json.");
         }
     }
 

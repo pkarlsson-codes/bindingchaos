@@ -11,19 +11,19 @@ namespace BindingChaos.Stigmergy.Infrastructure.Seeding;
 /// <summary>
 /// Development-only initial data seeding for Stigmergy using Marten's initial data hook.
 /// Seeds signal events using aggregates to ensure domain logic integrity.
-/// Seed content is loaded from the embedded seed-data.json resource.
+/// Seed content is loaded from the embedded signal-seed-data.json resource.
 /// </summary>
-public sealed class StigmergyInitialData : IInitialData
+public sealed class SignalsInitialData : IInitialData
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     private readonly ParticipantId[] _participants;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StigmergyInitialData"/> class.
+    /// Initializes a new instance of the <see cref="SignalsInitialData"/> class.
     /// </summary>
     /// <param name="participants">The ordered participant array shared across all seeders.</param>
-    public StigmergyInitialData(ParticipantId[] participants)
+    public SignalsInitialData(ParticipantId[] participants)
     {
         _participants = participants;
     }
@@ -92,16 +92,16 @@ public sealed class StigmergyInitialData : IInitialData
 
     private static async Task<SignalSeedData> LoadSeedDataAsync(CancellationToken cancellationToken)
     {
-        var stream = typeof(StigmergyInitialData).Assembly
-            .GetManifestResourceStream("BindingChaos.Stigmergy.Infrastructure.Seeding.seed-data.json")
-            ?? throw new InvalidOperationException("seed-data.json embedded resource not found in SignalAwareness assembly.");
+        var stream = typeof(SignalsInitialData).Assembly
+            .GetManifestResourceStream("BindingChaos.Stigmergy.Infrastructure.Seeding.signal-seed-data.json")
+            ?? throw new InvalidOperationException("signal-seed-data.json embedded resource not found in Stigmergy assembly.");
 
 #pragma warning disable CA2007
         await using (stream)
 #pragma warning restore CA2007
         {
             return await JsonSerializer.DeserializeAsync<SignalSeedData>(stream, JsonOptions, cancellationToken).ConfigureAwait(false)
-                ?? throw new InvalidOperationException("Failed to deserialize SignalAwareness seed-data.json.");
+                ?? throw new InvalidOperationException("Failed to deserialize Stigmergy signal-seed-data.json.");
         }
     }
 
