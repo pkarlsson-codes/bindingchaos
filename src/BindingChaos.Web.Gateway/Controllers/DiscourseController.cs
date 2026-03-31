@@ -29,7 +29,7 @@ public sealed class DiscourseController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The root posts for the thread with cursor pagination.</returns>
     [HttpGet("threads/{threadId}/posts")]
-    [ProducesResponseType(typeof(PostsViewModel), 200)]
+    [ProducesResponseType(typeof(ApiEnvelope<PostsViewModel>), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 404)]
     [ProducesResponseType(typeof(ProblemDetails), 400)]
     [EndpointName("getPostsByThreadId")]
@@ -56,7 +56,7 @@ public sealed class DiscourseController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The root posts for the thread with cursor pagination.</returns>
     [HttpGet("threads/by-entity/{entityType}/{entityId}/posts")]
-    [ProducesResponseType(typeof(PostsViewModel), 200)]
+    [ProducesResponseType(typeof(ApiEnvelope<PostsViewModel>), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 404)]
     [ProducesResponseType(typeof(ProblemDetails), 400)]
     [EndpointName("getPostsByEntity")]
@@ -84,7 +84,7 @@ public sealed class DiscourseController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The replies for the post with cursor pagination.</returns>
     [HttpGet("threads/{threadId}/posts/{postId}/replies")]
-    [ProducesResponseType(typeof(PostRepliesViewModel), 200)]
+    [ProducesResponseType(typeof(ApiEnvelope<PostRepliesViewModel>), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 404)]
     [ProducesResponseType(typeof(ProblemDetails), 400)]
     [EndpointName("getPostReplies")]
@@ -110,7 +110,7 @@ public sealed class DiscourseController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the created post.</returns>
     [HttpPost("threads/{threadId}/posts")]
-    [ProducesResponseType(typeof(string), 201)]
+    [ProducesResponseType(typeof(ApiEnvelope<string>), 201)]
     [ProducesResponseType(typeof(ProblemDetails), 400)]
     [EndpointName("createPost")]
     public async Task<IActionResult> CreatePost(
@@ -143,7 +143,7 @@ public sealed class DiscourseController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the created reply.</returns>
     [HttpPost("threads/{threadId}/posts/{postId}/replies")]
-    [ProducesResponseType(typeof(string), 201)]
+    [ProducesResponseType(typeof(ApiEnvelope<string>), 201)]
     [ProducesResponseType(typeof(ProblemDetails), 400)]
     [EndpointName("createReply")]
     public async Task<IActionResult> CreateReply(
