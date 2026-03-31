@@ -13,6 +13,9 @@ apis/index.ts
 index.ts
 models/AmplificationViewModel.ts
 models/AmplifySignalResponse.ts
+models/ApiEnvelopeOfPostRepliesViewModel.ts
+models/ApiEnvelopeOfPostsViewModel.ts
+models/ApiEnvelopeOfString.ts
 models/ApiResponseOfAmplifySignalResponse.ts
 models/ApiResponseOfDeamplifySignalResponse.ts
 models/ApiResponseOfEmergingPatternsFeedViewModel.ts

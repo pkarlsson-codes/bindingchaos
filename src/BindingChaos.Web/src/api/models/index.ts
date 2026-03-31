@@ -2,6 +2,9 @@
 /* eslint-disable */
 export * from './AmplificationViewModel';
 export * from './AmplifySignalResponse';
+export * from './ApiEnvelopeOfPostRepliesViewModel';
+export * from './ApiEnvelopeOfPostsViewModel';
+export * from './ApiEnvelopeOfString';
 export * from './ApiResponseOfAmplifySignalResponse';
 export * from './ApiResponseOfDeamplifySignalResponse';
 export * from './ApiResponseOfEmergingPatternsFeedViewModel';

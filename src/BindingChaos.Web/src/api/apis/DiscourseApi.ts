@@ -15,24 +15,27 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiEnvelopeOfPostRepliesViewModel,
+  ApiEnvelopeOfPostsViewModel,
+  ApiEnvelopeOfString,
   CreatePostRequest,
   CreateReplyRequest,
   CursorDirection,
-  PostRepliesViewModel,
-  PostsViewModel,
   ProblemDetails,
 } from '../models/index';
 import {
+    ApiEnvelopeOfPostRepliesViewModelFromJSON,
+    ApiEnvelopeOfPostRepliesViewModelToJSON,
+    ApiEnvelopeOfPostsViewModelFromJSON,
+    ApiEnvelopeOfPostsViewModelToJSON,
+    ApiEnvelopeOfStringFromJSON,
+    ApiEnvelopeOfStringToJSON,
     CreatePostRequestFromJSON,
     CreatePostRequestToJSON,
     CreateReplyRequestFromJSON,
     CreateReplyRequestToJSON,
     CursorDirectionFromJSON,
     CursorDirectionToJSON,
-    PostRepliesViewModelFromJSON,
-    PostRepliesViewModelToJSON,
-    PostsViewModelFromJSON,
-    PostsViewModelToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
 } from '../models/index';
@@ -87,12 +90,12 @@ export interface DiscourseApiInterface {
      * @throws {RequiredError}
      * @memberof DiscourseApiInterface
      */
-    createPostRaw(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+    createPostRaw(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfString>>;
 
     /**
      * Creates a new root post in a specific thread.
      */
-    createPost(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
+    createPost(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfString>;
 
     /**
      * 
@@ -104,12 +107,12 @@ export interface DiscourseApiInterface {
      * @throws {RequiredError}
      * @memberof DiscourseApiInterface
      */
-    createReplyRaw(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+    createReplyRaw(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfString>>;
 
     /**
      * Creates a new reply to a specific post.
      */
-    createReply(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
+    createReply(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfString>;
 
     /**
      * 
@@ -123,12 +126,12 @@ export interface DiscourseApiInterface {
      * @throws {RequiredError}
      * @memberof DiscourseApiInterface
      */
-    getPostRepliesRaw(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostRepliesViewModel>>;
+    getPostRepliesRaw(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostRepliesViewModel>>;
 
     /**
      * Gets replies to a specific post with cursor-based pagination.
      */
-    getPostReplies(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostRepliesViewModel>;
+    getPostReplies(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostRepliesViewModel>;
 
     /**
      * 
@@ -142,12 +145,12 @@ export interface DiscourseApiInterface {
      * @throws {RequiredError}
      * @memberof DiscourseApiInterface
      */
-    getPostsByEntityRaw(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostsViewModel>>;
+    getPostsByEntityRaw(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostsViewModel>>;
 
     /**
      * Gets root posts for a thread identified by entity with cursor-based pagination.
      */
-    getPostsByEntity(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostsViewModel>;
+    getPostsByEntity(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostsViewModel>;
 
     /**
      * 
@@ -160,12 +163,12 @@ export interface DiscourseApiInterface {
      * @throws {RequiredError}
      * @memberof DiscourseApiInterface
      */
-    getPostsByThreadIdRaw(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostsViewModel>>;
+    getPostsByThreadIdRaw(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostsViewModel>>;
 
     /**
      * Gets root posts for a specific thread with cursor-based pagination.
      */
-    getPostsByThreadId(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostsViewModel>;
+    getPostsByThreadId(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostsViewModel>;
 
 }
 
@@ -177,7 +180,7 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
     /**
      * Creates a new root post in a specific thread.
      */
-    async createPostRaw(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async createPostRaw(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfString>> {
         if (requestParameters['threadId'] == null) {
             throw new runtime.RequiredError(
                 'threadId',
@@ -210,17 +213,13 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
             body: CreatePostRequestToJSON(requestParameters['createPostRequest']),
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiEnvelopeOfStringFromJSON(jsonValue));
     }
 
     /**
      * Creates a new root post in a specific thread.
      */
-    async createPost(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+    async createPost(requestParameters: CreatePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfString> {
         const response = await this.createPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -228,7 +227,7 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
     /**
      * Creates a new reply to a specific post.
      */
-    async createReplyRaw(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async createReplyRaw(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfString>> {
         if (requestParameters['threadId'] == null) {
             throw new runtime.RequiredError(
                 'threadId',
@@ -269,17 +268,13 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
             body: CreateReplyRequestToJSON(requestParameters['createReplyRequest']),
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiEnvelopeOfStringFromJSON(jsonValue));
     }
 
     /**
      * Creates a new reply to a specific post.
      */
-    async createReply(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+    async createReply(requestParameters: CreateReplyOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfString> {
         const response = await this.createReplyRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -287,7 +282,7 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
     /**
      * Gets replies to a specific post with cursor-based pagination.
      */
-    async getPostRepliesRaw(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostRepliesViewModel>> {
+    async getPostRepliesRaw(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostRepliesViewModel>> {
         if (requestParameters['threadId'] == null) {
             throw new runtime.RequiredError(
                 'threadId',
@@ -330,13 +325,13 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PostRepliesViewModelFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiEnvelopeOfPostRepliesViewModelFromJSON(jsonValue));
     }
 
     /**
      * Gets replies to a specific post with cursor-based pagination.
      */
-    async getPostReplies(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostRepliesViewModel> {
+    async getPostReplies(requestParameters: GetPostRepliesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostRepliesViewModel> {
         const response = await this.getPostRepliesRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -344,7 +339,7 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
     /**
      * Gets root posts for a thread identified by entity with cursor-based pagination.
      */
-    async getPostsByEntityRaw(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostsViewModel>> {
+    async getPostsByEntityRaw(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostsViewModel>> {
         if (requestParameters['entityType'] == null) {
             throw new runtime.RequiredError(
                 'entityType',
@@ -387,13 +382,13 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PostsViewModelFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiEnvelopeOfPostsViewModelFromJSON(jsonValue));
     }
 
     /**
      * Gets root posts for a thread identified by entity with cursor-based pagination.
      */
-    async getPostsByEntity(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostsViewModel> {
+    async getPostsByEntity(requestParameters: GetPostsByEntityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostsViewModel> {
         const response = await this.getPostsByEntityRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -401,7 +396,7 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
     /**
      * Gets root posts for a specific thread with cursor-based pagination.
      */
-    async getPostsByThreadIdRaw(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostsViewModel>> {
+    async getPostsByThreadIdRaw(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiEnvelopeOfPostsViewModel>> {
         if (requestParameters['threadId'] == null) {
             throw new runtime.RequiredError(
                 'threadId',
@@ -436,13 +431,13 @@ export class DiscourseApi extends runtime.BaseAPI implements DiscourseApiInterfa
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PostsViewModelFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiEnvelopeOfPostsViewModelFromJSON(jsonValue));
     }
 
     /**
      * Gets root posts for a specific thread with cursor-based pagination.
      */
-    async getPostsByThreadId(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostsViewModel> {
+    async getPostsByThreadId(requestParameters: GetPostsByThreadIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiEnvelopeOfPostsViewModel> {
         const response = await this.getPostsByThreadIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
