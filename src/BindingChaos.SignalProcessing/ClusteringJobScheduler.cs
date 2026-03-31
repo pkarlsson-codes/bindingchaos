@@ -7,7 +7,7 @@ namespace BindingChaos.SignalProcessing;
 /// </summary>
 public sealed partial class ClusteringJobScheduler(IServiceScopeFactory scopeFactory, ILogger<ClusteringJobScheduler> logger) : BackgroundService
 {
-    private static readonly TimeSpan Interval = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan Interval = TimeSpan.FromMinutes(15);
 
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
