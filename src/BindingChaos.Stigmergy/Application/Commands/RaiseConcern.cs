@@ -11,7 +11,10 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// <param name="ActorId">Id of the actor raising the concern.</param>
 /// <param name="Name">Name of the raised concern.</param>
 /// <param name="SignalIds">Ids of the signals surfacing the concern.</param>
-public sealed record RaiseConcern(ParticipantId ActorId, string Name, IReadOnlyList<SignalId> SignalIds);
+public sealed record RaiseConcern(
+    ParticipantId ActorId,
+    string Name,
+    IReadOnlyList<SignalId> SignalIds);
 
 /// <summary>
 /// A <see cref="RaiseConcern"/> command handler.
