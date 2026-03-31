@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace BindingChaos.Infrastructure.Querying;
 
 /// <summary>
-/// Query specification for HTTP querystring binding with offset pagination, sorting, and typed filters.
+/// Query specification for HTTP querystring binding with offset pagination and sorting.
 /// </summary>
-/// <typeparam name="TFilter">The type that represents custom filters for the query (e.g., a record or DTO).</typeparam>
-public sealed class PaginationQuerySpec<TFilter>
-    where TFilter : class, new()
+public class PaginationQuerySpec
 {
     /// <summary>
     /// Default page size when none is specified.
@@ -28,11 +25,6 @@ public sealed class PaginationQuerySpec<TFilter>
     public PageSpec Page { get; init; } = new();
 
     /// <summary>
-    /// Typed filter payload bound from the filter.* prefix (e.g., filter.status).
-    /// </summary>
-    public TFilter Filter { get; init; } = new();
-
-    /// <summary>
     /// Parsed sort descriptors bound from the querystring parameter named 'sort'.
     /// </summary>
     [FromQuery(Name = "sort")]
@@ -40,21 +32,14 @@ public sealed class PaginationQuerySpec<TFilter>
     public IReadOnlyList<SortDescriptor> SortDescriptors { get; set; } = Array.Empty<SortDescriptor>();
 
     /// <summary>
-    /// Returns a new instance with normalized pagination and sanitized sort string.
+    /// Returns a new instance with normalized pagination and sanitized sort descriptors.
     /// </summary>
-    /// <returns>A new normalized <see cref="PaginationQuerySpec{TFilter}"/> instance.</returns>
-    public PaginationQuerySpec<TFilter> Normalize()
+    /// <returns>A new normalized <see cref="PaginationQuerySpec"/> instance.</returns>
+    public virtual PaginationQuerySpec Normalize()
     {
-        var normalizedPage = new PageSpec
+        return new PaginationQuerySpec
         {
-            Number = NormalizePageNumber(Page.Number),
-            Size = NormalizePageSize(Page.Size),
-        };
-
-        return new PaginationQuerySpec<TFilter>
-        {
-            Page = normalizedPage,
-            Filter = Filter,
+            Page = NormalizedPage(),
             SortDescriptors = SanitizeSortDescriptors(SortDescriptors),
         };
     }
@@ -63,39 +48,16 @@ public sealed class PaginationQuerySpec<TFilter>
     /// Builds a querystring that reproduces this specification when bound by ASP.NET Core.
     /// </summary>
     /// <param name="includeQuestionMark">Whether to prefix with '?' (default: true).</param>
-    /// <returns>A querystring like "?page.number=1&amp;page.size=20&amp;filter.status=active&amp;sort=createdAt,-amplifyCount".</returns>
+    /// <returns>A querystring like "?page.number=1&amp;page.size=20&amp;sort=createdAt,-amplifyCount".</returns>
     public string ToQueryString(bool includeQuestionMark = true)
     {
-        var parts = new List<string>(capacity: 8);
-
-        parts.Add($"page.number={Encode(Page.Number.ToString(System.Globalization.CultureInfo.InvariantCulture))}");
-        parts.Add($"page.size={Encode(Page.Size.ToString(System.Globalization.CultureInfo.InvariantCulture))}");
-
-        if (Filter is not null)
+        var parts = new List<string>(capacity: 8)
         {
-            foreach (var property in typeof(TFilter).GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (property.GetMethod is null)
-                {
-                    continue;
-                }
+            $"page.number={Encode(Page.Number.ToString(System.Globalization.CultureInfo.InvariantCulture))}",
+            $"page.size={Encode(Page.Size.ToString(System.Globalization.CultureInfo.InvariantCulture))}",
+        };
 
-                var value = property.GetValue(Filter);
-                if (value is null)
-                {
-                    continue;
-                }
-
-                var stringValue = ConvertToString(value);
-                if (stringValue is null)
-                {
-                    continue;
-                }
-
-                var key = $"filter.{ToCamelCase(property.Name)}";
-                parts.Add($"{key}={Encode(stringValue)}");
-            }
-        }
+        AppendFilterParts(parts);
 
         if (SortDescriptors is { Count: > 0 })
         {
@@ -135,6 +97,90 @@ public sealed class PaginationQuerySpec<TFilter>
         return new QueryString(text);
     }
 
+    /// <summary>
+    /// Sanitizes a list of sort descriptors by removing nulls and trimming field names.
+    /// </summary>
+    /// <param name="input">The raw sort descriptors to sanitize.</param>
+    /// <returns>A sanitized array of <see cref="SortDescriptor"/> instances.</returns>
+    protected static SortDescriptor[] SanitizeSortDescriptors(IReadOnlyList<SortDescriptor> input)
+    {
+        if (input == null || input.Count == 0)
+        {
+            return [];
+        }
+
+        return [.. input
+            .Where(s => s != null && !string.IsNullOrWhiteSpace(s.Field))
+            .Select(s => new SortDescriptor(s.Field.Trim(), s.Direction))];
+    }
+
+    /// <summary>
+    /// Converts a filter property value to its querystring string representation.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>The string representation, or <c>null</c> if the value should be omitted.</returns>
+    protected static string? ConvertToString(object value)
+    {
+        return value switch
+        {
+            string s when !string.IsNullOrWhiteSpace(s) => s,
+            string => null,
+            bool b => b ? "true" : "false",
+            DateTime dt => dt.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
+            DateTimeOffset dto => dto.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
+            Enum e => e.ToString(),
+            IFormattable fmt => fmt.ToString(null, System.Globalization.CultureInfo.InvariantCulture),
+            IEnumerable<string> strings => string.Join(',', strings),
+            _ => value.ToString(),
+        };
+    }
+
+    /// <summary>
+    /// Converts a PascalCase property name to camelCase for use as a querystring key.
+    /// </summary>
+    /// <param name="name">The PascalCase name to convert.</param>
+    /// <returns>The camelCase equivalent.</returns>
+    protected static string ToCamelCase(string name)
+    {
+        if (string.IsNullOrEmpty(name) || char.IsLower(name[0]))
+        {
+            return name;
+        }
+
+        if (name.Length == 1)
+        {
+            return name.ToLowerInvariant();
+        }
+
+        return char.ToLowerInvariant(name[0]) + name.Substring(1);
+    }
+
+    /// <summary>
+    /// URL-encodes a querystring value.
+    /// </summary>
+    /// <param name="value">The value to encode.</param>
+    /// <returns>The percent-encoded string.</returns>
+    protected static string Encode(string value)
+    {
+        return Uri.EscapeDataString(value);
+    }
+
+    /// <summary>
+    /// Override to append filter-specific querystring parts between the page and sort segments.
+    /// </summary>
+    /// <param name="parts">The list of querystring key=value parts to append to.</param>
+    protected virtual void AppendFilterParts(List<string> parts) { }
+
+    /// <summary>
+    /// Returns a normalized <see cref="PageSpec"/> derived from the current <see cref="Page"/>.
+    /// </summary>
+    /// <returns>A <see cref="PageSpec"/> with valid page number and clamped page size.</returns>
+    protected PageSpec NormalizedPage() => new()
+    {
+        Number = NormalizePageNumber(Page.Number),
+        Size = NormalizePageSize(Page.Size),
+    };
+
     private static int NormalizePageNumber(int pageNumber)
     {
         return pageNumber < 1 ? 1 : pageNumber;
@@ -150,19 +196,6 @@ public sealed class PaginationQuerySpec<TFilter>
         return pageSize > MaxPageSize ? MaxPageSize : pageSize;
     }
 
-    private static SortDescriptor[] SanitizeSortDescriptors(IReadOnlyList<SortDescriptor> input)
-    {
-        if (input == null || input.Count == 0)
-        {
-            return Array.Empty<SortDescriptor>();
-        }
-
-        return input
-            .Where(s => s != null && !string.IsNullOrWhiteSpace(s.Field))
-            .Select(s => new SortDescriptor(s.Field.Trim(), s.Direction))
-            .ToArray();
-    }
-
     private static string BuildSortString(IReadOnlyList<SortDescriptor> descriptors)
     {
         if (descriptors == null || descriptors.Count == 0)
@@ -176,50 +209,5 @@ public sealed class PaginationQuerySpec<TFilter>
             .ToArray();
 
         return string.Join(',', tokens);
-    }
-
-    private static string? ConvertToString(object value)
-    {
-        switch (value)
-        {
-            case string s when !string.IsNullOrWhiteSpace(s):
-                return s;
-            case string:
-                return null;
-            case bool b:
-                return b ? "true" : "false";
-            case DateTime dt:
-                return dt.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
-            case DateTimeOffset dto:
-                return dto.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
-            case Enum e:
-                return e.ToString();
-            case IFormattable fmt:
-                return fmt.ToString(null, System.Globalization.CultureInfo.InvariantCulture);
-            case IEnumerable<string> strings:
-                return string.Join(',', strings);
-            default:
-                return value.ToString();
-        }
-    }
-
-    private static string ToCamelCase(string name)
-    {
-        if (string.IsNullOrEmpty(name) || char.IsLower(name[0]))
-        {
-            return name;
-        }
-
-        if (name.Length == 1)
-        {
-            return name.ToLowerInvariant();
-        }
-
-        return char.ToLowerInvariant(name[0]) + name.Substring(1);
-    }
-
-    private static string Encode(string value)
-    {
-        return Uri.EscapeDataString(value);
     }
 }
