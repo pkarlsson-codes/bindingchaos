@@ -38,6 +38,7 @@ public static class WithdrawAmplificationHandler
 
         signal.WithdrawAmplification(command.ActorId);
 
+        signalRepository.Stage(signal);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }

@@ -38,6 +38,7 @@ public static class AmplifySignalHandler
 
         signal.Amplify(command.ActorId);
 
+        signalRepository.Stage(signal);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }
