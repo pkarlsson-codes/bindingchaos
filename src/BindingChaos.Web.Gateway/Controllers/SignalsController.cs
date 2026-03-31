@@ -174,7 +174,7 @@ public sealed class SignalsController : BaseApiController
     [ProducesResponseType(500)]
     [EndpointName("amplifySignal")]
     public async Task<IActionResult> AmplifySignal(
-        string signalId,
+        [FromRoute] string signalId,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(signalId);

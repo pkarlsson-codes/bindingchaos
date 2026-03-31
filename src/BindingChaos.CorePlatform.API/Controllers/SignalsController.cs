@@ -135,7 +135,7 @@ public sealed class SignalsController(IMessageBus messageBus, IPseudonymLookupSe
     [HttpPost("{signalId}/amplifications")]
     [ProducesResponseType(typeof(ApiResponse<AmplifySignalResponse>), 200)]
     [EndpointName("amplifySignal")]
-    public async Task<IActionResult> AmplifySignal(string signalId, CancellationToken cancellationToken)
+    public async Task<IActionResult> AmplifySignal([FromRoute] string signalId, CancellationToken cancellationToken)
     {
         var amplifierId = HttpContext.GetParticipantIdOrAnonymous();
         if (amplifierId.IsAnonymous)
