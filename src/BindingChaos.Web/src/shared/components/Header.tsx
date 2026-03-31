@@ -25,9 +25,9 @@ export function Header() {
 
   const navItems = [
     { path: '/signals', label: 'Signals', onClick: () => navigate('/signals') },
+    { path: '/patterns', label: 'Patterns', onClick: () => navigate('/patterns') },
     { path: '/ideas', label: 'Ideas', onClick: () => navigate('/ideas') },
     { path: '/societies', label: 'Societies', onClick: () => navigate('/societies') },
-    { path: '/patterns', label: 'Patterns', onClick: () => navigate('/patterns') },
   ];
 
   return (
