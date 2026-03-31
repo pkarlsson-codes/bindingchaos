@@ -10,10 +10,12 @@ namespace BindingChaos.Stigmergy.Application.Commands;
 /// </summary>
 /// <param name="ActorId">Id of the actor raising the concern.</param>
 /// <param name="Name">Name of the raised concern.</param>
+/// <param name="Tags">Tags associated with the raised concern.</param>
 /// <param name="SignalIds">Ids of the signals surfacing the concern.</param>
 public sealed record RaiseConcern(
     ParticipantId ActorId,
     string Name,
+    IReadOnlyList<string> Tags,
     IReadOnlyList<SignalId> SignalIds);
 
 /// <summary>
@@ -37,7 +39,7 @@ public static class RaiseConcernHandler
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var concern = Concern.Raise(command.ActorId, command.Name, command.SignalIds);
+        var concern = Concern.Raise(command.ActorId, command.Name, command.Tags, command.SignalIds);
         concernRepository.Stage(concern);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
         return concern.Id;

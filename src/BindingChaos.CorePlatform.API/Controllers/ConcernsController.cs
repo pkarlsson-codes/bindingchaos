@@ -24,7 +24,7 @@ public sealed class ConcernsController(IMessageBus messageBus) : BaseApiControll
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>Id of the raised concern.</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponse<ConcernId>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [EndpointName("raiseConcern")]
     public async Task<IActionResult> RaiseConcern(
@@ -37,11 +37,12 @@ public sealed class ConcernsController(IMessageBus messageBus) : BaseApiControll
         var command = new RaiseConcern(
             actorId,
             request.Name,
+            request.Tags,
             [..request.SignalIds.Select(SignalId.Create)]);
 
         var concernId = await messageBus
             .InvokeAsync<ConcernId>(command, cancellationToken)
             .ConfigureAwait(false);
-        return CreatedAtAction(string.Empty, concernId);
+        return Created(string.Empty, concernId.Value);
     }
 }

@@ -35,6 +35,7 @@ public class RaiseConcernHandlerTests
             var command = new RaiseConcern(
                 ParticipantId.Generate(),
                 "Housing shortage",
+                ["housing", "shortage"],
                 [SignalId.Generate()]);
 
             var result = await RaiseConcernHandler.Handle(

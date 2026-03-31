@@ -33,6 +33,6 @@ public sealed class ConcernsController(IConcernsApiClient concernsApiClient) : B
             .RaiseConcernAsync(request, cancellationToken)
             .ConfigureAwait(false);
 
-        return CreatedAtAction(string.Empty, concernId);
+        return Created(string.Empty, concernId);
     }
 }

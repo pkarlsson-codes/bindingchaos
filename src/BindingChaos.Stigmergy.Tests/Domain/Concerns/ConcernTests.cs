@@ -12,14 +12,16 @@ public class ConcernTests
     public class TheRaiseMethod
     {
         private static SignalId[] SomeSignalIds() => [SignalId.Generate(), SignalId.Generate()];
+        private static string[] SomeTags() => ["housing", "shortage"];
 
         [Fact]
         public void GivenValidInputs_WhenRaised_ThenRaisesConcernRaisedEvent()
         {
             var actorId = ParticipantId.Generate();
+            var tags = SomeTags();
             var signalIds = SomeSignalIds();
 
-            var sut = Concern.Raise(actorId, "Coordination failure", signalIds);
+            var sut = Concern.Raise(actorId, "Coordination failure", tags, signalIds);
 
             var e = sut.UncommittedEvents.Should().ContainSingle().Which.Should().BeOfType<ConcernRaised>().Subject;
             e.ActorId.Should().Be(actorId.Value);
@@ -31,7 +33,7 @@ public class ConcernTests
         [Fact]
         public void GivenNullActorId_WhenRaised_ThenThrowsArgumentNullException()
         {
-            var act = () => Concern.Raise(null!, "Name", SomeSignalIds());
+            var act = () => Concern.Raise(null!, "Name", SomeTags(), SomeSignalIds());
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -39,7 +41,7 @@ public class ConcernTests
         [Fact]
         public void GivenNullOrWhiteSpaceName_WhenRaised_ThenThrowsArgumentException()
         {
-            var act = () => Concern.Raise(ParticipantId.Generate(), "  ", SomeSignalIds());
+            var act = () => Concern.Raise(ParticipantId.Generate(), "  ", SomeTags(), SomeSignalIds());
 
             act.Should().Throw<ArgumentException>();
         }
@@ -47,7 +49,7 @@ public class ConcernTests
         [Fact]
         public void GivenNoSignalIds_WhenRaised_ThenThrowsBusinessRuleViolationException()
         {
-            var act = () => Concern.Raise(ParticipantId.Generate(), "Name", []);
+            var act = () => Concern.Raise(ParticipantId.Generate(), "Name", SomeTags(), []);
 
             act.Should().Throw<BusinessRuleViolationException>();
         }
