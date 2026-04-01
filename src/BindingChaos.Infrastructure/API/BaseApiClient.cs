@@ -299,6 +299,58 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
+    /// Performs a POST request with no request body and deserializes the response.
+    /// </summary>
+    /// <typeparam name="TResponse">The type to deserialize the response data to.</typeparam>
+    /// <param name="endpoint">The API endpoint to call.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The deserialized response data.</returns>
+    protected async Task<TResponse> PostAsync<TResponse>(string endpoint, CancellationToken cancellationToken = default)
+        where TResponse : class
+    {
+        try
+        {
+            var context = ResilienceContextPool.Shared.Get(cancellationToken);
+            try
+            {
+                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient.PostAsync(endpoint, null, ctx.CancellationToken).ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+
+                var apiResponse = await response.Content
+                    .ReadFromJsonAsync<ApiResponse<TResponse>>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (apiResponse?.Data == null)
+                {
+                    Logs.ApiResponseDataNull(Logger, endpoint);
+                    throw new InvalidOperationException($"API response data is null for endpoint: {endpoint}");
+                }
+
+                return apiResponse.Data!;
+            }
+            finally
+            {
+                ResilienceContextPool.Shared.Return(context);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Logs.HttpRequestFailed(Logger, endpoint, ex);
+            throw;
+        }
+        catch (JsonException ex)
+        {
+            Logs.DeserializationFailed(Logger, endpoint, ex);
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Performs a PUT request with no request body.
     /// </summary>
     /// <param name="endpoint">The API endpoint to call.</param>
