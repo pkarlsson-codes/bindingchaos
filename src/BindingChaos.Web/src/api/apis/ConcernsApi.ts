@@ -15,18 +15,30 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiResponseOfPaginatedResponseOfConcernListItemResponse,
   ApiResponseOfString,
   ProblemDetails,
   RaiseConcernRequest,
+  SortDescriptor,
 } from '../models/index';
 import {
+    ApiResponseOfPaginatedResponseOfConcernListItemResponseFromJSON,
+    ApiResponseOfPaginatedResponseOfConcernListItemResponseToJSON,
     ApiResponseOfStringFromJSON,
     ApiResponseOfStringToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
     RaiseConcernRequestFromJSON,
     RaiseConcernRequestToJSON,
+    SortDescriptorFromJSON,
+    SortDescriptorToJSON,
 } from '../models/index';
+
+export interface GetConcernsRequest {
+    pageNumber?: number;
+    pageSize?: number;
+    sort?: Array<SortDescriptor>;
+}
 
 export interface RaiseConcernOperationRequest {
     raiseConcernRequest: RaiseConcernRequest;
@@ -39,6 +51,23 @@ export interface RaiseConcernOperationRequest {
  * @interface ConcernsApiInterface
  */
 export interface ConcernsApiInterface {
+    /**
+     * 
+     * @summary Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
+     * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConcernsApiInterface
+     */
+    getConcernsRaw(requestParameters: GetConcernsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfConcernListItemResponse>>;
+
+    /**
+     * Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
+     */
+    getConcerns(requestParameters: GetConcernsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfConcernListItemResponse>;
+
     /**
      * 
      * @summary Forwards a request to raise a new concern to the concerns API.
@@ -60,6 +89,47 @@ export interface ConcernsApiInterface {
  * 
  */
 export class ConcernsApi extends runtime.BaseAPI implements ConcernsApiInterface {
+
+    /**
+     * Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
+     */
+    async getConcernsRaw(requestParameters: GetConcernsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfConcernListItemResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/concerns`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfPaginatedResponseOfConcernListItemResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
+     */
+    async getConcerns(requestParameters: GetConcernsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfConcernListItemResponse> {
+        const response = await this.getConcernsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Forwards a request to raise a new concern to the concerns API.

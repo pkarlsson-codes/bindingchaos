@@ -46,10 +46,10 @@ export interface GetIdeaRequest {
 }
 
 export interface GetIdeasRequest {
-    pageNumber?: number;
-    pageSize?: number;
     filterSearchTerm?: string | null;
     filterStatus?: string | null;
+    pageNumber?: number;
+    pageSize?: number;
     sort?: Array<SortDescriptor>;
 }
 
@@ -93,10 +93,10 @@ export interface IdeasApiInterface {
     /**
      * 
      * @summary Gets all ideas with optional filtering and pagination.
-     * @param {number} [pageNumber] The current page number (1-based).
-     * @param {number} [pageSize] The requested page size.
      * @param {string} [filterSearchTerm] Optional free-text search term to match against idea title or description.
      * @param {string} [filterStatus] Optional status filter (e.g., \&quot;Draft\&quot;, \&quot;Published\&quot;).
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -198,20 +198,20 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
     async getIdeasRaw(requestParameters: GetIdeasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIdeasFeedViewModel>> {
         const queryParameters: any = {};
 
-        if (requestParameters['pageNumber'] != null) {
-            queryParameters['Page.Number'] = requestParameters['pageNumber'];
-        }
-
-        if (requestParameters['pageSize'] != null) {
-            queryParameters['Page.Size'] = requestParameters['pageSize'];
-        }
-
         if (requestParameters['filterSearchTerm'] != null) {
             queryParameters['Filter.SearchTerm'] = requestParameters['filterSearchTerm'];
         }
 
         if (requestParameters['filterStatus'] != null) {
             queryParameters['Filter.Status'] = requestParameters['filterStatus'];
+        }
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
         }
 
         if (requestParameters['sort'] != null) {

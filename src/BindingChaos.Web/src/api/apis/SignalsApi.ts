@@ -60,12 +60,12 @@ export interface GetSignalDetailsRequest {
 }
 
 export interface GetSignalsRequest {
-    pageNumber?: number;
-    pageSize?: number;
     filterTimeRange?: string | null;
     filterAmplificationLevel?: string | null;
     filterSearchTerm?: string | null;
     filterTags?: Array<string>;
+    pageNumber?: number;
+    pageSize?: number;
     sort?: Array<SortDescriptor>;
 }
 
@@ -139,12 +139,12 @@ export interface SignalsApiInterface {
     /**
      * 
      * @summary Gets all signals with optional filtering and pagination.
-     * @param {number} [pageNumber] The current page number (1-based).
-     * @param {number} [pageSize] The requested page size.
      * @param {string} [filterTimeRange] Optional time window to filter signals, for example \&quot;24h\&quot; or \&quot;7d\&quot;.
      * @param {string} [filterAmplificationLevel] Optional amplification level filter (e.g., \&quot;low\&quot;, \&quot;medium\&quot;, \&quot;high\&quot;).
      * @param {string} [filterSearchTerm] Optional free-text search term to match against signal content.
      * @param {Array<string>} [filterTags] Optional collection of tags to filter results by.
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -320,14 +320,6 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
     async getSignalsRaw(requestParameters: GetSignalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfSignalsFeedViewModel>> {
         const queryParameters: any = {};
 
-        if (requestParameters['pageNumber'] != null) {
-            queryParameters['Page.Number'] = requestParameters['pageNumber'];
-        }
-
-        if (requestParameters['pageSize'] != null) {
-            queryParameters['Page.Size'] = requestParameters['pageSize'];
-        }
-
         if (requestParameters['filterTimeRange'] != null) {
             queryParameters['Filter.TimeRange'] = requestParameters['filterTimeRange'];
         }
@@ -342,6 +334,14 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
 
         if (requestParameters['filterTags'] != null) {
             queryParameters['Filter.Tags'] = requestParameters['filterTags'];
+        }
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
         }
 
         if (requestParameters['sort'] != null) {

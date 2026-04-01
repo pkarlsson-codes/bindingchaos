@@ -51,10 +51,10 @@ export interface CreateSocietyOperationRequest {
 }
 
 export interface GetSocietiesRequest {
-    pageNumber?: number;
-    pageSize?: number;
     filterTag?: string | null;
     filterHasGeographicBounds?: boolean | null;
+    pageNumber?: number;
+    pageSize?: number;
     sort?: Array<SortDescriptor>;
 }
 
@@ -64,9 +64,9 @@ export interface GetSocietyRequest {
 
 export interface GetSocietyMembersRequest {
     societyId: string;
+    filter?: object;
     pageNumber?: number;
     pageSize?: number;
-    filter?: object;
     sort?: Array<SortDescriptor>;
 }
 
@@ -118,10 +118,10 @@ export interface SocietiesApiInterface {
     /**
      * 
      * @summary Gets a paginated list of societies with optional filtering.
-     * @param {number} [pageNumber] The current page number (1-based).
-     * @param {number} [pageSize] The requested page size.
      * @param {string} [filterTag] Gets or sets a tag to filter societies by; only societies with this tag are returned.
      * @param {boolean} [filterHasGeographicBounds] Gets or sets a value indicating whether to filter to only societies that have geographic bounds. When null, no geographic filtering is applied.
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -153,9 +153,9 @@ export interface SocietiesApiInterface {
      * 
      * @summary Gets the active members of a specific society.
      * @param {string} societyId The unique identifier of the society.
+     * @param {object} [filter] Typed filter payload bound from the filter.* prefix (e.g., filter.status).
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
-     * @param {object} [filter] Typed filter payload bound from the filter.* prefix (e.g., filter.status).
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -280,20 +280,20 @@ export class SocietiesApi extends runtime.BaseAPI implements SocietiesApiInterfa
     async getSocietiesRaw(requestParameters: GetSocietiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfSocietiesFeedViewModel>> {
         const queryParameters: any = {};
 
-        if (requestParameters['pageNumber'] != null) {
-            queryParameters['Page.Number'] = requestParameters['pageNumber'];
-        }
-
-        if (requestParameters['pageSize'] != null) {
-            queryParameters['Page.Size'] = requestParameters['pageSize'];
-        }
-
         if (requestParameters['filterTag'] != null) {
             queryParameters['Filter.Tag'] = requestParameters['filterTag'];
         }
 
         if (requestParameters['filterHasGeographicBounds'] != null) {
             queryParameters['Filter.HasGeographicBounds'] = requestParameters['filterHasGeographicBounds'];
+        }
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
         }
 
         if (requestParameters['sort'] != null) {
@@ -373,16 +373,16 @@ export class SocietiesApi extends runtime.BaseAPI implements SocietiesApiInterfa
 
         const queryParameters: any = {};
 
+        if (requestParameters['filter'] != null) {
+            queryParameters['Filter'] = requestParameters['filter'];
+        }
+
         if (requestParameters['pageNumber'] != null) {
             queryParameters['Page.Number'] = requestParameters['pageNumber'];
         }
 
         if (requestParameters['pageSize'] != null) {
             queryParameters['Page.Size'] = requestParameters['pageSize'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['Filter'] = requestParameters['filter'];
         }
 
         if (requestParameters['sort'] != null) {

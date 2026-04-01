@@ -112,6 +112,71 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Concerns"
+        ],
+        "summary": "Retrieves a paginated list of concerns by forwarding the request to the concerns API client.",
+        "operationId": "getConcerns",
+        "parameters": [
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortDescriptor"
+              }
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated response containing the list of concerns.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfConcernListItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/discourse/threads/{threadId}/posts": {
@@ -720,26 +785,6 @@
         "operationId": "getIdeas",
         "parameters": [
           {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
             "name": "Filter.SearchTerm",
             "in": "query",
             "description": "Optional free-text search term to match against idea title or description.",
@@ -747,7 +792,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 1
           },
           {
             "name": "Filter.Status",
@@ -756,6 +801,26 @@
             "schema": {
               "type": "string",
               "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 4
           },
@@ -960,26 +1025,6 @@
         "operationId": "getSignals",
         "parameters": [
           {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
             "name": "Filter.TimeRange",
             "in": "query",
             "description": "Optional time window to filter signals, for example \"24h\" or \"7d\".",
@@ -987,7 +1032,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 1
           },
           {
             "name": "Filter.AmplificationLevel",
@@ -997,7 +1042,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 2
           },
           {
             "name": "Filter.SearchTerm",
@@ -1007,7 +1052,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 5
+            "x-position": 3
           },
           {
             "name": "Filter.Tags",
@@ -1020,6 +1065,26 @@
               "items": {
                 "type": "string"
               }
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 6
           },
@@ -1249,26 +1314,6 @@
         "operationId": "getSocieties",
         "parameters": [
           {
-            "name": "Page.Number",
-            "in": "query",
-            "description": "The current page number (1-based).",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "Page.Size",
-            "in": "query",
-            "description": "The requested page size.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
             "name": "Filter.Tag",
             "in": "query",
             "description": "Gets or sets a tag to filter societies by; only societies with this tag are returned.",
@@ -1276,7 +1321,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 1
           },
           {
             "name": "Filter.HasGeographicBounds",
@@ -1285,6 +1330,26 @@
             "schema": {
               "type": "boolean",
               "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 4
           },
@@ -1411,6 +1476,15 @@
             "x-position": 1
           },
           {
+            "name": "Filter",
+            "in": "query",
+            "description": "Typed filter payload bound from the filter.* prefix (e.g., filter.status).",
+            "schema": {
+              "$ref": "#/components/schemas/EmptyFilter"
+            },
+            "x-position": 2
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -1418,7 +1492,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "Page.Size",
@@ -1427,15 +1501,6 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            },
-            "x-position": 3
-          },
-          {
-            "name": "Filter",
-            "in": "query",
-            "description": "Typed filter payload bound from the filter.* prefix (e.g., filter.status).",
-            "schema": {
-              "$ref": "#/components/schemas/EmptyFilter"
             },
             "x-position": 4
           },
@@ -1970,6 +2035,146 @@
           }
         }
       },
+      "ApiResponseOfPaginatedResponseOfConcernListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginatedResponseOfConcernListItemResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedResponseOfConcernListItemResponse": {
+        "type": "object",
+        "description": "Generic paginated response wrapper for API endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items for the current page.",
+            "items": {
+              "$ref": "#/components/schemas/ConcernListItemResponse"
+            }
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "Indicates whether there is a next page of results."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number (1-based).",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The number of items per page.",
+            "format": "int64"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of items across all pages.",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int64"
+          }
+        }
+      },
+      "ConcernListItemResponse": {
+        "type": "object",
+        "description": "Represents a concern item in a list response.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the concern."
+          },
+          "raisedByPseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the user who raised the concern."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concern."
+          },
+          "tags": {
+            "type": "array",
+            "description": "The tags associated with the concern.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "signals": {
+            "type": "array",
+            "description": "The signals related to the concern.",
+            "items": {
+              "$ref": "#/components/schemas/ReferenceSignal"
+            }
+          }
+        }
+      },
+      "ReferenceSignal": {
+        "type": "object",
+        "description": "Represents a signal referenced by a concern, including its unique identifier and title.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the signal."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the signal."
+          }
+        }
+      },
+      "SortDescriptor": {
+        "type": "object",
+        "description": "Describes a single sort operation against a logical field.",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
+          },
+          "direction": {
+            "description": "Sort direction.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "Sort direction for a field.",
+        "x-enumNames": [
+          "Asc",
+          "Desc"
+        ],
+        "enum": [
+          "Asc",
+          "Desc"
+        ]
+      },
       "ApiEnvelopeOfPostsViewModel": {
         "type": "object",
         "description": "Generic API response envelope that wraps data with metadata.",
@@ -2501,37 +2706,6 @@
             "description": "The current status of the idea (e.g., \"Draft\", \"Published\")."
           }
         }
-      },
-      "SortDescriptor": {
-        "type": "object",
-        "description": "Describes a single sort operation against a logical field.",
-        "additionalProperties": false,
-        "properties": {
-          "field": {
-            "type": "string",
-            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
-          },
-          "direction": {
-            "description": "Sort direction.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/SortDirection"
-              }
-            ]
-          }
-        }
-      },
-      "SortDirection": {
-        "type": "string",
-        "description": "Sort direction for a field.",
-        "x-enumNames": [
-          "Asc",
-          "Desc"
-        ],
-        "enum": [
-          "Asc",
-          "Desc"
-        ]
       },
       "AuthorIdeaRequest": {
         "type": "object",
