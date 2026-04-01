@@ -1,4 +1,7 @@
 using BindingChaos.CorePlatform.Contracts.Requests;
+using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.Infrastructure.API;
+using BindingChaos.Infrastructure.Querying;
 
 namespace BindingChaos.CorePlatform.Clients;
 
@@ -13,5 +16,15 @@ public interface IConcernsApiClient
     /// <param name="request">The request containing the details of the concern to raise.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the raised concern as a string.</returns>
-    public Task<string> RaiseConcernAsync(RaiseConcernRequest request, CancellationToken cancellationToken = default);
+    Task<string> RaiseConcernAsync(RaiseConcernRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a paginated list of concerns from the concerns API endpoint.
+    /// </summary>
+    /// <param name="querySpec">The pagination and filtering specification for the query.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated response containing the list of concerns.</returns>
+    Task<PaginatedResponse<ConcernListItemResponse>> GetConcernsAsync(
+        PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken = default);
 }
