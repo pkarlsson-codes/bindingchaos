@@ -14,10 +14,10 @@ public sealed class TrustInviteLinksApiClient(HttpClient httpClient, ILogger<Tru
     : BaseApiClient(httpClient, logger), ITrustInviteLinksApiClient
 {
     /// <inheritdoc/>
-    public Task<TrustInviteLinkCreatedResponse> CreateTrustInviteLinkAsync(CreateTrustInviteLinkRequest request, CancellationToken cancellationToken = default)
+    public Task<string> CreateTrustInviteLinkAsync(CreateTrustInviteLinkRequest request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
-        return PostAsync<CreateTrustInviteLinkRequest, TrustInviteLinkCreatedResponse>("api/identity/invite-links", request, cancellationToken);
+        return PostAsync<CreateTrustInviteLinkRequest, string>("api/identity/invite-links", request, cancellationToken);
     }
 
     /// <inheritdoc/>

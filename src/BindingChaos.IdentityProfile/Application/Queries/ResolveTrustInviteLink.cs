@@ -31,7 +31,7 @@ public static class ResolveTrustInviteLinkHandler
 
         var link = await dbContext.TrustTrustInviteLinks
             .Where(l => l.Token == query.Token && !l.IsRevoked)
-            .Select(l => new ResolvedInviteLinkView(l.CreatorUserId))
+            .Select(l => new ResolvedInviteLinkView(l.CreatedById))
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(false);
 

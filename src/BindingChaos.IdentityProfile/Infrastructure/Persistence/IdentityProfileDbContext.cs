@@ -22,6 +22,9 @@ public sealed class IdentityProfileDbContext : DbContext
     /// <summary>Gets the invite links created by participants.</summary>
     public DbSet<TrustInviteLink> TrustTrustInviteLinks => Set<TrustInviteLink>();
 
+    /// <summary>Gets the society invite links created by society members.</summary>
+    public DbSet<SocietyInviteLink> SocietyInviteLinks => Set<SocietyInviteLink>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -30,5 +33,6 @@ public sealed class IdentityProfileDbContext : DbContext
         modelBuilder.ApplyConfiguration(new IdentityMapConfiguration());
         modelBuilder.ApplyConfiguration(new ParticipantConfiguration());
         modelBuilder.ApplyConfiguration(new TrustInviteLinkConfiguration());
+        modelBuilder.ApplyConfiguration(new SocietyInviteLinkConfiguration());
     }
 }

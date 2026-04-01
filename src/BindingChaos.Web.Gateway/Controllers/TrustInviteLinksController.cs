@@ -40,7 +40,7 @@ public sealed class TrustInviteLinksController(
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created invite link details.</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponse<TrustInviteLinkCreatedResponse>), 201)]
+    [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("createTrustInviteLink")]
     public async Task<IActionResult> CreateTrustInviteLink(
         [FromBody] CreateTrustInviteLinkRequest request,
@@ -48,10 +48,10 @@ public sealed class TrustInviteLinksController(
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var result = await inviteLinksApiClient
+        var id = await inviteLinksApiClient
             .CreateTrustInviteLinkAsync(request, cancellationToken);
 
-        return CreatedAtAction(nameof(CreateTrustInviteLink), result);
+        return CreatedAtAction(nameof(CreateTrustInviteLink), id);
     }
 
     /// <summary>

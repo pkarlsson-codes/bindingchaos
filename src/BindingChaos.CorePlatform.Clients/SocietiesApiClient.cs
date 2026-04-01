@@ -99,4 +99,26 @@ public class SocietiesApiClient(
             $"api/societies/{societyId}/memberships/me",
             cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<SocietyInviteLinkViewResponse>> GetMySocietyInviteLinksAsync(
+        string societyId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(societyId);
+        return GetAsync<IReadOnlyList<SocietyInviteLinkViewResponse>>(
+            $"api/societies/{societyId}/invite-links/mine",
+            cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public Task<string> CreateSocietyInviteLinkAsync(
+        string societyId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(societyId);
+        return PostAsync<string>(
+            $"api/societies/{societyId}/invite-links",
+            cancellationToken);
+    }
 }

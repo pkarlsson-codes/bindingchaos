@@ -110,7 +110,7 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The created invite link details.</returns>
     [HttpPost("invite-links")]
-    [ProducesResponseType(typeof(ApiResponse<TrustInviteLinkCreatedResponse>), 201)]
+    [ProducesResponseType(typeof(ApiResponse<string>), 201)]
     [EndpointName("createTrustInviteLink")]
     public async Task<IActionResult> CreateTrustInviteLink([FromBody] CreateTrustInviteLinkRequest request, CancellationToken cancellationToken)
     {
@@ -123,9 +123,9 @@ public sealed class IdentityController(IIdentityProfileService service, IMessage
         }
 
         var command = new CreateTrustInviteLink(participantId.Value, request.Note);
-        var result = await messageBus.InvokeAsync<TrustInviteLinkCreatedView>(command, cancellationToken).ConfigureAwait(false);
+        var id = await messageBus.InvokeAsync<Guid>(command, cancellationToken).ConfigureAwait(false);
 
-        return CreatedAtAction(nameof(CreateTrustInviteLink), result);
+        return CreatedAtAction(nameof(GetMyTrustTrustInviteLinks), id);
     }
 
     /// <summary>

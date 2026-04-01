@@ -2,6 +2,9 @@ using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.IdentityProfile.Application.Commands;
+using BindingChaos.IdentityProfile.Application.Queries;
+using BindingChaos.IdentityProfile.Application.ReadModels;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
@@ -14,6 +17,7 @@ using BindingChaos.Societies.Domain.SocialContracts;
 using BindingChaos.Societies.Domain.Societies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 using Wolverine;
 
 namespace BindingChaos.CorePlatform.API.Controllers;
@@ -237,6 +241,85 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymLookup
         await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
+    }
+
+    /// <summary>
+    /// Returns all invite links created by the authenticated participant for the specified society.
+    /// </summary>
+    /// <param name="societyId">The society whose invite links are being retrieved.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The participant's invite links for the society, or 401/403 if unauthorized.</returns>
+    [HttpGet("{societyId}/invite-links/mine")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<SocietyInviteLinkViewResponse>>), 200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(403)]
+    [EndpointName("getMySocietyInviteLinks")]
+    public async Task<IActionResult> GetMySocietyInviteLinks(
+        [FromRoute] string societyId,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var memberSocietyIds = await messageBus
+            .InvokeAsync<string[]>(new GetParticipantSocietyIds(participantId), cancellationToken)
+            .ConfigureAwait(false);
+
+        if (!memberSocietyIds.Contains(societyId))
+        {
+            return Forbid();
+        }
+
+        var query = new GetMySocietyInviteLinks(participantId.Value, societyId);
+        var result = await messageBus
+            .InvokeAsync<IReadOnlyList<SocietyInviteLinkView>>(query, cancellationToken)
+            .ConfigureAwait(false);
+
+        var response = result.Select(v => new SocietyInviteLinkViewResponse(v.Id, v.Token, v.SocietyId, v.Note, v.IsRevoked, v.CreatedAt)).ToList();
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Creates an invite link for the specified society. The caller must be an active member.
+    /// </summary>
+    /// <param name="societyId">The society to create an invite link for.</param>
+    /// <param name="request">The invite link creation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The ID of the created invite link, or 401/403 if unauthorized.</returns>
+    [HttpPost("{societyId}/invite-links")]
+    [ProducesResponseType(typeof(ApiResponse<string>), 201)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(403)]
+    [EndpointName("createSocietyInviteLink")]
+    public async Task<IActionResult> CreateSocietyInviteLink(
+        [FromRoute] string societyId,
+        [FromBody] CreateSocietyInviteLinkRequest request,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var memberSocietyIds = await messageBus
+            .InvokeAsync<string[]>(new GetParticipantSocietyIds(participantId), cancellationToken)
+            .ConfigureAwait(false);
+
+        if (!memberSocietyIds.Contains(societyId))
+        {
+            return Forbid();
+        }
+
+        var command = new CreateSocietyInviteLink(participantId.Value, societyId, request.Note);
+        var id = await messageBus
+            .InvokeAsync<Guid>(command, cancellationToken)
+            .ConfigureAwait(false);
+
+        return CreatedAtAction(nameof(GetMySocietyInviteLinks), new { societyId }, id);
     }
 
     private static SocietyResponse MapToSocietyResponse(SocietyView view, string createdByPseudonym, string? currentSocialContractId = null)

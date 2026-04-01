@@ -83,4 +83,24 @@ public interface ISocietiesApiClient
     Task LeaveSocietyAsync(
         string societyId,
         CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Gets all invite links created by the authenticated participant for the specified society.
+    /// </summary>
+    /// <param name="societyId">The identifier of the society.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The participant's invite links for the society.</returns>
+    Task<IReadOnlyList<SocietyInviteLinkViewResponse>> GetMySocietyInviteLinksAsync(
+        string societyId,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates an invite link for the specified society on behalf of the authenticated participant.
+    /// </summary>
+    /// <param name="societyId">The identifier of the society to create an invite link for.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The ID of the created invite link.</returns>
+    Task<string> CreateSocietyInviteLinkAsync(
+        string societyId,
+        CancellationToken cancellationToken);
 }

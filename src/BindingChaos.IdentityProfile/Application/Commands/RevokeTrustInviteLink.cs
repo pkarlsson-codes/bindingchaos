@@ -39,7 +39,7 @@ public static class RevokeTrustInviteLinkHandler
             .ConfigureAwait(false)
             ?? throw new AggregateNotFoundException(typeof(TrustInviteLink), command.Id);
 
-        if (link.CreatorUserId != command.RequestorUserId)
+        if (link.CreatedById != command.RequestorUserId)
         {
             throw new ForbiddenException($"Participant {command.RequestorUserId} does not own invite link {command.Id}.");
         }

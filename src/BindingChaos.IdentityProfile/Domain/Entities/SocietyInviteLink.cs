@@ -1,9 +1,9 @@
 namespace BindingChaos.IdentityProfile.Domain.Entities;
 
 /// <summary>
-/// An invitation link that a participant can share to allow others to register.
+/// An invitation link that a society member can share to allow others to join the society.
 /// </summary>
-public sealed class TrustInviteLink
+public sealed class SocietyInviteLink
 {
     /// <summary>Gets the primary key.</summary>
     public required Guid Id { get; init; }
@@ -11,11 +11,14 @@ public sealed class TrustInviteLink
     /// <summary>Gets the URL-safe random token (22 chars, 16 bytes base64url) used in the invite URL.</summary>
     public required string Token { get; init; }
 
-    /// <summary>Gets the user ID of the participant who created this invite link.</summary>
+    /// <summary>Gets the participant ID of the member who created this invite link.</summary>
     public required string CreatedById { get; init; }
 
-    /// <summary>Gets the optional private note visible only to the creator.</summary>
-    public string? Note { get; init; }
+    /// <summary>Gets the ID of the society this invite link is for.</summary>
+    public required string SocietyId { get; init; }
+
+    /// <summary>An optional private note visible only to the creator.</summary>
+    public required string? Note { get; set; }
 
     /// <summary>Gets a value indicating whether this invite link has been revoked.</summary>
     public bool IsRevoked { get; set; }

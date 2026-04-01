@@ -208,4 +208,47 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
 
         return NoContent();
     }
+
+    /// <summary>
+    /// Gets all invite links created by the authenticated participant for the specified society.
+    /// </summary>
+    /// <param name="societyId">The unique identifier of the society.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
+    /// <returns>The participant's invite links for the society.</returns>
+    [HttpGet("{societyId}/invite-links/mine")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<SocietyInviteLinkViewResponse>>), 200)]
+    [EndpointName("getMySocietyInviteLinks")]
+    public async Task<IActionResult> GetMySocietyInviteLinks(
+        string societyId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(societyId);
+
+        var result = await societiesApiClient
+            .GetMySocietyInviteLinksAsync(societyId, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Creates an invite link for the specified society. The caller must be an active member.
+    /// Membership is verified downstream in CorePlatform.API.
+    /// </summary>
+    /// <param name="societyId">The unique identifier of the society.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
+    /// <returns>The ID of the created invite link.</returns>
+    [HttpPost("{societyId}/invite-links")]
+    [ProducesResponseType(typeof(ApiResponse<string>), 201)]
+    [EndpointName("createSocietyInviteLink")]
+    public async Task<IActionResult> CreateSocietyInviteLink(
+        string societyId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(societyId);
+
+        var id = await societiesApiClient
+            .CreateSocietyInviteLinkAsync(societyId, cancellationToken);
+
+        return CreatedAtAction(nameof(GetMySocietyInviteLinks), new { societyId }, id);
+    }
 }

@@ -30,7 +30,7 @@ public static class GetMyTrustTrustInviteLinksHandler
         ArgumentNullException.ThrowIfNull(query);
 
         return await dbContext.TrustTrustInviteLinks
-            .Where(l => l.CreatorUserId == query.UserId)
+            .Where(l => l.CreatedById == query.UserId)
             .OrderByDescending(l => l.CreatedAt)
             .Select(l => new TrustInviteLinkView(l.Id, l.Token, l.Note, l.IsRevoked, l.CreatedAt))
             .ToListAsync(cancellationToken)

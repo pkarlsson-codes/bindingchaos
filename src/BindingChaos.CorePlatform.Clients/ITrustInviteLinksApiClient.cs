@@ -13,8 +13,8 @@ public interface ITrustInviteLinksApiClient
     /// </summary>
     /// <param name="request">The invite link creation request.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The created invite link details.</returns>
-    Task<TrustInviteLinkCreatedResponse> CreateTrustInviteLinkAsync(
+    /// <returns>The ID of the created invite link.</returns>
+    Task<string> CreateTrustInviteLinkAsync(
         CreateTrustInviteLinkRequest request,
         CancellationToken cancellationToken);
 
