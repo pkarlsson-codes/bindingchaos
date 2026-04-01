@@ -266,6 +266,39 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
+    /// Performs a POST request with no request body.
+    /// </summary>
+    /// <param name="endpoint">The API endpoint to call.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected async Task PostAsync(string endpoint, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var context = ResilienceContextPool.Shared.Get(cancellationToken);
+            try
+            {
+                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient.PostAsync(endpoint, null, ctx.CancellationToken).ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            finally
+            {
+                ResilienceContextPool.Shared.Return(context);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Logs.HttpRequestFailed(Logger, endpoint, ex);
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Performs a PUT request with no request body.
     /// </summary>
     /// <param name="endpoint">The API endpoint to call.</param>
