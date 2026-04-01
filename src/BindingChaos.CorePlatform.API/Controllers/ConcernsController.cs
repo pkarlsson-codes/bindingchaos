@@ -50,8 +50,7 @@ public sealed class ConcernsController(
             [..request.SignalIds.Select(SignalId.Create)]);
 
         var concernId = await messageBus
-            .InvokeAsync<ConcernId>(command, cancellationToken)
-            .ConfigureAwait(false);
+            .InvokeAsync<ConcernId>(command, cancellationToken);
         return Created(string.Empty, concernId.Value);
     }
 
