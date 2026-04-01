@@ -8,6 +8,7 @@ import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
 import { RaiseConcernModal } from '../../concerns/components/RaiseConcernModal';
 import type { SignalDetailViewModel } from '@/api/models';
+import { AuthRequiredButton } from '@/features/auth/components/AuthRequiredButton';
 
 function useSignalDetails(signalId: string) {
   const apiClient = useApiClient();
@@ -97,7 +98,11 @@ export function EmergingPatternDetailsPage() {
         <Button onClick={() => navigate('/patterns')} variant="secondary">← Back</Button>
         <h1 className="text-2xl font-bold text-foreground">{title}</h1>
         {!isNoise && pattern && (
-          <Button onClick={() => setIsConcernModalOpen(true)} variant="primary">Raise Concern</Button>
+          <div className="relative inline-block">
+            <AuthRequiredButton action="raise a concern">
+              <Button onClick={() => setIsConcernModalOpen(true)} variant="primary">Raise Concern</Button>
+            </AuthRequiredButton>
+          </div>
         )}
       </div>
 
