@@ -13,6 +13,7 @@ import { SocietyDetailPage } from '../features/societies/components/SocietyDetai
 import { InvitePage } from '../features/trust/components/InvitePage';
 import { EmergingPatternsPage } from '../features/emerging-patterns/components/EmergingPatternsPage';
 import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
+import { ConcernsPage } from '../features/concerns/components/ConcernsPage';
 import { AboutPage } from '../features/about/components/AboutPage';
 
 import {
@@ -57,6 +58,9 @@ function App() {
                       {/* Societies */}
                       <Route path="/societies" element={<SocietiesPage />} />
                       <Route path="/societies/:societyId" element={<SocietyDetailPage />} />
+
+                      {/* Concerns */}
+                      <Route path="/concerns" element={<ConcernsPage />} />
 
                       {/* Emerging Patterns */}
                       <Route path="/patterns" element={<EmergingPatternsPage />} />
