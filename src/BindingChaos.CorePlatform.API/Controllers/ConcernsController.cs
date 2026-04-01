@@ -79,7 +79,7 @@ public sealed class ConcernsController(
         var response = concerns.MapItems(
             c => new ConcernListItemResponse(
                 c.Id,
-                pseudonyms[c.RaisedById],
+                pseudonyms.GetValueOrDefault(c.RaisedById, "Anonymous"),
                 c.Name,
                 c.Tags,
                 [..c.Signals.Select(s => new ConcernListItemResponse.ReferenceSignal(s.Id, s.Title))]));
