@@ -25,6 +25,12 @@ export interface JoinSocietyRequest {
      * @memberof JoinSocietyRequest
      */
     socialContractId?: string;
+    /**
+     * The invite token from the invite link URL, if the participant arrived via an invite link. Stored for attribution.
+     * @type {string}
+     * @memberof JoinSocietyRequest
+     */
+    inviteToken?: string | null;
 }
 
 /**
@@ -45,6 +51,7 @@ export function JoinSocietyRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'socialContractId': json['socialContractId'] == null ? undefined : json['socialContractId'],
+        'inviteToken': json['inviteToken'] == null ? undefined : json['inviteToken'],
     };
 }
 
@@ -60,6 +67,7 @@ export function JoinSocietyRequestToJSONTyped(value?: JoinSocietyRequest | null,
     return {
         
         'socialContractId': value['socialContractId'],
+        'inviteToken': value['inviteToken'],
     };
 }
 

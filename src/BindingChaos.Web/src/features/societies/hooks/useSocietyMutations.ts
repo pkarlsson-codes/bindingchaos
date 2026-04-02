@@ -32,10 +32,10 @@ export function useJoinSociety(societyId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (socialContractId: string) =>
+    mutationFn: ({ socialContractId, inviteToken }: { socialContractId: string; inviteToken?: string }) =>
       apiClient.societies.joinSociety({
         societyId,
-        joinSocietyRequest: { socialContractId },
+        joinSocietyRequest: { socialContractId, inviteToken },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['society', societyId] });

@@ -35,4 +35,9 @@ public class SocietyMemberView
     /// Set to <see langword="false"/> when the participant leaves.
     /// </summary>
     public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the invite token used to join, if any. Stored for attribution.
+    /// </summary>
+    public string? InviteToken { get; set; }
 }

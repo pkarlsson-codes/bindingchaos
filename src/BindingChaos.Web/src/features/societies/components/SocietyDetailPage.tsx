@@ -62,7 +62,7 @@ export function SocietyDetailPage() {
       toast.error("Cannot join society. Social contract not yet available.");
       return;
     }
-    joinSociety(contractId, {
+    joinSociety({ socialContractId: contractId }, {
       onSuccess: () => toast.success("Joined society"),
       onError: () => toast.error("Failed to join society"),
     });

@@ -189,8 +189,9 @@ public sealed class Society : AggregateRoot<SocietyId>
     /// </summary>
     /// <param name="participantId">The participant joining.</param>
     /// <param name="socialContractId">The social contract being agreed to.</param>
+    /// <param name="inviteToken">The invite token used to join, if any. Stored for attribution.</param>
     /// <returns>The new membership identifier.</returns>
-    public MembershipId Join(ParticipantId participantId, SocialContractId socialContractId)
+    public MembershipId Join(ParticipantId participantId, SocialContractId socialContractId, string? inviteToken = null)
     {
         ArgumentNullException.ThrowIfNull(participantId);
         ArgumentNullException.ThrowIfNull(socialContractId);
@@ -203,7 +204,7 @@ public sealed class Society : AggregateRoot<SocietyId>
         }
 
         var membershipId = MembershipId.Generate();
-        ApplyChange(new MemberJoined(Id.Value, membershipId.Value, participantId.Value, socialContractId.Value));
+        ApplyChange(new MemberJoined(Id.Value, membershipId.Value, participantId.Value, socialContractId.Value, inviteToken));
         return membershipId;
     }
 
@@ -297,7 +298,8 @@ public sealed class Society : AggregateRoot<SocietyId>
     {
         var membership = new Membership(
             MembershipId.Create(evt.MembershipId),
-            new ParticipantId(evt.ParticipantId));
+            new ParticipantId(evt.ParticipantId),
+            evt.InviteToken);
         _memberships.Add(membership);
     }
 

@@ -19,7 +19,7 @@ export function SocietyInviteLinksCard({ societyId }: SocietyInviteLinksCardProp
       <CardContent>
         <ul className="space-y-3">
           {links.map((link) => {
-            const url = `${window.location.origin}/societies/join/${link.token}`;
+            const url = `${window.location.origin}/societies/${societyId}/invitations/${link.token}`;
             return (
               <li key={link.id} className="space-y-1">
                 <div className="flex items-center gap-2">

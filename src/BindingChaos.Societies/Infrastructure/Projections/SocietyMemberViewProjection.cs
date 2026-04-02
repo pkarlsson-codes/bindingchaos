@@ -35,6 +35,7 @@ internal sealed class SocietyMemberViewProjection : MultiStreamProjection<Societ
             SocialContractId = e.SocialContractId,
             JoinedAt = e.OccurredAt,
             IsActive = true,
+            InviteToken = e.InviteToken,
         };
     }
 

@@ -184,7 +184,8 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymLookup
         var command = new JoinSociety(
             SocietyId.Create(societyId),
             participantId,
-            SocialContractId.Create(request.SocialContractId));
+            SocialContractId.Create(request.SocialContractId),
+            request.InviteToken);
 
         var membershipId = await messageBus
             .InvokeAsync<MembershipId>(command, cancellationToken)

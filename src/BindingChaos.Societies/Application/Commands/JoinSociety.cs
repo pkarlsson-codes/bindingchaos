@@ -11,10 +11,12 @@ namespace BindingChaos.Societies.Application.Commands;
 /// <param name="SocietyId">The society to join.</param>
 /// <param name="ParticipantId">The participant joining the society.</param>
 /// <param name="SocialContractId">The social contract the participant is agreeing to.</param>
+/// <param name="InviteToken">The invite token used to join, if any. Stored for attribution.</param>
 public sealed record JoinSociety(
     SocietyId SocietyId,
     ParticipantId ParticipantId,
-    SocialContractId SocialContractId);
+    SocialContractId SocialContractId,
+    string? InviteToken = null);
 
 /// <summary>
 /// Handles the <see cref="JoinSociety"/> command.
@@ -41,7 +43,7 @@ public static class JoinSocietyHandler
             .GetByIdOrThrowAsync(command.SocietyId, cancellationToken)
             .ConfigureAwait(false);
 
-        var membershipId = society.Join(command.ParticipantId, command.SocialContractId);
+        var membershipId = society.Join(command.ParticipantId, command.SocialContractId, command.InviteToken);
 
         societyRepository.Stage(society);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);

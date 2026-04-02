@@ -3791,6 +3791,11 @@
           "socialContractId": {
             "type": "string",
             "description": "The ID of the social contract the participant is agreeing to."
+          },
+          "inviteToken": {
+            "type": "string",
+            "description": "The invite token from the invite link URL, if the participant arrived via an invite link. Stored for attribution.",
+            "nullable": true
           }
         }
       },

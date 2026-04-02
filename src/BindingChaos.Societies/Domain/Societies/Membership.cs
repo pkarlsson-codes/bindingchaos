@@ -12,12 +12,14 @@ public sealed class Membership : Entity<MembershipId>
     /// </summary>
     /// <param name="id">The membership identifier.</param>
     /// <param name="participantId">The participant who joined.</param>
-    public Membership(MembershipId id, ParticipantId participantId)
+    /// <param name="inviteToken">The invite token used to join, if any.</param>
+    public Membership(MembershipId id, ParticipantId participantId, string? inviteToken = null)
     {
         ArgumentNullException.ThrowIfNull(id);
         ArgumentNullException.ThrowIfNull(participantId);
         Id = id;
         ParticipantId = participantId;
+        InviteToken = inviteToken;
         IsActive = true;
     }
 
@@ -25,6 +27,11 @@ public sealed class Membership : Entity<MembershipId>
     /// Gets the participant who holds this membership.
     /// </summary>
     public ParticipantId ParticipantId { get; }
+
+    /// <summary>
+    /// Gets the invite token used to join this society, if any. Used for attribution.
+    /// </summary>
+    public string? InviteToken { get; }
 
     /// <summary>
     /// Gets a value indicating whether this membership is currently active.
