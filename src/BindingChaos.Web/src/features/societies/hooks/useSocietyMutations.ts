@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
-import type { CreateSocietyRequest } from '../../../api/models';
+import type { CreateSocietyRequest, SocietyInviteLinkViewResponse } from '../../../api/models';
 
 export function useMySocietyIds() {
   const apiClient = useApiClient();
@@ -57,6 +57,33 @@ export function useLeaveSociety(societyId: string) {
       queryClient.invalidateQueries({ queryKey: ['society-members', societyId] });
       queryClient.invalidateQueries({ queryKey: ['societies'] });
       queryClient.invalidateQueries({ queryKey: ['societies', 'memberships', 'me'] });
+    },
+  });
+}
+
+export function useMySocietyInviteLinks(societyId: string) {
+  const apiClient = useApiClient();
+  return useQuery({
+    queryKey: ['society-invite-links', societyId],
+    queryFn: async (): Promise<SocietyInviteLinkViewResponse[]> => {
+      const response = await apiClient.societies.getMySocietyInviteLinks({ societyId });
+      return response.data ?? [];
+    },
+  });
+}
+
+export function useCreateSocietyInviteLink(societyId: string) {
+  const apiClient = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (note: string | undefined) =>
+      apiClient.societies.createSocietyInviteLink({
+        societyId,
+        createSocietyInviteLinkRequest: { note: note ?? null },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['society-invite-links', societyId] });
     },
   });
 }

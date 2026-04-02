@@ -15,17 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse,
   ApiResponseOfPaginatedResponseOfSocietyMemberResponse,
   ApiResponseOfSocietiesFeedViewModel,
   ApiResponseOfSocietyDetailViewModel,
   ApiResponseOfString,
   ApiResponseOfStringOf,
+  CreateSocietyInviteLinkRequest,
   CreateSocietyRequest,
   JoinSocietyRequest,
   ProblemDetails,
   SortDescriptor,
 } from '../models/index';
 import {
+    ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponseFromJSON,
+    ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponseToJSON,
     ApiResponseOfPaginatedResponseOfSocietyMemberResponseFromJSON,
     ApiResponseOfPaginatedResponseOfSocietyMemberResponseToJSON,
     ApiResponseOfSocietiesFeedViewModelFromJSON,
@@ -36,6 +40,8 @@ import {
     ApiResponseOfStringToJSON,
     ApiResponseOfStringOfFromJSON,
     ApiResponseOfStringOfToJSON,
+    CreateSocietyInviteLinkRequestFromJSON,
+    CreateSocietyInviteLinkRequestToJSON,
     CreateSocietyRequestFromJSON,
     CreateSocietyRequestToJSON,
     JoinSocietyRequestFromJSON,
@@ -48,6 +54,15 @@ import {
 
 export interface CreateSocietyOperationRequest {
     createSocietyRequest: CreateSocietyRequest;
+}
+
+export interface CreateSocietyInviteLinkOperationRequest {
+    societyId: string;
+    createSocietyInviteLinkRequest: CreateSocietyInviteLinkRequest;
+}
+
+export interface GetMySocietyInviteLinksRequest {
+    societyId: string;
 }
 
 export interface GetSocietiesRequest {
@@ -103,6 +118,22 @@ export interface SocietiesApiInterface {
 
     /**
      * 
+     * @summary Creates an invite link for the specified society. The caller must be an active member. Membership is verified downstream in CorePlatform.API.
+     * @param {string} societyId The unique identifier of the society.
+     * @param {CreateSocietyInviteLinkRequest} createSocietyInviteLinkRequest The invite link creation request containing an optional note.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SocietiesApiInterface
+     */
+    createSocietyInviteLinkRaw(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>>;
+
+    /**
+     * Creates an invite link for the specified society. The caller must be an active member. Membership is verified downstream in CorePlatform.API.
+     */
+    createSocietyInviteLink(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
+
+    /**
+     * 
      * @summary Gets the IDs of all societies the authenticated participant is an active member of. Returns an empty array for unauthenticated requests.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -114,6 +145,21 @@ export interface SocietiesApiInterface {
      * Gets the IDs of all societies the authenticated participant is an active member of. Returns an empty array for unauthenticated requests.
      */
     getMySocietyIds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfStringOf>;
+
+    /**
+     * 
+     * @summary Gets all invite links created by the authenticated participant for the specified society.
+     * @param {string} societyId The unique identifier of the society.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SocietiesApiInterface
+     */
+    getMySocietyInviteLinksRaw(requestParameters: GetMySocietyInviteLinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse>>;
+
+    /**
+     * Gets all invite links created by the authenticated participant for the specified society.
+     */
+    getMySocietyInviteLinks(requestParameters: GetMySocietyInviteLinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse>;
 
     /**
      * 
@@ -246,6 +292,53 @@ export class SocietiesApi extends runtime.BaseAPI implements SocietiesApiInterfa
     }
 
     /**
+     * Creates an invite link for the specified society. The caller must be an active member. Membership is verified downstream in CorePlatform.API.
+     */
+    async createSocietyInviteLinkRaw(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>> {
+        if (requestParameters['societyId'] == null) {
+            throw new runtime.RequiredError(
+                'societyId',
+                'Required parameter "societyId" was null or undefined when calling createSocietyInviteLink().'
+            );
+        }
+
+        if (requestParameters['createSocietyInviteLinkRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createSocietyInviteLinkRequest',
+                'Required parameter "createSocietyInviteLinkRequest" was null or undefined when calling createSocietyInviteLink().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/societies/{societyId}/invite-links`;
+        urlPath = urlPath.replace(`{${"societyId"}}`, encodeURIComponent(String(requestParameters['societyId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateSocietyInviteLinkRequestToJSON(requestParameters['createSocietyInviteLinkRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfStringFromJSON(jsonValue));
+    }
+
+    /**
+     * Creates an invite link for the specified society. The caller must be an active member. Membership is verified downstream in CorePlatform.API.
+     */
+    async createSocietyInviteLink(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
+        const response = await this.createSocietyInviteLinkRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Gets the IDs of all societies the authenticated participant is an active member of. Returns an empty array for unauthenticated requests.
      */
     async getMySocietyIdsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfStringOf>> {
@@ -271,6 +364,43 @@ export class SocietiesApi extends runtime.BaseAPI implements SocietiesApiInterfa
      */
     async getMySocietyIds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfStringOf> {
         const response = await this.getMySocietyIdsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Gets all invite links created by the authenticated participant for the specified society.
+     */
+    async getMySocietyInviteLinksRaw(requestParameters: GetMySocietyInviteLinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse>> {
+        if (requestParameters['societyId'] == null) {
+            throw new runtime.RequiredError(
+                'societyId',
+                'Required parameter "societyId" was null or undefined when calling getMySocietyInviteLinks().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/societies/{societyId}/invite-links/mine`;
+        urlPath = urlPath.replace(`{${"societyId"}}`, encodeURIComponent(String(requestParameters['societyId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Gets all invite links created by the authenticated participant for the specified society.
+     */
+    async getMySocietyInviteLinks(requestParameters: GetMySocietyInviteLinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse> {
+        const response = await this.getMySocietyInviteLinksRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

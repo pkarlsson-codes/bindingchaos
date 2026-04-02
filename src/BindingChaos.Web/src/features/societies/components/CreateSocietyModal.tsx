@@ -79,7 +79,7 @@ export function CreateSocietyModal({ isOpen, onClose }: CreateSocietyModalProps)
         navigate(`/societies/${newId}`);
       }
     } catch {
-      toast({ title: 'Failed to create society', description: 'Please try again.' });
+      toast.error("Failed to create society. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

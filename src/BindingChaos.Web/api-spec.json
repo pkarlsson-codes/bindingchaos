@@ -1636,6 +1636,85 @@
         }
       }
     },
+    "/api/v1/societies/{societyId}/invite-links/mine": {
+      "get": {
+        "tags": [
+          "Societies"
+        ],
+        "summary": "Gets all invite links created by the authenticated participant for the specified society.",
+        "operationId": "getMySocietyInviteLinks",
+        "parameters": [
+          {
+            "name": "societyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the society.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The participant's invite links for the society.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/societies/{societyId}/invite-links": {
+      "post": {
+        "tags": [
+          "Societies"
+        ],
+        "summary": "Creates an invite link for the specified society. The caller must be an active member.\nMembership is verified downstream in CorePlatform.API.",
+        "operationId": "createSocietyInviteLink",
+        "parameters": [
+          {
+            "name": "societyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the society.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The invite link creation request containing an optional note.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSocietyInviteLinkRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "The ID of the created invite link.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/tags/popular": {
       "get": {
         "tags": [
@@ -1819,7 +1898,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseOfTrustInviteLinkCreatedResponse"
+                  "$ref": "#/components/schemas/ApiResponseOfString"
                 }
               }
             }
@@ -3737,6 +3816,74 @@
           }
         ]
       },
+      "ApiResponseOfIReadOnlyListOfSocietyInviteLinkViewResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/SocietyInviteLinkViewResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SocietyInviteLinkViewResponse": {
+        "type": "object",
+        "description": "A read-only view of a society invite link returned from the API.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The invite link ID.",
+            "format": "guid"
+          },
+          "token": {
+            "type": "string",
+            "description": "The URL-safe base64url token."
+          },
+          "societyId": {
+            "type": "string",
+            "description": "The ID of the society this invite link is for."
+          },
+          "note": {
+            "type": "string",
+            "description": "The optional private note visible only to the creator.",
+            "nullable": true
+          },
+          "isRevoked": {
+            "type": "boolean",
+            "description": "Whether the link has been revoked."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "UTC timestamp of creation.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateSocietyInviteLinkRequest": {
+        "type": "object",
+        "description": "Request model for creating a society invite link.",
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "type": "string",
+            "description": "An optional private note visible only to the creator.",
+            "nullable": true
+          }
+        }
+      },
       "ApiResponseOfIReadOnlyListOfTrustInviteLinkViewResponse": {
         "allOf": [
           {
@@ -3781,55 +3928,6 @@
           "isRevoked": {
             "type": "boolean",
             "description": "Whether the link has been revoked."
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "UTC timestamp of creation.",
-            "format": "date-time"
-          }
-        }
-      },
-      "ApiResponseOfTrustInviteLinkCreatedResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ApiResponse"
-          },
-          {
-            "type": "object",
-            "description": "Standardized API response envelope as defined in ADR-00016.",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "description": "Gets or sets the response data.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/TrustInviteLinkCreatedResponse"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "TrustInviteLinkCreatedResponse": {
-        "type": "object",
-        "description": "Response returned when an invite link is successfully created.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The invite link ID.",
-            "format": "guid"
-          },
-          "token": {
-            "type": "string",
-            "description": "The URL-safe base64url token."
-          },
-          "note": {
-            "type": "string",
-            "description": "The optional private note supplied by the creator.",
-            "nullable": true
           },
           "createdAt": {
             "type": "string",

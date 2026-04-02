@@ -17,7 +17,7 @@ import * as runtime from '../runtime';
 import type {
   ApiResponseOfIReadOnlyListOfTrustInviteLinkViewResponse,
   ApiResponseOfResolvedInviteLinkResponse,
-  ApiResponseOfTrustInviteLinkCreatedResponse,
+  ApiResponseOfString,
   CreateTrustInviteLinkRequest,
   ProblemDetails,
 } from '../models/index';
@@ -26,8 +26,8 @@ import {
     ApiResponseOfIReadOnlyListOfTrustInviteLinkViewResponseToJSON,
     ApiResponseOfResolvedInviteLinkResponseFromJSON,
     ApiResponseOfResolvedInviteLinkResponseToJSON,
-    ApiResponseOfTrustInviteLinkCreatedResponseFromJSON,
-    ApiResponseOfTrustInviteLinkCreatedResponseToJSON,
+    ApiResponseOfStringFromJSON,
+    ApiResponseOfStringToJSON,
     CreateTrustInviteLinkRequestFromJSON,
     CreateTrustInviteLinkRequestToJSON,
     ProblemDetailsFromJSON,
@@ -61,12 +61,12 @@ export interface TrustInviteLinksApiInterface {
      * @throws {RequiredError}
      * @memberof TrustInviteLinksApiInterface
      */
-    createTrustInviteLinkRaw(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfTrustInviteLinkCreatedResponse>>;
+    createTrustInviteLinkRaw(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>>;
 
     /**
      * Creates an invite link for the authenticated participant.
      */
-    createTrustInviteLink(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfTrustInviteLinkCreatedResponse>;
+    createTrustInviteLink(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
 
     /**
      * 
@@ -122,7 +122,7 @@ export class TrustInviteLinksApi extends runtime.BaseAPI implements TrustInviteL
     /**
      * Creates an invite link for the authenticated participant.
      */
-    async createTrustInviteLinkRaw(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfTrustInviteLinkCreatedResponse>> {
+    async createTrustInviteLinkRaw(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>> {
         if (requestParameters['createTrustInviteLinkRequest'] == null) {
             throw new runtime.RequiredError(
                 'createTrustInviteLinkRequest',
@@ -147,13 +147,13 @@ export class TrustInviteLinksApi extends runtime.BaseAPI implements TrustInviteL
             body: CreateTrustInviteLinkRequestToJSON(requestParameters['createTrustInviteLinkRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfTrustInviteLinkCreatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfStringFromJSON(jsonValue));
     }
 
     /**
      * Creates an invite link for the authenticated participant.
      */
-    async createTrustInviteLink(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfTrustInviteLinkCreatedResponse> {
+    async createTrustInviteLink(requestParameters: CreateTrustInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
         const response = await this.createTrustInviteLinkRaw(requestParameters, initOverrides);
         return await response.value();
     }

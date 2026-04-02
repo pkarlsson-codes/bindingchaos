@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../../shared/components/ui/button';
 import { Badge } from '../../../shared/components/ui/badge';
@@ -7,6 +8,8 @@ import { SocietyMembersCard } from './SocietyMembersCard';
 import { useJoinSociety, useLeaveSociety, useMySocietyIds } from '../hooks/useSocietyMutations';
 import { useAuth } from '../../auth/contexts/AuthContext';
 import { toast } from '../../../shared/components/ui/toast';
+import { CreateSocietyInviteLinkModal } from './CreateSocietyInviteLinkModal';
+import { SocietyInviteLinksCard } from './SocietyInviteLinksCard';
 
 export function SocietyDetailPage() {
   const { societyId } = useParams<{ societyId: string }>();
@@ -15,6 +18,7 @@ export function SocietyDetailPage() {
   const { data: society, isLoading, error } = useSociety(societyId);
   const { mutate: joinSociety, isPending: isJoining } = useJoinSociety(societyId ?? '');
   const { mutate: leaveSociety, isPending: isLeaving } = useLeaveSociety(societyId ?? '');
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const { data: mySocietyIds } = useMySocietyIds();
   const isMember = societyId ? (mySocietyIds ?? []).includes(societyId) : false;
 
@@ -55,19 +59,19 @@ export function SocietyDetailPage() {
   const handleJoin = () => {
     const contractId = society.currentSocialContractId;
     if (!contractId) {
-      toast({ title: 'Cannot join', description: 'Social contract not yet available.' });
+      toast.error("Cannot join society. Social contract not yet available.");
       return;
     }
     joinSociety(contractId, {
-      onSuccess: () => toast({ title: 'Joined society' }),
-      onError: () => toast({ title: 'Failed to join society' }),
+      onSuccess: () => toast.success("Joined society"),
+      onError: () => toast.error("Failed to join society"),
     });
   };
 
   const handleLeave = () => {
     leaveSociety(undefined, {
-      onSuccess: () => toast({ title: 'Left society' }),
-      onError: () => toast({ title: 'Failed to leave society' }),
+      onSuccess: () => toast.success("Left society"),
+      onError: () => toast.error("Failed to leave society"),
     });
   };
 
@@ -97,6 +101,15 @@ export function SocietyDetailPage() {
               </span>
               {user && (
                 <div className="flex gap-2">
+                  {isMember && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsInviteModalOpen(true)}
+                    >
+                      Invite
+                    </Button>
+                  )}
                   {isMember ? (
                     <Button
                       variant="ghost"
@@ -133,6 +146,17 @@ export function SocietyDetailPage() {
 
       {/* Members */}
       {societyId && <SocietyMembersCard societyId={societyId} />}
+
+      {/* Invite links — only visible to members */}
+      {societyId && isMember && <SocietyInviteLinksCard societyId={societyId} />}
+
+      {societyId && (
+        <CreateSocietyInviteLinkModal
+          societyId={societyId}
+          isOpen={isInviteModalOpen}
+          onClose={() => setIsInviteModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
