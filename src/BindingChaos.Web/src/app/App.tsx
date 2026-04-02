@@ -10,7 +10,6 @@ import { IdeasPage } from '../features/ideas/components/IdeasPage';
 import { IdeaDetailsPage } from '../features/ideas/components/IdeaDetailsPage';
 import { SocietiesPage } from '../features/societies/components/SocietiesPage';
 import { SocietyDetailPage } from '../features/societies/components/SocietyDetailPage';
-import { SocietyInvitePage } from '../features/societies/components/SocietyInvitePage';
 import { InvitePage } from '../features/trust/components/InvitePage';
 import { EmergingPatternsPage } from '../features/emerging-patterns/components/EmergingPatternsPage';
 import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
@@ -58,7 +57,7 @@ function App() {
 
                       {/* Societies */}
                       <Route path="/societies" element={<SocietiesPage />} />
-                      <Route path="/societies/:societyId/invitations/:token" element={<SocietyInvitePage />} />
+                      <Route path="/societies/:societyId/invitations/:token" element={<SocietyDetailPage />} />
                       <Route path="/societies/:societyId" element={<SocietyDetailPage />} />
 
                       {/* Concerns */}
