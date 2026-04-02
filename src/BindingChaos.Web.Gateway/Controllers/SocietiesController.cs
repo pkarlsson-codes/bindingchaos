@@ -235,6 +235,7 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     /// Membership is verified downstream in CorePlatform.API.
     /// </summary>
     /// <param name="societyId">The unique identifier of the society.</param>
+    /// <param name="request">The invite link creation request containing an optional note.</param>
     /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
     /// <returns>The ID of the created invite link.</returns>
     [HttpPost("{societyId}/invite-links")]
@@ -242,12 +243,14 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     [EndpointName("createSocietyInviteLink")]
     public async Task<IActionResult> CreateSocietyInviteLink(
         string societyId,
+        [FromBody] DomainRequests.CreateSocietyInviteLinkRequest request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
+        ArgumentNullException.ThrowIfNull(request);
 
         var id = await societiesApiClient
-            .CreateSocietyInviteLinkAsync(societyId, cancellationToken);
+            .CreateSocietyInviteLinkAsync(societyId, request, cancellationToken);
 
         return CreatedAtAction(nameof(GetMySocietyInviteLinks), new { societyId }, id);
     }

@@ -98,9 +98,11 @@ public interface ISocietiesApiClient
     /// Creates an invite link for the specified society on behalf of the authenticated participant.
     /// </summary>
     /// <param name="societyId">The identifier of the society to create an invite link for.</param>
+    /// <param name="request">The invite link creation request containing an optional note.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The ID of the created invite link.</returns>
     Task<string> CreateSocietyInviteLinkAsync(
         string societyId,
+        CreateSocietyInviteLinkRequest request,
         CancellationToken cancellationToken);
 }

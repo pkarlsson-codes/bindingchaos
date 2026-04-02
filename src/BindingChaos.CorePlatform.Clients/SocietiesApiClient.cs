@@ -114,11 +114,14 @@ public class SocietiesApiClient(
     /// <inheritdoc/>
     public Task<string> CreateSocietyInviteLinkAsync(
         string societyId,
+        CreateSocietyInviteLinkRequest request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(societyId);
-        return PostAsync<string>(
+        ArgumentNullException.ThrowIfNull(request);
+        return PostAsync<CreateSocietyInviteLinkRequest, string>(
             $"api/societies/{societyId}/invite-links",
+            request,
             cancellationToken);
     }
 }
