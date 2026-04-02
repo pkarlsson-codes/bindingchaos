@@ -118,31 +118,5 @@ public sealed class IdeasInitialData : IInitialData
         public int[] SignalIndices { get; set; } = [];
 
         public string[] Tags { get; set; } = [];
-
-        public List<AmendmentDto> Amendments { get; set; } = [];
-    }
-
-    private sealed class AmendmentDto
-    {
-        public int CreatorIndex { get; set; }
-
-        public string ProposedTitle { get; set; } = string.Empty;
-
-        public string ProposedBody { get; set; } = string.Empty;
-
-        public string AmendmentTitle { get; set; } = string.Empty;
-
-        public string AmendmentDescription { get; set; } = string.Empty;
-
-        public List<VoterDto> Supporters { get; set; } = [];
-
-        public List<VoterDto> Opponents { get; set; } = [];
-    }
-
-    private sealed class VoterDto
-    {
-        public int ParticipantIndex { get; set; }
-
-        public string Reason { get; set; } = string.Empty;
     }
 }

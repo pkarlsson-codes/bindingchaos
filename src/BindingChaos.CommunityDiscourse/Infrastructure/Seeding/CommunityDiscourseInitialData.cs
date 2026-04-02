@@ -67,14 +67,7 @@ public sealed class CommunityDiscourseInitialData : IInitialData
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        var amendmentIds = await session.Events.QueryAllRawEvents()
-            .Where(e => e.DotNetTypeName.Contains("AmendmentProposed") && e.StreamKey != null)
-            .Select(e => e.StreamKey!)
-            .Distinct()
-            .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        if (signalIds.Count == 0 && ideaIds.Count == 0 && amendmentIds.Count == 0)
+        if (signalIds.Count == 0 && ideaIds.Count == 0)
         {
             return;
         }
@@ -96,7 +89,6 @@ public sealed class CommunityDiscourseInitialData : IInitialData
                 {
                     "Signal" => signalIds,
                     "Idea" => ideaIds,
-                    "Amendment" => amendmentIds,
                     _ => throw new InvalidOperationException($"Unknown entity type '{threadDto.EntityType}' in discourse seed data."),
                 };
 

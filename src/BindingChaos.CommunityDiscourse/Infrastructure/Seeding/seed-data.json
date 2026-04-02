@@ -37,14 +37,6 @@
       ]
     },
     {
-      "entityType": "Amendment",
-      "entityIndex": 1,
-      "contributions": [
-        { "authorIndex": 4, "content": "Composting bays would solve a problem beyond the garden. Worth designing them to handle the whole street's organic waste.", "parentIndex": null },
-        { "authorIndex": 18, "content": "A donation drive for tools has worked well in other community gardens. Worth reaching out to local hardware shops.", "parentIndex": null }
-      ]
-    },
-    {
       "entityType": "Signal",
       "entityIndex": 3,
       "contributions": [
