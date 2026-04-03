@@ -30,21 +30,22 @@ try
     builder.Services.AddCorePlatformServices(builder.Configuration, builder.Environment);
 
     var rabbitMqOptions = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>() ?? new RabbitMqOptions();
+    var useRabbitMq = !builder.Environment.IsEnvironment("Testing");
 
     builder.Host.UseWolverine(opts =>
     {
-        opts.UseRabbitMq(rabbit =>
+        if (useRabbitMq)
         {
-            rabbit.HostName = rabbitMqOptions.Host;
-            rabbit.Port = rabbitMqOptions.Port;
-            rabbit.UserName = rabbitMqOptions.Username;
-            rabbit.Password = rabbitMqOptions.Password;
-        }).AutoProvision();
+            opts.UseRabbitMq(rabbit =>
+            {
+                rabbit.HostName = rabbitMqOptions.Host;
+                rabbit.Port = rabbitMqOptions.Port;
+                rabbit.UserName = rabbitMqOptions.Username;
+                rabbit.Password = rabbitMqOptions.Password;
+            }).AutoProvision().UseConventionalRouting();
 
-        opts.PublishMessage<SignalCapturedIntegrationEvent>()
-            .ToRabbitQueue("signal-processing");
-
-        opts.ListenToRabbitQueue("clusters-identified");
+            opts.Policies.ConventionalLocalRoutingIsAdditive();
+        }
 
         opts.Discovery.IncludeAssembly(typeof(CommunityDiscourseAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(TaggingAssemblyReference).Assembly);

@@ -34,13 +34,7 @@ builder.UseWolverine(opts =>
         rabbit.Port = rabbitMqOptions.Port;
         rabbit.UserName = rabbitMqOptions.Username;
         rabbit.Password = rabbitMqOptions.Password;
-    }).AutoProvision();
-
-    opts.ListenToRabbitQueue("signal-processing")
-        .ProcessInline();
-
-    opts.PublishMessage<ClustersIdentifiedIntegrationEvent>()
-        .ToRabbitQueue("clusters-identified");
+    }).AutoProvision().UseConventionalRouting();
 });
 
 var host = builder.Build();
