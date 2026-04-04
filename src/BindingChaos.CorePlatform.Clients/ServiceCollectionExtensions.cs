@@ -179,6 +179,27 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// Adds the Commons API client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="baseAddress">The base address for the API.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IHttpClientBuilder AddCommonsApiClient(
+        this IServiceCollection services,
+        string baseAddress)
+    {
+        ArgumentNullException.ThrowIfNull(baseAddress);
+        services.TryAddScoped<CorrelationIdHandler>();
+
+        return services.AddHttpClient<ICommonsApiClient, CommonsApiClient>(client =>
+        {
+            client.BaseAddress = new Uri(baseAddress);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        })
+        .AddHttpMessageHandler<CorrelationIdHandler>();
+    }
+
+    /// <summary>
     /// Adds the Invite Links API client to the service collection.
     /// </summary>
     /// <param name="services">The service collection.</param>
