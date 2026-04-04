@@ -27,6 +27,7 @@ export function Header() {
     { path: '/signals', label: 'Signals', onClick: () => navigate('/signals') },
     { path: '/patterns', label: 'Patterns', onClick: () => navigate('/patterns') },
     { path: '/concerns', label: 'Concerns', onClick: () => navigate('/concerns') },
+    { path: '/commons', label: 'Commons', onClick: () => navigate('/commons') },
     { path: '/ideas', label: 'Ideas', onClick: () => navigate('/ideas') },
     { path: '/societies', label: 'Societies', onClick: () => navigate('/societies') },
     { path: '/about', label: 'About', onClick: () => navigate('/about') },

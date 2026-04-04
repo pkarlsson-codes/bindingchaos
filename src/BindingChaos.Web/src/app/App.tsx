@@ -14,6 +14,7 @@ import { InvitePage } from '../features/trust/components/InvitePage';
 import { EmergingPatternsPage } from '../features/emerging-patterns/components/EmergingPatternsPage';
 import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
 import { ConcernsPage } from '../features/concerns/components/ConcernsPage';
+import { CommonsPage } from '../features/commons/components/CommonsPage';
 import { AboutPage } from '../features/about/components/AboutPage';
 
 import {
@@ -62,6 +63,9 @@ function App() {
 
                       {/* Concerns */}
                       <Route path="/concerns" element={<ConcernsPage />} />
+
+                      {/* Commons */}
+                      <Route path="/commons" element={<CommonsPage />} />
 
                       {/* Emerging Patterns */}
                       <Route path="/patterns" element={<EmergingPatternsPage />} />

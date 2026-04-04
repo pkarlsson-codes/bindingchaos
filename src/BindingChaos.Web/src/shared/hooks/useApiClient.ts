@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {
-  ConcernsApi,IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi,
+  ConcernsApi, CommonsApi, IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi,
   SocietiesApi, EmergingPatternsApi, Configuration
 } from '@/api';
 import { API_CONFIG } from '@/config/api';
@@ -72,6 +72,7 @@ export function useApiClient() {
 
     return {
       concerns: new ConcernsApi(config),
+      commons: new CommonsApi(config),
       ideas: new IdeasApi(config),
       signals: new SignalsApi(config),
       discourse: new DiscourseApi(config),

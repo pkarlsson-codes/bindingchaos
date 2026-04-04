@@ -70,6 +70,115 @@
         }
       }
     },
+    "/api/v1/commons": {
+      "post": {
+        "tags": [
+          "Commons"
+        ],
+        "summary": "Forwards a request to propose a new commons to the commons API.",
+        "operationId": "proposeCommons",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request containing the name and description of the commons to propose.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposeCommonsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "The ID of the proposed commons as a string.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Commons"
+        ],
+        "summary": "Retrieves a paginated list of commons by forwarding the request to the commons API client.",
+        "operationId": "getCommons",
+        "parameters": [
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortDescriptor"
+              }
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated response containing the list of commons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfCommonsListItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/concerns": {
       "post": {
         "tags": [
@@ -2159,6 +2268,145 @@
         "description": "Static factory methods for creating API responses.",
         "additionalProperties": false
       },
+      "ProposeCommonsRequest": {
+        "type": "object",
+        "description": "Request to propose a new commons.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the commons."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the commons."
+          }
+        }
+      },
+      "ApiResponseOfPaginatedResponseOfCommonsListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginatedResponseOfCommonsListItemResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedResponseOfCommonsListItemResponse": {
+        "type": "object",
+        "description": "Generic paginated response wrapper for API endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items for the current page.",
+            "items": {
+              "$ref": "#/components/schemas/CommonsListItemResponse"
+            }
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "Indicates whether there is a next page of results."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number (1-based).",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The number of items per page.",
+            "format": "int64"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of items across all pages.",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int64"
+          }
+        }
+      },
+      "CommonsListItemResponse": {
+        "type": "object",
+        "description": "Represents a commons item in a list response.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the commons."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the commons."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the commons."
+          },
+          "status": {
+            "type": "string",
+            "description": "The lifecycle status of the commons."
+          },
+          "proposedByPseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the participant who proposed the commons."
+          },
+          "proposedAt": {
+            "type": "string",
+            "description": "The timestamp when the commons was proposed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "SortDescriptor": {
+        "type": "object",
+        "description": "Describes a single sort operation against a logical field.",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
+          },
+          "direction": {
+            "description": "Sort direction.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "Sort direction for a field.",
+        "x-enumNames": [
+          "Asc",
+          "Desc"
+        ],
+        "enum": [
+          "Asc",
+          "Desc"
+        ]
+      },
       "RaiseConcernRequest": {
         "type": "object",
         "description": "Request used to raise a new concern in the system.",
@@ -2301,37 +2549,6 @@
             "description": "The title of the signal."
           }
         }
-      },
-      "SortDescriptor": {
-        "type": "object",
-        "description": "Describes a single sort operation against a logical field.",
-        "additionalProperties": false,
-        "properties": {
-          "field": {
-            "type": "string",
-            "description": "Logical field name to sort by. Mapping to actual data model is responsibility of the consumer."
-          },
-          "direction": {
-            "description": "Sort direction.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/SortDirection"
-              }
-            ]
-          }
-        }
-      },
-      "SortDirection": {
-        "type": "string",
-        "description": "Sort direction for a field.",
-        "x-enumNames": [
-          "Asc",
-          "Desc"
-        ],
-        "enum": [
-          "Asc",
-          "Desc"
-        ]
       },
       "ApiEnvelopeOfPostsViewModel": {
         "type": "object",
