@@ -86,5 +86,15 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.ProposedAt);
 
         options.Projections.Add<CommonsListItemViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<UserGroupListItemView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.CommonsId)
+            .Duplicate(x => x.FounderId)
+            .Duplicate(x => x.FormedAt)
+            .Duplicate(x => x.MemberCount);
+
+        options.Projections.Add<UserGroupListItemViewProjection>(ProjectionLifecycle.Async);
     }
 }
