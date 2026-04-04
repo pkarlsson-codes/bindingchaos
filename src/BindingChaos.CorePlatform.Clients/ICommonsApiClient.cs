@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
@@ -17,5 +18,15 @@ public interface ICommonsApiClient
     /// <returns>A paginated response containing the list of commons.</returns>
     Task<PaginatedResponse<CommonsListItemResponse>> GetCommonsAsync(
         PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Proposes a new commons.
+    /// </summary>
+    /// <param name="request">The request containing the name and description of the commons.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The ID of the newly proposed commons.</returns>
+    Task<string> ProposeCommonsAsync(
+        ProposeCommonsRequest request,
         CancellationToken cancellationToken = default);
 }

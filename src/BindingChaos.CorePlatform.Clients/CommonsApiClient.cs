@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
@@ -14,6 +15,20 @@ public sealed class CommonsApiClient(
     HttpClient httpClient,
     ILogger<CommonsApiClient> logger) : BaseApiClient(httpClient, logger), ICommonsApiClient
 {
+    /// <inheritdoc />
+    public async Task<string> ProposeCommonsAsync(
+        ProposeCommonsRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PostAsync<ProposeCommonsRequest, string>(
+            "api/commons",
+            request,
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     /// <inheritdoc />
     public async Task<PaginatedResponse<CommonsListItemResponse>> GetCommonsAsync(
         PaginationQuerySpec querySpec,
