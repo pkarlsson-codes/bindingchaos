@@ -15,6 +15,12 @@ public class ConcernsListItemView
     /// <summary>The unique identifier of the concern.</summary>
     required public string Id { get; set; }
 
+    /// <summary>The identifiers of the participants affected by the concern.</summary>
+    public List<string> AffectedParticipantIds { get; set; } = [];
+
+    /// <summary>The count of participants affected by the concern.</summary>
+    public int AffectedCount => AffectedParticipantIds.Count;
+
     /// <summary>The identifier of the actor who raised the concern.</summary>
     required public string RaisedById { get; set; }
 
