@@ -1,9 +1,14 @@
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.Contracts.Requests;
+using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
+using BindingChaos.Infrastructure.Querying;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.DTOs;
+using BindingChaos.Stigmergy.Application.Queries;
+using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +22,13 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// Controller for managing user groups.
 /// </summary>
 /// <param name="messageBus">The message bus instance used for publishing events or messages.</param>
+/// <param name="pseudonymLookupService">A service used to resolve user pseudonyms from participant identifiers.</param>
 [ApiController]
 [Route("api/usergroups")]
-public sealed class UserGroupsController(IMessageBus messageBus) : BaseApiController
+public sealed class UserGroupsController(
+    IMessageBus messageBus,
+    IPseudonymLookupService pseudonymLookupService)
+    : BaseApiController
 {
     /// <summary>
     /// Forms a new user group to govern a commons.
@@ -50,6 +59,51 @@ public sealed class UserGroupsController(IMessageBus messageBus) : BaseApiContro
         var userGroupId = await messageBus.InvokeAsync<UserGroupId>(command, cancellationToken).ConfigureAwait(false);
 
         return Created($"api/usergroups/{userGroupId.Value}", userGroupId.Value);
+    }
+
+    /// <summary>
+    /// Retrieves all user groups governing the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons to filter by.</param>
+    /// <param name="queryRequest">Pagination and sorting parameters from the querystring.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated list of user groups.</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<UserGroupListItemResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [EndpointName("getUserGroupsForCommons")]
+    public async Task<IActionResult> GetUserGroupsForCommons(
+        [FromQuery] string commonsId,
+        [FromQuery] PaginationQuerySpec queryRequest,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(commonsId))
+        {
+            return BadRequest("commonsId is required.");
+        }
+
+        var userGroups = await messageBus
+            .InvokeAsync<PaginatedResponse<UserGroupListItemView>>(
+                new GetUserGroupsForCommons(CommonsId.Create(commonsId), queryRequest),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        var pseudonyms = await pseudonymLookupService.GetPseudonymsAsync(
+            userGroups.Items.Select(g => g.FounderId),
+            cancellationToken);
+
+        var response = userGroups.MapItems(
+            g => new UserGroupListItemResponse(
+                g.Id,
+                g.CommonsId,
+                g.Name,
+                g.Philosophy,
+                pseudonyms.GetValueOrDefault(g.FounderId, "Anonymous"),
+                g.FormedAt,
+                g.MemberCount,
+                g.JoinPolicy));
+
+        return Ok(response);
     }
 
     private static CharterDto MapCharter(UserGroupCharterDto dto)

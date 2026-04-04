@@ -1,0 +1,34 @@
+using BindingChaos.CorePlatform.Contracts.Requests;
+using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.Infrastructure.API;
+using BindingChaos.Infrastructure.Querying;
+
+namespace BindingChaos.CorePlatform.Clients;
+
+/// <summary>
+/// Client responsible for interacting with the user groups API endpoints.
+/// </summary>
+public interface IUserGroupsApiClient
+{
+    /// <summary>
+    /// Forms a new user group to govern the specified commons.
+    /// </summary>
+    /// <param name="request">The formation request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The ID of the formed user group.</returns>
+    Task<string> FormUserGroupAsync(
+        FormUserGroupRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a paginated list of user groups governing the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons to filter by.</param>
+    /// <param name="querySpec">The pagination and sorting specification.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated response containing the list of user groups.</returns>
+    Task<PaginatedResponse<UserGroupListItemResponse>> GetUserGroupsForCommonsAsync(
+        string commonsId,
+        PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken = default);
+}
