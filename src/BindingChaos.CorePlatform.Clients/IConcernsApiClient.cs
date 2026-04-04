@@ -27,4 +27,20 @@ public interface IConcernsApiClient
     Task<PaginatedResponse<ConcernListItemResponse>> GetConcernsAsync(
         PaginationQuerySpec querySpec,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Declares that the current participant is affected by the specified concern.
+    /// </summary>
+    /// <param name="concernId">The ID of the concern.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task DeclareAffectedAsync(string concernId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Withdraws the current participant's affectedness declaration for the specified concern.
+    /// </summary>
+    /// <param name="concernId">The ID of the concern.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task WithdrawAffectednessAsync(string concernId, CancellationToken cancellationToken = default);
 }

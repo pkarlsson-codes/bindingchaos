@@ -8,12 +8,16 @@ namespace BindingChaos.CorePlatform.Contracts.Responses;
 /// <param name="Name">The name of the concern.</param>
 /// <param name="Tags">The tags associated with the concern.</param>
 /// <param name="Signals">The signals related to the concern.</param>
+/// <param name="AffectedCount">The number of participants who have declared this concern affects them.</param>
+/// <param name="IsAffectedByCurrentUser">Whether the current user has declared this concern affects them.</param>
 public sealed record ConcernListItemResponse(
     string Id,
     string RaisedByPseudonym,
     string Name,
     IReadOnlyList<string> Tags,
-    IReadOnlyList<ConcernListItemResponse.ReferenceSignal> Signals)
+    IReadOnlyList<ConcernListItemResponse.ReferenceSignal> Signals,
+    int AffectedCount,
+    bool IsAffectedByCurrentUser)
 {
     /// <summary>
     /// Represents a signal referenced by a concern, including its unique identifier and title.

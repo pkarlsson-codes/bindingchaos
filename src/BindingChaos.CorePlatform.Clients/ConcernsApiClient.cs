@@ -40,4 +40,26 @@ public sealed class ConcernsApiClient(
             cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public async Task DeclareAffectedAsync(string concernId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(concernId);
+
+        await PostAsync(
+            $"api/concerns/{concernId}/affectedness",
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task WithdrawAffectednessAsync(string concernId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(concernId);
+
+        await DeleteAsync(
+            $"api/concerns/{concernId}/affectedness",
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
 }
