@@ -20,6 +20,11 @@ public sealed class Commons : AggregateRoot<CommonsId>
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     /// <summary>
+    /// Gets a value indicating whether this commons is in the <see cref="CommonsStatus.Proposed"/> state.
+    /// </summary>
+    internal bool IsProposed => _status == CommonsStatus.Proposed;
+
+    /// <summary>
     /// Proposes a new <see cref="Commons"/>.
     /// </summary>
     /// <param name="name">Name of the commons.</param>

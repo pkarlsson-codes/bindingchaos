@@ -18,6 +18,11 @@ internal static class UserGroupFormedHandler
         var commonsId = CommonsId.Create(message.CommonsId);
         var commons = await commonsRepository.GetByIdOrThrowAsync(commonsId, cancellationToken).ConfigureAwait(false);
 
+        if (!commons.IsProposed)
+        {
+            return;
+        }
+
         commons.Activate();
         commonsRepository.Stage(commons);
         await unitOfWork.CommitAsync(cancellationToken).ConfigureAwait(false);
