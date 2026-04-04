@@ -11,6 +11,8 @@ namespace BindingChaos.Stigmergy.Domain.Concerns;
 /// </summary>
 public sealed class Concern : AggregateRoot<ConcernId>
 {
+    private readonly HashSet<ParticipantId> _affectedParticipants = [];
+
     private Concern()
     {
     }
@@ -43,12 +45,48 @@ public sealed class Concern : AggregateRoot<ConcernId>
         return concern;
     }
 
+    /// <summary>
+    /// Indicates the affectedness of this concern for a participant.
+    /// </summary>
+    /// <param name="participantId">Id of the participant indicating the affectedness.</param>
+    /// <exception cref="BusinessRuleViolationException">Thrown when the participant has already indicated affectedness for this concern.</exception>
+    public void IndicateAffectedness(ParticipantId participantId)
+    {
+        ArgumentNullException.ThrowIfNull(participantId);
+
+        if (_affectedParticipants.Contains(participantId))
+        {
+            throw new BusinessRuleViolationException("Participant has already indicated affectedness for this concern.");
+        }
+
+        ApplyChange(new AffectednessIndicated(Id.Value, participantId.Value));
+    }
+
+    /// <summary>
+    /// Withdraws the affectedness indication of this concern for a participant.
+    /// </summary>
+    /// <param name="participantId">Id of the participant withdrawing the affectedness.</param>
+    /// <exception cref="BusinessRuleViolationException">Thrown when the participant has not indicated affectedness for this concern.</exception>
+    public void WithdrawAffectedness(ParticipantId participantId)
+    {
+        ArgumentNullException.ThrowIfNull(participantId);
+
+        if (!_affectedParticipants.Contains(participantId))
+        {
+            throw new BusinessRuleViolationException("Participant has not indicated affectedness for this concern.");
+        }
+
+        ApplyChange(new AffectednessWithdrawn(Id.Value, participantId.Value));
+    }
+
     /// <inheritdoc/>
     protected override void ApplyEvent(IDomainEvent domainEvent)
     {
         switch (domainEvent)
         {
             case ConcernRaised e: Apply(e); break;
+            case AffectednessIndicated e: Apply(e); break;
+            case AffectednessWithdrawn e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
@@ -56,5 +94,17 @@ public sealed class Concern : AggregateRoot<ConcernId>
     private void Apply(ConcernRaised e)
     {
         Id = ConcernId.Create(e.AggregateId);
+    }
+
+    private void Apply(AffectednessIndicated e)
+    {
+        var participantId = ParticipantId.Create(e.IndicatedById);
+        _affectedParticipants.Add(participantId);
+    }
+
+    private void Apply(AffectednessWithdrawn e)
+    {
+        var participantId = ParticipantId.Create(e.WithdrawnById);
+        _affectedParticipants.Remove(participantId);
     }
 }
