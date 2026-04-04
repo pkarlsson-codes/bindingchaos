@@ -34,6 +34,10 @@ import {
     SortDescriptorToJSON,
 } from '../models/index';
 
+export interface DeclareAffectedRequest {
+    concernId: string;
+}
+
 export interface GetConcernsRequest {
     pageNumber?: number;
     pageSize?: number;
@@ -44,6 +48,10 @@ export interface RaiseConcernOperationRequest {
     raiseConcernRequest: RaiseConcernRequest;
 }
 
+export interface WithdrawAffectednessRequest {
+    concernId: string;
+}
+
 /**
  * ConcernsApi - interface
  * 
@@ -51,6 +59,21 @@ export interface RaiseConcernOperationRequest {
  * @interface ConcernsApiInterface
  */
 export interface ConcernsApiInterface {
+    /**
+     * 
+     * @summary Declares that the current participant is affected by the specified concern.
+     * @param {string} concernId The ID of the concern.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConcernsApiInterface
+     */
+    declareAffectedRaw(requestParameters: DeclareAffectedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Declares that the current participant is affected by the specified concern.
+     */
+    declareAffected(requestParameters: DeclareAffectedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
     /**
      * 
      * @summary Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
@@ -83,12 +106,63 @@ export interface ConcernsApiInterface {
      */
     raiseConcern(requestParameters: RaiseConcernOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
 
+    /**
+     * 
+     * @summary Withdraws the current participant\'s affectedness declaration for the specified concern.
+     * @param {string} concernId The ID of the concern.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConcernsApiInterface
+     */
+    withdrawAffectednessRaw(requestParameters: WithdrawAffectednessRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Withdraws the current participant\'s affectedness declaration for the specified concern.
+     */
+    withdrawAffectedness(requestParameters: WithdrawAffectednessRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
 }
 
 /**
  * 
  */
 export class ConcernsApi extends runtime.BaseAPI implements ConcernsApiInterface {
+
+    /**
+     * Declares that the current participant is affected by the specified concern.
+     */
+    async declareAffectedRaw(requestParameters: DeclareAffectedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['concernId'] == null) {
+            throw new runtime.RequiredError(
+                'concernId',
+                'Required parameter "concernId" was null or undefined when calling declareAffected().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/concerns/{concernId}/affectedness`;
+        urlPath = urlPath.replace(`{${"concernId"}}`, encodeURIComponent(String(requestParameters['concernId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Declares that the current participant is affected by the specified concern.
+     */
+    async declareAffected(requestParameters: DeclareAffectedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.declareAffectedRaw(requestParameters, initOverrides);
+    }
 
     /**
      * Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
@@ -168,6 +242,42 @@ export class ConcernsApi extends runtime.BaseAPI implements ConcernsApiInterface
     async raiseConcern(requestParameters: RaiseConcernOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
         const response = await this.raiseConcernRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Withdraws the current participant\'s affectedness declaration for the specified concern.
+     */
+    async withdrawAffectednessRaw(requestParameters: WithdrawAffectednessRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['concernId'] == null) {
+            throw new runtime.RequiredError(
+                'concernId',
+                'Required parameter "concernId" was null or undefined when calling withdrawAffectedness().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/concerns/{concernId}/affectedness`;
+        urlPath = urlPath.replace(`{${"concernId"}}`, encodeURIComponent(String(requestParameters['concernId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Withdraws the current participant\'s affectedness declaration for the specified concern.
+     */
+    async withdrawAffectedness(requestParameters: WithdrawAffectednessRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.withdrawAffectednessRaw(requestParameters, initOverrides);
     }
 
 }

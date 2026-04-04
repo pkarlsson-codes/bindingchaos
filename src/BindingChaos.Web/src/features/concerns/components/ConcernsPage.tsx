@@ -1,8 +1,39 @@
 import { useConcerns } from '../../../shared/hooks/useConcerns';
+import { useAffectednessState } from '../../../shared/hooks/useAffectednessState';
 import type { ConcernListItemResponse } from '../../../api/models';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
+import { AuthRequiredButton } from '../../auth';
+
+function AffectednessButton({ concern }: { concern: ConcernListItemResponse }) {
+  const { affectedCount, isAffected, isPending, toggle } = useAffectednessState({
+    concernId: concern.id!,
+    initialAffectedCount: concern.affectedCount ?? 0,
+    initialIsAffected: concern.isAffectedByCurrentUser ?? false,
+  });
+
+  return (
+    <AuthRequiredButton action="declare affectedness">
+      <Button
+        onClick={toggle}
+        size="sm"
+        variant={isAffected ? 'outline' : 'secondary'}
+        disabled={isPending}
+        loading={isPending}
+        className="flex items-center gap-2"
+        aria-label={isAffected ? 'Withdraw affectedness' : 'This concern affects me'}
+      >
+        <span>{isAffected ? 'Affects me' : 'This affects me'}</span>
+        {affectedCount > 0 && (
+          <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs font-medium bg-current/20">
+            {affectedCount}
+          </span>
+        )}
+      </Button>
+    </AuthRequiredButton>
+  );
+}
 
 function ConcernCard({ concern }: { concern: ConcernListItemResponse }) {
   return (
@@ -29,6 +60,7 @@ function ConcernCard({ concern }: { concern: ConcernListItemResponse }) {
           )}
         </div>
       }
+      footer={<AffectednessButton concern={concern} />}
     />
   );
 }

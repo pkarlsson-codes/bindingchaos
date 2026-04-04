@@ -179,6 +179,76 @@
         }
       }
     },
+    "/api/v1/concerns/{concernId}/affectedness": {
+      "post": {
+        "tags": [
+          "Concerns"
+        ],
+        "summary": "Declares that the current participant is affected by the specified concern.",
+        "operationId": "declareAffected",
+        "parameters": [
+          {
+            "name": "concernId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the concern.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204 No Content on success."
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Concerns"
+        ],
+        "summary": "Withdraws the current participant's affectedness declaration for the specified concern.",
+        "operationId": "withdrawAffectedness",
+        "parameters": [
+          {
+            "name": "concernId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the concern.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204 No Content on success."
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/discourse/threads/{threadId}/posts": {
       "get": {
         "tags": [
@@ -2205,6 +2275,15 @@
             "items": {
               "$ref": "#/components/schemas/ReferenceSignal"
             }
+          },
+          "affectedCount": {
+            "type": "integer",
+            "description": "The number of participants who have declared this concern affects them.",
+            "format": "int32"
+          },
+          "isAffectedByCurrentUser": {
+            "type": "boolean",
+            "description": "Whether the current user has declared this concern affects them."
           }
         }
       },

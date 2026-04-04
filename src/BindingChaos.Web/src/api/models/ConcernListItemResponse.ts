@@ -57,6 +57,18 @@ export interface ConcernListItemResponse {
      * @memberof ConcernListItemResponse
      */
     signals?: Array<ReferenceSignal>;
+    /**
+     * The number of participants who have declared this concern affects them.
+     * @type {number}
+     * @memberof ConcernListItemResponse
+     */
+    affectedCount?: number;
+    /**
+     * Whether the current user has declared this concern affects them.
+     * @type {boolean}
+     * @memberof ConcernListItemResponse
+     */
+    isAffectedByCurrentUser?: boolean;
 }
 
 /**
@@ -81,6 +93,8 @@ export function ConcernListItemResponseFromJSONTyped(json: any, ignoreDiscrimina
         'name': json['name'] == null ? undefined : json['name'],
         'tags': json['tags'] == null ? undefined : json['tags'],
         'signals': json['signals'] == null ? undefined : ((json['signals'] as Array<any>).map(ReferenceSignalFromJSON)),
+        'affectedCount': json['affectedCount'] == null ? undefined : json['affectedCount'],
+        'isAffectedByCurrentUser': json['isAffectedByCurrentUser'] == null ? undefined : json['isAffectedByCurrentUser'],
     };
 }
 
@@ -100,6 +114,8 @@ export function ConcernListItemResponseToJSONTyped(value?: ConcernListItemRespon
         'name': value['name'],
         'tags': value['tags'],
         'signals': value['signals'] == null ? undefined : ((value['signals'] as Array<any>).map(ReferenceSignalToJSON)),
+        'affectedCount': value['affectedCount'],
+        'isAffectedByCurrentUser': value['isAffectedByCurrentUser'],
     };
 }
 
