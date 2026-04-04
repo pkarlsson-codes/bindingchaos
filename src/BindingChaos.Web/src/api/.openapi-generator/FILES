@@ -11,6 +11,7 @@ apis/SignalsApi.ts
 apis/SocietiesApi.ts
 apis/TagsApi.ts
 apis/TrustInviteLinksApi.ts
+apis/UserGroupsApi.ts
 apis/index.ts
 index.ts
 models/AmplificationViewModel.ts
@@ -28,6 +29,7 @@ models/ApiResponseOfIdeasFeedViewModel.ts
 models/ApiResponseOfPaginatedResponseOfCommonsListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfConcernListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfSocietyMemberResponse.ts
+models/ApiResponseOfPaginatedResponseOfUserGroupListItemResponse.ts
 models/ApiResponseOfResolvedInviteLinkResponse.ts
 models/ApiResponseOfSignalDetailViewModel.ts
 models/ApiResponseOfSignalsFeedViewModel.ts
@@ -53,6 +55,7 @@ models/DeamplifySignalResponse.ts
 models/EmergingPatternResponse.ts
 models/EmergingPatternsFeedViewModel.ts
 models/FilterStateViewModel.ts
+models/FormUserGroupRequest.ts
 models/GeographicBoundsModel.ts
 models/GetCurrentUserResponse.ts
 models/IdeaDetailViewModel.ts
@@ -66,6 +69,7 @@ models/PaginatedResponseOfIdeaListItemResponse.ts
 models/PaginatedResponseOfSignalViewModel.ts
 models/PaginatedResponseOfSocietyListItemResponse.ts
 models/PaginatedResponseOfSocietyMemberResponse.ts
+models/PaginatedResponseOfUserGroupListItemResponse.ts
 models/PostRepliesViewModel.ts
 models/PostViewModel.ts
 models/PostsViewModel.ts
@@ -89,6 +93,13 @@ models/SortDescriptor.ts
 models/SortDirection.ts
 models/SuggestedActionViewModel.ts
 models/TrustInviteLinkViewResponse.ts
+models/UserGroupApprovalSettingsDto.ts
+models/UserGroupCharterDto.ts
+models/UserGroupContestationRulesDto.ts
+models/UserGroupJoinPolicyDto.ts
+models/UserGroupListItemResponse.ts
+models/UserGroupMembershipRulesDto.ts
+models/UserGroupShunningRulesDto.ts
 models/UserInfo.ts
 models/index.ts
 runtime.ts

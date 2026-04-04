@@ -12,3 +12,4 @@ export * from './SignalsApi';
 export * from './SocietiesApi';
 export * from './TagsApi';
 export * from './TrustInviteLinksApi';
+export * from './UserGroupsApi';

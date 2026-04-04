@@ -2163,6 +2163,124 @@
           }
         }
       }
+    },
+    "/api/v1/usergroups": {
+      "post": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Forwards a request to form a new user group to the user groups API.",
+        "operationId": "formUserGroup",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request containing the details of the user group to form.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormUserGroupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "The ID of the formed user group.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Retrieves a paginated list of user groups governing the specified commons.",
+        "operationId": "getUserGroupsForCommons",
+        "parameters": [
+          {
+            "name": "commonsId",
+            "in": "query",
+            "description": "The ID of the commons to filter by.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortDescriptor"
+              }
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated response containing the list of user groups.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfUserGroupListItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4280,6 +4398,264 @@
           "inviterUserId": {
             "type": "string",
             "description": "The internal user ID of the participant who created the invite link."
+          }
+        }
+      },
+      "FormUserGroupRequest": {
+        "type": "object",
+        "description": "Request model for forming a new user group.",
+        "additionalProperties": false,
+        "properties": {
+          "commonsId": {
+            "type": "string",
+            "description": "The ID of the commons this user group will govern."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user group."
+          },
+          "philosophy": {
+            "type": "string",
+            "description": "The philosophy of the user group."
+          },
+          "charter": {
+            "description": "The charter defining the rules and policies of the group.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupCharterDto"
+              }
+            ]
+          }
+        }
+      },
+      "UserGroupCharterDto": {
+        "type": "object",
+        "description": "Charter data transfer object.",
+        "additionalProperties": false,
+        "properties": {
+          "contestationRules": {
+            "description": "The contestation rules.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupContestationRulesDto"
+              }
+            ]
+          },
+          "membershipRules": {
+            "description": "The membership rules.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupMembershipRulesDto"
+              }
+            ]
+          },
+          "shunningRules": {
+            "description": "The shunning rules.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupShunningRulesDto"
+              }
+            ]
+          }
+        }
+      },
+      "UserGroupContestationRulesDto": {
+        "type": "object",
+        "description": "Contestation rules.",
+        "additionalProperties": false,
+        "properties": {
+          "resolutionWindow": {
+            "type": "string",
+            "description": "The resolution window.",
+            "format": "duration"
+          },
+          "rejectionThreshold": {
+            "type": "number",
+            "description": "The rejection threshold, represented as a decimal between 0 and 1.",
+            "format": "decimal"
+          }
+        }
+      },
+      "UserGroupMembershipRulesDto": {
+        "type": "object",
+        "description": "Membership rules.",
+        "additionalProperties": false,
+        "properties": {
+          "joinPolicy": {
+            "description": "The join policy.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupJoinPolicyDto"
+              }
+            ]
+          },
+          "approvalSettings": {
+            "description": "The approval settings, if applicable based on the join policy.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupApprovalSettingsDto"
+              }
+            ]
+          },
+          "maxMembers": {
+            "type": "integer",
+            "description": "The maximum number of members allowed in the group, if any.",
+            "format": "int32",
+            "nullable": true
+          },
+          "entryRequirements": {
+            "type": "string",
+            "description": "A description of any specific requirements for joining the group.",
+            "nullable": true
+          },
+          "memberListPublic": {
+            "type": "boolean",
+            "description": "Indicates whether the member list is public or private."
+          }
+        }
+      },
+      "UserGroupJoinPolicyDto": {
+        "type": "string",
+        "description": "Specifies the policies that determine how users can join a group.",
+        "x-enumNames": [
+          "Open",
+          "InviteOnly",
+          "Approval"
+        ],
+        "enum": [
+          "Open",
+          "InviteOnly",
+          "Approval"
+        ]
+      },
+      "UserGroupApprovalSettingsDto": {
+        "type": "object",
+        "description": "Approval settings for membership.",
+        "additionalProperties": false,
+        "properties": {
+          "approvalThreshold": {
+            "type": "number",
+            "description": "The threshold for approval decisions, represented as a decimal between 0 and 1.",
+            "format": "decimal"
+          },
+          "vetoEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether veto power is enabled."
+          }
+        }
+      },
+      "UserGroupShunningRulesDto": {
+        "type": "object",
+        "description": "Shunning rules.",
+        "additionalProperties": false,
+        "properties": {
+          "approvalThreshold": {
+            "type": "number",
+            "description": "The threshold for shunning decisions, represented as a decimal between 0 and 1.",
+            "format": "decimal"
+          }
+        }
+      },
+      "ApiResponseOfPaginatedResponseOfUserGroupListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginatedResponseOfUserGroupListItemResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedResponseOfUserGroupListItemResponse": {
+        "type": "object",
+        "description": "Generic paginated response wrapper for API endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items for the current page.",
+            "items": {
+              "$ref": "#/components/schemas/UserGroupListItemResponse"
+            }
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "Indicates whether there is a next page of results."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number (1-based).",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The number of items per page.",
+            "format": "int64"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of items across all pages.",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int64"
+          }
+        }
+      },
+      "UserGroupListItemResponse": {
+        "type": "object",
+        "description": "Represents a user group item in a list response.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the user group."
+          },
+          "commonsId": {
+            "type": "string",
+            "description": "The identifier of the commons this group governs."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user group."
+          },
+          "philosophy": {
+            "type": "string",
+            "description": "The philosophy of the user group."
+          },
+          "foundedByPseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the participant who founded the group."
+          },
+          "formedAt": {
+            "type": "string",
+            "description": "The timestamp when the group was formed.",
+            "format": "date-time"
+          },
+          "memberCount": {
+            "type": "integer",
+            "description": "The current number of members in the group.",
+            "format": "int32"
+          },
+          "joinPolicy": {
+            "type": "string",
+            "description": "The join policy of the group."
           }
         }
       }
