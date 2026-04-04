@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCommons } from '../../../shared/hooks/useCommons';
 import type { CommonsListItemResponse } from '../../../api/models';
 import { Card } from '../../../shared/components/layout/Card';
@@ -13,8 +14,9 @@ function CommonsBadge({ status }: { status?: string }) {
   return <Badge variant={variant}>{status}</Badge>;
 }
 
-function CommonsCard({ commons }: { commons: CommonsListItemResponse }) {
+function CommonsCard({ commons, onClick }: { commons: CommonsListItemResponse; onClick: () => void }) {
   return (
+    <button type="button" onClick={onClick} className="w-full text-left">
     <Card
       title={
         <div className="flex items-center gap-2">
@@ -40,10 +42,12 @@ function CommonsCard({ commons }: { commons: CommonsListItemResponse }) {
         </div>
       }
     />
+    </button>
   );
 }
 
 export function CommonsPage() {
+  const navigate = useNavigate();
   const { data: commons = [], isLoading, error, refetch } = useCommons();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -99,7 +103,7 @@ export function CommonsPage() {
       ) : (
         <div className="space-y-4">
           {commons.map(c => (
-            <CommonsCard key={c.id} commons={c} />
+            <CommonsCard key={c.id} commons={c} onClick={() => navigate(`/commons/${c.id}`)} />
           ))}
         </div>
       )}

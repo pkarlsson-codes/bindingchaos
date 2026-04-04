@@ -15,6 +15,7 @@ import { EmergingPatternsPage } from '../features/emerging-patterns/components/E
 import { EmergingPatternDetailsPage } from '../features/emerging-patterns/components/EmergingPatternDetailsPage';
 import { ConcernsPage } from '../features/concerns/components/ConcernsPage';
 import { CommonsPage } from '../features/commons/components/CommonsPage';
+import { CommonsDetailPage } from '../features/commons/components/CommonsDetailPage';
 import { AboutPage } from '../features/about/components/AboutPage';
 
 import {
@@ -66,6 +67,7 @@ function App() {
 
                       {/* Commons */}
                       <Route path="/commons" element={<CommonsPage />} />
+                      <Route path="/commons/:commonsId" element={<CommonsDetailPage />} />
 
                       {/* Emerging Patterns */}
                       <Route path="/patterns" element={<EmergingPatternsPage />} />
