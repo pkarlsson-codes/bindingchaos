@@ -64,6 +64,7 @@ export interface GetSignalsRequest {
     filterAmplificationLevel?: string | null;
     filterSearchTerm?: string | null;
     filterTags?: Array<string>;
+    filterAmplifiedByParticipantId?: string | null;
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
@@ -143,6 +144,7 @@ export interface SignalsApiInterface {
      * @param {string} [filterAmplificationLevel] Optional amplification level filter (e.g., \&quot;low\&quot;, \&quot;medium\&quot;, \&quot;high\&quot;).
      * @param {string} [filterSearchTerm] Optional free-text search term to match against signal content.
      * @param {Array<string>} [filterTags] Optional collection of tags to filter results by.
+     * @param {string} [filterAmplifiedByParticipantId] Optional participant ID to filter signals amplified by that participant.
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
@@ -334,6 +336,10 @@ export class SignalsApi extends runtime.BaseAPI implements SignalsApiInterface {
 
         if (requestParameters['filterTags'] != null) {
             queryParameters['Filter.Tags'] = requestParameters['filterTags'];
+        }
+
+        if (requestParameters['filterAmplifiedByParticipantId'] != null) {
+            queryParameters['Filter.AmplifiedByParticipantId'] = requestParameters['filterAmplifiedByParticipantId'];
         }
 
         if (requestParameters['pageNumber'] != null) {

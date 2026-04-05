@@ -60,6 +60,8 @@ internal static class CorePlatformClientExtensions
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
         services.AddUserGroupsApiClient(corePlatformBaseAddress)
             .AddHttpMessageHandler<InternalGatewayAuthHandler>();
+        services.AddProfilesApiClient(corePlatformBaseAddress)
+            .AddHttpMessageHandler<InternalGatewayAuthHandler>();
 
         return services;
     }

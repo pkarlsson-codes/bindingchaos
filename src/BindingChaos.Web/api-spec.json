@@ -1557,6 +1557,16 @@
             "x-position": 4
           },
           {
+            "name": "Filter.AmplifiedByParticipantId",
+            "in": "query",
+            "description": "Optional participant ID to filter signals amplified by that participant.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -1564,7 +1574,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 5
+            "x-position": 6
           },
           {
             "name": "Page.Size",
@@ -1574,7 +1584,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 6
+            "x-position": 7
           },
           {
             "name": "sort",
@@ -1588,7 +1598,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 7
+            "x-position": 8
           }
         ],
         "responses": {
