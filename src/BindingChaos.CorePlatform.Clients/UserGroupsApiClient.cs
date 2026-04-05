@@ -44,4 +44,12 @@ public sealed class UserGroupsApiClient(
         return await GetAsync<PaginatedResponse<UserGroupListItemResponse>>(url, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<UserGroupListItemResponse>> GetMyUserGroupsAsync(
+        CancellationToken cancellationToken)
+    {
+        return await GetAsync<IReadOnlyList<UserGroupListItemResponse>>("api/usergroups/mine", cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

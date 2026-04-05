@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiResponseOfIReadOnlyListOfUserGroupListItemResponse,
   ApiResponseOfPaginatedResponseOfUserGroupListItemResponse,
   ApiResponseOfString,
   FormUserGroupRequest,
@@ -22,6 +23,8 @@ import type {
   SortDescriptor,
 } from '../models/index';
 import {
+    ApiResponseOfIReadOnlyListOfUserGroupListItemResponseFromJSON,
+    ApiResponseOfIReadOnlyListOfUserGroupListItemResponseToJSON,
     ApiResponseOfPaginatedResponseOfUserGroupListItemResponseFromJSON,
     ApiResponseOfPaginatedResponseOfUserGroupListItemResponseToJSON,
     ApiResponseOfStringFromJSON,
@@ -66,6 +69,20 @@ export interface UserGroupsApiInterface {
      * Forwards a request to form a new user group to the user groups API.
      */
     formUserGroup(requestParameters: FormUserGroupOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
+
+    /**
+     * 
+     * @summary Retrieves all user groups that the authenticated participant is a member of.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserGroupsApiInterface
+     */
+    getMyUserGroupsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse>>;
+
+    /**
+     * Retrieves all user groups that the authenticated participant is a member of.
+     */
+    getMyUserGroups(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse>;
 
     /**
      * 
@@ -128,6 +145,35 @@ export class UserGroupsApi extends runtime.BaseAPI implements UserGroupsApiInter
      */
     async formUserGroup(requestParameters: FormUserGroupOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
         const response = await this.formUserGroupRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves all user groups that the authenticated participant is a member of.
+     */
+    async getMyUserGroupsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/usergroups/mine`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfIReadOnlyListOfUserGroupListItemResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves all user groups that the authenticated participant is a member of.
+     */
+    async getMyUserGroups(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse> {
+        const response = await this.getMyUserGroupsRaw(initOverrides);
         return await response.value();
     }
 

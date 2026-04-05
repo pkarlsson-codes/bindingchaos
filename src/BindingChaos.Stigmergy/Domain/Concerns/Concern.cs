@@ -40,7 +40,7 @@ public sealed class Concern : AggregateRoot<ConcernId>
 
         var concern = new Concern();
         var concernId = ConcernId.Generate();
-        IReadOnlyList<string> signalIdValues = [..signalIds.Select(i => i.Value)];
+        IReadOnlyList<string> signalIdValues = [.. signalIds.Select(i => i.Value)];
         concern.ApplyChange(new ConcernRaised(concernId.Value, actorId.Value, name, tags, signalIdValues));
         return concern;
     }

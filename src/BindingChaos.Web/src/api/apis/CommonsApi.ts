@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiResponseOfIReadOnlyListOfConcernListItemResponse,
   ApiResponseOfPaginatedResponseOfCommonsListItemResponse,
   ApiResponseOfString,
   ProblemDetails,
@@ -22,6 +23,8 @@ import type {
   SortDescriptor,
 } from '../models/index';
 import {
+    ApiResponseOfIReadOnlyListOfConcernListItemResponseFromJSON,
+    ApiResponseOfIReadOnlyListOfConcernListItemResponseToJSON,
     ApiResponseOfPaginatedResponseOfCommonsListItemResponseFromJSON,
     ApiResponseOfPaginatedResponseOfCommonsListItemResponseToJSON,
     ApiResponseOfStringFromJSON,
@@ -38,6 +41,15 @@ export interface GetCommonsRequest {
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
+}
+
+export interface GetConcernsForCommonsRequest {
+    commonsId: string;
+}
+
+export interface LinkConcernToCommonsRequest {
+    commonsId: string;
+    concernId: string;
 }
 
 export interface ProposeCommonsOperationRequest {
@@ -67,6 +79,37 @@ export interface CommonsApiInterface {
      * Retrieves a paginated list of commons by forwarding the request to the commons API client.
      */
     getCommons(requestParameters: GetCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfCommonsListItemResponse>;
+
+    /**
+     * 
+     * @summary Retrieves all concerns linked to the specified commons.
+     * @param {string} commonsId The ID of the commons.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommonsApiInterface
+     */
+    getConcernsForCommonsRaw(requestParameters: GetConcernsForCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfConcernListItemResponse>>;
+
+    /**
+     * Retrieves all concerns linked to the specified commons.
+     */
+    getConcernsForCommons(requestParameters: GetConcernsForCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfConcernListItemResponse>;
+
+    /**
+     * 
+     * @summary Links a concern to the specified commons.
+     * @param {string} commonsId The ID of the commons.
+     * @param {string} concernId The ID of the concern to link.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommonsApiInterface
+     */
+    linkConcernToCommonsRaw(requestParameters: LinkConcernToCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Links a concern to the specified commons.
+     */
+    linkConcernToCommons(requestParameters: LinkConcernToCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -129,6 +172,87 @@ export class CommonsApi extends runtime.BaseAPI implements CommonsApiInterface {
     async getCommons(requestParameters: GetCommonsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfCommonsListItemResponse> {
         const response = await this.getCommonsRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Retrieves all concerns linked to the specified commons.
+     */
+    async getConcernsForCommonsRaw(requestParameters: GetConcernsForCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfIReadOnlyListOfConcernListItemResponse>> {
+        if (requestParameters['commonsId'] == null) {
+            throw new runtime.RequiredError(
+                'commonsId',
+                'Required parameter "commonsId" was null or undefined when calling getConcernsForCommons().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/commons/{commonsId}/concerns`;
+        urlPath = urlPath.replace(`{${"commonsId"}}`, encodeURIComponent(String(requestParameters['commonsId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfIReadOnlyListOfConcernListItemResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves all concerns linked to the specified commons.
+     */
+    async getConcernsForCommons(requestParameters: GetConcernsForCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfConcernListItemResponse> {
+        const response = await this.getConcernsForCommonsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Links a concern to the specified commons.
+     */
+    async linkConcernToCommonsRaw(requestParameters: LinkConcernToCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['commonsId'] == null) {
+            throw new runtime.RequiredError(
+                'commonsId',
+                'Required parameter "commonsId" was null or undefined when calling linkConcernToCommons().'
+            );
+        }
+
+        if (requestParameters['concernId'] == null) {
+            throw new runtime.RequiredError(
+                'concernId',
+                'Required parameter "concernId" was null or undefined when calling linkConcernToCommons().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/commons/{commonsId}/concerns/{concernId}`;
+        urlPath = urlPath.replace(`{${"commonsId"}}`, encodeURIComponent(String(requestParameters['commonsId'])));
+        urlPath = urlPath.replace(`{${"concernId"}}`, encodeURIComponent(String(requestParameters['concernId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Links a concern to the specified commons.
+     */
+    async linkConcernToCommons(requestParameters: LinkConcernToCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.linkConcernToCommonsRaw(requestParameters, initOverrides);
     }
 
     /**

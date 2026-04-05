@@ -29,4 +29,26 @@ public interface ICommonsApiClient
     Task<string> ProposeCommonsAsync(
         ProposeCommonsRequest request,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Links a concern to the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons.</param>
+    /// <param name="concernId">The ID of the concern to link.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task LinkConcernToCommonsAsync(
+        string commonsId,
+        string concernId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all concerns linked to the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A list of concerns linked to the commons.</returns>
+    Task<IReadOnlyList<ConcernListItemResponse>> GetConcernsForCommonsAsync(
+        string commonsId,
+        CancellationToken cancellationToken = default);
 }

@@ -60,4 +60,18 @@ public sealed class UserGroupsController(IUserGroupsApiClient userGroupsApiClien
 
         return Ok(userGroups);
     }
+
+    /// <summary>
+    /// Retrieves all user groups that the authenticated participant is a member of.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A list of user groups the current participant belongs to.</returns>
+    [HttpGet("mine")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<UserGroupListItemResponse>>), StatusCodes.Status200OK)]
+    [EndpointName("getMyUserGroups")]
+    public async Task<IActionResult> GetMyUserGroups(CancellationToken cancellationToken)
+    {
+        var result = await userGroupsApiClient.GetMyUserGroupsAsync(cancellationToken);
+        return Ok(result);
+    }
 }

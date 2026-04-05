@@ -42,4 +42,32 @@ public sealed class CommonsApiClient(
             cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public async Task LinkConcernToCommonsAsync(
+        string commonsId,
+        string concernId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(commonsId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(concernId);
+
+        await PostAsync(
+            $"api/commons/{commonsId}/concerns/{concernId}",
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ConcernListItemResponse>> GetConcernsForCommonsAsync(
+        string commonsId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(commonsId);
+
+        return await GetAsync<IReadOnlyList<ConcernListItemResponse>>(
+            $"api/commons/{commonsId}/concerns",
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

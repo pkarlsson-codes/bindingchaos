@@ -106,6 +106,48 @@ public sealed class UserGroupsController(
         return Ok(response);
     }
 
+    /// <summary>
+    /// Retrieves all user groups that the authenticated participant is a member of.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A list of user groups the current participant belongs to.</returns>
+    [HttpGet("mine")]
+    [ProducesResponseType(typeof(ApiResponse<UserGroupListItemResponse[]>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("getMyUserGroups")]
+    public async Task<IActionResult> GetMyUserGroups(CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var userGroups = await messageBus
+            .InvokeAsync<UserGroupListItemView[]>(
+                new GetMyUserGroups(participantId),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        var pseudonyms = await pseudonymLookupService.GetPseudonymsAsync(
+            userGroups.Select(g => g.FounderId),
+            cancellationToken);
+
+        var response = userGroups
+            .Select(g => new UserGroupListItemResponse(
+                g.Id,
+                g.CommonsId,
+                g.Name,
+                g.Philosophy,
+                pseudonyms.GetValueOrDefault(g.FounderId, "Anonymous"),
+                g.FormedAt,
+                g.MemberCount,
+                g.JoinPolicy))
+            .ToArray();
+
+        return Ok(response);
+    }
+
     private static CharterDto MapCharter(UserGroupCharterDto dto)
     {
         var approvalSettings = dto.MembershipRules.ApprovalSettings is not null

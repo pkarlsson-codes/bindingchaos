@@ -19,7 +19,7 @@ public class SignalTests
             string[] attachmentIds = ["attachmentIds"];
 
             var sut = Signal.Capture(
-                actorId, "Signal title","Signal description.", tags, attachmentIds, new Coordinates(1, 2));
+                actorId, "Signal title", "Signal description.", tags, attachmentIds, new Coordinates(1, 2));
 
             var e = sut.UncommittedEvents.Should().ContainSingle().Which.Should().BeOfType<SignalCaptured>().Subject;
             e.CapturedById.Should().Be(actorId.Value);
@@ -37,9 +37,9 @@ public class SignalTests
         {
             string[] tags = ["urgency", "coordination"];
             string[] attachmentIds = ["attachmentIds"];
-            
+
             var act = () => Signal.Capture(
-                null!, "Signal title","Signal description.", tags, attachmentIds, new Coordinates(1, 2));
+                null!, "Signal title", "Signal description.", tags, attachmentIds, new Coordinates(1, 2));
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -50,9 +50,9 @@ public class SignalTests
             var actorId = ParticipantId.Generate();
             string[] tags = ["urgency", "coordination"];
             string[] attachmentIds = ["attachmentIds"];
-            
+
             var act = () => Signal.Capture(
-                actorId, "Signal title"," ", tags, attachmentIds, new Coordinates(1, 2));
+                actorId, "Signal title", " ", tags, attachmentIds, new Coordinates(1, 2));
 
             act.Should().Throw<ArgumentException>();
         }

@@ -19,10 +19,10 @@ internal sealed class DiscourseApiClient(
     : BaseApiClient(httpClient, logger), IDiscourseApiClient
 {
     private readonly JsonSerializerOptions _jsonOptions = new()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-        };
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true,
+    };
 
     /// <inheritdoc />
     public Task<GetContributionsResponse> GetContributionsByThreadIdAsync(

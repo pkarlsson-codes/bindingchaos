@@ -15,7 +15,7 @@ public class IdeaStatus : Enumeration<IdeaStatus>
     /// <summary>
     /// Published.
     /// </summary>
-    public static readonly IdeaStatus Published = new (2, nameof(Published));
+    public static readonly IdeaStatus Published = new(2, nameof(Published));
 
     private IdeaStatus(int id, string name)
         : base(id, name) { }

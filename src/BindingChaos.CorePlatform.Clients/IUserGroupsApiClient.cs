@@ -31,4 +31,12 @@ public interface IUserGroupsApiClient
         string commonsId,
         PaginationQuerySpec querySpec,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all user groups that the authenticated participant is a member of.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A read-only list of user groups the current participant belongs to.</returns>
+    Task<IReadOnlyList<UserGroupListItemResponse>> GetMyUserGroupsAsync(
+        CancellationToken cancellationToken = default);
 }

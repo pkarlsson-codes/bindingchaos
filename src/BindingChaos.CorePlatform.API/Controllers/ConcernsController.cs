@@ -48,7 +48,7 @@ public sealed class ConcernsController(
             actorId,
             request.Name,
             request.Tags,
-            [..request.SignalIds.Select(SignalId.Create)]);
+            [.. request.SignalIds.Select(SignalId.Create)]);
 
         var concernId = await messageBus
             .InvokeAsync<ConcernId>(command, cancellationToken);
@@ -85,7 +85,7 @@ public sealed class ConcernsController(
                 pseudonyms.GetValueOrDefault(c.RaisedById, "Anonymous"),
                 c.Name,
                 c.Tags,
-                [..c.Signals.Select(s => new ConcernListItemResponse.ReferenceSignal(s.Id, s.Title))],
+                [.. c.Signals.Select(s => new ConcernListItemResponse.ReferenceSignal(s.Id, s.Title))],
                 c.AffectedCount,
                 c.AffectedParticipantIds.Contains(currentParticipantId.Value)));
 

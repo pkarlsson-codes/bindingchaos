@@ -179,6 +179,85 @@
         }
       }
     },
+    "/api/v1/commons/{commonsId}/concerns/{concernId}": {
+      "post": {
+        "tags": [
+          "Commons"
+        ],
+        "summary": "Links a concern to the specified commons.",
+        "operationId": "linkConcernToCommons",
+        "parameters": [
+          {
+            "name": "commonsId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the commons.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "concernId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the concern to link.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204 No Content on success."
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/commons/{commonsId}/concerns": {
+      "get": {
+        "tags": [
+          "Commons"
+        ],
+        "summary": "Retrieves all concerns linked to the specified commons.",
+        "operationId": "getConcernsForCommons",
+        "parameters": [
+          {
+            "name": "commonsId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the commons.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of concerns linked to the commons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfConcernListItemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/concerns": {
       "post": {
         "tags": [
@@ -2281,6 +2360,27 @@
           }
         }
       }
+    },
+    "/api/v1/usergroups/mine": {
+      "get": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Retrieves all user groups that the authenticated participant is a member of.",
+        "operationId": "getMyUserGroups",
+        "responses": {
+          "200": {
+            "description": "A list of user groups the current participant belongs to.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfUserGroupListItemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2525,6 +2625,85 @@
           "Desc"
         ]
       },
+      "ApiResponseOfIReadOnlyListOfConcernListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ConcernListItemResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ConcernListItemResponse": {
+        "type": "object",
+        "description": "Represents a concern item in a list response.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the concern."
+          },
+          "raisedByPseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the user who raised the concern."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concern."
+          },
+          "tags": {
+            "type": "array",
+            "description": "The tags associated with the concern.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "signals": {
+            "type": "array",
+            "description": "The signals related to the concern.",
+            "items": {
+              "$ref": "#/components/schemas/ReferenceSignal"
+            }
+          },
+          "affectedCount": {
+            "type": "integer",
+            "description": "The number of participants who have declared this concern affects them.",
+            "format": "int32"
+          },
+          "isAffectedByCurrentUser": {
+            "type": "boolean",
+            "description": "Whether the current user has declared this concern affects them."
+          }
+        }
+      },
+      "ReferenceSignal": {
+        "type": "object",
+        "description": "Represents a signal referenced by a concern, including its unique identifier and title.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the signal."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the signal."
+          }
+        }
+      },
       "RaiseConcernRequest": {
         "type": "object",
         "description": "Request used to raise a new concern in the system.",
@@ -2608,63 +2787,6 @@
             "type": "integer",
             "description": "The total number of pages.",
             "format": "int64"
-          }
-        }
-      },
-      "ConcernListItemResponse": {
-        "type": "object",
-        "description": "Represents a concern item in a list response.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the concern."
-          },
-          "raisedByPseudonym": {
-            "type": "string",
-            "description": "The pseudonym of the user who raised the concern."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the concern."
-          },
-          "tags": {
-            "type": "array",
-            "description": "The tags associated with the concern.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "signals": {
-            "type": "array",
-            "description": "The signals related to the concern.",
-            "items": {
-              "$ref": "#/components/schemas/ReferenceSignal"
-            }
-          },
-          "affectedCount": {
-            "type": "integer",
-            "description": "The number of participants who have declared this concern affects them.",
-            "format": "int32"
-          },
-          "isAffectedByCurrentUser": {
-            "type": "boolean",
-            "description": "Whether the current user has declared this concern affects them."
-          }
-        }
-      },
-      "ReferenceSignal": {
-        "type": "object",
-        "description": "Represents a signal referenced by a concern, including its unique identifier and title.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the signal."
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the signal."
           }
         }
       },
@@ -4658,6 +4780,28 @@
             "description": "The join policy of the group."
           }
         }
+      },
+      "ApiResponseOfIReadOnlyListOfUserGroupListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/UserGroupListItemResponse"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   }

@@ -5,8 +5,10 @@ using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
 using BindingChaos.SharedKernel.Domain;
+using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.Queries;
 using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -81,6 +83,73 @@ public sealed class CommonsController(
                 c.Status,
                 pseudonyms.GetValueOrDefault(c.FounderId, "Anonymous"),
                 c.ProposedAt));
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Links a concern to the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons.</param>
+    /// <param name="concernId">The ID of the concern to link.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>204 No Content on success.</returns>
+    [HttpPost("{commonsId}/concerns/{concernId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("linkConcernToCommons")]
+    public async Task<IActionResult> LinkConcernToCommons(
+        [FromRoute] string commonsId,
+        [FromRoute] string concernId,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new LinkConcernToCommons(
+            CommonsId.Create(commonsId),
+            ConcernId.Create(concernId),
+            participantId);
+
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Retrieves all concerns linked to the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A list of concerns linked to the commons.</returns>
+    [HttpGet("{commonsId}/concerns")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<ConcernListItemResponse>>), StatusCodes.Status200OK)]
+    [EndpointName("getConcernsForCommons")]
+    public async Task<IActionResult> GetConcernsForCommons(
+        [FromRoute] string commonsId,
+        CancellationToken cancellationToken)
+    {
+        var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
+
+        var concerns = await messageBus
+            .InvokeAsync<ConcernsListItemView[]>(new GetConcernsForCommons(CommonsId.Create(commonsId)), cancellationToken)
+            .ConfigureAwait(false);
+
+        var pseudonyms = await pseudonymLookupService.GetPseudonymsAsync(
+            concerns.Select(c => c.RaisedById),
+            cancellationToken);
+
+        var response = concerns.Select(c => new ConcernListItemResponse(
+            c.Id,
+            pseudonyms.GetValueOrDefault(c.RaisedById, "Anonymous"),
+            c.Name,
+            c.Tags,
+            [.. c.Signals.Select(s => new ConcernListItemResponse.ReferenceSignal(s.Id, s.Title))],
+            c.AffectedCount,
+            c.AffectedParticipantIds.Contains(currentParticipantId.Value)))
+            .ToList();
 
         return Ok(response);
     }

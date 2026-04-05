@@ -2,12 +2,33 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCommons } from '../../../shared/hooks/useCommons';
 import { useUserGroups } from '../../../shared/hooks/useUserGroups';
-import type { UserGroupListItemResponse } from '../../../api/models';
+import { useCommonsLinkedConcerns } from '../../../shared/hooks/useCommonsLinkedConcerns';
+import type { UserGroupListItemResponse, ConcernListItemResponse } from '../../../api/models';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
 import { AuthRequiredButton } from '../../auth';
 import { FormUserGroupModal } from './FormUserGroupModal';
+
+function ConcernCard({ concern }: { concern: ConcernListItemResponse }) {
+  return (
+    <Card
+      title={<span className="font-semibold">{concern.name}</span>}
+      content={
+        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          {concern.raisedByPseudonym && (
+            <span>
+              Raised by <span className="font-semibold text-foreground">{concern.raisedByPseudonym}</span>
+            </span>
+          )}
+          {concern.affectedCount !== undefined && (
+            <span>{concern.affectedCount} affected</span>
+          )}
+        </div>
+      }
+    />
+  );
+}
 
 function UserGroupCard({ group }: { group: UserGroupListItemResponse }) {
   return (
@@ -46,6 +67,7 @@ export function CommonsDetailPage() {
   const { commonsId } = useParams<{ commonsId: string }>();
   const { data: allCommons = [] } = useCommons();
   const { data: userGroups = [], isLoading, error, refetch } = useUserGroups(commonsId ?? '');
+  const { data: linkedConcerns = [] } = useCommonsLinkedConcerns(commonsId ?? '');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const commons = allCommons.find(c => c.id === commonsId);
@@ -115,6 +137,25 @@ export function CommonsDetailPage() {
         </div>
       )}
 
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg font-semibold text-foreground">Linked Concerns</h2>
+      </div>
+
+      {linkedConcerns.length === 0 ? (
+        <Card
+          title="No concerns linked yet"
+          content={
+            <p className="text-muted-foreground">No concerns have been linked to this commons yet.</p>
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {linkedConcerns.map(c => (
+            <ConcernCard key={c.id} concern={c} />
+          ))}
+        </div>
+      )}
+
       {commonsId && (
         <FormUserGroupModal
           isOpen={isModalOpen}
@@ -122,6 +163,7 @@ export function CommonsDetailPage() {
           commonsId={commonsId}
         />
       )}
+
     </div>
   );
 }
