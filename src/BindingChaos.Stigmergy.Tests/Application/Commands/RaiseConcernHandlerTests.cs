@@ -36,7 +36,8 @@ public class RaiseConcernHandlerTests
                 ParticipantId.Generate(),
                 "Housing shortage",
                 ["housing", "shortage"],
-                [SignalId.Generate()]);
+                [SignalId.Generate()],
+                ConcernOrigin.Manual);
 
             var result = await RaiseConcernHandler.Handle(
                 command, testBed.ConcernRepository.Object, testBed.UnitOfWork.Object, CancellationToken.None);

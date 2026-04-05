@@ -11,10 +11,14 @@ namespace BindingChaos.Stigmergy.Domain.Concerns.Events;
 /// <param name="Name">Name of the raised concern.</param>
 /// <param name="Tags">Tags associated with the raised concern.</param>
 /// <param name="SignalIds">Ids of signals revealing the concern.</param>
+/// <param name="Origin">How the concern came to be raised.</param>
+/// <param name="ClusterId">Id of the signal cluster, when origin is <see cref="ConcernOrigin.EmergingPattern"/>.</param>
 public sealed record ConcernRaised(
     string AggregateId,
     string ActorId,
     string Name,
     IReadOnlyList<string> Tags,
-    IReadOnlyList<string> SignalIds
+    IReadOnlyList<string> SignalIds,
+    ConcernOrigin Origin,
+    string? ClusterId
 ) : DomainEvent(AggregateId);

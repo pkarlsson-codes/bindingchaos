@@ -24,12 +24,16 @@ public sealed class Concern : AggregateRoot<ConcernId>
     /// <param name="name">The name of the concern.</param>
     /// <param name="tags">Tags associated with the raised concern.</param>
     /// <param name="signalIds">Ids of <see cref="Signals"/> revealing the concern.</param>
+    /// <param name="origin">How the concern came to be raised.</param>
+    /// <param name="clusterId">Id of the signal cluster, when origin is <see cref="ConcernOrigin.EmergingPattern"/>.</param>
     /// <returns>The raised concern.</returns>
     public static Concern Raise(
         ParticipantId actorId,
         string name,
         IReadOnlyList<string> tags,
-        IReadOnlyList<SignalId> signalIds)
+        IReadOnlyList<SignalId> signalIds,
+        ConcernOrigin origin,
+        string? clusterId = null)
     {
         ArgumentNullException.ThrowIfNull(actorId);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -41,7 +45,7 @@ public sealed class Concern : AggregateRoot<ConcernId>
         var concern = new Concern();
         var concernId = ConcernId.Generate();
         IReadOnlyList<string> signalIdValues = [.. signalIds.Select(i => i.Value)];
-        concern.ApplyChange(new ConcernRaised(concernId.Value, actorId.Value, name, tags, signalIdValues));
+        concern.ApplyChange(new ConcernRaised(concernId.Value, actorId.Value, name, tags, signalIdValues, origin, clusterId));
         return concern;
     }
 

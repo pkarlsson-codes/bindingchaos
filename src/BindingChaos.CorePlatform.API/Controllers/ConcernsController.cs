@@ -1,6 +1,7 @@
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
+using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
@@ -44,11 +45,16 @@ public sealed class ConcernsController(
         ArgumentNullException.ThrowIfNull(request);
 
         var actorId = HttpContext.GetParticipantIdOrAnonymous();
+        var origin = request.Origin == ConcernOriginDto.EmergingPattern
+            ? ConcernOrigin.EmergingPattern
+            : ConcernOrigin.Manual;
         var command = new RaiseConcern(
             actorId,
             request.Name,
             request.Tags,
-            [.. request.SignalIds.Select(SignalId.Create)]);
+            [.. request.SignalIds.Select(SignalId.Create)],
+            origin,
+            request.ClusterId);
 
         var concernId = await messageBus
             .InvokeAsync<ConcernId>(command, cancellationToken);
