@@ -8,6 +8,7 @@ import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
 import { RaiseConcernModal } from '../../concerns/components/RaiseConcernModal';
 import type { SignalDetailViewModel } from '@/api/models';
+import { ConcernOriginDto } from '@/api/models';
 import { AuthRequiredButton } from '@/features/auth/components/AuthRequiredButton';
 
 function useSignalDetails(signalId: string) {
@@ -111,6 +112,8 @@ export function EmergingPatternDetailsPage() {
         onClose={() => setIsConcernModalOpen(false)}
         initialSignalIds={pattern?.signalIds ?? []}
         initialTags={pattern?.keywords ?? []}
+        origin={ConcernOriginDto.EmergingPattern}
+        clusterId={pattern?.clusterLabel != null ? String(pattern.clusterLabel) : undefined}
       />
 
       {isLoading ? (

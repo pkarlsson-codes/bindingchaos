@@ -1,15 +1,19 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
 import { SignalDetailsCard } from './SignalDetailsCard';
 import { CommentsCard } from '../../comments';
 import { LoadingSpinner } from '../../../shared/components/feedback/LoadingSpinner';
 import { Button } from '../../../shared/components/ui/button';
+import { AuthRequiredButton } from '@/features/auth/components/AuthRequiredButton';
+import { RaiseConcernModal } from '../../concerns/components/RaiseConcernModal';
 
 export function SignalDetailsPage() {
   const navigate = useNavigate();
   const { signalId } = useParams<{ signalId: string }>();
   const apiClient = useApiClient();
+  const [isConcernModalOpen, setIsConcernModalOpen] = useState(false);
   const {
     data: signalDetailResponse,
     isLoading,
@@ -62,6 +66,11 @@ export function SignalDetailsPage() {
         <Button onClick={() => navigate('/signals')} variant="ghost" size="sm">
           ← Back to Signals
         </Button>
+        <AuthRequiredButton action="raise a concern">
+          <Button onClick={() => setIsConcernModalOpen(true)} variant="outline" size="sm">
+            Raise Concern
+          </Button>
+        </AuthRequiredButton>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
@@ -80,6 +89,13 @@ export function SignalDetailsPage() {
         <div className="space-y-6">
         </div>
       </div>
+
+      <RaiseConcernModal
+        isOpen={isConcernModalOpen}
+        onClose={() => setIsConcernModalOpen(false)}
+        initialSignalIds={signalId ? [signalId] : []}
+        initialTags={signalDetail.tags ?? []}
+      />
     </div>
   );
 } 

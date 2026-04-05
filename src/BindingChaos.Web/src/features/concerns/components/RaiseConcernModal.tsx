@@ -19,6 +19,7 @@ import {
 import { TagSelector } from '../../tags/components/TagSelector';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
 import type { SignalDetailViewModel } from '../../../api/models';
+import { ConcernOriginDto } from '../../../api/models';
 
 function SignalItem({ signalId, onRemove }: { signalId: string; onRemove: () => void }) {
   const apiClient = useApiClient();
@@ -74,13 +75,17 @@ interface RaiseConcernModalProps {
   onClose: () => void;
   initialSignalIds?: string[];
   initialTags?: string[];
+  origin?: ConcernOriginDto;
+  clusterId?: string;
 }
 
 export function RaiseConcernModal({
   isOpen,
   onClose,
   initialSignalIds = [],
-  initialTags: initialTags = []
+  initialTags: initialTags = [],
+  origin = ConcernOriginDto.Manual,
+  clusterId,
 }: RaiseConcernModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -121,6 +126,8 @@ export function RaiseConcernModal({
           name: data.name,
           tags: data.tags,
           signalIds: data.signalIds,
+          origin,
+          clusterId,
         },
       });
 
