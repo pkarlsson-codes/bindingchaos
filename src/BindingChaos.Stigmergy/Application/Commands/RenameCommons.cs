@@ -1,6 +1,5 @@
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
-using Marten;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 

@@ -1,8 +1,6 @@
 using BindingChaos.CommunityDiscourse.Application.DTOs;
-using BindingChaos.CommunityDiscourse.Application.ReadModels;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
-using BindingChaos.Infrastructure.Querying;
 
 namespace BindingChaos.CorePlatform.API.Mappings;
 

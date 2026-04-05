@@ -1,8 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
-using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Domain.UserGroups;
-using Marten;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 

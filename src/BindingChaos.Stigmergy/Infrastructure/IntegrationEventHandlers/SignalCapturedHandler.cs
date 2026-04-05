@@ -1,4 +1,3 @@
-using BindingChaos.SharedKernel.Domain.Events;
 using BindingChaos.Stigmergy.Contracts;
 using BindingChaos.Stigmergy.Domain.Signals.Events;
 using Wolverine;

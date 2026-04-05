@@ -1,7 +1,6 @@
 using BindingChaos.Reputation.Application.Commands;
 using BindingChaos.Reputation.Domain.TrustRelationships;
 using BindingChaos.SharedKernel.Domain;
-using FluentAssertions;
 using Moq;
 
 namespace BindingChaos.Reputation.Tests.Application.Commands;

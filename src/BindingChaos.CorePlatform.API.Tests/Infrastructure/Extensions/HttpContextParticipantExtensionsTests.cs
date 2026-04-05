@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
-using BindingChaos.SharedKernel.Domain;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 

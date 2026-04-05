@@ -3,7 +3,6 @@ using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Societies.Application.ReadModels;
-using BindingChaos.Societies.Domain.Societies;
 using Marten;
 using Marten.Pagination;
 

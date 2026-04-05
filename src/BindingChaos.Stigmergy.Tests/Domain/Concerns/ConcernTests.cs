@@ -21,7 +21,7 @@ public class ConcernTests
             var tags = SomeTags();
             var signalIds = SomeSignalIds();
 
-            var sut = Concern.Raise(actorId, "Coordination failure", tags, signalIds);
+            var sut = Concern.Raise(actorId, "Coordination failure", tags, signalIds, ConcernOrigin.Manual);
 
             var e = sut.UncommittedEvents.Should().ContainSingle().Which.Should().BeOfType<ConcernRaised>().Subject;
             e.ActorId.Should().Be(actorId.Value);
@@ -33,7 +33,7 @@ public class ConcernTests
         [Fact]
         public void GivenNullActorId_WhenRaised_ThenThrowsArgumentNullException()
         {
-            var act = () => Concern.Raise(null!, "Name", SomeTags(), SomeSignalIds());
+            var act = () => Concern.Raise(null!, "Name", SomeTags(), SomeSignalIds(), ConcernOrigin.Manual);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -41,7 +41,7 @@ public class ConcernTests
         [Fact]
         public void GivenNullOrWhiteSpaceName_WhenRaised_ThenThrowsArgumentException()
         {
-            var act = () => Concern.Raise(ParticipantId.Generate(), "  ", SomeTags(), SomeSignalIds());
+            var act = () => Concern.Raise(ParticipantId.Generate(), "  ", SomeTags(), SomeSignalIds(), ConcernOrigin.Manual);
 
             act.Should().Throw<ArgumentException>();
         }
@@ -49,7 +49,7 @@ public class ConcernTests
         [Fact]
         public void GivenNoSignalIds_WhenRaised_ThenThrowsBusinessRuleViolationException()
         {
-            var act = () => Concern.Raise(ParticipantId.Generate(), "Name", SomeTags(), []);
+            var act = () => Concern.Raise(ParticipantId.Generate(), "Name", SomeTags(), [], ConcernOrigin.Manual);
 
             act.Should().Throw<BusinessRuleViolationException>();
         }

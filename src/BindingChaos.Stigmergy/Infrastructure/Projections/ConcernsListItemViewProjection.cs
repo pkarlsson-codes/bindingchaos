@@ -2,7 +2,6 @@ using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.Concerns.Events;
 using Marten;
 using Marten.Events.Projections;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace BindingChaos.Stigmergy.Infrastructure.Projections;
 

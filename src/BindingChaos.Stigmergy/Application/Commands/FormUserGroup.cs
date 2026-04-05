@@ -2,11 +2,8 @@ using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.SharedKernel.Persistence;
 using BindingChaos.Stigmergy.Application.DTOs;
-using BindingChaos.Stigmergy.Application.Messages;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups;
-using Marten;
-using Wolverine;
 
 namespace BindingChaos.Stigmergy.Application.Commands;
 

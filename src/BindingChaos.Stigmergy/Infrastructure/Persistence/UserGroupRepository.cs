@@ -1,5 +1,4 @@
 using BindingChaos.SharedKernel.Persistence;
-using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using Marten;
 using Microsoft.Extensions.Logging;

@@ -17,7 +17,6 @@ using BindingChaos.Societies.Domain.SocialContracts;
 using BindingChaos.Societies.Domain.Societies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scalar.AspNetCore;
 using Wolverine;
 
 namespace BindingChaos.CorePlatform.API.Controllers;

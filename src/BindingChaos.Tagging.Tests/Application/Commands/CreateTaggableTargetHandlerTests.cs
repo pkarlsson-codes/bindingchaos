@@ -4,7 +4,6 @@ using BindingChaos.Tagging.Application.Commands;
 using BindingChaos.Tagging.Application.Services;
 using BindingChaos.Tagging.Domain.TaggableTargets;
 using BindingChaos.Tagging.Domain.Tags;
-using FluentAssertions;
 using Moq;
 
 namespace BindingChaos.Tagging.Tests.Application.Commands;

@@ -1,4 +1,3 @@
-using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
 
 namespace BindingChaos.Stigmergy.Domain.Concerns.Events;

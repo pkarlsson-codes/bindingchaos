@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace BindingChaos.SharedKernel.Domain;
 
 /// <summary>

@@ -1,6 +1,5 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Societies.Application.ReadModels;
-using BindingChaos.Societies.Domain.Societies;
 using Marten;
 
 namespace BindingChaos.Societies.Application.Queries;

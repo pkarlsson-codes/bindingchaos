@@ -3,7 +3,6 @@ using BindingChaos.SharedKernel.Domain.Events;
 using BindingChaos.SharedKernel.Domain.Exceptions;
 using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons.Events;
-using Spectre.Console;
 
 namespace BindingChaos.Stigmergy.Domain.GoverningCommons;
 

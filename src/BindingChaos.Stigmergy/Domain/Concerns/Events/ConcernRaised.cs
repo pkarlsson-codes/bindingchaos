@@ -1,5 +1,4 @@
 using BindingChaos.SharedKernel.Domain.Events;
-using Marten.Events;
 
 namespace BindingChaos.Stigmergy.Domain.Concerns.Events;
 

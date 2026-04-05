@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Json;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;

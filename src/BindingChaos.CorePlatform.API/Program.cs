@@ -5,7 +5,6 @@ using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
 using BindingChaos.IdentityProfile.Infrastructure;
 using BindingChaos.Societies.Infrastructure;
-using BindingChaos.Stigmergy.Contracts;
 using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
 using Serilog;

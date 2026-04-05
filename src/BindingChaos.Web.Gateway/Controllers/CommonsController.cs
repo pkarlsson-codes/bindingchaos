@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BindingChaos.CorePlatform.Clients;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;

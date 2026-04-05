@@ -1,8 +1,6 @@
 using BindingChaos.SignalProcessing;
 using BindingChaos.SignalProcessing.Configuration;
-using BindingChaos.Stigmergy.Contracts;
 using Npgsql;
-using Pgvector.Npgsql;
 using Wolverine;
 using Wolverine.RabbitMQ;
 
