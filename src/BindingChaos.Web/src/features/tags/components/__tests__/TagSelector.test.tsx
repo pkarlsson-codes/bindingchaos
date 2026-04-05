@@ -97,7 +97,7 @@ describe('TagSelector', () => {
       render(<TagSelector {...defaultProps} availableTags={['javascript', 'python']} />);
       
       expect(screen.getByTestId('tag-input')).toBeInTheDocument();
-      expect(screen.getByPlaceholderText('Add tags...')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Type tags, press Space or Enter...')).toBeInTheDocument();
     });
 
     it('renders with custom placeholder', () => {
@@ -123,7 +123,7 @@ describe('TagSelector', () => {
       expect(screen.getByPlaceholderText('Loading tags...')).toBeInTheDocument();
       
       await waitFor(() => {
-        expect(screen.getByPlaceholderText('Add tags...')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Type tags, press Space or Enter...')).toBeInTheDocument();
       });
     });
   });

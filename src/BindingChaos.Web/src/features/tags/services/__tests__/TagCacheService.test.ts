@@ -166,7 +166,7 @@ describe('TagCacheService', () => {
 
     it('fetches popular tags from API when cache is empty', async () => {
       const apiTags = ['react', 'typescript', 'javascript'];
-      mockApiClient.tags.getPopularTags.mockResolvedValue({ data: apiTags });
+      mockApiClient.tags.getPopularTags.mockResolvedValue(apiTags);
       
       const result = await tagService.getPopularTags('test-locality', 50);
       
@@ -221,7 +221,7 @@ describe('TagCacheService', () => {
 
     it('fetches search results from API', async () => {
       const searchResults = ['react', 'react-native', 'react-router'];
-      mockApiClient.tags.searchTags.mockResolvedValue({ data: searchResults });
+      mockApiClient.tags.searchTags.mockResolvedValue(searchResults);
       
       const result = await tagService.searchTags('react', 'test-locality', 20);
       
@@ -277,7 +277,7 @@ describe('TagCacheService', () => {
 
     it('fetches recent tags from API when cache is empty', async () => {
       const apiTags = ['react', 'typescript', 'javascript'];
-      mockApiClient.tags.getRecentTags.mockResolvedValue({ data: apiTags });
+      mockApiClient.tags.getRecentTags.mockResolvedValue(apiTags);
       
       const result = await tagService.getRecentTags('test-user', 30);
       
