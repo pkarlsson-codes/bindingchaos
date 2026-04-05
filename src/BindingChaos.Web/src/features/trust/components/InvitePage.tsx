@@ -82,7 +82,7 @@ export function InvitePage() {
       </div>
     );
   }
-  if (isError || resolved === null) return <InvalidLinkPage />;
+  if (isError || !resolved) return <InvalidLinkPage />;
 
   if (!user) {
     return <UnauthenticatedInviteLanding token={token} />;

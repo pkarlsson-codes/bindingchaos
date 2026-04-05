@@ -84,7 +84,7 @@ function ReplyItem({
         direction: CursorDirection.Forward
       });
       
-      const nestedReplies = response.replies?.items || [];
+      const nestedReplies = response.data?.replies?.items || [];
       setLoadedNestedReplies(nestedReplies);
     } catch (error) {
       console.error('Failed to load nested replies:', error);

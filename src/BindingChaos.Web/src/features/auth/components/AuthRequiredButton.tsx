@@ -36,6 +36,7 @@ export function AuthRequiredButton({
 
   // Extract visual props from children to render a single button that matches appearance
   const { onClick: _onClick, onMouseDown: _onMouseDown, onKeyDown: _onKeyDown, ...visualProps } = children.props as Record<string, unknown>;
+  const childContent = (children.props as { children?: React.ReactNode }).children;
 
   return React.createElement(
     children.type as React.ElementType,
@@ -48,6 +49,6 @@ export function AuthRequiredButton({
       'aria-label': `${action} - requires login`,
       title: 'Requires login',
     },
-    isHovered ? 'Login to continue' : (children.props as Record<string, unknown>).children
+    isHovered ? 'Login to continue' : childContent
   );
 }

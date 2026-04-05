@@ -19,13 +19,11 @@ export function IdeaDetailsCard({ idea }: IdeaDetailsCardProps) {
     <Card>
       <CardHeader>
         <CardTitle className="text-xl font-semibold">{idea.title}</CardTitle>
-        <div className="flex gap-2">
-          {idea.tags?.map((tag) => (
-            <Badge key={tag} variant="secondary">
-              {tag}
-            </Badge>
-          ))}
-        </div>
+        {idea.status && (
+          <div className="flex gap-2">
+            <Badge variant="secondary">{idea.status}</Badge>
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <div className="prose prose-sm max-w-none mb-6">

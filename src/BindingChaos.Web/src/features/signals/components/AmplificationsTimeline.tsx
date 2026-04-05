@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Card } from '../../../shared/components/layout/Card';
 import { Icon } from '../../../shared/components/layout/Icon';
-import type { TrendPointResponse, AmplificationViewModel } from '../../../api/models';
+import type { AmplificationViewModel } from '../../../api/models';
 
 interface AmplificationsTimelineProps {
-  dataPoints: TrendPointResponse[];
+  dataPoints: unknown[];
   amplifications?: AmplificationViewModel[];
   title?: string;
 }

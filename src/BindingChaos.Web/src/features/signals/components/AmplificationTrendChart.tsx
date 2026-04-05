@@ -2,10 +2,14 @@ import { useState, useMemo } from 'react';
 import { Card } from '../../../shared/components/layout/Card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush, BarChart, Bar, Cell } from 'recharts';
 import { ToggleGroup, ToggleGroupItem } from '../../../shared/components/ui/ui/toggle-group';
-import type { TrendPointResponse } from '../../../api/models';
+
+interface TrendPoint {
+  date?: string;
+  eventType?: 'amplify' | 'attenuate' | string;
+}
 
 interface AmplificationTrendChartProps {
-  data: TrendPointResponse[];
+  data: TrendPoint[];
   title?: string;
   signalCreatedAt?: string; // ISO 8601 date string for signal creation time
 }
@@ -64,7 +68,7 @@ export function AmplificationTrendChart({ data, title = "Amplification Trend", s
          const date = new Date(item.date!);
          const dayKey = date.toISOString().split('T')[0];
          
-         let dayData = acc.find(d => d.dayKey === dayKey);
+         let dayData = acc.find((d) => d.dayKey === dayKey);
          if (!dayData) {
            dayData = {
              dayKey,
@@ -85,7 +89,7 @@ export function AmplificationTrendChart({ data, title = "Amplification Trend", s
          
          return acc;
        }, [] as Array<{ dayKey: string; date: string; amplifications: number }>)
-       .sort((a, b) => a.dayKey.localeCompare(b.dayKey));
+      .sort((a, b) => a.dayKey.localeCompare(b.dayKey));
      }
   }, [data, chartView]);
 
@@ -248,7 +252,7 @@ export function AmplificationTrendChart({ data, title = "Amplification Trend", s
             fill="#6366f1"
             name="Daily Net Amplifications"
           >
-            {finalChartData.map((entry, index) => (
+            {finalChartData.map((entry: { amplifications: number }, index: number) => (
               <Cell 
                 key={`cell-${index}`}
                 fill={entry.amplifications > 0 ? '#10b981' : entry.amplifications < 0 ? '#ef4444' : '#6b7280'}

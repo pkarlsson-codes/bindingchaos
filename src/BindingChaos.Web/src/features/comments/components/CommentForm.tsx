@@ -60,7 +60,13 @@ export function CommentForm({
         return response;
       }
     },
-    onSuccess: (contributionId) => {
+    onSuccess: (responseEnvelope) => {
+      const contributionId = responseEnvelope.data;
+      if (!contributionId) {
+        toast.error('Comment posted but no contribution ID was returned. Please refresh.');
+        return;
+      }
+
       // Create the complete comment object using form data + returned ID
       if (replyingTo) {
         // For replies, create a reply object

@@ -19,9 +19,7 @@ export function useIdeas(options: UseIdeasOptions = {}) {
       const response = await apiClient.ideas.getIdeas({
         pageNumber: page,
         pageSize: pageSize,
-        filterToMySocieties: true,
         filterSearchTerm: searchTerm,
-        filterTags: [],
       });
 
       return response.data?.ideas?.items || [];
