@@ -46,4 +46,14 @@ internal sealed class CommonsListItemViewProjection : SingleStreamProjection<Com
     {
         view.Name = e.NewName;
     }
+
+    /// <summary>
+    /// Appends a concern ID to <see cref="CommonsListItemView.LinkedConcernIds"/> when a concern is linked.
+    /// </summary>
+    /// <param name="e">The concern linked event.</param>
+    /// <param name="view">The view to update.</param>
+    public static void Apply(IEvent<ConcernLinkedToCommons> e, CommonsListItemView view)
+    {
+        view.LinkedConcernIds.Add(e.Data.ConcernId);
+    }
 }

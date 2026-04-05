@@ -30,4 +30,7 @@ public class CommonsListItemView
 
     /// <summary>The timestamp when the commons was proposed.</summary>
     required public DateTimeOffset ProposedAt { get; set; }
+
+    /// <summary>The identifiers of concerns linked to this commons.</summary>
+    public List<string> LinkedConcernIds { get; set; } = [];
 }
