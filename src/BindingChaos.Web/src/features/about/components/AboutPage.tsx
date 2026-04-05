@@ -4,7 +4,7 @@ import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { ProcessTimeline } from './ProcessTimeline';
 import { StageCard } from './StageCard';
-import { Lightbulb, BookOpen, Edit3, Zap } from 'lucide-react';
+import { Lightbulb, Radar, TriangleAlert, LandPlot, Users, FolderKanban } from 'lucide-react';
 
 interface Stage {
   id: string;
@@ -21,55 +21,83 @@ const stages: Stage[] = [
     number: 1,
     name: 'Signal',
     icon: <Lightbulb size={24} className="text-primary" />,
-    description: 'Initial observations or ideas from community members',
+    description: 'Raw observations from participants about what they notice',
     keyPoints: [
-      'Quick, informal way to share observations',
-      'Captures emerging patterns and concerns',
-      'Gets amplified when others resonate with it',
-      'Low barrier to entry for community input',
-      'Forms the foundation for more structured ideas',
+      'Fast, low-friction way to share what is happening',
+      'Supports tags, attachments, comments, and amplification',
+      'Builds the public trace of what the community is noticing',
+      'Can be explored in feed and detail views',
+      'Provides the raw material for clustering and concern formation',
     ],
   },
   {
-    id: 'idea',
+    id: 'pattern',
     number: 2,
-    name: 'Idea',
-    icon: <BookOpen size={24} className="text-primary" />,
-    description: 'Formalized proposals that collect support',
+    name: 'Emerging Pattern',
+    icon: <Radar size={24} className="text-primary" />,
+    description: 'Signal clusters identified automatically as activity grows',
     keyPoints: [
-      'Signals that have been refined into formal proposals',
-      'Attracts supporters and contributors',
-      'Can be amended and improved based on feedback',
-      'Tracks support trends over time',
-      'Represents a shared vision for potential change',
+      'Groups related signals by similarity',
+      'Shows count, keywords, and recency for each cluster',
+      'Helps communities distinguish noise from recurring topics',
+      'Makes collective attention visible before formal governance starts',
+      'Creates clearer context for raising and claiming concerns',
     ],
   },
   {
-    id: 'amendment',
+    id: 'concern',
     number: 3,
-    name: 'Amendment',
-    icon: <Edit3 size={24} className="text-primary" />,
-    description: 'Specific changes built on ideas',
+    name: 'Concern',
+    icon: <TriangleAlert size={24} className="text-primary" />,
+    description: 'Named recurring issues linked to one or more signals',
     keyPoints: [
-      'Concrete proposals derived from ideas',
-      'Detailed specifications and reasoning',
-      'Allows supporters and opponents to weigh in',
-      'Tracks voting and sentiment over time',
-      'Refined through community discussion and feedback',
+      'Represents a recurring problem the community recognizes',
+      'Tracks affectedness and participating voices',
+      'Can be claimed for a commons',
+      'Acts as the bridge between observation and governance',
+      'Keeps issue context grounded in real traces',
     ],
   },
   {
-    id: 'action',
+    id: 'commons',
     number: 4,
-    name: 'Action',
-    icon: <Zap size={24} className="text-primary" />,
-    description: 'Concrete steps and opportunities',
+    name: 'Commons',
+    icon: <LandPlot size={24} className="text-primary" />,
+    description: 'Shared domain where concerns are governed together',
     keyPoints: [
-      'Real-world implementation opportunities',
-      'Specific actions individuals can take',
-      'Tracks progress and outcomes',
-      'Connects ideas to tangible change',
-      'Enables community coordination around shared goals',
+      'Proposed and maintained as a shared space for coordination',
+      'Links to relevant concerns',
+      'Holds one or more user groups with distinct approaches',
+      'Moves from issue recognition to concrete organizing',
+      'Provides structure without requiring top-down hierarchy',
+    ],
+  },
+  {
+    id: 'user-group',
+    number: 5,
+    name: 'User Group',
+    icon: <Users size={24} className="text-primary" />,
+    description: 'People who organize around a commons and run work together',
+    keyPoints: [
+      'Formed within a commons to govern and coordinate execution',
+      'Can create and track projects',
+      'Membership and participation remain visible',
+      'Supports different governance styles around the same commons',
+      'Turns shared intent into sustained collaboration',
+    ],
+  },
+  {
+    id: 'project',
+    number: 6,
+    name: 'Project',
+    icon: <FolderKanban size={24} className="text-primary" />,
+    description: 'Concrete work items that evolve through amendments',
+    keyPoints: [
+      'Created by user groups as bounded efforts',
+      'Amendments can be proposed and contested',
+      'Status and change history remain transparent',
+      'Keeps adaptation continuous instead of one-time voting',
+      'Connects governance to execution and outcomes',
     ],
   },
 ];
@@ -90,7 +118,7 @@ export function AboutPage() {
           About Binding Chaos
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl">
-          A platform for communities to collaborate, deliberate, and take action together.
+          A platform for making collective attention visible and turning it into shared governance.
         </p>
       </div>
 
@@ -100,10 +128,10 @@ export function AboutPage() {
         content={
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              Binding Chaos is a democratic governance platform designed to help communities turn scattered ideas and concerns into organized action. It bridges the gap between individual observations and collective decision-making.
+              Binding Chaos helps communities move from scattered signals to coordinated work without relying on opaque, top-down control. Instead of forcing everything through one linear voting process, it keeps each step visible and participatory.
             </p>
             <p className="text-muted-foreground">
-              The platform recognizes that meaningful change requires more than good intentions—it requires a structured way for diverse voices to contribute, propose, deliberate, and coordinate.
+              People can surface what they observe, discover recurring patterns, define concerns, claim concerns into commons, form user groups, and run projects that evolve through amendments and contestation.
             </p>
           </div>
         }
@@ -119,7 +147,7 @@ export function AboutPage() {
             Understanding Each Stage
           </h2>
           <p className="text-muted-foreground mb-4">
-            Click on each stage to learn more about its role in the process.
+            Click each stage to see how discovery, governance, and execution connect in the current platform.
           </p>
         </div>
 
@@ -144,28 +172,28 @@ export function AboutPage() {
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold text-foreground mb-2">
-                Bridging Ideas and Action
+                Discovery That Stays Grounded
               </h3>
               <p className="text-muted-foreground">
-                Many communities struggle to move from identifying problems to taking action. Binding Chaos provides the structure and tools to make that transition smoother.
+                Signals, clustering, and concerns keep the early phase tied to real observations instead of abstract agendas.
               </p>
             </div>
 
             <div>
               <h3 className="font-semibold text-foreground mb-2">
-                Inclusive Participation
+                Governance by User Group
               </h3>
               <p className="text-muted-foreground">
-                Whether someone wants to share a quick observation (signal) or engage in detailed deliberation (amendments), there's a meaningful way to contribute at every level.
+                Commons and user groups let people organize around what affects them, while still allowing multiple approaches to coexist.
               </p>
             </div>
 
             <div>
               <h3 className="font-semibold text-foreground mb-2">
-                Transparent Decision-Making
+                Transparent Adaptation
               </h3>
               <p className="text-muted-foreground">
-                Every stage of the process is visible, traceable, and built on community input. Changes are documented, and the reasoning is preserved.
+                Projects evolve through visible amendments and contestation, so change is continuous, inspectable, and open to challenge.
               </p>
             </div>
           </div>
@@ -177,13 +205,18 @@ export function AboutPage() {
         title="Ready to Participate?"
         content={
           <p className="text-muted-foreground mb-4">
-            Start by sharing your observations and ideas with your community. Whether you're just beginning or ready to dive deep into amendments, there's a place for you in this process.
+            Start with a signal, explore emerging patterns, or join the governance side by working with concerns, commons, and projects.
           </p>
         }
         footer={
-          <Button onClick={() => navigate('/signals')} variant="primary">
-            Explore Signals
-          </Button>
+          <div className="flex gap-3 flex-wrap">
+            <Button onClick={() => navigate('/signals')} variant="primary">
+              Explore Signals
+            </Button>
+            <Button onClick={() => navigate('/commons')} variant="secondary">
+              Browse Commons
+            </Button>
+          </div>
         }
       />
     </div>

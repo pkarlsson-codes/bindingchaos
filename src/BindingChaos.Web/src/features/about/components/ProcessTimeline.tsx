@@ -1,5 +1,5 @@
 import { Card } from '../../../shared/components/layout/Card';
-import { Lightbulb, BookOpen, Edit3, Zap } from 'lucide-react';
+import { Lightbulb, Radar, TriangleAlert, LandPlot, Users, FolderKanban } from 'lucide-react';
 
 interface Stage {
   name: string;
@@ -11,22 +11,32 @@ const stages: Stage[] = [
   {
     name: 'Signal',
     icon: <Lightbulb size={32} />,
-    description: 'Initial observations or ideas from community members'
+    description: 'Raw observations, media, and tags shared by participants'
   },
   {
-    name: 'Idea',
-    icon: <BookOpen size={32} />,
-    description: 'Formalized proposals that collect support'
+    name: 'Pattern',
+    icon: <Radar size={32} />,
+    description: 'Automatic clustering that reveals recurring topics'
   },
   {
-    name: 'Amendment',
-    icon: <Edit3 size={32} />,
-    description: 'Specific changes built on ideas'
+    name: 'Concern',
+    icon: <TriangleAlert size={32} />,
+    description: 'Named issue linked to related signals'
   },
   {
-    name: 'Action',
-    icon: <Zap size={32} />,
-    description: 'Concrete steps and opportunities'
+    name: 'Commons',
+    icon: <LandPlot size={32} />,
+    description: 'Shared domain where concerns are governed'
+  },
+  {
+    name: 'User Group',
+    icon: <Users size={32} />,
+    description: 'Participants organizing work in the commons'
+  },
+  {
+    name: 'Project',
+    icon: <FolderKanban size={32} />,
+    description: 'Execution unit that evolves through amendments'
   }
 ];
 
@@ -34,7 +44,7 @@ export function ProcessTimeline() {
   return (
     <Card
       title="How Binding Chaos Works"
-      description="Understanding the flow from signals to actions"
+      description="From signals to governance and project execution"
       content={
         <div className="w-full">
           {/* Mobile view (stacked vertically) */}
