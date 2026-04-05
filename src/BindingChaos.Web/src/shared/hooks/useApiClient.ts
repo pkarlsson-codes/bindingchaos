@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
   ConcernsApi, CommonsApi, IdeasApi, SignalsApi, DiscourseApi, TagsApi, AuthApi,
-  SocietiesApi, EmergingPatternsApi, UserGroupsApi, Configuration
+  SocietiesApi, EmergingPatternsApi, UserGroupsApi, ProjectsApi, Configuration
 } from '@/api';
 import { API_CONFIG } from '@/config/api';
 import { useOptionalAuth } from '../../features/auth/contexts/AuthContext';
@@ -81,6 +81,7 @@ export function useApiClient() {
       societies: new SocietiesApi(config),
       emergingPatterns: new EmergingPatternsApi(config),
       userGroups: new UserGroupsApi(config),
+      projects: new ProjectsApi(config),
     };
   }, [user]);
 

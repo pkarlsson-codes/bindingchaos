@@ -17,6 +17,8 @@ import { ConcernsPage } from '../features/concerns/components/ConcernsPage';
 import { ConcernDetailPage } from '../features/concerns/components/ConcernDetailPage';
 import { CommonsPage } from '../features/commons/components/CommonsPage';
 import { CommonsDetailPage } from '../features/commons/components/CommonsDetailPage';
+import { ProjectsByUserGroupPage } from '../features/projects/components/ProjectsByUserGroupPage';
+import { ProjectDetailPage } from '../features/projects/components/ProjectDetailPage';
 import { AboutPage } from '../features/about/components/AboutPage';
 
 import {
@@ -70,6 +72,10 @@ function App() {
                       {/* Commons */}
                       <Route path="/commons" element={<CommonsPage />} />
                       <Route path="/commons/:commonsId" element={<CommonsDetailPage />} />
+
+                      {/* Projects */}
+                      <Route path="/user-groups/:userGroupId/projects" element={<ProjectsByUserGroupPage />} />
+                      <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
 
                       {/* Emerging Patterns */}
                       <Route path="/patterns" element={<EmergingPatternsPage />} />

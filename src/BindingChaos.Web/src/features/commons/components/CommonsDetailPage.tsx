@@ -3,12 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { useCommons } from '../../../shared/hooks/useCommons';
 import { useUserGroups } from '../../../shared/hooks/useUserGroups';
 import { useCommonsLinkedConcerns } from '../../../shared/hooks/useCommonsLinkedConcerns';
+import { useProjectsForUserGroup } from '../../../shared/hooks/useProjectsForUserGroup';
 import type { UserGroupListItemResponse, ConcernListItemResponse } from '../../../api/models';
 import { Card } from '../../../shared/components/layout/Card';
 import { Button } from '../../../shared/components/layout/Button';
 import { Badge } from '../../../shared/components/ui/badge';
 import { AuthRequiredButton } from '../../auth';
 import { FormUserGroupModal } from './FormUserGroupModal';
+import { CreateProjectModal } from '../../projects/components/CreateProjectModal';
 
 function ConcernCard({ concern }: { concern: ConcernListItemResponse }) {
   return (
@@ -31,35 +33,91 @@ function ConcernCard({ concern }: { concern: ConcernListItemResponse }) {
 }
 
 function UserGroupCard({ group }: { group: UserGroupListItemResponse }) {
+  const [isCreateProjectModalOpen, setIsCreateProjectModalOpen] = useState(false);
+  const userGroupId = group.id ?? '';
+  const { data: projects = [], isLoading: isProjectsLoading } = useProjectsForUserGroup(userGroupId);
+  const previewProjects = projects.slice(0, 3);
+
   return (
-    <Card
-      title={
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">{group.name ?? 'Unnamed Group'}</span>
-          {group.joinPolicy && <Badge variant="secondary">{group.joinPolicy}</Badge>}
-        </div>
-      }
-      content={
-        <div className="space-y-2">
-          {group.philosophy && (
-            <p className="text-sm text-muted-foreground">{group.philosophy}</p>
-          )}
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            {group.foundedByPseudonym && (
-              <span>
-                Founded by <span className="font-semibold text-foreground">{group.foundedByPseudonym}</span>
-              </span>
-            )}
-            {group.formedAt && (
-              <span>{new Date(group.formedAt).toLocaleDateString()}</span>
-            )}
-            {group.memberCount !== undefined && (
-              <span>{group.memberCount} {group.memberCount === 1 ? 'member' : 'members'}</span>
-            )}
+    <>
+      <Card
+        title={
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">{group.name ?? 'Unnamed Group'}</span>
+            {group.joinPolicy && <Badge variant="secondary">{group.joinPolicy}</Badge>}
           </div>
-        </div>
-      }
-    />
+        }
+        content={
+          <div className="space-y-3">
+            {group.philosophy && (
+              <p className="text-sm text-muted-foreground">{group.philosophy}</p>
+            )}
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              {group.foundedByPseudonym && (
+                <span>
+                  Founded by <span className="font-semibold text-foreground">{group.foundedByPseudonym}</span>
+                </span>
+              )}
+              {group.formedAt && (
+                <span>{new Date(group.formedAt).toLocaleDateString()}</span>
+              )}
+              {group.memberCount !== undefined && (
+                <span>{group.memberCount} {group.memberCount === 1 ? 'member' : 'members'}</span>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-semibold text-foreground">Projects</h4>
+                <div className="flex items-center gap-2">
+                  {userGroupId && (
+                    <Link to={`/user-groups/${userGroupId}/projects`} className="text-xs text-muted-foreground hover:text-foreground">
+                      View all ({projects.length})
+                    </Link>
+                  )}
+                  {userGroupId && (
+                    <AuthRequiredButton action="create a project">
+                      <Button size="sm" variant="outline" onClick={() => setIsCreateProjectModalOpen(true)}>
+                        Create Project
+                      </Button>
+                    </AuthRequiredButton>
+                  )}
+                </div>
+              </div>
+
+              {isProjectsLoading ? (
+                <p className="text-xs text-muted-foreground">Loading projects...</p>
+              ) : previewProjects.length === 0 ? (
+                <p className="text-xs text-muted-foreground">No projects yet.</p>
+              ) : (
+                <div className="space-y-1">
+                  {previewProjects.map(project => (
+                    <Link
+                      key={project.id}
+                      to={`/projects/${project.id}`}
+                      className="block text-sm text-foreground hover:underline"
+                    >
+                      {project.title ?? 'Untitled Project'}
+                      <span className="ml-2 text-xs text-muted-foreground">
+                        ({project.activeAmendmentCount ?? 0} active, {project.contestedAmendmentCount ?? 0} contested)
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        }
+      />
+
+      {userGroupId && (
+        <CreateProjectModal
+          isOpen={isCreateProjectModalOpen}
+          onClose={() => setIsCreateProjectModalOpen(false)}
+          userGroupId={userGroupId}
+        />
+      )}
+    </>
   );
 }
 
