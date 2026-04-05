@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { ThemeToggle } from '../../features/theme/components/ThemeToggle';
-import { AuthStatus } from '../../features/auth';
+import { AuthStatus, useUser } from '../../features/auth';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,6 +14,7 @@ import { cn } from '@/shared/lib/utils';
 export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (basePath: string) => {
@@ -31,6 +32,7 @@ export function Header() {
     { path: '/ideas', label: 'Ideas', onClick: () => navigate('/ideas') },
     { path: '/societies', label: 'Societies', onClick: () => navigate('/societies') },
     { path: '/about', label: 'About', onClick: () => navigate('/about') },
+    ...(user ? [{ path: '/profiles/me', label: 'Profile', onClick: () => navigate('/profiles/me') }] : []),
   ];
 
   return (

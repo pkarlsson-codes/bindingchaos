@@ -18,6 +18,7 @@ import type {
   ApiResponseOfIReadOnlyListOfUserGroupListItemResponse,
   ApiResponseOfPaginatedResponseOfUserGroupListItemResponse,
   ApiResponseOfString,
+  ApiResponseOfUserGroupListItemResponseOf,
   FormUserGroupRequest,
   ProblemDetails,
   SortDescriptor,
@@ -29,6 +30,8 @@ import {
     ApiResponseOfPaginatedResponseOfUserGroupListItemResponseToJSON,
     ApiResponseOfStringFromJSON,
     ApiResponseOfStringToJSON,
+    ApiResponseOfUserGroupListItemResponseOfFromJSON,
+    ApiResponseOfUserGroupListItemResponseOfToJSON,
     FormUserGroupRequestFromJSON,
     FormUserGroupRequestToJSON,
     ProblemDetailsFromJSON,
@@ -46,6 +49,10 @@ export interface GetUserGroupsForCommonsRequest {
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
+}
+
+export interface GetUserGroupsForParticipantRequest {
+    participantId?: string;
 }
 
 /**
@@ -101,6 +108,21 @@ export interface UserGroupsApiInterface {
      * Retrieves a paginated list of user groups governing the specified commons.
      */
     getUserGroupsForCommons(requestParameters: GetUserGroupsForCommonsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfUserGroupListItemResponse>;
+
+    /**
+     * 
+     * @summary Retrieves all user groups that the specified participant is a member of.
+     * @param {string} [participantId] The participant ID to filter by.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserGroupsApiInterface
+     */
+    getUserGroupsForParticipantRaw(requestParameters: GetUserGroupsForParticipantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfUserGroupListItemResponseOf>>;
+
+    /**
+     * Retrieves all user groups that the specified participant is a member of.
+     */
+    getUserGroupsForParticipant(requestParameters: GetUserGroupsForParticipantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfUserGroupListItemResponseOf>;
 
 }
 
@@ -219,6 +241,39 @@ export class UserGroupsApi extends runtime.BaseAPI implements UserGroupsApiInter
      */
     async getUserGroupsForCommons(requestParameters: GetUserGroupsForCommonsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfUserGroupListItemResponse> {
         const response = await this.getUserGroupsForCommonsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves all user groups that the specified participant is a member of.
+     */
+    async getUserGroupsForParticipantRaw(requestParameters: GetUserGroupsForParticipantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfUserGroupListItemResponseOf>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['participantId'] != null) {
+            queryParameters['participantId'] = requestParameters['participantId'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/usergroups/for-participant`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfUserGroupListItemResponseOfFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves all user groups that the specified participant is a member of.
+     */
+    async getUserGroupsForParticipant(requestParameters: GetUserGroupsForParticipantRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfUserGroupListItemResponseOf> {
+        const response = await this.getUserGroupsForParticipantRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

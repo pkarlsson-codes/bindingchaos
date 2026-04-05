@@ -8,6 +8,7 @@ export * from './DocumentsApi';
 export * from './EmergingPatternsApi';
 export * from './IdeasApi';
 export * from './OidcApi';
+export * from './ProfilesApi';
 export * from './ProjectsApi';
 export * from './SignalsApi';
 export * from './SocietiesApi';

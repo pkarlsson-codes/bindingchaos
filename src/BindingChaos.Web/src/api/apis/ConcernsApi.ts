@@ -39,6 +39,7 @@ export interface DeclareAffectedRequest {
 }
 
 export interface GetConcernsRequest {
+    filterRaisedByParticipantId?: string | null;
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
@@ -77,6 +78,7 @@ export interface ConcernsApiInterface {
     /**
      * 
      * @summary Retrieves a paginated list of concerns by forwarding the request to the concerns API client.
+     * @param {string} [filterRaisedByParticipantId] Optional participant ID to filter concerns raised by that participant.
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
@@ -169,6 +171,10 @@ export class ConcernsApi extends runtime.BaseAPI implements ConcernsApiInterface
      */
     async getConcernsRaw(requestParameters: GetConcernsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfConcernListItemResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters['filterRaisedByParticipantId'] != null) {
+            queryParameters['Filter.RaisedByParticipantId'] = requestParameters['filterRaisedByParticipantId'];
+        }
 
         if (requestParameters['pageNumber'] != null) {
             queryParameters['Page.Number'] = requestParameters['pageNumber'];

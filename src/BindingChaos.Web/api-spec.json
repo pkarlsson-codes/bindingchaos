@@ -309,6 +309,16 @@
         "operationId": "getConcerns",
         "parameters": [
           {
+            "name": "Filter.RaisedByParticipantId",
+            "in": "query",
+            "description": "Optional participant ID to filter concerns raised by that participant.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -316,7 +326,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 1
+            "x-position": 2
           },
           {
             "name": "Page.Size",
@@ -326,7 +336,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "sort",
@@ -340,7 +350,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 3
+            "x-position": 4
           }
         ],
         "responses": {
@@ -1063,6 +1073,16 @@
             "x-position": 2
           },
           {
+            "name": "Filter.AuthorId",
+            "in": "query",
+            "description": "Optional participant ID to filter ideas authored by that participant.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -1070,7 +1090,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "Page.Size",
@@ -1080,7 +1100,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
             "name": "sort",
@@ -1094,7 +1114,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 5
+            "x-position": 6
           }
         ],
         "responses": {
@@ -1267,6 +1287,49 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profiles/{pseudonym}": {
+      "get": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Returns the public profile of a participant identified by their pseudonym.",
+        "operationId": "getParticipantProfile",
+        "parameters": [
+          {
+            "name": "pseudonym",
+            "in": "path",
+            "required": true,
+            "description": "The participant's globally unique pseudonym.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The participant's profile, or 404 if not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfParticipantProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -1567,6 +1630,16 @@
             "x-position": 5
           },
           {
+            "name": "Filter.CapturedByParticipantId",
+            "in": "query",
+            "description": "Optional participant ID to filter signals captured by that participant.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -1574,7 +1647,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 6
+            "x-position": 7
           },
           {
             "name": "Page.Size",
@@ -1584,7 +1657,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 7
+            "x-position": 8
           },
           {
             "name": "sort",
@@ -1598,7 +1671,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 8
+            "x-position": 9
           }
         ],
         "responses": {
@@ -2615,6 +2688,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfUserGroupListItemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usergroups/for-participant": {
+      "get": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Retrieves all user groups that the specified participant is a member of.",
+        "operationId": "getUserGroupsForParticipant",
+        "parameters": [
+          {
+            "name": "participantId",
+            "in": "query",
+            "description": "The participant ID to filter by.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of user groups the participant belongs to.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfUserGroupListItemResponseOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -3674,6 +3789,49 @@
           "status": {
             "type": "string",
             "description": "The status of the idea."
+          }
+        }
+      },
+      "ApiResponseOfParticipantProfileResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ParticipantProfileResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ParticipantProfileResponse": {
+        "type": "object",
+        "description": "Public profile information for a participant, resolved by pseudonym.",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The participant's internal stable identifier."
+          },
+          "pseudonym": {
+            "type": "string",
+            "description": "The participant's globally unique pseudonym."
+          },
+          "joinedAt": {
+            "type": "string",
+            "description": "The UTC timestamp when the participant registered.",
+            "format": "date-time"
           }
         }
       },
@@ -5278,6 +5436,28 @@
         }
       },
       "ApiResponseOfIReadOnlyListOfUserGroupListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/UserGroupListItemResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ApiResponseOfUserGroupListItemResponseOf": {
         "allOf": [
           {
             "$ref": "#/components/schemas/ApiResponse"

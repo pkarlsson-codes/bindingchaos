@@ -48,6 +48,7 @@ export interface GetIdeaRequest {
 export interface GetIdeasRequest {
     filterSearchTerm?: string | null;
     filterStatus?: string | null;
+    filterAuthorId?: string | null;
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
@@ -95,6 +96,7 @@ export interface IdeasApiInterface {
      * @summary Gets all ideas with optional filtering and pagination.
      * @param {string} [filterSearchTerm] Optional free-text search term to match against idea title or description.
      * @param {string} [filterStatus] Optional status filter (e.g., \&quot;Draft\&quot;, \&quot;Published\&quot;).
+     * @param {string} [filterAuthorId] Optional participant ID to filter ideas authored by that participant.
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
@@ -204,6 +206,10 @@ export class IdeasApi extends runtime.BaseAPI implements IdeasApiInterface {
 
         if (requestParameters['filterStatus'] != null) {
             queryParameters['Filter.Status'] = requestParameters['filterStatus'];
+        }
+
+        if (requestParameters['filterAuthorId'] != null) {
+            queryParameters['Filter.AuthorId'] = requestParameters['filterAuthorId'];
         }
 
         if (requestParameters['pageNumber'] != null) {

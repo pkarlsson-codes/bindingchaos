@@ -20,6 +20,7 @@ import { CommonsDetailPage } from '../features/commons/components/CommonsDetailP
 import { ProjectsByUserGroupPage } from '../features/projects/components/ProjectsByUserGroupPage';
 import { ProjectDetailPage } from '../features/projects/components/ProjectDetailPage';
 import { AboutPage } from '../features/about/components/AboutPage';
+import { ProfilePage } from '../features/profiles/components/ProfilePage';
 
 import {
   AuthProvider,
@@ -83,6 +84,10 @@ function App() {
 
                       {/* About */}
                       <Route path="/about" element={<AboutPage />} />
+
+                      {/* Profiles */}
+                      <Route path="/profiles/me" element={<ProfilePage />} />
+                      <Route path="/profiles/:pseudonym" element={<ProfilePage />} />
 
                       {/* Invites */}
                       <Route path="/invite/:token" element={<InvitePage />} />
