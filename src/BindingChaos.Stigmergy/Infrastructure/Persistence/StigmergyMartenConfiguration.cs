@@ -96,5 +96,27 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.MemberCount);
 
         options.Projections.Add<UserGroupListItemViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<ProjectsListItemView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.UserGroupId)
+            .Duplicate(x => x.CreatedAt)
+            .Duplicate(x => x.LastUpdatedAt)
+            .Duplicate(x => x.Title)
+            .Duplicate(x => x.ActiveAmendmentCount)
+            .Duplicate(x => x.ContestedAmendmentCount)
+            .Duplicate(x => x.RejectedAmendmentCount);
+
+        options.Projections.Add<ProjectsListItemViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<ProjectView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.UserGroupId)
+            .Duplicate(x => x.CreatedAt)
+            .Duplicate(x => x.LastUpdatedAt);
+
+        options.Projections.Add<ProjectViewProjection>(ProjectionLifecycle.Async);
     }
 }
