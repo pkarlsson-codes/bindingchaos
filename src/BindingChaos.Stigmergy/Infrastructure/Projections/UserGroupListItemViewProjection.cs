@@ -26,8 +26,10 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
             Philosophy = e.Data.Philosophy,
             FounderId = e.Data.FounderId,
             FormedAt = e.Timestamp,
-            MemberCount = 1,
-            MemberParticipantIds = [e.Data.FounderId],
+
+            // Founder membership is materialized by the subsequent MemberJoined event.
+            MemberCount = 0,
+            MemberParticipantIds = [],
             JoinPolicy = Enumeration<JoinPolicy>.FromValue(e.Data.Charter.MembershipRules.JoinPolicy).DisplayName,
         };
 
@@ -38,8 +40,12 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
     /// <param name="e">The joined event.</param>
     public static void Apply(UserGroupListItemView view, MemberJoined e)
     {
-        view.MemberCount++;
-        view.MemberParticipantIds.Add(e.ParticipantId);
+        if (!view.MemberParticipantIds.Contains(e.ParticipantId, StringComparer.Ordinal))
+        {
+            view.MemberParticipantIds.Add(e.ParticipantId);
+        }
+
+        view.MemberCount = view.MemberParticipantIds.Count;
     }
 
     /// <summary>
@@ -49,7 +55,9 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
     /// <param name="e">The left event.</param>
     public static void Apply(UserGroupListItemView view, MemberLeft e)
     {
-        view.MemberCount--;
-        view.MemberParticipantIds.Remove(e.ParticipantId);
+        view.MemberParticipantIds.RemoveAll(participantId =>
+            string.Equals(participantId, e.ParticipantId, StringComparison.Ordinal));
+
+        view.MemberCount = view.MemberParticipantIds.Count;
     }
 }
