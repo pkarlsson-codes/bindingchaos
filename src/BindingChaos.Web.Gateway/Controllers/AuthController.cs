@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using BindingChaos.CorePlatform.Clients;
 using BindingChaos.Web.Gateway.Configuration;
 using BindingChaos.Web.Gateway.Models;
 using BindingChaos.Web.Gateway.Services;
@@ -42,13 +43,15 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
     /// Get current authenticated user.
     /// </summary>
     /// <param name="tokenStore">Token store used to resolve the current session.</param>
+    /// <param name="profilesApiClient">Client for resolving the participant's pseudonym.</param>
     /// <returns>The current user if authenticated; otherwise unauthorized.</returns>
     [HttpGet("me")]
     [ProducesResponseType(typeof(GetCurrentUserResponse), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 401)]
     [EndpointName("getCurrentUser")]
     public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser(
-        [FromServices] ITokenStore tokenStore)
+        [FromServices] ITokenStore tokenStore,
+        [FromServices] IProfilesApiClient profilesApiClient)
     {
         var sessionId = Request.Cookies[GatewayDefaults.Cookies.SessionCookie];
 
@@ -77,22 +80,20 @@ public sealed class AuthController(IHostEnvironment env) : ControllerBase
         var preferredUsername = User?.FindFirst("preferred_username")?.Value
                                  ?? User?.Identity?.Name
                                  ?? string.Empty;
-        var fullName = User?.FindFirst("name")?.Value;
         var email = User?.FindFirst("email")?.Value ?? string.Empty;
-        var displayName = fullName
-                           ?? preferredUsername
-                           ?? email
-                           ?? userId;
 
         var safeUsername = string.IsNullOrWhiteSpace(preferredUsername) ? userId : preferredUsername;
-        var safePseudonym = string.IsNullOrWhiteSpace(displayName) ? userId : displayName;
         var safeEmail = string.IsNullOrEmpty(email) ? string.Empty : email;
+
+        var profile = await profilesApiClient
+            .GetProfileByUserIdAsync(userId, HttpContext.RequestAborted)
+            .ConfigureAwait(false);
 
         var user = new UserInfo
         {
             Id = userId,
             Username = safeUsername,
-            Pseudonym = safePseudonym,
+            Pseudonym = profile?.Pseudonym ?? userId,
             Email = safeEmail,
         };
 

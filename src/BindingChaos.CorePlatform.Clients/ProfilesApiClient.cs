@@ -39,4 +39,29 @@ public sealed class ProfilesApiClient(
 
         return apiResponse?.Data;
     }
+
+    /// <inheritdoc />
+    public async Task<ParticipantProfileResponse?> GetProfileByUserIdAsync(
+        string userId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+
+        var response = await HttpClient
+            .GetAsync($"api/profiles/by-user/{Uri.EscapeDataString(userId)}", cancellationToken)
+            .ConfigureAwait(false);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        var apiResponse = await response.Content
+            .ReadFromJsonAsync<ApiResponse<ParticipantProfileResponse>>(JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
+
+        return apiResponse?.Data;
+    }
 }

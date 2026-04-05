@@ -41,4 +41,32 @@ public sealed class ProfilesController(IMessageBus messageBus) : BaseApiControll
 
         return Ok(new ParticipantProfileResponse(result.UserId, result.Pseudonym, result.JoinedAt));
     }
+
+    /// <summary>
+    /// Returns the public profile of a participant identified by their internal user ID.
+    /// </summary>
+    /// <param name="userId">The participant's internal user ID.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The participant's profile, or 404 if not found.</returns>
+    [HttpGet("by-user/{userId}")]
+    [ProducesResponseType(typeof(ApiResponse<ParticipantProfileResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointName("getParticipantProfileByUserId")]
+    public async Task<IActionResult> GetProfileByUserId([FromRoute] string userId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+
+        var result = await messageBus
+            .InvokeAsync<BindingChaos.IdentityProfile.Application.ReadModels.ParticipantView?>(
+                new GetParticipantByUserId(userId),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        if (result is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new ParticipantProfileResponse(result.UserId, result.Pseudonym, result.JoinedAt));
+    }
 }

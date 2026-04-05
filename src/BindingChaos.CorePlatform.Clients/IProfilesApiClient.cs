@@ -16,4 +16,14 @@ public interface IProfilesApiClient
     Task<ParticipantProfileResponse?> GetProfileAsync(
         string pseudonym,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the public profile of a participant identified by their internal user ID, or null if not found.
+    /// </summary>
+    /// <param name="userId">The participant's internal user ID.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The participant's profile, or null if not found.</returns>
+    Task<ParticipantProfileResponse?> GetProfileByUserIdAsync(
+        string userId,
+        CancellationToken cancellationToken = default);
 }
