@@ -19,9 +19,16 @@
 
 ## Project Structure (Contexts)
 Refer to these for domain logic:
-- `SignalAwareness`, `Ideation`, `CommunityDiscourse`, `Societies`, `Tagging`, `Stigmergy` (Marten)
-- `IdentityProfile` (EF Core)
-- `Reputation` (Neo4j — trust graph, shunning, societal standing)
+- `Stigmergy` (Marten) — Signals, Ideas, Concerns, Projects, Commons, UserGroups
+- `CommunityDiscourse` (Marten) — DiscourseThreads, Contributions
+- `Societies` (Marten) — Society, SocialContract, Membership
+- `Tagging` (Marten) — Tag, TaggableTarget
+- `IdentityProfile` (EF Core) — Participant (pseudonym), invite links
+- `Reputation` (Neo4j — planned; TrustRelationship stub only)
+
+## Support Services
+- `DocumentProcessing` — async document/attachment processing (RabbitMQ, MinIO)
+- `SignalProcessing` — vector embeddings + clustering (pgvector, TEI, Python clustering service)
 
 ## Additional documentation
 - docs/02-architecture/high-level.md
