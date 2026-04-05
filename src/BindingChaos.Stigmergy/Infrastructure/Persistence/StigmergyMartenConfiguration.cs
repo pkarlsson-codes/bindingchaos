@@ -26,7 +26,8 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.CapturedAt)
             .Duplicate(x => x.AmplificationCount)
             .Duplicate(x => x.CapturedById)
-            .Duplicate(x => x.Title);
+            .Duplicate(x => x.Title)
+            .Index(x => x.AmplifierIds, x => x.Method = Weasel.Postgresql.Tables.IndexMethod.gin);
 
         options.Projections.Add<SignalsListItemViewProjection>(ProjectionLifecycle.Async);
 

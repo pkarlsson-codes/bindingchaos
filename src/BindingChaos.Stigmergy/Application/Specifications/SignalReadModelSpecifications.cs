@@ -119,6 +119,43 @@ internal sealed class SignalsWithAnyTagsSpecification : Specification<SignalsLis
 }
 
 /// <summary>
+/// Matches signals amplified by a specific participant.
+/// </summary>
+internal sealed class SignalsAmplifiedByParticipantSpecification : Specification<SignalsListItemView>
+{
+    private readonly string _participantId;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SignalsAmplifiedByParticipantSpecification"/> class.
+    /// </summary>
+    /// <param name="participantId">The participant ID to filter by.</param>
+    public SignalsAmplifiedByParticipantSpecification(string participantId)
+    {
+        _participantId = !string.IsNullOrWhiteSpace(participantId)
+            ? participantId
+            : throw new ArgumentException("Participant ID cannot be null or whitespace.", nameof(participantId));
+    }
+
+    /// <summary>
+    /// Creates an optional amplified-by specification.
+    /// </summary>
+    /// <param name="participantId">The optional participant ID.</param>
+    /// <returns>An amplified-by specification when provided; otherwise, an identity specification.</returns>
+    public static Specification<SignalsListItemView> Optional(string? participantId)
+    {
+        return string.IsNullOrWhiteSpace(participantId)
+            ? Specification<SignalsListItemView>.All
+            : new SignalsAmplifiedByParticipantSpecification(participantId);
+    }
+
+    /// <inheritdoc />
+    public override Expression<Func<SignalsListItemView, bool>> ToExpression()
+    {
+        return signal => signal.AmplifierIds.Contains(_participantId);
+    }
+}
+
+/// <summary>
 /// Matches signals whose amplification count falls within a range.
 /// </summary>
 internal sealed class SignalsByAmplificationRangeSpecification : Specification<SignalsListItemView>

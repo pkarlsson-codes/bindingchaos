@@ -42,7 +42,8 @@ public static class GetSignalsHandler
             SignalsCapturedSinceSpecification.Optional(cutoffDate)
             .And(SignalsMatchingSearchTermSpecification.Optional(filter.SearchTerm))
             .And(SignalsWithAnyTagsSpecification.Optional(filter.Tags))
-            .And(SignalsByAmplificationRangeSpecification.Optional(amplificationRange)));
+            .And(SignalsByAmplificationRangeSpecification.Optional(amplificationRange))
+            .And(SignalsAmplifiedByParticipantSpecification.Optional(filter.AmplifiedByParticipantId)));
 
         query = query.Sort(request.QuerySpec.SortDescriptors, SignalsListItemView.SortMappings);
 

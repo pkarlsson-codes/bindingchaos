@@ -24,4 +24,9 @@ public record SignalsQueryFilter
     /// Optional collection of tags to filter results by.
     /// </summary>
     public string[] Tags { get; set; } = [];
+
+    /// <summary>
+    /// Optional participant ID to filter signals amplified by that participant.
+    /// </summary>
+    public string? AmplifiedByParticipantId { get; set; }
 }
