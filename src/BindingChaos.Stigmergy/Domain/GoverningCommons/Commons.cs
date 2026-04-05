@@ -1,6 +1,7 @@
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.SharedKernel.Domain.Events;
 using BindingChaos.SharedKernel.Domain.Exceptions;
+using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons.Events;
 using Spectre.Console;
 
@@ -12,6 +13,7 @@ namespace BindingChaos.Stigmergy.Domain.GoverningCommons;
 /// </summary>
 public sealed class Commons : AggregateRoot<CommonsId>
 {
+    private readonly HashSet<string> _linkedConcernIds = [];
     private CommonsStatus _status;
     private string _name = string.Empty;
 
@@ -50,6 +52,21 @@ public sealed class Commons : AggregateRoot<CommonsId>
     }
 
     /// <summary>
+    /// Links a <see cref="Concerns.Concern"/> to this commons, recording that the commons is organised around this concern.
+    /// </summary>
+    /// <param name="concernId">The identifier of the concern to link.</param>
+    /// <param name="claimedById">The identifier of the participant claiming the concern on behalf of this commons.</param>
+    public void LinkConcern(ConcernId concernId, ParticipantId claimedById)
+    {
+        if (_linkedConcernIds.Contains(concernId.Value))
+        {
+            throw new BusinessRuleViolationException("This concern is already linked to this commons.");
+        }
+
+        ApplyChange(new ConcernLinkedToCommons(Id.Value, concernId.Value, claimedById.Value));
+    }
+
+    /// <summary>
     /// Activates the commons, allowing it to be governed by user groups. This is called when the first user group is formed to govern this commons.
     /// </summary>
     internal void Activate()
@@ -70,6 +87,7 @@ public sealed class Commons : AggregateRoot<CommonsId>
             case CommonsCreated e: Apply(e); break;
             case CommonsActivated e: Apply(e); break;
             case CommonsRenamed e: Apply(e); break;
+            case ConcernLinkedToCommons e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent.GetType().Name}");
         }
     }
@@ -89,5 +107,10 @@ public sealed class Commons : AggregateRoot<CommonsId>
     private void Apply(CommonsRenamed e)
     {
         _name = e.NewName;
+    }
+
+    private void Apply(ConcernLinkedToCommons e)
+    {
+        _linkedConcernIds.Add(e.ConcernId);
     }
 }

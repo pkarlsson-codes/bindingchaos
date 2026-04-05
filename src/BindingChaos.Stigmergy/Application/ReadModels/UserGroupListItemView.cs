@@ -35,6 +35,9 @@ public class UserGroupListItemView
     /// <summary>The current number of members in the group.</summary>
     required public int MemberCount { get; set; }
 
+    /// <summary>The identifiers of the current members of this group.</summary>
+    public List<string> MemberParticipantIds { get; set; } = [];
+
     /// <summary>The join policy name for the group.</summary>
     required public string JoinPolicy { get; set; }
 }

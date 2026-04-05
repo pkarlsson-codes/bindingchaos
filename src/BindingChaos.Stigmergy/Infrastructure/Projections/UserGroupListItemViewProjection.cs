@@ -27,6 +27,7 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
             FounderId = e.Data.FounderId,
             FormedAt = e.Timestamp,
             MemberCount = 1,
+            MemberParticipantIds = [e.Data.FounderId],
             JoinPolicy = Enumeration<JoinPolicy>.FromValue(e.Data.Charter.MembershipRules.JoinPolicy).DisplayName,
         };
 
@@ -38,6 +39,7 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
     public static void Apply(UserGroupListItemView view, MemberJoined e)
     {
         view.MemberCount++;
+        view.MemberParticipantIds.Add(e.ParticipantId);
     }
 
     /// <summary>
@@ -48,5 +50,6 @@ internal sealed class UserGroupListItemViewProjection : SingleStreamProjection<U
     public static void Apply(UserGroupListItemView view, MemberLeft e)
     {
         view.MemberCount--;
+        view.MemberParticipantIds.Remove(e.ParticipantId);
     }
 }
