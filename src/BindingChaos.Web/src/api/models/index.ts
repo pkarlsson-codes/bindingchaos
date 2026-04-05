@@ -33,6 +33,7 @@ export * from './AuthorIdeaRequest';
 export * from './CaptureSignalRequest';
 export * from './CommonsListItemResponse';
 export * from './ConcernListItemResponse';
+export * from './ConcernOriginDto';
 export * from './CoordinatesModel';
 export * from './CreatePostRequest';
 export * from './CreateProjectRequest';

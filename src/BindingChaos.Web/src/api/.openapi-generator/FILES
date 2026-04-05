@@ -48,6 +48,7 @@ models/AuthorIdeaRequest.ts
 models/CaptureSignalRequest.ts
 models/CommonsListItemResponse.ts
 models/ConcernListItemResponse.ts
+models/ConcernOriginDto.ts
 models/CoordinatesModel.ts
 models/CreatePostRequest.ts
 models/CreateProjectRequest.ts

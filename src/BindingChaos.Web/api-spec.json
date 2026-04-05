@@ -2956,8 +2956,33 @@
             "items": {
               "type": "string"
             }
+          },
+          "origin": {
+            "description": "How the concern came to be raised.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ConcernOriginDto"
+              }
+            ]
+          },
+          "clusterId": {
+            "type": "string",
+            "description": "Id of the signal cluster, when origin is EmergingPattern.",
+            "nullable": true
           }
         }
+      },
+      "ConcernOriginDto": {
+        "type": "string",
+        "description": "Describes how a concern came to be raised.",
+        "x-enumNames": [
+          "Manual",
+          "EmergingPattern"
+        ],
+        "enum": [
+          "Manual",
+          "EmergingPattern"
+        ]
       },
       "ApiResponseOfPaginatedResponseOfConcernListItemResponse": {
         "allOf": [

@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ConcernOriginDto } from './ConcernOriginDto';
+import {
+    ConcernOriginDtoFromJSON,
+    ConcernOriginDtoFromJSONTyped,
+    ConcernOriginDtoToJSON,
+    ConcernOriginDtoToJSONTyped,
+} from './ConcernOriginDto';
+
 /**
  * Request used to raise a new concern in the system.
  * @export
@@ -37,7 +45,21 @@ export interface RaiseConcernRequest {
      * @memberof RaiseConcernRequest
      */
     signalIds?: Array<string>;
+    /**
+     * 
+     * @type {ConcernOriginDto}
+     * @memberof RaiseConcernRequest
+     */
+    origin?: ConcernOriginDto;
+    /**
+     * Id of the signal cluster, when origin is EmergingPattern.
+     * @type {string}
+     * @memberof RaiseConcernRequest
+     */
+    clusterId?: string | null;
 }
+
+
 
 /**
  * Check if a given object implements the RaiseConcernRequest interface.
@@ -59,6 +81,8 @@ export function RaiseConcernRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'name': json['name'] == null ? undefined : json['name'],
         'tags': json['tags'] == null ? undefined : json['tags'],
         'signalIds': json['signalIds'] == null ? undefined : json['signalIds'],
+        'origin': json['origin'] == null ? undefined : ConcernOriginDtoFromJSON(json['origin']),
+        'clusterId': json['clusterId'] == null ? undefined : json['clusterId'],
     };
 }
 
@@ -76,6 +100,8 @@ export function RaiseConcernRequestToJSONTyped(value?: RaiseConcernRequest | nul
         'name': value['name'],
         'tags': value['tags'],
         'signalIds': value['signalIds'],
+        'origin': ConcernOriginDtoToJSON(value['origin']),
+        'clusterId': value['clusterId'],
     };
 }
 
