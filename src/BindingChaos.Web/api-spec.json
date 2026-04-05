@@ -1274,6 +1274,236 @@
         }
       }
     },
+    "/api/v1/projects": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Creates a new project.",
+        "operationId": "createProject",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The project creation request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "The created project identifier.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Retrieves a paginated list of projects for the specified user group.",
+        "operationId": "getProjectsForUserGroup",
+        "parameters": [
+          {
+            "name": "userGroupId",
+            "in": "query",
+            "description": "The user group identifier to filter by.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortDescriptor"
+              }
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated response containing project list items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfProjectListItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{projectId}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Retrieves a single project by identifier.",
+        "operationId": "getProject",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project identifier.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The project details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfProjectResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{projectId}/amendments": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Proposes a new amendment for a project.",
+        "operationId": "proposeProjectAmendment",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project identifier.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The created amendment identifier.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{projectId}/amendments/{amendmentId}/contests": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Contests an active amendment on a project.",
+        "operationId": "contestProjectAmendment",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project identifier.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "amendmentId",
+            "in": "path",
+            "required": true,
+            "description": "The amendment identifier.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204 No Content on success."
+          }
+        }
+      }
+    },
     "/api/v1/signals": {
       "get": {
         "tags": [
@@ -3409,6 +3639,237 @@
           "status": {
             "type": "string",
             "description": "The status of the idea."
+          }
+        }
+      },
+      "CreateProjectRequest": {
+        "type": "object",
+        "description": "Request model for creating a project in a user group.",
+        "additionalProperties": false,
+        "properties": {
+          "userGroupId": {
+            "type": "string",
+            "description": "The owning user group identifier."
+          },
+          "title": {
+            "type": "string",
+            "description": "The project title."
+          },
+          "description": {
+            "type": "string",
+            "description": "The project description."
+          }
+        }
+      },
+      "ApiResponseOfProjectResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ProjectResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ProjectResponse": {
+        "type": "object",
+        "description": "Response model for detailed project information.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The project identifier."
+          },
+          "userGroupId": {
+            "type": "string",
+            "description": "The owning user group identifier."
+          },
+          "title": {
+            "type": "string",
+            "description": "The project title."
+          },
+          "description": {
+            "type": "string",
+            "description": "The project description."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "When the project was created.",
+            "format": "date-time"
+          },
+          "lastUpdatedAt": {
+            "type": "string",
+            "description": "When the project was last updated.",
+            "format": "date-time"
+          },
+          "amendments": {
+            "type": "array",
+            "description": "The amendments proposed against this project.",
+            "items": {
+              "$ref": "#/components/schemas/Amendment"
+            }
+          }
+        }
+      },
+      "Amendment": {
+        "type": "object",
+        "description": "Response model for a project amendment.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The amendment identifier."
+          },
+          "proposedById": {
+            "type": "string",
+            "description": "The participant who proposed the amendment."
+          },
+          "proposedAt": {
+            "type": "string",
+            "description": "When the amendment was proposed.",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "description": "The amendment status."
+          },
+          "contestedById": {
+            "type": "string",
+            "description": "The participant contesting the amendment, when contested.",
+            "nullable": true
+          },
+          "contestedAt": {
+            "type": "string",
+            "description": "When the amendment was contested, when contested.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastStatusChangedAt": {
+            "type": "string",
+            "description": "When the amendment status was last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "ApiResponseOfPaginatedResponseOfProjectListItemResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginatedResponseOfProjectListItemResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedResponseOfProjectListItemResponse": {
+        "type": "object",
+        "description": "Generic paginated response wrapper for API endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items for the current page.",
+            "items": {
+              "$ref": "#/components/schemas/ProjectListItemResponse"
+            }
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "Indicates whether there is a next page of results."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number (1-based).",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The number of items per page.",
+            "format": "int64"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of items across all pages.",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int64"
+          }
+        }
+      },
+      "ProjectListItemResponse": {
+        "type": "object",
+        "description": "Response model for project list items.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The project identifier."
+          },
+          "userGroupId": {
+            "type": "string",
+            "description": "The owning user group identifier."
+          },
+          "title": {
+            "type": "string",
+            "description": "The project title."
+          },
+          "description": {
+            "type": "string",
+            "description": "The project description."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "When the project was created.",
+            "format": "date-time"
+          },
+          "lastUpdatedAt": {
+            "type": "string",
+            "description": "When the project was last updated.",
+            "format": "date-time"
+          },
+          "activeAmendmentCount": {
+            "type": "integer",
+            "description": "The number of active amendments.",
+            "format": "int32"
+          },
+          "contestedAmendmentCount": {
+            "type": "integer",
+            "description": "The number of contested amendments.",
+            "format": "int32"
+          },
+          "rejectedAmendmentCount": {
+            "type": "integer",
+            "description": "The number of rejected amendments.",
+            "format": "int32"
           }
         }
       },

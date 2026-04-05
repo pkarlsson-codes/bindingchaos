@@ -7,6 +7,7 @@ apis/DocumentsApi.ts
 apis/EmergingPatternsApi.ts
 apis/IdeasApi.ts
 apis/OidcApi.ts
+apis/ProjectsApi.ts
 apis/SignalsApi.ts
 apis/SocietiesApi.ts
 apis/TagsApi.ts
@@ -14,6 +15,7 @@ apis/TrustInviteLinksApi.ts
 apis/UserGroupsApi.ts
 apis/index.ts
 index.ts
+models/Amendment.ts
 models/AmplificationViewModel.ts
 models/AmplifySignalResponse.ts
 models/ApiEnvelopeOfPostRepliesViewModel.ts
@@ -30,8 +32,10 @@ models/ApiResponseOfIdeaDetailViewModel.ts
 models/ApiResponseOfIdeasFeedViewModel.ts
 models/ApiResponseOfPaginatedResponseOfCommonsListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfConcernListItemResponse.ts
+models/ApiResponseOfPaginatedResponseOfProjectListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfSocietyMemberResponse.ts
 models/ApiResponseOfPaginatedResponseOfUserGroupListItemResponse.ts
+models/ApiResponseOfProjectResponse.ts
 models/ApiResponseOfResolvedInviteLinkResponse.ts
 models/ApiResponseOfSignalDetailViewModel.ts
 models/ApiResponseOfSignalsFeedViewModel.ts
@@ -46,6 +50,7 @@ models/CommonsListItemResponse.ts
 models/ConcernListItemResponse.ts
 models/CoordinatesModel.ts
 models/CreatePostRequest.ts
+models/CreateProjectRequest.ts
 models/CreateReplyRequest.ts
 models/CreateSocietyInviteLinkRequest.ts
 models/CreateSocietyRequest.ts
@@ -68,6 +73,7 @@ models/JoinSocietyRequest.ts
 models/PaginatedResponseOfCommonsListItemResponse.ts
 models/PaginatedResponseOfConcernListItemResponse.ts
 models/PaginatedResponseOfIdeaListItemResponse.ts
+models/PaginatedResponseOfProjectListItemResponse.ts
 models/PaginatedResponseOfSignalViewModel.ts
 models/PaginatedResponseOfSocietyListItemResponse.ts
 models/PaginatedResponseOfSocietyMemberResponse.ts
@@ -76,6 +82,8 @@ models/PostRepliesViewModel.ts
 models/PostViewModel.ts
 models/PostsViewModel.ts
 models/ProblemDetails.ts
+models/ProjectListItemResponse.ts
+models/ProjectResponse.ts
 models/ProposeCommonsRequest.ts
 models/RaiseConcernRequest.ts
 models/ReferenceSignal.ts
