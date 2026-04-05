@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -29,7 +30,7 @@ public sealed class ConcernsApiClient(
 
     /// <inheritdoc />
     public async Task<PaginatedResponse<ConcernListItemResponse>> GetConcernsAsync(
-        PaginationQuerySpec querySpec,
+        PaginationQuerySpec<ConcernsQueryFilter> querySpec,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(querySpec);

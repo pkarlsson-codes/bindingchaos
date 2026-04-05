@@ -33,7 +33,8 @@ public static class GetIdeasHandler
 
         var query = querySession.Query<IdeasListItemView>().Matching(
             IdeasMatchingSearchTermSpecification.Optional(filter.SearchTerm)
-            .And(IdeasByStatusSpecification.Optional(filter.Status)));
+            .And(IdeasByStatusSpecification.Optional(filter.Status))
+            .And(IdeasByAuthorSpecification.Optional(filter.AuthorId)));
 
         query = query.Sort(request.QuerySpec.SortDescriptors, IdeasListItemView.SortMappings);
 

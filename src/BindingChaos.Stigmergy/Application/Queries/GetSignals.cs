@@ -43,7 +43,8 @@ public static class GetSignalsHandler
             .And(SignalsMatchingSearchTermSpecification.Optional(filter.SearchTerm))
             .And(SignalsWithAnyTagsSpecification.Optional(filter.Tags))
             .And(SignalsByAmplificationRangeSpecification.Optional(amplificationRange))
-            .And(SignalsAmplifiedByParticipantSpecification.Optional(filter.AmplifiedByParticipantId)));
+            .And(SignalsAmplifiedByParticipantSpecification.Optional(filter.AmplifiedByParticipantId))
+            .And(SignalsCapturedByParticipantSpecification.Optional(filter.CapturedByParticipantId)));
 
         query = query.Sort(request.QuerySpec.SortDescriptors, SignalsListItemView.SortMappings);
 

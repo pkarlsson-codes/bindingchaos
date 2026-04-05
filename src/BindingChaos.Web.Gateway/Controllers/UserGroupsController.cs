@@ -3,6 +3,7 @@ using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
 using BindingChaos.Infrastructure.Querying;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BindingChaos.Web.Gateway.Controllers;
@@ -72,6 +73,31 @@ public sealed class UserGroupsController(IUserGroupsApiClient userGroupsApiClien
     public async Task<IActionResult> GetMyUserGroups(CancellationToken cancellationToken)
     {
         var result = await userGroupsApiClient.GetMyUserGroupsAsync(cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Retrieves all user groups that the specified participant is a member of.
+    /// </summary>
+    /// <param name="participantId">The participant ID to filter by.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A list of user groups the participant belongs to.</returns>
+    [HttpGet("for-participant")]
+    [ProducesResponseType(typeof(ApiResponse<UserGroupListItemResponse[]>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [EndpointName("getUserGroupsForParticipant")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetUserGroupsForParticipant(
+        [FromQuery] string participantId,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(participantId))
+        {
+            return BadRequest("participantId is required.");
+        }
+
+        var result = await userGroupsApiClient
+            .GetUserGroupsForParticipantAsync(participantId, cancellationToken);
         return Ok(result);
     }
 }

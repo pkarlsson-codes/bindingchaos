@@ -1,4 +1,5 @@
 using BindingChaos.CorePlatform.Clients;
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -49,7 +50,7 @@ public sealed class ConcernsController(IConcernsApiClient concernsApiClient) : B
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [EndpointName("getConcerns")]
     public async Task<IActionResult> GetConcerns(
-        [FromQuery] PaginationQuerySpec querySpec,
+        [FromQuery] PaginationQuerySpec<ConcernsQueryFilter> querySpec,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(querySpec);

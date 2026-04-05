@@ -29,4 +29,9 @@ public record SignalsQueryFilter
     /// Optional participant ID to filter signals amplified by that participant.
     /// </summary>
     public string? AmplifiedByParticipantId { get; set; }
+
+    /// <summary>
+    /// Optional participant ID to filter signals captured by that participant.
+    /// </summary>
+    public string? CapturedByParticipantId { get; set; }
 }

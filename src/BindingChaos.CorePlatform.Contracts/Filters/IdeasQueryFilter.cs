@@ -14,4 +14,9 @@ public record IdeasQueryFilter
     /// Optional status filter (e.g., "Draft", "Published").
     /// </summary>
     public string? Status { get; set; }
+
+    /// <summary>
+    /// Optional participant ID to filter ideas authored by that participant.
+    /// </summary>
+    public string? AuthorId { get; set; }
 }

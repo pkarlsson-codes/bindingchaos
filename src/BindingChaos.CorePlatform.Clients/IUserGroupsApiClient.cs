@@ -39,4 +39,14 @@ public interface IUserGroupsApiClient
     /// <returns>A read-only list of user groups the current participant belongs to.</returns>
     Task<IReadOnlyList<UserGroupListItemResponse>> GetMyUserGroupsAsync(
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all user groups that the specified participant is a member of.
+    /// </summary>
+    /// <param name="participantId">The participant ID to filter by.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>An array of user groups the participant belongs to.</returns>
+    Task<UserGroupListItemResponse[]> GetUserGroupsForParticipantAsync(
+        string participantId,
+        CancellationToken cancellationToken = default);
 }

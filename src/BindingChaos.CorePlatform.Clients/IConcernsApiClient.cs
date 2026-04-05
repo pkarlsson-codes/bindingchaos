@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -25,7 +26,7 @@ public interface IConcernsApiClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated response containing the list of concerns.</returns>
     Task<PaginatedResponse<ConcernListItemResponse>> GetConcernsAsync(
-        PaginationQuerySpec querySpec,
+        PaginationQuerySpec<ConcernsQueryFilter> querySpec,
         CancellationToken cancellationToken = default);
 
     /// <summary>

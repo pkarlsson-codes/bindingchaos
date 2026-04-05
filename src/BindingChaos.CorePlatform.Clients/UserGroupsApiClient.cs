@@ -52,4 +52,17 @@ public sealed class UserGroupsApiClient(
         return await GetAsync<IReadOnlyList<UserGroupListItemResponse>>("api/usergroups/mine", cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public async Task<UserGroupListItemResponse[]> GetUserGroupsForParticipantAsync(
+        string participantId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(participantId);
+
+        return await GetAsync<UserGroupListItemResponse[]>(
+            $"api/usergroups/for-participant?participantId={Uri.EscapeDataString(participantId)}",
+            cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

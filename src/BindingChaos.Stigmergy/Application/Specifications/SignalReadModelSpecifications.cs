@@ -156,6 +156,43 @@ internal sealed class SignalsAmplifiedByParticipantSpecification : Specification
 }
 
 /// <summary>
+/// Matches signals captured by a specific participant.
+/// </summary>
+internal sealed class SignalsCapturedByParticipantSpecification : Specification<SignalsListItemView>
+{
+    private readonly string _participantId;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SignalsCapturedByParticipantSpecification"/> class.
+    /// </summary>
+    /// <param name="participantId">The participant ID to filter by.</param>
+    public SignalsCapturedByParticipantSpecification(string participantId)
+    {
+        _participantId = !string.IsNullOrWhiteSpace(participantId)
+            ? participantId
+            : throw new ArgumentException("Participant ID cannot be null or whitespace.", nameof(participantId));
+    }
+
+    /// <summary>
+    /// Creates an optional captured-by specification.
+    /// </summary>
+    /// <param name="participantId">The optional participant ID.</param>
+    /// <returns>A captured-by specification when provided; otherwise, an identity specification.</returns>
+    public static Specification<SignalsListItemView> Optional(string? participantId)
+    {
+        return string.IsNullOrWhiteSpace(participantId)
+            ? Specification<SignalsListItemView>.All
+            : new SignalsCapturedByParticipantSpecification(participantId);
+    }
+
+    /// <inheritdoc />
+    public override Expression<Func<SignalsListItemView, bool>> ToExpression()
+    {
+        return signal => signal.CapturedById == _participantId;
+    }
+}
+
+/// <summary>
 /// Matches signals whose amplification count falls within a range.
 /// </summary>
 internal sealed class SignalsByAmplificationRangeSpecification : Specification<SignalsListItemView>

@@ -1,4 +1,5 @@
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.IdentityProfile.Application.Services;
@@ -71,7 +72,7 @@ public sealed class ConcernsController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [EndpointName("getConcerns")]
     public async Task<IActionResult> GetConcerns(
-        [FromQuery] PaginationQuerySpec queryRequest,
+        [FromQuery] PaginationQuerySpec<ConcernsQueryFilter> queryRequest,
         CancellationToken cancellationToken)
     {
         var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
