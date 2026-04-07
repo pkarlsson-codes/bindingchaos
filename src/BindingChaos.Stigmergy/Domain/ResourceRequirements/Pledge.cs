@@ -1,6 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 
-namespace BindingChaos.Stigmergy.Domain.Projects;
+namespace BindingChaos.Stigmergy.Domain.ResourceRequirements;
 
 /// <summary>
 /// A pledge of resources made by a participant toward a project requirement.
@@ -17,7 +17,7 @@ public sealed class Pledge : Entity<PledgeId>
     internal Pledge(PledgeId id, ParticipantId pledgedBy, DateTimeOffset pledgedAt, double amount)
     {
         Id = id;
-        PledgedBy = pledgedBy;
+        PledgedById = pledgedBy;
         PledgedAt = pledgedAt;
         Amount = amount;
     }
@@ -25,7 +25,7 @@ public sealed class Pledge : Entity<PledgeId>
     /// <summary>
     /// Gets the participant who made this pledge.
     /// </summary>
-    public ParticipantId PledgedBy { get; }
+    public ParticipantId PledgedById { get; }
 
     /// <summary>
     /// Gets the timestamp when this pledge was made.

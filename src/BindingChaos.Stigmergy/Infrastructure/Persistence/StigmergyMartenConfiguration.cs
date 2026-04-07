@@ -120,6 +120,15 @@ public static class StigmergyMartenConfiguration
 
         options.Projections.Add<ProjectViewProjection>(ProjectionLifecycle.Async);
 
+        options.Schema.For<ResourceRequirementView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.ProjectId)
+            .Duplicate(x => x.CreatedAt)
+            .Duplicate(x => x.LastUpdatedAt);
+
+        options.Projections.Add<ResourceRequirementViewProjection>(ProjectionLifecycle.Async);
+
         options.Schema.For<SignalAmplificationsView>()
             .Identity(x => x.Id)
             .DatabaseSchemaName(StigmergySchemaName)

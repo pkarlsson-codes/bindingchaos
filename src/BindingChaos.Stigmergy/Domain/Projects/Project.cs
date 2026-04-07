@@ -14,8 +14,6 @@ public sealed class Project : AggregateRoot<ProjectId>
 {
     private readonly List<Amendment> _amendments = [];
 
-    private readonly List<Requirement> _requirements = [];
-
 #pragma warning disable CS8618
     private Project()
     {
@@ -34,9 +32,6 @@ public sealed class Project : AggregateRoot<ProjectId>
 
     /// <summary>Gets the amendments proposed against this project.</summary>
     public IReadOnlyList<Amendment> Amendments => _amendments.AsReadOnly();
-
-    /// <summary>Gets the resource requirements for this project.</summary>
-    public IReadOnlyList<Requirement> Requirements => _requirements.AsReadOnly();
 
     /// <summary>
     /// Creates a new project for the specified user group.

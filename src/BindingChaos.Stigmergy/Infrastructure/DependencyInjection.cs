@@ -2,6 +2,7 @@ using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.Ideas;
 using BindingChaos.Stigmergy.Domain.Projects;
+using BindingChaos.Stigmergy.Domain.ResourceRequirements;
 using BindingChaos.Stigmergy.Domain.Signals;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using BindingChaos.Stigmergy.Infrastructure.Persistence;
@@ -27,6 +28,7 @@ public static class StigmergyServiceCollectionExtensions
         services.AddScoped<IConcernRepository, ConcernRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IResourceRequirementRepository, ResourceRequirementRepository>();
         services.AddScoped<IIdeaRepository, IdeaRepository>();
         services.AddScoped<ISignalRepository, SignalRepository>();
         return services;

@@ -1,6 +1,6 @@
 using BindingChaos.SharedKernel.Domain;
 
-namespace BindingChaos.Stigmergy.Domain.Projects;
+namespace BindingChaos.Stigmergy.Domain.ResourceRequirements;
 
 /// <summary>
 /// Unique identifier for a <see cref="Pledge"/>.
