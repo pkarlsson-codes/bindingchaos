@@ -35,15 +35,10 @@ internal static class IntegrationEventMapperRegistration
                 foreach (var iface in mapperIfaces)
                 {
                     services.AddSingleton(iface, t.AsType());
-
-                    var domainEventType = iface.GetGenericArguments()[0];
-                    var adapterType = typeof(IntegrationEventMapperAdapter<>).MakeGenericType(domainEventType);
-                    services.AddSingleton(typeof(IIntegrationEventMapperAdapter), adapterType);
                 }
             }
         }
 
-        services.AddSingleton<IIntegrationEventMapperService, IntegrationEventMapperService>();
         return services;
     }
 }
