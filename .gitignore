@@ -428,6 +428,9 @@ Session.vim
 # Documentation generation
 /docs-generated/
 
+# Vendor documentation
+/docs/vendor/
+
 # Testing
 /test-output/
 /test-results/
