@@ -119,5 +119,29 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.LastUpdatedAt);
 
         options.Projections.Add<ProjectViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<SignalAmplificationsView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.SignalId)
+            .Duplicate(x => x.OccurredAt);
+
+        options.Projections.Add<SignalAmplificationsViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<UserGroupMembersView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.UserGroupId)
+            .Duplicate(x => x.JoinedAt);
+
+        options.Projections.Add<UserGroupMembersViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<ConcernAffectedParticipantsView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.ConcernId)
+            .Duplicate(x => x.IndicatedAt);
+
+        options.Projections.Add<ConcernAffectedParticipantsViewProjection>(ProjectionLifecycle.Async);
     }
 }
