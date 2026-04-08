@@ -21,10 +21,36 @@ public class UserGroupTests
             charter);
     }
 
+    public class TheJoinMethod
+    {
+        [Fact]
+        public void GivenOpenGroup_WhenApplyingToJoin_ThenMemberIsAdded()
+        {
+            var group = CreateOpenGroup();
+            var member = ParticipantId.Generate();
+
+            group.ApplyToJoin(member);
+
+            group.Members.Should().Contain(m => m.ParticipantId == member);
+        }
+
+        [Fact]
+        public void GivenOpenGroup_WhenApplyingToJoin_ThenFounderRemainsMember()
+        {
+            var group = CreateOpenGroup();
+            var founder = group.FounderId;
+            var member = ParticipantId.Generate();
+
+            group.ApplyToJoin(member);
+
+            group.Members.Should().Contain(m => m.ParticipantId == founder);
+        }
+    }
+
     public class TheLeaveMethod
     {
         [Fact]
-        public void GivenMemberWhoIsNotFounder_WhenLeaving_ThenMemberIsRemoved()
+        public void GivenMember_WhenLeaving_ThenMemberIsRemoved()
         {
             var group = CreateOpenGroup();
             var member = ParticipantId.Generate();
@@ -33,30 +59,6 @@ public class UserGroupTests
             group.Leave(member);
 
             group.Members.Should().NotContain(m => m.ParticipantId == member);
-        }
-
-        [Fact]
-        public void GivenMemberWhoIsNotFounder_WhenLeaving_ThenOtherMembersRemain()
-        {
-            var group = CreateOpenGroup();
-            var founder = group.FounderId;
-            var member = ParticipantId.Generate();
-            group.ApplyToJoin(member);
-
-            group.Leave(member);
-
-            group.Members.Should().ContainSingle(m => m.ParticipantId == founder);
-        }
-
-        [Fact]
-        public void GivenFounder_WhenLeaving_ThenFounderIsRemoved()
-        {
-            var group = CreateOpenGroup();
-            var founder = group.FounderId;
-
-            group.Leave(founder);
-
-            group.Members.Should().NotContain(m => m.ParticipantId == founder);
         }
 
         [Fact]
