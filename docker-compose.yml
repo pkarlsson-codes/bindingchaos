@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: pgvector/pgvector:pg15
+    image: docker.io/pgvector/pgvector:pg15
     container_name: bindingchaos_postgres
     environment:
       POSTGRES_DB: bindingchaos
@@ -19,7 +19,7 @@ services:
       - bindingchaos_network
 
   redis:
-    image: redis:7-alpine
+    image: docker.io/redis:7-alpine
     container_name: bindingchaos_redis
     ports:
       - "6379:6379"
@@ -34,7 +34,7 @@ services:
       - bindingchaos_network
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: docker.io/rabbitmq:3-management-alpine
     container_name: bindingchaos_rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-dev_user}
@@ -84,7 +84,7 @@ services:
       - bindingchaos_network
 
   minio:
-    image: minio/minio:latest
+    image: docker.io/minio/minio:latest
     container_name: bindingchaos_minio
     restart: unless-stopped
     ports:
@@ -100,7 +100,7 @@ services:
       - bindingchaos_network
 
   seq:
-    image: datalust/seq
+    image: docker.io/datalust/seq
     container_name: bindingchaos_seq
     environment:
       - ACCEPT_EULA=Y
@@ -113,7 +113,7 @@ services:
       - bindingchaos_network
 
   neo4j:
-    image: neo4j:5
+    image: docker.io/neo4j:5
     container_name: bindingchaos_neo4j
     environment:
       NEO4J_AUTH: none
