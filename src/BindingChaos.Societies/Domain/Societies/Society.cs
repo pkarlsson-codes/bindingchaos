@@ -20,6 +20,8 @@ public sealed class Society : AggregateRoot<SocietyId>
 
     private readonly List<Membership> _memberships = [];
 
+    private readonly HashSet<string> _linkedCommonsIds = [];
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor
     private Society()
     {
@@ -209,6 +211,24 @@ public sealed class Society : AggregateRoot<SocietyId>
     }
 
     /// <summary>
+    /// Declares that this society's members are affected by the specified commons.
+    /// </summary>
+    /// <param name="commonsId">The ID of the commons.</param>
+    /// <param name="declaredBy">The participant making the declaration.</param>
+    public void DeclareAffectedByCommons(string commonsId, ParticipantId declaredBy)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(commonsId);
+        ArgumentNullException.ThrowIfNull(declaredBy);
+
+        if (_linkedCommonsIds.Contains(commonsId))
+        {
+            throw new BusinessRuleViolationException("This commons is already linked to this society.");
+        }
+
+        ApplyChange(new CommonsLinkedToSociety(Id.Value, commonsId, declaredBy.Value));
+    }
+
+    /// <summary>
     /// Removes a member from this society.
     /// </summary>
     /// <param name="participantId">The participant leaving.</param>
@@ -239,6 +259,7 @@ public sealed class Society : AggregateRoot<SocietyId>
             case SocietyRelationshipRemoved e: Apply(e); break;
             case MemberJoined e: Apply(e); break;
             case MemberLeft e: Apply(e); break;
+            case CommonsLinkedToSociety e: Apply(e); break;
             default: throw new InvalidOperationException($"Unknown event type: {domainEvent?.GetType().Name}");
         }
     }
@@ -310,6 +331,11 @@ public sealed class Society : AggregateRoot<SocietyId>
         {
             membership.IsActive = false;
         }
+    }
+
+    private void Apply(CommonsLinkedToSociety e)
+    {
+        _linkedCommonsIds.Add(e.CommonsId);
     }
 
     #region Invariants
