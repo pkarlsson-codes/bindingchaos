@@ -1,6 +1,7 @@
 using BindingChaos.Stigmergy.Domain.Concerns;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.Ideas;
+using BindingChaos.Stigmergy.Domain.ProjectInquiries;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.ResourceRequirements;
 using BindingChaos.Stigmergy.Domain.Signals;
@@ -24,6 +25,7 @@ public static class StigmergyServiceCollectionExtensions
     /// <returns>The service collection for method chaining.</returns>
     public static IServiceCollection AddStigmergy(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IProjectInquiryRepository, ProjectInquiryRepository>();
         services.AddScoped<ICommonsRepository, CommonsRepository>();
         services.AddScoped<IConcernRepository, ConcernRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
