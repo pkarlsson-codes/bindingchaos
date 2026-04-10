@@ -266,6 +266,46 @@ public abstract partial class BaseApiClient
     }
 
     /// <summary>
+    /// Performs a POST request with a request body but no response body (e.g., 204 No Content).
+    /// </summary>
+    /// <typeparam name="TRequest">The type of the request data.</typeparam>
+    /// <param name="endpoint">The API endpoint to call.</param>
+    /// <param name="request">The request data to send.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected async Task PostAsync<TRequest>(string endpoint, TRequest request, CancellationToken cancellationToken = default)
+        where TRequest : class
+    {
+        try
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var context = ResilienceContextPool.Shared.Get(cancellationToken);
+            try
+            {
+                context.Properties.Set(new ResiliencePropertyKey<string>("uri"), endpoint);
+                var response = await Pipeline
+                    .ExecuteAsync(async ctx =>
+                        await HttpClient
+                            .PostAsJsonAsync(endpoint, request, JsonOptions, ctx.CancellationToken)
+                            .ConfigureAwait(false),
+                        context)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+            }
+            finally
+            {
+                ResilienceContextPool.Shared.Return(context);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Logs.HttpRequestFailed(Logger, endpoint, ex);
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Performs a POST request with no request body.
     /// </summary>
     /// <param name="endpoint">The API endpoint to call.</param>

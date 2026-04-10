@@ -245,6 +245,37 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymLookup
     }
 
     /// <summary>
+    /// Declares that a society is affected by a commons.
+    /// </summary>
+    /// <param name="societyId">The society making the declaration.</param>
+    /// <param name="request">The declaration request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>204 No Content on success.</returns>
+    [HttpPost("{societyId}/commons-links")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("declareSocietyAffectedByCommons")]
+    public async Task<IActionResult> DeclareSocietyAffectedByCommons(
+        [FromRoute] string societyId,
+        [FromBody] DeclareSocietyAffectedByCommonsRequest request,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new DeclareSocietyAffectedByCommons(
+            SocietyId.Create(societyId),
+            request.CommonsId,
+            participantId);
+
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
     /// Returns all invite links created by the authenticated participant for the specified society.
     /// </summary>
     /// <param name="societyId">The society whose invite links are being retrieved.</param>

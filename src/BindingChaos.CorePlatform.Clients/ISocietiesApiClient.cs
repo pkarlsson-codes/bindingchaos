@@ -95,6 +95,18 @@ public interface ISocietiesApiClient
         CancellationToken cancellationToken);
 
     /// <summary>
+    /// Declares a society is affected by a commons.
+    /// </summary>
+    /// <param name="societyId">The identifier of the society.</param>
+    /// <param name="request">The request containing the commons ID.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task DeclareSocietyAffectedByCommonsAsync(
+        string societyId,
+        DeclareSocietyAffectedByCommonsRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Creates an invite link for the specified society on behalf of the authenticated participant.
     /// </summary>
     /// <param name="societyId">The identifier of the society to create an invite link for.</param>

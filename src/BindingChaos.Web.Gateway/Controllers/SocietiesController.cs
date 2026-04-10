@@ -211,6 +211,31 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
     }
 
     /// <summary>
+    /// Declares that a society is affected by a commons.
+    /// </summary>
+    /// <param name="societyId">The unique identifier of the society.</param>
+    /// <param name="request">The declaration request.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the request.</param>
+    /// <returns>204 No Content on success.</returns>
+    [HttpPost("{societyId}/commons-links")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [EndpointName("declareSocietyAffectedByCommons")]
+    public async Task<IActionResult> DeclareSocietyAffectedByCommons(
+        string societyId,
+        [FromBody] DomainRequests.DeclareSocietyAffectedByCommonsRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(societyId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        await societiesApiClient
+            .DeclareSocietyAffectedByCommonsAsync(societyId, request, cancellationToken)
+            .ConfigureAwait(false);
+
+        return NoContent();
+    }
+
+    /// <summary>
     /// Gets all invite links created by the authenticated participant for the specified society.
     /// </summary>
     /// <param name="societyId">The unique identifier of the society.</param>

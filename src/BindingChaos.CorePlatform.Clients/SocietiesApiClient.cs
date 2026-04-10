@@ -112,6 +112,20 @@ public class SocietiesApiClient(
     }
 
     /// <inheritdoc/>
+    public Task DeclareSocietyAffectedByCommonsAsync(
+        string societyId,
+        DeclareSocietyAffectedByCommonsRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(societyId);
+        ArgumentNullException.ThrowIfNull(request);
+        return PostAsync(
+            $"api/societies/{societyId}/commons-links",
+            request,
+            cancellationToken);
+    }
+
+    /// <inheritdoc/>
     public Task<string> CreateSocietyInviteLinkAsync(
         string societyId,
         CreateSocietyInviteLinkRequest request,
