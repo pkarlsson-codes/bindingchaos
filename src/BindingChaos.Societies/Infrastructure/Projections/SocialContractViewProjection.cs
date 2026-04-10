@@ -22,6 +22,20 @@ internal sealed class SocialContractViewProjection : SingleStreamProjection<Soci
             Id = e.Data.AggregateId,
             SocietyId = e.Data.SocietyId,
             EstablishedAt = e.Data.OccurredAt,
+            InquiryLapseWindowTicks = e.Data.InquiryLapseWindowTicks,
         };
+    }
+
+    /// <summary>
+    /// Updates the <see cref="SocialContractView"/> when a social contract is amended.
+    /// </summary>
+    /// <param name="view">The view to update.</param>
+    /// <param name="e">The social contract amended event.</param>
+    public static void Apply(SocialContractView view, IEvent<SocialContractAmended> e)
+    {
+        if (e.Data.InquiryLapseWindowTicks.HasValue)
+        {
+            view.InquiryLapseWindowTicks = e.Data.InquiryLapseWindowTicks.Value;
+        }
     }
 }

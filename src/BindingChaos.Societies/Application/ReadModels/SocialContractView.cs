@@ -19,4 +19,9 @@ public class SocialContractView
     /// Gets or sets when this social contract was established.
     /// </summary>
     public DateTimeOffset EstablishedAt { get; set; }
+
+    /// <summary>
+    /// Gets or sets the inquiry lapse window in ticks (from the society's decision protocol).
+    /// </summary>
+    public long InquiryLapseWindowTicks { get; set; }
 }

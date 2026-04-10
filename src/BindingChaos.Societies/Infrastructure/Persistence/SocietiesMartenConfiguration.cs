@@ -30,6 +30,7 @@ public static class SocietiesMartenConfiguration
         options.Projections.Add<SocietyListItemViewProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<SocietyMemberViewProjection>(ProjectionLifecycle.Inline);
         options.Projections.Add<SocialContractViewProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<SocietyAffectedByCommonsViewProjection>(ProjectionLifecycle.Inline);
     }
 
     private static void ConfigureReadModels(StoreOptions options)
@@ -43,5 +44,9 @@ public static class SocietiesMartenConfiguration
         options.Schema.For<SocialContractView>()
             .DatabaseSchemaName(SocietiesSchemaName)
             .Index(v => v.SocietyId);
+        options.Schema.For<SocietyAffectedByCommonsView>()
+            .DatabaseSchemaName(SocietiesSchemaName)
+            .Duplicate(x => x.CommonsId)
+            .Duplicate(x => x.SocietyId);
     }
 }
