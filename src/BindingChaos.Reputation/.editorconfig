@@ -1,3 +1,3 @@
 
-[**/{Commands,Events,Messages,Queries,DTOs}/*.cs]
+[**/{Commands,Events,Messages,Queries,DTOs,ReadModels}/*.cs]
 dotnet_diagnostic.SA1313.severity = none

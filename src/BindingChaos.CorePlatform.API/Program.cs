@@ -4,6 +4,7 @@ using BindingChaos.CorePlatform.API.Infrastructure.Configuration;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
 using BindingChaos.IdentityProfile.Infrastructure;
+using BindingChaos.Reputation.Infrastructure;
 using BindingChaos.Societies.Infrastructure;
 using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
@@ -51,6 +52,7 @@ try
         opts.Discovery.IncludeAssembly(typeof(SocietiesAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(StigmergyAssemblyReference).Assembly);
         opts.Discovery.IncludeAssembly(typeof(IdentityProfileAssemblyReference).Assembly);
+        opts.Discovery.IncludeAssembly(typeof(ReputationAssemblyReference).Assembly);
     });
 
     var app = builder.Build();
