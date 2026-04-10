@@ -104,7 +104,8 @@ internal static class CorePlatformServiceCollectionExtensions
     {
         services.AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy())
-            .AddIdentityProfileHealthChecks();
+            .AddIdentityProfileHealthChecks()
+            .AddReputationHealthChecks();
         return services;
     }
 

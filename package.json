@@ -28,6 +28,8 @@
     "migration:apply:keycloak": "bash ./scripts/reset-seed/keycloak/db-migrate-keycloak.sh",
     "migration:generate:identity": "bash ./scripts/add-migration.sh src/BindingChaos.IdentityProfile IdentityProfileDbContext",
     "migration:apply:identity": "dotnet ef database update --project src/BindingChaos.IdentityProfile --context IdentityProfileDbContext",
+    "migration:generate:competence": "bash ./scripts/add-migration.sh src/BindingChaos.Reputation CompetenceDbContext",
+    "migration:apply:competence": "dotnet ef database update --project src/BindingChaos.Reputation --context CompetenceDbContext",
     "dotnet:restore": "dotnet restore src/BindingChaos.sln",
     "dotnet:build": "dotnet build src/BindingChaos.sln",
     "dotnet:test": "dotnet test src/BindingChaos.sln",

@@ -17,7 +17,13 @@ public sealed class Neo4jSchemaInitializer : IHostedService
     public Neo4jSchemaInitializer(IDriver driver) => _driver = driver;
 
     /// <inheritdoc />
-    /// <remarks>Applies the uniqueness constraint: FOR (p:Participant) REQUIRE p.id IS UNIQUE.</remarks>
+    /// <remarks>
+    /// Applies:
+    /// <list type="bullet">
+    /// <item>Uniqueness constraint: FOR (p:Participant) REQUIRE p.id IS UNIQUE.</item>
+    /// <item>Index on ENDORSED_FOR.skillId for efficient skill-based expert queries.</item>
+    /// </list>
+    /// </remarks>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var session = _driver.AsyncSession();
@@ -25,6 +31,11 @@ public sealed class Neo4jSchemaInitializer : IHostedService
         {
             var cursor = await session.RunAsync(
                 "CREATE CONSTRAINT participant_id_unique IF NOT EXISTS FOR (p:Participant) REQUIRE p.id IS UNIQUE")
+                .ConfigureAwait(false);
+            await cursor.ConsumeAsync().ConfigureAwait(false);
+
+            cursor = await session.RunAsync(
+                "CREATE INDEX endorsed_for_skill_idx IF NOT EXISTS FOR ()-[r:ENDORSED_FOR]-() ON (r.skillId)")
                 .ConfigureAwait(false);
             await cursor.ConsumeAsync().ConfigureAwait(false);
         }
