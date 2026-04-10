@@ -17,6 +17,7 @@ namespace BindingChaos.Societies.Application.Commands;
 /// <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
 /// <param name="AllowVeto">Whether veto is allowed in the decision protocol.</param>
 /// <param name="RequiredVerificationWeight">The required verification weight for epistemic rules.</param>
+/// <param name="InquiryLapseWindowHours">How long an unanswered inquiry remains open before auto-lapsing, in hours.</param>
 /// <param name="GeographicBounds">Optional geographic bounds for the society.</param>
 /// <param name="Center">Optional center coordinates for the society.</param>
 public sealed record CreateSociety(
@@ -28,6 +29,7 @@ public sealed record CreateSociety(
     double ReviewWindowHours,
     bool AllowVeto,
     double RequiredVerificationWeight,
+    double InquiryLapseWindowHours,
     GeographicArea? GeographicBounds,
     Coordinates? Center);
 
@@ -65,7 +67,8 @@ public static class CreateSocietyHandler
         var protocol = new DecisionProtocol(
             command.RatificationThreshold,
             TimeSpan.FromHours(command.ReviewWindowHours),
-            command.AllowVeto);
+            command.AllowVeto,
+            TimeSpan.FromHours(command.InquiryLapseWindowHours));
 
         var epistemicRules = new EpistemicRules(command.RequiredVerificationWeight);
 

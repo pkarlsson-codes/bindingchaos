@@ -41,6 +41,11 @@ public sealed class CreateSocietyRequest
     public double RequiredVerificationWeight { get; set; }
 
     /// <summary>
+    /// How long an unanswered inquiry remains open before auto-lapsing, in hours.
+    /// </summary>
+    public double InquiryLapseWindowHours { get; set; }
+
+    /// <summary>
     /// Optional geographic bounds for the society.
     /// </summary>
     public GeographicBoundsModel? GeographicBounds { get; set; }

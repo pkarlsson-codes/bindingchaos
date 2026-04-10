@@ -134,6 +134,7 @@ public sealed class SocietiesController(ISocietiesApiClient societiesApiClient) 
             request.ReviewWindowHours,
             request.AllowVeto,
             request.RequiredVerificationWeight,
+            request.InquiryLapseWindowHours,
             bounds,
             center);
 

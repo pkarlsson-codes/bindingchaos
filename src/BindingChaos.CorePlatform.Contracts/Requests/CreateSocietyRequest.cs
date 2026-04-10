@@ -10,6 +10,7 @@ namespace BindingChaos.CorePlatform.Contracts.Requests;
 /// <param name="ReviewWindowHours">The decision protocol review window in hours.</param>
 /// <param name="AllowVeto">Whether a single principled objection can block a decision.</param>
 /// <param name="RequiredVerificationWeight">The minimum verification weight required for signals.</param>
+/// <param name="InquiryLapseWindowHours">How long an unanswered inquiry remains open before auto-lapsing, in hours.</param>
 /// <param name="GeographicBounds">Optional geographic bounds for the society.</param>
 /// <param name="Center">Optional center coordinates for the society.</param>
 public record CreateSocietyRequest(
@@ -20,6 +21,7 @@ public record CreateSocietyRequest(
     double ReviewWindowHours,
     bool AllowVeto,
     double RequiredVerificationWeight,
+    double InquiryLapseWindowHours,
     GeographicBoundsRequest? GeographicBounds,
     CoordinatesRequest? Center);
 

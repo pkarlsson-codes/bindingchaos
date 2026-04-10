@@ -77,7 +77,8 @@ public sealed class SocietiesInitialData : IInitialData
                 new DecisionProtocol(
                     data.SocialContract.RatificationThreshold,
                     TimeSpan.FromHours(data.SocialContract.ReviewWindowHours),
-                    data.SocialContract.AllowVeto),
+                    data.SocialContract.AllowVeto,
+                    TimeSpan.FromHours(data.SocialContract.InquiryLapseWindowHours)),
                 new EpistemicRules(data.SocialContract.RequiredVerificationWeight));
 
             foreach (var index in data.MemberIndices)
@@ -144,5 +145,7 @@ public sealed class SocietiesInitialData : IInitialData
         public bool AllowVeto { get; set; }
 
         public double RequiredVerificationWeight { get; set; }
+
+        public double InquiryLapseWindowHours { get; set; } = 336; // 14 days default
     }
 }

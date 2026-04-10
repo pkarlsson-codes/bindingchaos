@@ -55,7 +55,8 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
             protocol.RatificationThreshold,
             protocol.ReviewWindow.Ticks,
             protocol.AllowVeto,
-            epistemicRules.RequiredVerificationWeight));
+            epistemicRules.RequiredVerificationWeight,
+            protocol.InquiryLapseWindow.Ticks));
 
         return contract;
     }
@@ -82,7 +83,8 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
             newProtocol?.RatificationThreshold,
             newProtocol?.ReviewWindow.Ticks,
             newProtocol?.AllowVeto,
-            newEpistemicRules?.RequiredVerificationWeight));
+            newEpistemicRules?.RequiredVerificationWeight,
+            newProtocol?.InquiryLapseWindow.Ticks));
     }
 
     /// <inheritdoc/>
@@ -99,18 +101,19 @@ public sealed class SocialContract : AggregateRoot<SocialContractId>
     private void Apply(SocialContractEstablished evt)
     {
         Id = SocialContractId.Create(evt.AggregateId);
-        Protocol = new DecisionProtocol(evt.RatificationThreshold, TimeSpan.FromTicks(evt.ReviewWindowTicks), evt.AllowVeto);
+        Protocol = new DecisionProtocol(evt.RatificationThreshold, TimeSpan.FromTicks(evt.ReviewWindowTicks), evt.AllowVeto, TimeSpan.FromTicks(evt.InquiryLapseWindowTicks));
         EpistemicRules = new EpistemicRules(evt.RequiredVerificationWeight);
     }
 
     private void Apply(SocialContractAmended evt)
     {
-        if (evt.RatificationThreshold.HasValue || evt.ReviewWindowTicks.HasValue || evt.AllowVeto.HasValue)
+        if (evt.RatificationThreshold.HasValue || evt.ReviewWindowTicks.HasValue || evt.AllowVeto.HasValue || evt.InquiryLapseWindowTicks.HasValue)
         {
             Protocol = new DecisionProtocol(
                 evt.RatificationThreshold ?? Protocol.RatificationThreshold,
                 evt.ReviewWindowTicks.HasValue ? TimeSpan.FromTicks(evt.ReviewWindowTicks.Value) : Protocol.ReviewWindow,
-                evt.AllowVeto ?? Protocol.AllowVeto);
+                evt.AllowVeto ?? Protocol.AllowVeto,
+                evt.InquiryLapseWindowTicks.HasValue ? TimeSpan.FromTicks(evt.InquiryLapseWindowTicks.Value) : Protocol.InquiryLapseWindow);
         }
 
         if (evt.RequiredVerificationWeight.HasValue)

@@ -12,6 +12,7 @@ namespace BindingChaos.Societies.Domain.SocialContracts.Events;
 /// <param name="ReviewWindowTicks">The review window duration in ticks.</param>
 /// <param name="AllowVeto">Whether veto is allowed.</param>
 /// <param name="RequiredVerificationWeight">The required verification weight from the epistemic rules.</param>
+/// <param name="InquiryLapseWindowTicks">The inquiry lapse window duration in ticks.</param>
 public sealed record SocialContractEstablished(
     string AggregateId,
     string SocietyId,
@@ -19,5 +20,6 @@ public sealed record SocialContractEstablished(
     double RatificationThreshold,
     long ReviewWindowTicks,
     bool AllowVeto,
-    double RequiredVerificationWeight
+    double RequiredVerificationWeight,
+    long InquiryLapseWindowTicks
 ) : DomainEvent(AggregateId);

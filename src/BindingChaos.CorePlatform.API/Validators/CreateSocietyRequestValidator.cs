@@ -34,5 +34,9 @@ internal sealed class CreateSocietyRequestValidator : AbstractValidator<CreateSo
         RuleFor(x => x.RequiredVerificationWeight)
             .GreaterThanOrEqualTo(0.0)
             .WithMessage("RequiredVerificationWeight must be greater than or equal to 0.0.");
+
+        RuleFor(x => x.InquiryLapseWindowHours)
+            .GreaterThan(0.0)
+            .WithMessage("InquiryLapseWindowHours must be greater than 0.");
     }
 }

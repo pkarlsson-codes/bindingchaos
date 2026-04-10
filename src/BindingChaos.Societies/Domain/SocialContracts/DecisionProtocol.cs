@@ -13,11 +13,13 @@ public sealed class DecisionProtocol : ValueObject
     /// <param name="ratificationThreshold">The percentage of total weight required to ratify a decision (e.g., 0.5 for 50%).</param>
     /// <param name="reviewWindow">The duration an amendment must remain open for feedback or objection.</param>
     /// <param name="allowVeto">If true, a single principled objection can block a decision regardless of weight.</param>
-    public DecisionProtocol(double ratificationThreshold, TimeSpan reviewWindow, bool allowVeto)
+    /// <param name="inquiryLapseWindow">How long an unanswered or unaccepted inquiry remains open before auto-lapsing.</param>
+    public DecisionProtocol(double ratificationThreshold, TimeSpan reviewWindow, bool allowVeto, TimeSpan inquiryLapseWindow)
     {
         RatificationThreshold = ratificationThreshold;
         ReviewWindow = reviewWindow;
         AllowVeto = allowVeto;
+        InquiryLapseWindow = inquiryLapseWindow;
     }
 
     /// <summary>
@@ -35,11 +37,15 @@ public sealed class DecisionProtocol : ValueObject
     /// </summary>
     public bool AllowVeto { get; }
 
+    /// <summary>Gets how long an unanswered or unaccepted inquiry remains open before auto-lapsing.</summary>
+    public TimeSpan InquiryLapseWindow { get; }
+
     /// <inheritdoc/>
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return RatificationThreshold;
         yield return ReviewWindow;
         yield return AllowVeto;
+        yield return InquiryLapseWindow;
     }
 }

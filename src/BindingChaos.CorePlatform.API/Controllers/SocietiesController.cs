@@ -70,6 +70,7 @@ public sealed class SocietiesController(IMessageBus messageBus, IPseudonymLookup
             request.ReviewWindowHours,
             request.AllowVeto,
             request.RequiredVerificationWeight,
+            request.InquiryLapseWindowHours,
             geoBounds,
             center);
 

@@ -11,11 +11,13 @@ namespace BindingChaos.Societies.Domain.SocialContracts.Events;
 /// <param name="ReviewWindowTicks">The new review window in ticks, or null if unchanged.</param>
 /// <param name="AllowVeto">The new veto flag, or null if unchanged.</param>
 /// <param name="RequiredVerificationWeight">The new required verification weight, or null if unchanged.</param>
+/// <param name="InquiryLapseWindowTicks">The new inquiry lapse window in ticks, or null if unchanged.</param>
 public sealed record SocialContractAmended(
     string AggregateId,
     string AmendedBy,
     double? RatificationThreshold,
     long? ReviewWindowTicks,
     bool? AllowVeto,
-    double? RequiredVerificationWeight
+    double? RequiredVerificationWeight,
+    long? InquiryLapseWindowTicks
 ) : DomainEvent(AggregateId);
