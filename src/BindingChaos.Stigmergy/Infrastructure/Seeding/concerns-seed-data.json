@@ -1,0 +1,20 @@
+{
+  "concerns": [
+    {
+      "actorIndex": 0,
+      "name": "Recurring Flood Risk at Elm Street Underpass",
+      "tags": ["flooding", "drainage", "infrastructure", "safety"],
+      "signalIndices": [0],
+      "origin": 1,
+      "affectedParticipantIndices": [2, 4, 6, 8, 15, 17]
+    },
+    {
+      "actorIndex": 1,
+      "name": "Persistent Fly-Tipping on Pine Avenue Vacant Lot",
+      "tags": ["environment", "waste", "fly-tipping", "vacant-land"],
+      "signalIndices": [1],
+      "origin": 1,
+      "affectedParticipantIndices": [7, 9, 11, 13, 18]
+    }
+  ]
+}
