@@ -1,0 +1,84 @@
+{
+  "userGroups": [
+    {
+      "commonsIndex": 0,
+      "founderIndex": 2,
+      "name": "Drainage Action Group",
+      "philosophy": "Flooding is a collective problem that demands hydrological evidence, not panic or politics. We work with data, affected residents, and the council to propose drainage solutions that address root causes rather than symptoms.",
+      "charter": {
+        "contentionRules": {
+          "rejectionThreshold": 0.3,
+          "resolutionWindowHours": 48
+        },
+        "membershipRules": {
+          "joinPolicy": 1,
+          "memberListPublic": true
+        },
+        "shunningRules": {
+          "approvalThreshold": 0.75
+        }
+      },
+      "memberIndices": [2, 4, 6, 8, 10, 15, 17, 20, 22, 25]
+    },
+    {
+      "commonsIndex": 1,
+      "founderIndex": 1,
+      "name": "Land Stewards Collective",
+      "philosophy": "Vacant land is a resource, not a nuisance. We bring together land rights knowledge, ecological expertise, and community planning to propose responsible uses for neglected spaces before they become entrenched problems.",
+      "charter": {
+        "contentionRules": {
+          "rejectionThreshold": 0.25,
+          "resolutionWindowHours": 72
+        },
+        "membershipRules": {
+          "joinPolicy": 1,
+          "memberListPublic": true
+        },
+        "shunningRules": {
+          "approvalThreshold": 0.8
+        }
+      },
+      "memberIndices": [1, 7, 9, 11, 13, 18, 23, 27, 31, 35]
+    },
+    {
+      "commonsIndex": 2,
+      "founderIndex": 5,
+      "name": "Eastshire Growing Network",
+      "philosophy": "Food sovereignty begins in soil. We connect growers, seed-savers, and landholders to build a resilient, distributed food commons across the district — one plot, one seed swap, one rooftop at a time.",
+      "charter": {
+        "contentionRules": {
+          "rejectionThreshold": 0.2,
+          "resolutionWindowHours": 96
+        },
+        "membershipRules": {
+          "joinPolicy": 1,
+          "memberListPublic": true
+        },
+        "shunningRules": {
+          "approvalThreshold": 0.7
+        }
+      },
+      "memberIndices": [5, 12, 16, 19, 24, 28, 33, 38, 42, 47]
+    },
+    {
+      "commonsIndex": 3,
+      "founderIndex": 10,
+      "name": "Cycle Advocates Eastshire",
+      "philosophy": "Safe cycling is not a luxury — it is infrastructure policy. We audit routes, document hazards, and negotiate with transport authorities to make the case for improvements with evidence rather than goodwill.",
+      "charter": {
+        "contentionRules": {
+          "rejectionThreshold": 0.3,
+          "resolutionWindowHours": 48
+        },
+        "membershipRules": {
+          "joinPolicy": 1,
+          "memberListPublic": true
+        },
+        "shunningRules": {
+          "approvalThreshold": 0.75
+        }
+      },
+      "memberIndices": [3, 10, 14, 21, 26, 30, 36, 40, 44, 50]
+    }
+  ]
+}
