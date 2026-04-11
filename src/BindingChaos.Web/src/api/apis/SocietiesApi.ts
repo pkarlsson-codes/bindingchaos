@@ -23,6 +23,7 @@ import type {
   ApiResponseOfStringOf,
   CreateSocietyInviteLinkRequest,
   CreateSocietyRequest,
+  DeclareSocietyAffectedByCommonsRequest,
   JoinSocietyRequest,
   ProblemDetails,
   SortDescriptor,
@@ -44,6 +45,8 @@ import {
     CreateSocietyInviteLinkRequestToJSON,
     CreateSocietyRequestFromJSON,
     CreateSocietyRequestToJSON,
+    DeclareSocietyAffectedByCommonsRequestFromJSON,
+    DeclareSocietyAffectedByCommonsRequestToJSON,
     JoinSocietyRequestFromJSON,
     JoinSocietyRequestToJSON,
     ProblemDetailsFromJSON,
@@ -59,6 +62,11 @@ export interface CreateSocietyOperationRequest {
 export interface CreateSocietyInviteLinkOperationRequest {
     societyId: string;
     createSocietyInviteLinkRequest: CreateSocietyInviteLinkRequest;
+}
+
+export interface DeclareSocietyAffectedByCommonsOperationRequest {
+    societyId: string;
+    declareSocietyAffectedByCommonsRequest: DeclareSocietyAffectedByCommonsRequest;
 }
 
 export interface GetMySocietyInviteLinksRequest {
@@ -131,6 +139,22 @@ export interface SocietiesApiInterface {
      * Creates an invite link for the specified society. The caller must be an active member. Membership is verified downstream in CorePlatform.API.
      */
     createSocietyInviteLink(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
+
+    /**
+     * 
+     * @summary Declares that a society is affected by a commons.
+     * @param {string} societyId The unique identifier of the society.
+     * @param {DeclareSocietyAffectedByCommonsRequest} declareSocietyAffectedByCommonsRequest The declaration request.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SocietiesApiInterface
+     */
+    declareSocietyAffectedByCommonsRaw(requestParameters: DeclareSocietyAffectedByCommonsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Declares that a society is affected by a commons.
+     */
+    declareSocietyAffectedByCommons(requestParameters: DeclareSocietyAffectedByCommonsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * 
@@ -336,6 +360,52 @@ export class SocietiesApi extends runtime.BaseAPI implements SocietiesApiInterfa
     async createSocietyInviteLink(requestParameters: CreateSocietyInviteLinkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
         const response = await this.createSocietyInviteLinkRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Declares that a society is affected by a commons.
+     */
+    async declareSocietyAffectedByCommonsRaw(requestParameters: DeclareSocietyAffectedByCommonsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['societyId'] == null) {
+            throw new runtime.RequiredError(
+                'societyId',
+                'Required parameter "societyId" was null or undefined when calling declareSocietyAffectedByCommons().'
+            );
+        }
+
+        if (requestParameters['declareSocietyAffectedByCommonsRequest'] == null) {
+            throw new runtime.RequiredError(
+                'declareSocietyAffectedByCommonsRequest',
+                'Required parameter "declareSocietyAffectedByCommonsRequest" was null or undefined when calling declareSocietyAffectedByCommons().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/societies/{societyId}/commons-links`;
+        urlPath = urlPath.replace(`{${"societyId"}}`, encodeURIComponent(String(requestParameters['societyId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DeclareSocietyAffectedByCommonsRequestToJSON(requestParameters['declareSocietyAffectedByCommonsRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Declares that a society is affected by a commons.
+     */
+    async declareSocietyAffectedByCommons(requestParameters: DeclareSocietyAffectedByCommonsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.declareSocietyAffectedByCommonsRaw(requestParameters, initOverrides);
     }
 
     /**

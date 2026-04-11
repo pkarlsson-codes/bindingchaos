@@ -33,10 +33,13 @@ models/ApiResponseOfIdeaDetailViewModel.ts
 models/ApiResponseOfIdeasFeedViewModel.ts
 models/ApiResponseOfPaginatedResponseOfCommonsListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfConcernListItemResponse.ts
+models/ApiResponseOfPaginatedResponseOfProjectInquiryResponse.ts
 models/ApiResponseOfPaginatedResponseOfProjectListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfSocietyMemberResponse.ts
 models/ApiResponseOfPaginatedResponseOfUserGroupListItemResponse.ts
 models/ApiResponseOfParticipantProfileResponse.ts
+models/ApiResponseOfProjectContestationStatusResponse.ts
+models/ApiResponseOfProjectInquiryResponse.ts
 models/ApiResponseOfProjectResponse.ts
 models/ApiResponseOfResolvedInviteLinkResponse.ts
 models/ApiResponseOfSignalDetailViewModel.ts
@@ -63,6 +66,7 @@ models/CursorDirection.ts
 models/CursorPaginatedResponseOfPostViewModel.ts
 models/CursorPaginatedResponseOfReplyViewModel.ts
 models/DeamplifySignalResponse.ts
+models/DeclareSocietyAffectedByCommonsRequest.ts
 models/EmergingPatternResponse.ts
 models/EmergingPatternsFeedViewModel.ts
 models/FilterStateViewModel.ts
@@ -77,6 +81,7 @@ models/JoinSocietyRequest.ts
 models/PaginatedResponseOfCommonsListItemResponse.ts
 models/PaginatedResponseOfConcernListItemResponse.ts
 models/PaginatedResponseOfIdeaListItemResponse.ts
+models/PaginatedResponseOfProjectInquiryResponse.ts
 models/PaginatedResponseOfProjectListItemResponse.ts
 models/PaginatedResponseOfSignalViewModel.ts
 models/PaginatedResponseOfSocietyListItemResponse.ts
@@ -87,13 +92,17 @@ models/PostRepliesViewModel.ts
 models/PostViewModel.ts
 models/PostsViewModel.ts
 models/ProblemDetails.ts
+models/ProjectContestationStatusResponse.ts
+models/ProjectInquiryResponse.ts
 models/ProjectListItemResponse.ts
 models/ProjectResponse.ts
 models/ProposeCommonsRequest.ts
 models/RaiseConcernRequest.ts
+models/RaiseProjectInquiryRequest.ts
 models/ReferenceSignal.ts
 models/ReplyViewModel.ts
 models/ResolvedInviteLinkResponse.ts
+models/RespondToProjectInquiryRequest.ts
 models/SignalDetailViewModel.ts
 models/SignalViewModel.ts
 models/SignalsFeedViewModel.ts
@@ -108,6 +117,7 @@ models/SortDescriptor.ts
 models/SortDirection.ts
 models/SuggestedActionViewModel.ts
 models/TrustInviteLinkViewResponse.ts
+models/UpdateProjectInquiryRequest.ts
 models/UserGroupApprovalSettingsDto.ts
 models/UserGroupCharterDto.ts
 models/UserGroupContestationRulesDto.ts

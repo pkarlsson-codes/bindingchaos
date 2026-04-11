@@ -32,13 +32,14 @@ export interface IdeaDetailViewModel {
      * @type {IdeaResponse}
      * @memberof IdeaDetailViewModel
      */
-    idea?: IdeaResponse;
+    idea: IdeaResponse;
 }
 
 /**
  * Check if a given object implements the IdeaDetailViewModel interface.
  */
 export function instanceOfIdeaDetailViewModel(value: object): value is IdeaDetailViewModel {
+    if (!('idea' in value) || value['idea'] === undefined) return false;
     return true;
 }
 
@@ -52,7 +53,7 @@ export function IdeaDetailViewModelFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'idea': json['idea'] == null ? undefined : IdeaResponseFromJSON(json['idea']),
+        'idea': IdeaResponseFromJSON(json['idea']),
     };
 }
 

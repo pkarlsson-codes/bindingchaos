@@ -11,6 +11,7 @@ using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.ProjectInquiries;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.UserGroups;
+using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -21,9 +22,10 @@ namespace BindingChaos.CorePlatform.API.Controllers;
 /// Controller for managing projects.
 /// </summary>
 /// <param name="messageBus">The message bus instance used for dispatching commands and queries.</param>
+/// <param name="querySession">The Marten query session for direct read-model access.</param>
 [ApiController]
 [Route("api/projects")]
-public sealed class ProjectsController(IMessageBus messageBus) : BaseApiController
+public sealed class ProjectsController(IMessageBus messageBus, IQuerySession querySession) : BaseApiController
 {
     /// <summary>
     /// Creates a new project in a user group.
@@ -213,9 +215,11 @@ public sealed class ProjectsController(IMessageBus messageBus) : BaseApiControll
         [FromQuery] PaginationQuerySpec querySpec,
         CancellationToken cancellationToken)
     {
+        var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
         var query = new GetProjectInquiries(ProjectId.Create(projectId), querySpec);
         var result = await messageBus.InvokeAsync<PaginatedResponse<ProjectInquiryView>>(query, cancellationToken).ConfigureAwait(false);
-        return Ok(result.MapItems(ToInquiryResponse));
+        var isGroupMember = await IsCurrentUserInProjectUserGroupAsync(projectId, currentParticipantId, cancellationToken).ConfigureAwait(false);
+        return Ok(result.MapItems(v => ToInquiryResponse(v, currentParticipantId, isGroupMember)));
     }
 
     /// <summary>
@@ -235,9 +239,16 @@ public sealed class ProjectsController(IMessageBus messageBus) : BaseApiControll
         [FromRoute] string inquiryId,
         CancellationToken cancellationToken)
     {
+        var currentParticipantId = HttpContext.GetParticipantIdOrAnonymous();
         var query = new GetProjectInquiry(ProjectInquiryId.Create(inquiryId));
         var view = await messageBus.InvokeAsync<ProjectInquiryView?>(query, cancellationToken).ConfigureAwait(false);
-        return view is null ? NotFound() : Ok(ToInquiryResponse(view));
+        if (view is null)
+        {
+            return NotFound();
+        }
+
+        var isGroupMember = await IsCurrentUserInProjectUserGroupAsync(projectId, currentParticipantId, cancellationToken).ConfigureAwait(false);
+        return Ok(ToInquiryResponse(view, currentParticipantId, isGroupMember));
     }
 
     /// <summary>
@@ -381,6 +392,36 @@ public sealed class ProjectsController(IMessageBus messageBus) : BaseApiControll
         return Ok(new ProjectContestationStatusResponse(view.OpenInquiryCount, view.IsContested));
     }
 
-    private static ProjectInquiryResponse ToInquiryResponse(ProjectInquiryView v) =>
-        new(v.Id, v.ProjectId, v.RaisedByParticipantId, v.RaisedBySocietyId, v.Body, v.Status, v.Response, v.DiscourseThreadId, v.RaisedAt, v.LastUpdatedAt);
+    private static ProjectInquiryResponse ToInquiryResponse(ProjectInquiryView v, ParticipantId currentParticipantId, bool isGroupMember) =>
+        new(
+            v.Id,
+            v.ProjectId,
+            v.RaisedByParticipantId,
+            v.RaisedBySocietyId,
+            v.Body,
+            v.Status,
+            v.Response,
+            v.DiscourseThreadId,
+            v.RaisedAt,
+            v.LastUpdatedAt,
+            IsRaisedByCurrentUser: !currentParticipantId.IsAnonymous && currentParticipantId.Value == v.RaisedByParticipantId,
+            IsCurrentUserInProjectUserGroup: isGroupMember);
+
+    private async Task<bool> IsCurrentUserInProjectUserGroupAsync(string projectId, ParticipantId currentParticipantId, CancellationToken cancellationToken)
+    {
+        if (currentParticipantId.IsAnonymous)
+        {
+            return false;
+        }
+
+        var project = await querySession.LoadAsync<ProjectView>(projectId, cancellationToken).ConfigureAwait(false);
+        if (project is null)
+        {
+            return false;
+        }
+
+        var membershipKey = $"{project.UserGroupId}:{currentParticipantId.Value}";
+        var membership = await querySession.LoadAsync<UserGroupMembersView>(membershipKey, cancellationToken).ConfigureAwait(false);
+        return membership is not null;
+    }
 }

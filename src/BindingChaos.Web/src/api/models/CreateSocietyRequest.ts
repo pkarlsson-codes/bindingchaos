@@ -77,6 +77,12 @@ export interface CreateSocietyRequest {
      */
     requiredVerificationWeight?: number;
     /**
+     * How long an unanswered inquiry remains open before auto-lapsing, in hours.
+     * @type {number}
+     * @memberof CreateSocietyRequest
+     */
+    inquiryLapseWindowHours?: number;
+    /**
      * 
      * @type {GeographicBoundsModel}
      * @memberof CreateSocietyRequest
@@ -114,6 +120,7 @@ export function CreateSocietyRequestFromJSONTyped(json: any, ignoreDiscriminator
         'reviewWindowHours': json['reviewWindowHours'] == null ? undefined : json['reviewWindowHours'],
         'allowVeto': json['allowVeto'] == null ? undefined : json['allowVeto'],
         'requiredVerificationWeight': json['requiredVerificationWeight'] == null ? undefined : json['requiredVerificationWeight'],
+        'inquiryLapseWindowHours': json['inquiryLapseWindowHours'] == null ? undefined : json['inquiryLapseWindowHours'],
         'geographicBounds': json['geographicBounds'] == null ? undefined : GeographicBoundsModelFromJSON(json['geographicBounds']),
         'center': json['center'] == null ? undefined : CoordinatesModelFromJSON(json['center']),
     };
@@ -137,6 +144,7 @@ export function CreateSocietyRequestToJSONTyped(value?: CreateSocietyRequest | n
         'reviewWindowHours': value['reviewWindowHours'],
         'allowVeto': value['allowVeto'],
         'requiredVerificationWeight': value['requiredVerificationWeight'],
+        'inquiryLapseWindowHours': value['inquiryLapseWindowHours'],
         'geographicBounds': GeographicBoundsModelToJSON(value['geographicBounds']),
         'center': CoordinatesModelToJSON(value['center']),
     };

@@ -8,6 +8,8 @@ import { Badge } from '../../../shared/components/ui/badge';
 import { toast } from '../../../shared/components/ui/toast';
 import { useProject } from '../../../shared/hooks/useProject';
 import { useApiClient } from '../../../shared/hooks/useApiClient';
+import { useProjectContestationStatus } from '../hooks/useProjectInquiries';
+import { ProjectInquiriesCard } from './ProjectInquiriesCard';
 
 export function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export function ProjectDetailPage() {
   const [contestingAmendmentId, setContestingAmendmentId] = useState<string | null>(null);
 
   const { data: project, isLoading, error } = useProject(projectId ?? '');
+  const { data: contestationStatus } = useProjectContestationStatus(projectId ?? '');
 
   if (!projectId) {
     return (
@@ -120,7 +123,12 @@ export function ProjectDetailPage() {
         title={
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">{project.title ?? 'Untitled Project'}</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-foreground">{project.title ?? 'Untitled Project'}</h1>
+                {contestationStatus?.isContested && (
+                  <Badge variant="destructive">Contested</Badge>
+                )}
+              </div>
               <p className="text-sm text-muted-foreground mt-1">User group: {project.userGroupId}</p>
             </div>
             <AuthRequiredButton action="propose an amendment">
@@ -189,6 +197,8 @@ export function ProjectDetailPage() {
           })
         )}
       </div>
+
+      <ProjectInquiriesCard projectId={projectId} />
     </div>
   );
 }

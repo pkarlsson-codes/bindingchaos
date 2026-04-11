@@ -11,6 +11,8 @@ namespace BindingChaos.CorePlatform.Contracts.Responses;
 /// <param name="DiscourseThreadId">The linked discourse thread identifier, when created.</param>
 /// <param name="RaisedAt">When the inquiry was raised.</param>
 /// <param name="LastUpdatedAt">When the inquiry was last updated.</param>
+/// <param name="IsRaisedByCurrentUser">Whether the current user raised this inquiry.</param>
+/// <param name="IsCurrentUserInProjectUserGroup">Whether the current user is a member of the project's user group.</param>
 public sealed record ProjectInquiryResponse(
     string Id,
     string ProjectId,
@@ -21,4 +23,6 @@ public sealed record ProjectInquiryResponse(
     string? Response,
     string? DiscourseThreadId,
     DateTimeOffset RaisedAt,
-    DateTimeOffset LastUpdatedAt);
+    DateTimeOffset LastUpdatedAt,
+    bool IsRaisedByCurrentUser,
+    bool IsCurrentUserInProjectUserGroup);

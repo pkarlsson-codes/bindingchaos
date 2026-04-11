@@ -32,13 +32,14 @@ export interface SocietyDetailViewModel {
      * @type {SocietyResponse}
      * @memberof SocietyDetailViewModel
      */
-    society?: SocietyResponse;
+    society: SocietyResponse;
 }
 
 /**
  * Check if a given object implements the SocietyDetailViewModel interface.
  */
 export function instanceOfSocietyDetailViewModel(value: object): value is SocietyDetailViewModel {
+    if (!('society' in value) || value['society'] === undefined) return false;
     return true;
 }
 
@@ -52,7 +53,7 @@ export function SocietyDetailViewModelFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
-        'society': json['society'] == null ? undefined : SocietyResponseFromJSON(json['society']),
+        'society': SocietyResponseFromJSON(json['society']),
     };
 }
 

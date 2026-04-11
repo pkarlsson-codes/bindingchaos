@@ -15,16 +15,28 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiResponseOfPaginatedResponseOfProjectInquiryResponse,
   ApiResponseOfPaginatedResponseOfProjectListItemResponse,
+  ApiResponseOfProjectContestationStatusResponse,
+  ApiResponseOfProjectInquiryResponse,
   ApiResponseOfProjectResponse,
   ApiResponseOfString,
   CreateProjectRequest,
   ProblemDetails,
+  RaiseProjectInquiryRequest,
+  RespondToProjectInquiryRequest,
   SortDescriptor,
+  UpdateProjectInquiryRequest,
 } from '../models/index';
 import {
+    ApiResponseOfPaginatedResponseOfProjectInquiryResponseFromJSON,
+    ApiResponseOfPaginatedResponseOfProjectInquiryResponseToJSON,
     ApiResponseOfPaginatedResponseOfProjectListItemResponseFromJSON,
     ApiResponseOfPaginatedResponseOfProjectListItemResponseToJSON,
+    ApiResponseOfProjectContestationStatusResponseFromJSON,
+    ApiResponseOfProjectContestationStatusResponseToJSON,
+    ApiResponseOfProjectInquiryResponseFromJSON,
+    ApiResponseOfProjectInquiryResponseToJSON,
     ApiResponseOfProjectResponseFromJSON,
     ApiResponseOfProjectResponseToJSON,
     ApiResponseOfStringFromJSON,
@@ -33,8 +45,14 @@ import {
     CreateProjectRequestToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    RaiseProjectInquiryRequestFromJSON,
+    RaiseProjectInquiryRequestToJSON,
+    RespondToProjectInquiryRequestFromJSON,
+    RespondToProjectInquiryRequestToJSON,
     SortDescriptorFromJSON,
     SortDescriptorToJSON,
+    UpdateProjectInquiryRequestFromJSON,
+    UpdateProjectInquiryRequestToJSON,
 } from '../models/index';
 
 export interface ContestProjectAmendmentRequest {
@@ -50,6 +68,22 @@ export interface GetProjectRequest {
     projectId: string;
 }
 
+export interface GetProjectContestationStatusRequest {
+    projectId: string;
+}
+
+export interface GetProjectInquiriesRequest {
+    projectId: string;
+    pageNumber?: number;
+    pageSize?: number;
+    sort?: Array<SortDescriptor>;
+}
+
+export interface GetProjectInquiryRequest {
+    projectId: string;
+    inquiryId: string;
+}
+
 export interface GetProjectsForUserGroupRequest {
     userGroupId?: string;
     pageNumber?: number;
@@ -59,6 +93,34 @@ export interface GetProjectsForUserGroupRequest {
 
 export interface ProposeProjectAmendmentRequest {
     projectId: string;
+}
+
+export interface RaiseProjectInquiryOperationRequest {
+    projectId: string;
+    raiseProjectInquiryRequest: RaiseProjectInquiryRequest;
+}
+
+export interface ReopenProjectInquiryRequest {
+    projectId: string;
+    inquiryId: string;
+    updateProjectInquiryRequest?: UpdateProjectInquiryRequest;
+}
+
+export interface ResolveProjectInquiryRequest {
+    projectId: string;
+    inquiryId: string;
+}
+
+export interface RespondToProjectInquiryOperationRequest {
+    projectId: string;
+    inquiryId: string;
+    respondToProjectInquiryRequest: RespondToProjectInquiryRequest;
+}
+
+export interface UpdateProjectInquiryOperationRequest {
+    projectId: string;
+    inquiryId: string;
+    updateProjectInquiryRequest: UpdateProjectInquiryRequest;
 }
 
 /**
@@ -116,6 +178,55 @@ export interface ProjectsApiInterface {
 
     /**
      * 
+     * @summary Gets the contestation status of a project.
+     * @param {string} projectId The project identifier.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    getProjectContestationStatusRaw(requestParameters: GetProjectContestationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfProjectContestationStatusResponse>>;
+
+    /**
+     * Gets the contestation status of a project.
+     */
+    getProjectContestationStatus(requestParameters: GetProjectContestationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfProjectContestationStatusResponse>;
+
+    /**
+     * 
+     * @summary Lists inquiries for a project.
+     * @param {string} projectId The project identifier.
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
+     * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    getProjectInquiriesRaw(requestParameters: GetProjectInquiriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfProjectInquiryResponse>>;
+
+    /**
+     * Lists inquiries for a project.
+     */
+    getProjectInquiries(requestParameters: GetProjectInquiriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfProjectInquiryResponse>;
+
+    /**
+     * 
+     * @summary Gets a single project inquiry.
+     * @param {string} projectId The project identifier.
+     * @param {string} inquiryId The inquiry identifier.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    getProjectInquiryRaw(requestParameters: GetProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfProjectInquiryResponse>>;
+
+    /**
+     * Gets a single project inquiry.
+     */
+    getProjectInquiry(requestParameters: GetProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfProjectInquiryResponse>;
+
+    /**
+     * 
      * @summary Retrieves a paginated list of projects for the specified user group.
      * @param {string} [userGroupId] The user group identifier to filter by.
      * @param {number} [pageNumber] The current page number (1-based).
@@ -146,6 +257,89 @@ export interface ProjectsApiInterface {
      * Proposes a new amendment for a project.
      */
     proposeProjectAmendment(requestParameters: ProposeProjectAmendmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
+
+    /**
+     * 
+     * @summary Raises a new inquiry against a project.
+     * @param {string} projectId The project identifier.
+     * @param {RaiseProjectInquiryRequest} raiseProjectInquiryRequest The raise inquiry request.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    raiseProjectInquiryRaw(requestParameters: RaiseProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>>;
+
+    /**
+     * Raises a new inquiry against a project.
+     */
+    raiseProjectInquiry(requestParameters: RaiseProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString>;
+
+    /**
+     * 
+     * @summary Reopens a lapsed inquiry, optionally with an updated body.
+     * @param {string} projectId The project identifier.
+     * @param {string} inquiryId The inquiry identifier.
+     * @param {UpdateProjectInquiryRequest} [updateProjectInquiryRequest] Optional updated body.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    reopenProjectInquiryRaw(requestParameters: ReopenProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Reopens a lapsed inquiry, optionally with an updated body.
+     */
+    reopenProjectInquiry(requestParameters: ReopenProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Resolves an inquiry, accepting the user group\'s response.
+     * @param {string} projectId The project identifier.
+     * @param {string} inquiryId The inquiry identifier.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    resolveProjectInquiryRaw(requestParameters: ResolveProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Resolves an inquiry, accepting the user group\'s response.
+     */
+    resolveProjectInquiry(requestParameters: ResolveProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Submits a user group response to an inquiry.
+     * @param {string} projectId The project identifier.
+     * @param {string} inquiryId The inquiry identifier.
+     * @param {RespondToProjectInquiryRequest} respondToProjectInquiryRequest The response request.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    respondToProjectInquiryRaw(requestParameters: RespondToProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Submits a user group response to an inquiry.
+     */
+    respondToProjectInquiry(requestParameters: RespondToProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * 
+     * @summary Updates the body of an inquiry, resetting it to open status.
+     * @param {string} projectId The project identifier.
+     * @param {string} inquiryId The inquiry identifier.
+     * @param {UpdateProjectInquiryRequest} updateProjectInquiryRequest The update request.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    updateProjectInquiryRaw(requestParameters: UpdateProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Updates the body of an inquiry, resetting it to open status.
+     */
+    updateProjectInquiry(requestParameters: UpdateProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
 }
 
@@ -275,6 +469,137 @@ export class ProjectsApi extends runtime.BaseAPI implements ProjectsApiInterface
     }
 
     /**
+     * Gets the contestation status of a project.
+     */
+    async getProjectContestationStatusRaw(requestParameters: GetProjectContestationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfProjectContestationStatusResponse>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling getProjectContestationStatus().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/projects/{projectId}/contestation-status`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfProjectContestationStatusResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Gets the contestation status of a project.
+     */
+    async getProjectContestationStatus(requestParameters: GetProjectContestationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfProjectContestationStatusResponse> {
+        const response = await this.getProjectContestationStatusRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Lists inquiries for a project.
+     */
+    async getProjectInquiriesRaw(requestParameters: GetProjectInquiriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfProjectInquiryResponse>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling getProjectInquiries().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfPaginatedResponseOfProjectInquiryResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Lists inquiries for a project.
+     */
+    async getProjectInquiries(requestParameters: GetProjectInquiriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfProjectInquiryResponse> {
+        const response = await this.getProjectInquiriesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Gets a single project inquiry.
+     */
+    async getProjectInquiryRaw(requestParameters: GetProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfProjectInquiryResponse>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling getProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['inquiryId'] == null) {
+            throw new runtime.RequiredError(
+                'inquiryId',
+                'Required parameter "inquiryId" was null or undefined when calling getProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries/{inquiryId}`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace(`{${"inquiryId"}}`, encodeURIComponent(String(requestParameters['inquiryId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfProjectInquiryResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Gets a single project inquiry.
+     */
+    async getProjectInquiry(requestParameters: GetProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfProjectInquiryResponse> {
+        const response = await this.getProjectInquiryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Retrieves a paginated list of projects for the specified user group.
      */
     async getProjectsForUserGroupRaw(requestParameters: GetProjectsForUserGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfProjectListItemResponse>> {
@@ -354,6 +679,252 @@ export class ProjectsApi extends runtime.BaseAPI implements ProjectsApiInterface
     async proposeProjectAmendment(requestParameters: ProposeProjectAmendmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
         const response = await this.proposeProjectAmendmentRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Raises a new inquiry against a project.
+     */
+    async raiseProjectInquiryRaw(requestParameters: RaiseProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfString>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling raiseProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['raiseProjectInquiryRequest'] == null) {
+            throw new runtime.RequiredError(
+                'raiseProjectInquiryRequest',
+                'Required parameter "raiseProjectInquiryRequest" was null or undefined when calling raiseProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RaiseProjectInquiryRequestToJSON(requestParameters['raiseProjectInquiryRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfStringFromJSON(jsonValue));
+    }
+
+    /**
+     * Raises a new inquiry against a project.
+     */
+    async raiseProjectInquiry(requestParameters: RaiseProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfString> {
+        const response = await this.raiseProjectInquiryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Reopens a lapsed inquiry, optionally with an updated body.
+     */
+    async reopenProjectInquiryRaw(requestParameters: ReopenProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling reopenProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['inquiryId'] == null) {
+            throw new runtime.RequiredError(
+                'inquiryId',
+                'Required parameter "inquiryId" was null or undefined when calling reopenProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries/{inquiryId}/reopenings`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace(`{${"inquiryId"}}`, encodeURIComponent(String(requestParameters['inquiryId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateProjectInquiryRequestToJSON(requestParameters['updateProjectInquiryRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Reopens a lapsed inquiry, optionally with an updated body.
+     */
+    async reopenProjectInquiry(requestParameters: ReopenProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.reopenProjectInquiryRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Resolves an inquiry, accepting the user group\'s response.
+     */
+    async resolveProjectInquiryRaw(requestParameters: ResolveProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling resolveProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['inquiryId'] == null) {
+            throw new runtime.RequiredError(
+                'inquiryId',
+                'Required parameter "inquiryId" was null or undefined when calling resolveProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries/{inquiryId}/resolutions`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace(`{${"inquiryId"}}`, encodeURIComponent(String(requestParameters['inquiryId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Resolves an inquiry, accepting the user group\'s response.
+     */
+    async resolveProjectInquiry(requestParameters: ResolveProjectInquiryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.resolveProjectInquiryRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Submits a user group response to an inquiry.
+     */
+    async respondToProjectInquiryRaw(requestParameters: RespondToProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling respondToProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['inquiryId'] == null) {
+            throw new runtime.RequiredError(
+                'inquiryId',
+                'Required parameter "inquiryId" was null or undefined when calling respondToProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['respondToProjectInquiryRequest'] == null) {
+            throw new runtime.RequiredError(
+                'respondToProjectInquiryRequest',
+                'Required parameter "respondToProjectInquiryRequest" was null or undefined when calling respondToProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries/{inquiryId}/responses`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace(`{${"inquiryId"}}`, encodeURIComponent(String(requestParameters['inquiryId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RespondToProjectInquiryRequestToJSON(requestParameters['respondToProjectInquiryRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Submits a user group response to an inquiry.
+     */
+    async respondToProjectInquiry(requestParameters: RespondToProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.respondToProjectInquiryRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Updates the body of an inquiry, resetting it to open status.
+     */
+    async updateProjectInquiryRaw(requestParameters: UpdateProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling updateProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['inquiryId'] == null) {
+            throw new runtime.RequiredError(
+                'inquiryId',
+                'Required parameter "inquiryId" was null or undefined when calling updateProjectInquiry().'
+            );
+        }
+
+        if (requestParameters['updateProjectInquiryRequest'] == null) {
+            throw new runtime.RequiredError(
+                'updateProjectInquiryRequest',
+                'Required parameter "updateProjectInquiryRequest" was null or undefined when calling updateProjectInquiry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/projects/{projectId}/inquiries/{inquiryId}`;
+        urlPath = urlPath.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace(`{${"inquiryId"}}`, encodeURIComponent(String(requestParameters['inquiryId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateProjectInquiryRequestToJSON(requestParameters['updateProjectInquiryRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Updates the body of an inquiry, resetting it to open status.
+     */
+    async updateProjectInquiry(requestParameters: UpdateProjectInquiryOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateProjectInquiryRaw(requestParameters, initOverrides);
     }
 
 }
