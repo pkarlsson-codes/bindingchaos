@@ -74,4 +74,99 @@ public sealed class ProjectsApiClient(
             $"api/projects/{projectId}/amendments/{amendmentId}/contests",
             cancellationToken);
     }
+
+    /// <inheritdoc />
+    public Task<string> RaiseProjectInquiryAsync(string projectId, RaiseProjectInquiryRequest request, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return PostAsync<RaiseProjectInquiryRequest, string>(
+            $"api/projects/{projectId}/inquiries",
+            request,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<PaginatedResponse<ProjectInquiryResponse>> GetProjectInquiriesAsync(string projectId, PaginationQuerySpec query, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentNullException.ThrowIfNull(query);
+
+        var queryString = query.ToQueryString(true);
+
+        return GetAsync<PaginatedResponse<ProjectInquiryResponse>>(
+            $"api/projects/{projectId}/inquiries{queryString}",
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<ProjectInquiryResponse> GetProjectInquiryAsync(string projectId, string inquiryId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(inquiryId);
+
+        return GetAsync<ProjectInquiryResponse>(
+            $"api/projects/{projectId}/inquiries/{inquiryId}",
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task RespondToProjectInquiryAsync(string projectId, string inquiryId, RespondToProjectInquiryRequest request, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(inquiryId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return PostAsync(
+            $"api/projects/{projectId}/inquiries/{inquiryId}/responses",
+            request,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task ResolveProjectInquiryAsync(string projectId, string inquiryId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(inquiryId);
+
+        return PostAsync(
+            $"api/projects/{projectId}/inquiries/{inquiryId}/resolutions",
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task UpdateProjectInquiryAsync(string projectId, string inquiryId, UpdateProjectInquiryRequest request, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(inquiryId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return PatchAsync(
+            $"api/projects/{projectId}/inquiries/{inquiryId}",
+            request,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task ReopenProjectInquiryAsync(string projectId, string inquiryId, UpdateProjectInquiryRequest? request, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(inquiryId);
+
+        var endpoint = $"api/projects/{projectId}/inquiries/{inquiryId}/reopenings";
+        return request is null
+            ? PostAsync(endpoint, cancellationToken)
+            : PostAsync(endpoint, request, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<ProjectContestationStatusResponse> GetProjectContestationStatusAsync(string projectId, CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(projectId);
+
+        return GetAsync<ProjectContestationStatusResponse>(
+            $"api/projects/{projectId}/contestation-status",
+            cancellationToken);
+    }
 }
