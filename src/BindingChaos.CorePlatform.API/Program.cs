@@ -2,10 +2,12 @@ using BindingChaos.CommunityDiscourse.Infrastructure;
 using BindingChaos.CorePlatform.API.Infrastructure;
 using BindingChaos.CorePlatform.API.Infrastructure.Configuration;
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
+using BindingChaos.CorePlatform.API.Infrastructure.Messaging;
 using BindingChaos.CorePlatform.API.Infrastructure.Seeding;
 using BindingChaos.IdentityProfile.Infrastructure;
 using BindingChaos.Reputation.Infrastructure;
 using BindingChaos.Societies.Infrastructure;
+using BindingChaos.Stigmergy.Contracts;
 using BindingChaos.Stigmergy.Infrastructure;
 using BindingChaos.Tagging.Infrastructure;
 using Serilog;
@@ -42,9 +44,13 @@ try
                 rabbit.Port = rabbitMqOptions.Port;
                 rabbit.UserName = rabbitMqOptions.Username;
                 rabbit.Password = rabbitMqOptions.Password;
-            }).AutoProvision().UseConventionalRouting();
+            }).AutoProvision();
 
+            opts.RouteWith(new ExternalIntegrationEventRoutingConvention());
             opts.Policies.ConventionalLocalRoutingIsAdditive();
+
+            opts.ListenToRabbitQueue(
+                ExternalIntegrationEventRoutingConvention.ToQueueName(typeof(ClustersIdentifiedIntegrationEvent)));
         }
 
         opts.Discovery.IncludeAssembly(typeof(CommunityDiscourseAssemblyReference).Assembly);

@@ -1,4 +1,5 @@
 using Marten;
+using Marten.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace BindingChaos.SharedKernel.Persistence;
@@ -34,6 +35,11 @@ public partial class MartenUnitOfWork : IUnitOfWork
         {
             await _session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             Logs.TransactionCommitted(_logger);
+        }
+        catch (ExistingStreamIdCollisionException ex)
+        {
+            Logs.ErrorCommittingTransaction(_logger, ex);
+            throw new ConcurrentStreamCreationException(ex.Id.ToString()!, ex);
         }
         catch (Exception ex)
         {

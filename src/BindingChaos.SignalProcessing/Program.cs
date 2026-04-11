@@ -1,5 +1,6 @@
 using BindingChaos.SignalProcessing;
 using BindingChaos.SignalProcessing.Configuration;
+using BindingChaos.Stigmergy.Contracts;
 using Npgsql;
 using Wolverine;
 using Wolverine.RabbitMQ;
@@ -32,7 +33,14 @@ builder.UseWolverine(opts =>
         rabbit.Port = rabbitMqOptions.Port;
         rabbit.UserName = rabbitMqOptions.Username;
         rabbit.Password = rabbitMqOptions.Password;
-    }).AutoProvision().UseConventionalRouting();
+    }).AutoProvision();
+
+    // Queue names must match ExternalIntegrationEventRoutingConvention.ToQueueName()
+    // in CorePlatform.API: kebab-case of the full type name.
+    opts.ListenToRabbitQueue("signal-captured-integration-event");
+
+    opts.PublishMessage<ClustersIdentifiedIntegrationEvent>()
+        .ToRabbitQueue("clusters-identified-integration-event");
 });
 
 var host = builder.Build();

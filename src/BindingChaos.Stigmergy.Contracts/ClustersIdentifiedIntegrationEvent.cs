@@ -8,7 +8,7 @@ namespace BindingChaos.Stigmergy.Contracts;
 /// <param name="Assignments">The cluster label assigned to each signal. A label of <c>-1</c> indicates noise (unclustered).</param>
 public sealed record ClustersIdentifiedIntegrationEvent(
     IReadOnlyList<SignalClusterAssignment> Assignments
-) : IntegrationEvent;
+) : IntegrationEvent, IExternalIntegrationEvent;
 
 /// <summary>
 /// The cluster label assigned to a single signal.

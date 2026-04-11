@@ -14,4 +14,4 @@ public sealed record SignalCapturedIntegrationEvent(
     string CapturedById,
     string Description,
     IReadOnlyList<string> Tags
-) : IntegrationEvent;
+) : IntegrationEvent, IExternalIntegrationEvent;
