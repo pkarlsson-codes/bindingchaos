@@ -162,5 +162,11 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.RaisedBySocietyId);
 
         options.Projections.Add<ProjectInquiryViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<ProjectContestationStatusView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName);
+
+        options.Projections.Add<ProjectContestationStatusViewProjection>(ProjectionLifecycle.Inline);
     }
 }
