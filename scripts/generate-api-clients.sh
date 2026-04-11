@@ -19,9 +19,11 @@ dotnet build "$CSPROJ_PATH" --configuration "$CONFIGURATION"
 OUTPUT_DIR="$(dirname "$PROJECT_ROOT/$OUTPUT_PATH")"
 mkdir -p "$OUTPUT_DIR"
 
+NSWAG_VERSION="14.7.0"
+
 echo "Ensuring NSwag CLI..."
-dotnet tool update --global NSwag.ConsoleCore 2>/dev/null \
-    || dotnet tool install --global NSwag.ConsoleCore
+dotnet tool update --global NSwag.ConsoleCore --version "$NSWAG_VERSION" 2>/dev/null \
+    || dotnet tool install --global NSwag.ConsoleCore --version "$NSWAG_VERSION"
 
 echo "Generating OpenAPI spec via NSwag..."
 if command -v cygpath &>/dev/null; then
