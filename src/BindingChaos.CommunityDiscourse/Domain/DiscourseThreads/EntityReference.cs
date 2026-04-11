@@ -9,7 +9,7 @@ public sealed class EntityReference : ValueObject
 {
     private static readonly HashSet<string> ValidEntityTypes = new(StringComparer.OrdinalIgnoreCase)
     {
-        "idea", "signal", "amendment", "project_inquiry",
+        "idea", "signal", "amendment", "project_inquiry", "commons",
     };
 
     /// <summary>

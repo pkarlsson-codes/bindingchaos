@@ -1,0 +1,24 @@
+{
+  "commons": [
+    {
+      "founderIndex": 2,
+      "name": "Urban Drainage & Flood Management",
+      "description": "The shared infrastructure and waterways that protect Eastshire from flooding — drains, culverts, bioswales, and the green corridors that absorb runoff. Whoever is affected by flooding, or works on drainage, belongs here."
+    },
+    {
+      "founderIndex": 1,
+      "name": "Vacant Land & Community Reuse",
+      "description": "Unused lots, brownfield sites, and the waste and fly-tipping that accumulates in neglected spaces — and the question of what these spaces can become when communities take an interest in them."
+    },
+    {
+      "founderIndex": 5,
+      "name": "Community Growing Spaces",
+      "description": "Allotments, community gardens, rooftop growing, and the soil, seed, and knowledge commons that make food growing possible at a neighbourhood scale."
+    },
+    {
+      "founderIndex": 10,
+      "name": "Public Cycle Infrastructure",
+      "description": "Cycle routes, stands, repair stations, and the ongoing negotiation with road and transport planning that shapes whether cycling is safe and accessible for everyone."
+    }
+  ]
+}
