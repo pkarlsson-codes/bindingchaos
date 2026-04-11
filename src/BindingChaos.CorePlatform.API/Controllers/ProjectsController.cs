@@ -8,6 +8,7 @@ using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Stigmergy.Application.Commands;
 using BindingChaos.Stigmergy.Application.Queries;
 using BindingChaos.Stigmergy.Application.ReadModels;
+using BindingChaos.Stigmergy.Domain.ProjectInquiries;
 using BindingChaos.Stigmergy.Domain.Projects;
 using BindingChaos.Stigmergy.Domain.UserGroups;
 using Microsoft.AspNetCore.Authorization;
@@ -166,4 +167,220 @@ public sealed class ProjectsController(IMessageBus messageBus) : BaseApiControll
         await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
         return NoContent();
     }
+
+    /// <summary>
+    /// Raises a new inquiry against a project on behalf of an affected society member.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="request">The raise inquiry request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The created inquiry identifier.</returns>
+    [HttpPost("{projectId}/inquiries")]
+    [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("raiseProjectInquiry")]
+    public async Task<IActionResult> RaiseProjectInquiry(
+        [FromRoute] string projectId,
+        [FromBody] RaiseProjectInquiryRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new RaiseProjectInquiry(ProjectId.Create(projectId), participantId, request.Body);
+        var inquiryId = await messageBus.InvokeAsync<ProjectInquiryId>(command, cancellationToken).ConfigureAwait(false);
+        return Created($"api/projects/{projectId}/inquiries/{inquiryId.Value}", inquiryId.Value);
+    }
+
+    /// <summary>
+    /// Lists inquiries for a specific project.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="querySpec">Pagination and sorting parameters.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated list of inquiries.</returns>
+    [HttpGet("{projectId}/inquiries")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<ProjectInquiryResponse>>), StatusCodes.Status200OK)]
+    [EndpointName("getProjectInquiries")]
+    public async Task<IActionResult> GetProjectInquiries(
+        [FromRoute] string projectId,
+        [FromQuery] PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetProjectInquiries(ProjectId.Create(projectId), querySpec);
+        var result = await messageBus.InvokeAsync<PaginatedResponse<ProjectInquiryView>>(query, cancellationToken).ConfigureAwait(false);
+        return Ok(result.MapItems(ToInquiryResponse));
+    }
+
+    /// <summary>
+    /// Gets a specific project inquiry.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="inquiryId">The inquiry identifier.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The inquiry details when found.</returns>
+    [HttpGet("{projectId}/inquiries/{inquiryId}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<ProjectInquiryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointName("getProjectInquiry")]
+    public async Task<IActionResult> GetProjectInquiry(
+        [FromRoute] string projectId,
+        [FromRoute] string inquiryId,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetProjectInquiry(ProjectInquiryId.Create(inquiryId));
+        var view = await messageBus.InvokeAsync<ProjectInquiryView?>(query, cancellationToken).ConfigureAwait(false);
+        return view is null ? NotFound() : Ok(ToInquiryResponse(view));
+    }
+
+    /// <summary>
+    /// Submits a response to a project inquiry on behalf of a user group member.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="inquiryId">The inquiry identifier.</param>
+    /// <param name="request">The response request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>No content on success.</returns>
+    [HttpPost("{projectId}/inquiries/{inquiryId}/responses")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("respondToProjectInquiry")]
+    public async Task<IActionResult> RespondToProjectInquiry(
+        [FromRoute] string projectId,
+        [FromRoute] string inquiryId,
+        [FromBody] RespondToProjectInquiryRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new RespondToProjectInquiry(
+            ProjectInquiryId.Create(inquiryId),
+            ProjectId.Create(projectId),
+            participantId,
+            request.Response);
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Resolves a project inquiry, accepting the user group's response.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="inquiryId">The inquiry identifier.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>No content on success.</returns>
+    [HttpPost("{projectId}/inquiries/{inquiryId}/resolutions")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("resolveProjectInquiry")]
+    public async Task<IActionResult> ResolveProjectInquiry(
+        [FromRoute] string projectId,
+        [FromRoute] string inquiryId,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new ResolveProjectInquiry(ProjectInquiryId.Create(inquiryId), participantId);
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Updates the body of a project inquiry, resetting it to open status.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="inquiryId">The inquiry identifier.</param>
+    /// <param name="request">The update request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>No content on success.</returns>
+    [HttpPatch("{projectId}/inquiries/{inquiryId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("updateProjectInquiry")]
+    public async Task<IActionResult> UpdateProjectInquiry(
+        [FromRoute] string projectId,
+        [FromRoute] string inquiryId,
+        [FromBody] UpdateProjectInquiryRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new UpdateProjectInquiry(ProjectInquiryId.Create(inquiryId), participantId, request.NewBody);
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Reopens a lapsed inquiry, optionally with an updated body.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="inquiryId">The inquiry identifier.</param>
+    /// <param name="request">Optional updated body request.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>No content on success.</returns>
+    [HttpPost("{projectId}/inquiries/{inquiryId}/reopenings")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [EndpointName("reopenProjectInquiry")]
+    public async Task<IActionResult> ReopenProjectInquiry(
+        [FromRoute] string projectId,
+        [FromRoute] string inquiryId,
+        [FromBody] UpdateProjectInquiryRequest? request,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        if (participantId == ParticipantId.Anonymous)
+        {
+            return Unauthorized();
+        }
+
+        var command = new ReopenProjectInquiry(ProjectInquiryId.Create(inquiryId), participantId, request?.NewBody);
+        await messageBus.InvokeAsync(command, cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Gets the contestation status of a project.
+    /// </summary>
+    /// <param name="projectId">The project identifier.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The contestation status.</returns>
+    [HttpGet("{projectId}/contestation-status")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<ProjectContestationStatusResponse>), StatusCodes.Status200OK)]
+    [EndpointName("getProjectContestationStatus")]
+    public async Task<IActionResult> GetProjectContestationStatus(
+        [FromRoute] string projectId,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetProjectContestationStatus(ProjectId.Create(projectId));
+        var view = await messageBus.InvokeAsync<ProjectContestationStatusView>(query, cancellationToken).ConfigureAwait(false);
+        return Ok(new ProjectContestationStatusResponse(view.OpenInquiryCount, view.IsContested));
+    }
+
+    private static ProjectInquiryResponse ToInquiryResponse(ProjectInquiryView v) =>
+        new(v.Id, v.ProjectId, v.RaisedByParticipantId, v.RaisedBySocietyId, v.Body, v.Status, v.Response, v.DiscourseThreadId, v.RaisedAt, v.LastUpdatedAt);
 }
