@@ -152,5 +152,15 @@ public static class StigmergyMartenConfiguration
             .Duplicate(x => x.IndicatedAt);
 
         options.Projections.Add<ConcernAffectedParticipantsViewProjection>(ProjectionLifecycle.Async);
+
+        options.Schema.For<ProjectInquiryView>()
+            .Identity(x => x.Id)
+            .DatabaseSchemaName(StigmergySchemaName)
+            .Duplicate(x => x.ProjectId)
+            .Duplicate(x => x.RaisedAt)
+            .Duplicate(x => x.Status)
+            .Duplicate(x => x.RaisedBySocietyId);
+
+        options.Projections.Add<ProjectInquiryViewProjection>(ProjectionLifecycle.Async);
     }
 }
