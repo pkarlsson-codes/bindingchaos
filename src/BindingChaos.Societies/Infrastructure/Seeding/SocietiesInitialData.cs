@@ -11,7 +11,7 @@ namespace BindingChaos.Societies.Infrastructure.Seeding;
 
 /// <summary>
 /// Development-only initial data seeding for the Societies bounded context.
-/// Seeds a single society with a social contract and participant memberships using domain aggregates.
+/// Seeds multiple societies with social contracts and participant memberships using domain aggregates.
 /// Seed content is loaded from the embedded seed-data.json resource.
 /// </summary>
 public sealed class SocietiesInitialData : IInitialData
@@ -35,7 +35,7 @@ public sealed class SocietiesInitialData : IInitialData
     /// <param name="store">The Marten document store.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-#pragma warning disable CA1725 // Parameter names should match base declaration
+#pragma warning disable CA1725
     public async Task Populate(IDocumentStore store, CancellationToken cancellationToken)
 #pragma warning restore CA1725
     {
@@ -54,44 +54,49 @@ public sealed class SocietiesInitialData : IInitialData
 
         var data = await LoadSeedDataAsync(cancellationToken).ConfigureAwait(false);
 
-        var baseTime = DateTimeOffset.UtcNow.AddDays(-35);
+        var baseTime = DateTimeOffset.UtcNow.AddDays(-45);
         var timeProvider = new ControllableTimeProvider(baseTime);
         var originalTimeProvider = TimeProviderContext.Current;
         TimeProviderContext.SetCurrent(timeProvider);
 
         try
         {
-            var creator = _participants[data.Society.CreatorIndex];
-
-            var society = Society.Create(
-                creator,
-                data.Society.Name,
-                data.Society.Description,
-                data.Society.Tags,
-                geographicBounds: null,
-                center: null);
-
-            var contract = SocialContract.Establish(
-                society.Id,
-                creator,
-                new DecisionProtocol(
-                    data.SocialContract.RatificationThreshold,
-                    TimeSpan.FromHours(data.SocialContract.ReviewWindowHours),
-                    data.SocialContract.AllowVeto,
-                    TimeSpan.FromHours(data.SocialContract.InquiryLapseWindowHours)),
-                new EpistemicRules(data.SocialContract.RequiredVerificationWeight));
-
-            foreach (var index in data.MemberIndices)
+            foreach (var entry in data.Societies)
             {
-                if (index < _participants.Length)
-                {
-                    timeProvider.AdvanceHours(1);
-                    society.Join(_participants[index], contract.Id);
-                }
-            }
+                timeProvider.AdvanceHours(8);
 
-            session.Events.Append(society.Id.Value, [.. society.UncommittedEvents]);
-            session.Events.Append(contract.Id.Value, [.. contract.UncommittedEvents]);
+                var creator = _participants[entry.Society.CreatorIndex];
+
+                var society = Society.Create(
+                    creator,
+                    entry.Society.Name,
+                    entry.Society.Description,
+                    entry.Society.Tags,
+                    geographicBounds: null,
+                    center: null);
+
+                var contract = SocialContract.Establish(
+                    society.Id,
+                    creator,
+                    new DecisionProtocol(
+                        entry.SocialContract.RatificationThreshold,
+                        TimeSpan.FromHours(entry.SocialContract.ReviewWindowHours),
+                        entry.SocialContract.AllowVeto,
+                        TimeSpan.FromHours(entry.SocialContract.InquiryLapseWindowHours)),
+                    new EpistemicRules(entry.SocialContract.RequiredVerificationWeight));
+
+                foreach (var index in entry.MemberIndices)
+                {
+                    if (index < _participants.Length)
+                    {
+                        timeProvider.AdvanceHours(1);
+                        society.Join(_participants[index], contract.Id);
+                    }
+                }
+
+                session.Events.Append(society.Id.Value, [.. society.UncommittedEvents]);
+                session.Events.Append(contract.Id.Value, [.. contract.UncommittedEvents]);
+            }
 
             await session.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
@@ -117,6 +122,11 @@ public sealed class SocietiesInitialData : IInitialData
     }
 
     private sealed class SocietySeedData
+    {
+        public List<SocietyEntryDto> Societies { get; set; } = [];
+    }
+
+    private sealed class SocietyEntryDto
     {
         public SocietyDto Society { get; set; } = new();
 
@@ -146,6 +156,6 @@ public sealed class SocietiesInitialData : IInitialData
 
         public double RequiredVerificationWeight { get; set; }
 
-        public double InquiryLapseWindowHours { get; set; } = 336; // 14 days default
+        public double InquiryLapseWindowHours { get; set; } = 336;
     }
 }
