@@ -12,7 +12,7 @@ namespace BindingChaos.CommunityDiscourse.Infrastructure.Seeding;
 /// <summary>
 /// Development-only initial data seeding for Community Discourse using Marten's initial data hook.
 /// Seeds discourse events using aggregates to ensure domain logic integrity.
-/// Depends on signals and ideas being seeded first.
+/// Depends on all other seeders completing first — must run last in DevelopmentSeeder.
 /// Seed content is loaded from the embedded seed-data.json resource.
 /// </summary>
 public sealed class CommunityDiscourseInitialData : IInitialData
@@ -36,9 +36,9 @@ public sealed class CommunityDiscourseInitialData : IInitialData
     /// <param name="store">The Marten document store.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-#pragma warning disable CA1725 // Parameter names should match base declaration
+#pragma warning disable CA1725
     public async Task Populate(IDocumentStore store, CancellationToken cancellationToken)
-#pragma warning restore CA1725 // Parameter names should match base declaration
+#pragma warning restore CA1725
     {
         ArgumentNullException.ThrowIfNull(store);
 
@@ -53,21 +53,43 @@ public sealed class CommunityDiscourseInitialData : IInitialData
             return;
         }
 
-        var signalIds = await session.Events.QueryAllRawEvents()
+        var signalIds = (await session.Events.QueryAllRawEvents()
             .Where(e => e.DotNetTypeName.Contains("SignalCaptured") && e.StreamKey != null)
+            .OrderBy(e => e.Timestamp)
             .Select(e => e.StreamKey!)
-            .Distinct()
             .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
+            .ConfigureAwait(false))
+            .Distinct()
+            .ToList();
 
-        var ideaIds = await session.Events.QueryAllRawEvents()
-            .Where(e => e.DotNetTypeName.Contains("IdeaAuthored") && e.StreamKey != null)
+        var ideaIds = (await session.Events.QueryAllRawEvents()
+            .Where(e => e.DotNetTypeName.Contains("IdeaDrafted") && e.StreamKey != null)
+            .OrderBy(e => e.Timestamp)
             .Select(e => e.StreamKey!)
-            .Distinct()
             .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
+            .ConfigureAwait(false))
+            .Distinct()
+            .ToList();
 
-        if (signalIds.Count == 0 && ideaIds.Count == 0)
+        var projectIds = (await session.Events.QueryAllRawEvents()
+            .Where(e => e.DotNetTypeName.Contains("ProjectCreated") && e.StreamKey != null)
+            .OrderBy(e => e.Timestamp)
+            .Select(e => e.StreamKey!)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false))
+            .Distinct()
+            .ToList();
+
+        var userGroupIds = (await session.Events.QueryAllRawEvents()
+            .Where(e => e.DotNetTypeName.Contains("UserGroupFormed") && e.StreamKey != null)
+            .OrderBy(e => e.Timestamp)
+            .Select(e => e.StreamKey!)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false))
+            .Distinct()
+            .ToList();
+
+        if (signalIds.Count == 0 && ideaIds.Count == 0 && projectIds.Count == 0 && userGroupIds.Count == 0)
         {
             return;
         }
@@ -89,6 +111,8 @@ public sealed class CommunityDiscourseInitialData : IInitialData
                 {
                     "Signal" => signalIds,
                     "Idea" => ideaIds,
+                    "Project" => projectIds,
+                    "UserGroup" => userGroupIds,
                     _ => throw new InvalidOperationException($"Unknown entity type '{threadDto.EntityType}' in discourse seed data."),
                 };
 
