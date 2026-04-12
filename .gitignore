@@ -469,4 +469,7 @@ tmp/
 ## Local development
 local-dev/
 dev-data/
-dev-logs/ 
+dev-logs/
+
+## Git worktrees
+.worktrees/
