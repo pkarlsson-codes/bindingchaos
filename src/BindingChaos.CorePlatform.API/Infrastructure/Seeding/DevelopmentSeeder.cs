@@ -37,6 +37,7 @@ internal static class DevelopmentSeeder
             new CommonsInitialData(participants),
             new UserGroupsInitialData(participants),
             new ConcernsInitialData(participants),
+            new ProjectsInitialData(participants),
             new CommunityDiscourseInitialData(participants),
         ];
 

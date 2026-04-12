@@ -1,0 +1,44 @@
+{
+  "projects": [
+    {
+      "userGroupIndex": 0,
+      "title": "Elm Street Bioswale Installation",
+      "description": "Design and install a bioswale drainage system at the Elm Street underpass to manage stormwater runoff, reduce flood frequency, and create a green corridor along the carriageway. The project is working with the council highways team to obtain consent-to-excavate before breaking ground."
+    },
+    {
+      "userGroupIndex": 0,
+      "title": "Council Drainage Liaison Protocol",
+      "description": "Establish a formal, documented process for reporting drainage faults to Eastshire Council — including how to log faults, track responses, cite previous report references, and escalate to the Environment Agency when the council does not respond within agreed timelines."
+    },
+    {
+      "userGroupIndex": 1,
+      "title": "Pine Avenue Clearance & Interim Stewardship",
+      "description": "Organise a community clearance of the fly-tip at 14 Pine Avenue and establish an interim land stewardship arrangement with the landowner to prevent the site from becoming a dump again. Initial contact with the landowner has been made via the council's vacant land register."
+    },
+    {
+      "userGroupIndex": 1,
+      "title": "Eastshire Vacant Land Inventory",
+      "description": "Map and document all identifiable vacant lots in Eastshire, recording ownership via land registry searches, site condition, and potential community uses. Output will be a publicly accessible map and data set."
+    },
+    {
+      "userGroupIndex": 2,
+      "title": "Rooftop Growing Spaces Survey",
+      "description": "Survey commercial and community buildings across the district for structural suitability and owner willingness to host rooftop growing spaces. Produce a prioritised list of sites with contact details and load-bearing data."
+    },
+    {
+      "userGroupIndex": 2,
+      "title": "Seed Library Digitisation",
+      "description": "Digitise the Eastshire Seed Library catalogue — currently held in paper ledgers — and make it searchable online, enabling distributed seed-saving coordination and improved community access to heritage varieties."
+    },
+    {
+      "userGroupIndex": 3,
+      "title": "Safe Routes to School Audit",
+      "description": "Audit and document cycle route safety on all major school corridors in Eastshire during term time, producing a prioritised list of hazards with photographic evidence and a recommended schedule of interventions."
+    },
+    {
+      "userGroupIndex": 3,
+      "title": "Cycle Repair Station Network",
+      "description": "Identify suitable locations, negotiate permissions, install, and maintain a network of publicly accessible cycle repair stations at key points across the district, starting with the town centre, station approach, and main school corridors."
+    }
+  ]
+}
