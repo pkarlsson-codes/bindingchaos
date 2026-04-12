@@ -1,0 +1,78 @@
+{
+  "requirements": [
+    {
+      "projectIndex": 0,
+      "description": "Volunteer labour for bioswale groundworks and native planting",
+      "quantityNeeded": 80.0,
+      "unit": "hours",
+      "pledges": [
+        { "participantIndex": 2, "amount": 20.0 },
+        { "participantIndex": 4, "amount": 16.0 },
+        { "participantIndex": 6, "amount": 12.0 }
+      ]
+    },
+    {
+      "projectIndex": 0,
+      "description": "Topsoil, gravel substrate, and native marginal planting materials",
+      "quantityNeeded": 350.0,
+      "unit": "kg",
+      "pledges": []
+    },
+    {
+      "projectIndex": 2,
+      "description": "Volunteer time for clearance day — bagging, loading, and site tidying",
+      "quantityNeeded": 40.0,
+      "unit": "hours",
+      "pledges": [
+        { "participantIndex": 1, "amount": 8.0 },
+        { "participantIndex": 7, "amount": 8.0 },
+        { "participantIndex": 9, "amount": 6.0 }
+      ]
+    },
+    {
+      "projectIndex": 2,
+      "description": "Skip hire for clearance waste",
+      "quantityNeeded": 1.0,
+      "unit": "skips",
+      "pledges": []
+    },
+    {
+      "projectIndex": 4,
+      "description": "Surveyor visits and structural load assessments",
+      "quantityNeeded": 12.0,
+      "unit": "assessments",
+      "pledges": [
+        { "participantIndex": 5, "amount": 4.0 }
+      ]
+    },
+    {
+      "projectIndex": 6,
+      "description": "Volunteer cycling auditors for school route surveys",
+      "quantityNeeded": 30.0,
+      "unit": "hours",
+      "pledges": [
+        { "participantIndex": 3, "amount": 6.0 },
+        { "participantIndex": 10, "amount": 6.0 },
+        { "participantIndex": 14, "amount": 4.0 }
+      ]
+    }
+  ],
+  "inquiries": [
+    {
+      "projectIndex": 0,
+      "raisedByParticipantIndex": 20,
+      "societyIndex": 1,
+      "lapseWindowHours": 240,
+      "body": "Has the Drainage Action Group obtained formal consent from Eastshire Council's highways department before proceeding with groundworks at the Elm Street site? This is adopted public highway — uncoordinated excavation could create a significant liability for participants and the council alike.",
+      "response": "We have been in correspondence with the council highways team since January. A formal consent-to-excavate application was submitted in February (reference HWY-CONSENT-2026-031) and we are awaiting sign-off before breaking ground. We will not proceed without it — the bioswale design itself was developed in consultation with the highways drainage engineer."
+    },
+    {
+      "projectIndex": 2,
+      "raisedByParticipantIndex": 30,
+      "societyIndex": 2,
+      "lapseWindowHours": 504,
+      "body": "What arrangement has been made with the landowner of the Pine Avenue site? Clearing the land without a stewardship agreement risks the site simply filling again within a season. Has the Land Stewards Collective made contact with the landowner, and is there a written agreement in place or in progress?",
+      "response": null
+    }
+  ]
+}

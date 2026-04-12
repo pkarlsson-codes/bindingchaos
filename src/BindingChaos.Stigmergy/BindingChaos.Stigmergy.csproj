@@ -48,6 +48,7 @@
     <EmbeddedResource Include="Infrastructure\Seeding\usergroups-seed-data.json" />
     <EmbeddedResource Include="Infrastructure\Seeding\concerns-seed-data.json" />
     <EmbeddedResource Include="Infrastructure\Seeding\projects-seed-data.json" />
+    <EmbeddedResource Include="Infrastructure\Seeding\requirements-and-inquiries-seed-data.json" />
   </ItemGroup>
   
 </Project>
