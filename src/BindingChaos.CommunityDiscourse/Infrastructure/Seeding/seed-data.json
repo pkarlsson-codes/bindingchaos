@@ -541,6 +541,89 @@
         { "authorIndex": 58, "content": "The device lending scheme is the piece that makes everything else work. A one-hour drop-in session is not enough if residents have no device to use between visits.", "parentIndex": 0 },
         { "authorIndex": 59, "content": "Connecting this to the library trust proposal makes strategic sense. A digital inclusion service strengthens the trust's funding case and the warm space argument simultaneously.", "parentIndex": null }
       ]
+    },
+    {
+      "entityType": "Project",
+      "entityIndex": 0,
+      "contributions": [
+        {
+          "authorIndex": 4,
+          "content": "The bioswale design looks good to me in principle, but I'm concerned about the maintenance commitment. Who is responsible for keeping the planting alive after installation? If no one claims that, we'll have a dead bioswale within two years and the council won't touch it.",
+          "parentIndex": null
+        },
+        {
+          "authorIndex": 2,
+          "content": "Agreed — this needs to be in the proposal explicitly. My suggestion: the Drainage Action Group takes on a three-year maintenance commitment as a condition of the consent-to-excavate. We document it, it goes in the project record, and we treat it as a standing resource requirement.",
+          "parentIndex": 0
+        },
+        {
+          "authorIndex": 6,
+          "content": "I can commit to leading on maintenance for the first season if we get the planting right. Native species are much more forgiving than ornamentals. The key is not installing anything that needs irrigation once established.",
+          "parentIndex": 1
+        },
+        {
+          "authorIndex": 15,
+          "content": "Has anyone consulted with the Riverside Quarter on this? The Elm Street underpass drains toward the river and there may be Environment Agency considerations we haven't accounted for.",
+          "parentIndex": null
+        },
+        {
+          "authorIndex": 2,
+          "content": "Good point. I'll reach out to the EA officer who covers this stretch. We should have that conversation before finalising the design regardless.",
+          "parentIndex": 3
+        }
+      ]
+    },
+    {
+      "entityType": "Project",
+      "entityIndex": 2,
+      "contributions": [
+        {
+          "authorIndex": 7,
+          "content": "Before we organise the clearance day, we need to establish what category of waste is on the site. If there's anything classified as hazardous — asbestos sheeting, tyres, chemical containers — we can't handle it ourselves. Has anyone done a visual assessment recently?",
+          "parentIndex": null
+        },
+        {
+          "authorIndex": 1,
+          "content": "I walked the site last week. There are bagged household waste, construction rubble, and a couple of mattresses. I didn't see anything that looked obviously hazardous but I'm not qualified to say for certain. We should get someone with COSHH awareness to do a proper look before the day.",
+          "parentIndex": 0
+        },
+        {
+          "authorIndex": 9,
+          "content": "I can do that — I have my COSHH awareness cert from work. I'll go this weekend and produce a written assessment. That also gives us something to show the landowner when we approach them for a stewardship agreement.",
+          "parentIndex": 1
+        },
+        {
+          "authorIndex": 11,
+          "content": "On the stewardship question: have we looked at whether the landowner would be open to a community land trust arrangement, or at minimum a licence for temporary use? That would give us standing to improve the site rather than just clear it.",
+          "parentIndex": null
+        }
+      ]
+    },
+    {
+      "entityType": "UserGroup",
+      "entityIndex": 0,
+      "contributions": [
+        {
+          "authorIndex": 8,
+          "content": "Should we define a minimum evidence standard for signals that get brought to the group? I'm noticing that some signals in the commons are single observations with no corroboration, and it's hard to prioritise against signals that have multiple reports and photographic evidence.",
+          "parentIndex": null
+        },
+        {
+          "authorIndex": 2,
+          "content": "I'd be cautious about setting a minimum threshold — that's exactly how the council has been filtering out complaints for years. A single, well-documented signal from someone who lives next to the problem is worth more than ten form submissions from people who drove past.",
+          "parentIndex": 0
+        },
+        {
+          "authorIndex": 10,
+          "content": "What if we distinguish between signals that are sufficient to log a concern and signals that are sufficient to initiate a project? A single signal can raise a concern; a concern needs multiple signals or a pattern before we form a project around it. That seems to match how the platform is intended to work.",
+          "parentIndex": 1
+        },
+        {
+          "authorIndex": 4,
+          "content": "That makes sense to me. It also means we can acknowledge every signal without committing to action on each one immediately. The concern stage is where we do the pattern recognition.",
+          "parentIndex": 2
+        }
+      ]
     }
   ]
 }
