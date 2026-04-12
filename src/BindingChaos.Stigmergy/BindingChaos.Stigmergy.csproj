@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BindingChaos.CorePlatform.Contracts\BindingChaos.CorePlatform.Contracts.csproj" />
+    <ProjectReference Include="..\BindingChaos.IdentityProfile\BindingChaos.IdentityProfile.csproj" />
     <ProjectReference Include="..\BindingChaos.Infrastructure\BindingChaos.Infrastructure.csproj" />
     <ProjectReference Include="..\BindingChaos.SharedKernel\BindingChaos.SharedKernel.csproj" />
     <ProjectReference Include="..\BindingChaos.Societies\BindingChaos.Societies.csproj" />
