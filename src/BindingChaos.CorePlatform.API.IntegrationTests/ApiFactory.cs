@@ -42,7 +42,7 @@ internal sealed class MediatorOnlyExtension : IWolverineExtension
 /// stuck in a retry loop against a cancelled CancellationToken and hangs the process.
 ///
 /// IAsyncLifetime runs the PostgreSQL container and EF Core migrations for IdentityProfile
-/// once before any tests run.
+/// and Reputation (CompetenceDbContext) once before any tests run.
 /// </summary>
 public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -77,6 +77,8 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         await using var scope = Services.CreateAsyncScope();
         var identityDb = scope.ServiceProvider.GetRequiredService<IdentityProfileDbContext>();
         await identityDb.Database.MigrateAsync().ConfigureAwait(false);
+        var competenceDb = scope.ServiceProvider.GetRequiredService<CompetenceDbContext>();
+        await competenceDb.Database.MigrateAsync().ConfigureAwait(false);
     }
 
     public override async ValueTask DisposeAsync()
@@ -113,11 +115,16 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
             // is first resolved, after all registrations, so this wins over the original.
             services.ConfigureMarten(opts => opts.Connection(containerConnStr));
 
-            // Redirect the EF Core DbContext to the container.
+            // Redirect the EF Core DbContexts to the container.
             services.RemoveAll<DbContextOptions<IdentityProfileDbContext>>();
             services.AddDbContext<IdentityProfileDbContext>(options =>
                 options.UseNpgsql(containerConnStr,
                     b => b.MigrationsAssembly(typeof(IdentityProfileDbContext).Assembly.FullName)));
+
+            services.RemoveAll<DbContextOptions<CompetenceDbContext>>();
+            services.AddDbContext<CompetenceDbContext>(options =>
+                options.UseNpgsql(containerConnStr,
+                    b => b.MigrationsAssembly(typeof(CompetenceDbContext).Assembly.FullName)));
 
             // Replace Minio-backed document management with a no-op.
             services.RemoveAll<IDocumentManagementService>();
