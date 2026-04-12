@@ -149,6 +149,65 @@ public sealed class UserGroupsController(
     }
 
     /// <summary>
+    /// Retrieves the detail of a single user group by ID.
+    /// </summary>
+    /// <param name="id">The user group ID.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The user group detail, or 404 if not found.</returns>
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ApiResponse<UserGroupDetailResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointName("getUserGroupDetail")]
+    public async Task<IActionResult> GetUserGroupDetail(string id, CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        var callerId = participantId == ParticipantId.Anonymous ? null : participantId;
+
+        var view = await messageBus
+            .InvokeAsync<UserGroupDetailView?>(
+                new GetUserGroupDetail(UserGroupId.Create(id), callerId),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        if (view is null)
+        {
+            return NotFound();
+        }
+
+        var approvalSettings = view.Charter.MembershipRules.ApprovalSettings is null
+            ? null
+            : new UserGroupApprovalSettingsResponse(
+                view.Charter.MembershipRules.ApprovalSettings.ApprovalThreshold,
+                view.Charter.MembershipRules.ApprovalSettings.VetoEnabled);
+
+        var response = new UserGroupDetailResponse(
+            view.Id,
+            view.CommonsId,
+            view.CommonsName,
+            view.Name,
+            view.Philosophy,
+            view.FoundedByPseudonym,
+            view.FormedAt,
+            view.MemberCount,
+            view.JoinPolicy,
+            view.IsMember,
+            new UserGroupCharterResponse(
+                new UserGroupMembershipRulesResponse(
+                    view.Charter.MembershipRules.JoinPolicy,
+                    view.Charter.MembershipRules.MaxMembers,
+                    view.Charter.MembershipRules.EntryRequirements,
+                    view.Charter.MembershipRules.MemberListPublic,
+                    approvalSettings),
+                new UserGroupContestationRulesResponse(
+                    view.Charter.ContestationRules.ResolutionWindow,
+                    view.Charter.ContestationRules.RejectionThreshold),
+                new UserGroupShunningRulesResponse(
+                    view.Charter.ShunningRules.ApprovalThreshold)));
+
+        return Ok(response);
+    }
+
+    /// <summary>
     /// Retrieves all user groups that the specified participant is a member of.
     /// </summary>
     /// <param name="participantId">The participant ID to filter by.</param>

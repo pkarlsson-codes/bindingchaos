@@ -1,4 +1,3 @@
-using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.IdentityProfile.Application.Services;
 using BindingChaos.SharedKernel.Domain;
 using BindingChaos.Stigmergy.Application.ReadModels;
@@ -27,8 +26,8 @@ public static class GetUserGroupDetailHandler
     /// <param name="userGroupRepository">Repository for loading the user group aggregate.</param>
     /// <param name="pseudonymLookupService">Service for resolving participant pseudonyms.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The user group detail response, or <see langword="null"/> if not found.</returns>
-    public static async Task<UserGroupDetailResponse?> Handle(
+    /// <returns>The user group detail view, or <see langword="null"/> if not found.</returns>
+    public static async Task<UserGroupDetailView?> Handle(
         GetUserGroupDetail request,
         IQuerySession querySession,
         IUserGroupRepository userGroupRepository,
@@ -64,11 +63,11 @@ public static class GetUserGroupDetailHandler
         var approvalRules = userGroup.Charter.MembershipRules.ApprovalRules;
         var approvalSettings = approvalRules is null
             ? null
-            : new UserGroupApprovalSettingsResponse(
+            : new UserGroupApprovalSettingsView(
                 (double)approvalRules.ApprovalThreshold,
                 approvalRules.VetoEnabled);
 
-        return new UserGroupDetailResponse(
+        return new UserGroupDetailView(
             listView.Id,
             listView.CommonsId,
             commonsView?.Name ?? "Unknown",
@@ -79,17 +78,17 @@ public static class GetUserGroupDetailHandler
             listView.MemberCount,
             listView.JoinPolicy,
             isMember,
-            new UserGroupCharterResponse(
-                new UserGroupMembershipRulesResponse(
+            new UserGroupCharterView(
+                new UserGroupMembershipRulesView(
                     userGroup.Charter.MembershipRules.JoinPolicy.DisplayName,
                     userGroup.Charter.MembershipRules.MaxMembers,
                     userGroup.Charter.MembershipRules.EntryRequirements,
                     userGroup.Charter.MembershipRules.MemberListPublic,
                     approvalSettings),
-                new UserGroupContestationRulesResponse(
+                new UserGroupContestationRulesView(
                     userGroup.Charter.ContentionRules.ResolutionWindow.ToString(),
                     (double)userGroup.Charter.ContentionRules.RejectionThreshold),
-                new UserGroupShunningRulesResponse(
+                new UserGroupShunningRulesView(
                     (double)userGroup.Charter.ShunningRules.ApprovalThreshold)));
     }
 }
