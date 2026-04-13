@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -14,12 +15,12 @@ public interface IProjectsApiClient
     /// Gets a paginated list of projects for a user group.
     /// </summary>
     /// <param name="userGroupId">The user group identifier.</param>
-    /// <param name="query">The pagination and sorting query spec.</param>
+    /// <param name="query">The pagination, sorting, and filter query spec.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A page of projects.</returns>
     Task<PaginatedResponse<ProjectListItemResponse>> GetProjectsForUserGroupAsync(
         string userGroupId,
-        PaginationQuerySpec query,
+        PaginationQuerySpec<ProjectsQueryFilter> query,
         CancellationToken cancellationToken = default);
 
     /// <summary>

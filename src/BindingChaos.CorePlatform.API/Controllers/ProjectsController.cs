@@ -1,5 +1,6 @@
 using BindingChaos.CorePlatform.API.Infrastructure.Extensions;
 using BindingChaos.CorePlatform.API.Mappings;
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -86,7 +87,7 @@ public sealed class ProjectsController(IMessageBus messageBus, IQuerySession que
     /// Lists projects for a specific user group.
     /// </summary>
     /// <param name="userGroupId">The owning user group identifier.</param>
-    /// <param name="queryRequest">Pagination and sorting parameters.</param>
+    /// <param name="queryRequest">Pagination, sorting, and filter parameters.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated list of projects.</returns>
     [HttpGet]
@@ -96,7 +97,7 @@ public sealed class ProjectsController(IMessageBus messageBus, IQuerySession que
     [EndpointName("getProjectsForUserGroup")]
     public async Task<IActionResult> GetProjectsForUserGroup(
         [FromQuery] string userGroupId,
-        [FromQuery] PaginationQuerySpec queryRequest,
+        [FromQuery] PaginationQuerySpec<ProjectsQueryFilter> queryRequest,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(userGroupId))

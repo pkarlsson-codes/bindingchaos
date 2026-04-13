@@ -1,3 +1,4 @@
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -40,7 +41,7 @@ public sealed class ProjectsApiClient(
     /// <inheritdoc />
     public Task<PaginatedResponse<ProjectListItemResponse>> GetProjectsForUserGroupAsync(
         string userGroupId,
-        PaginationQuerySpec query,
+        PaginationQuerySpec<ProjectsQueryFilter> query,
         CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(userGroupId);

@@ -1,3 +1,4 @@
+using BindingChaos.Stigmergy.Application.DTOs;
 using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.Projects.Events;
 using JasperFx.Events;
@@ -27,6 +28,7 @@ internal sealed class ProjectsListItemViewProjection : SingleStreamProjection<Pr
             ActiveAmendmentCount = 0,
             ContestedAmendmentCount = 0,
             RejectedAmendmentCount = 0,
+            Status = ProjectStatusDto.Active,
         };
 
     /// <summary>

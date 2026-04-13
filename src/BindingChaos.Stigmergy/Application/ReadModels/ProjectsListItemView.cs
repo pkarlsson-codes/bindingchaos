@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using BindingChaos.Stigmergy.Application.DTOs;
 
 namespace BindingChaos.Stigmergy.Application.ReadModels;
 
@@ -47,4 +48,7 @@ public class ProjectsListItemView
 
     /// <summary>Gets or sets the number of rejected amendments.</summary>
     required public int RejectedAmendmentCount { get; set; }
+
+    /// <summary>Gets or sets the lifecycle status of the project.</summary>
+    required public ProjectStatusDto Status { get; set; }
 }

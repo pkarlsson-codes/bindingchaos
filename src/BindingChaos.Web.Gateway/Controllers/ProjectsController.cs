@@ -1,4 +1,5 @@
 using BindingChaos.CorePlatform.Clients;
+using BindingChaos.CorePlatform.Contracts.Filters;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -63,7 +64,7 @@ public sealed class ProjectsController(IProjectsApiClient projectsApiClient) : B
     /// Retrieves a paginated list of projects for the specified user group.
     /// </summary>
     /// <param name="userGroupId">The user group identifier to filter by.</param>
-    /// <param name="querySpec">The pagination and sorting specification.</param>
+    /// <param name="querySpec">The pagination, sorting, and filter specification.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A paginated response containing project list items.</returns>
     [HttpGet]
@@ -72,7 +73,7 @@ public sealed class ProjectsController(IProjectsApiClient projectsApiClient) : B
     [EndpointName("getProjectsForUserGroup")]
     public async Task<IActionResult> GetProjectsForUserGroup(
         [FromQuery] string userGroupId,
-        [FromQuery] PaginationQuerySpec querySpec,
+        [FromQuery] PaginationQuerySpec<ProjectsQueryFilter> querySpec,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(querySpec);
