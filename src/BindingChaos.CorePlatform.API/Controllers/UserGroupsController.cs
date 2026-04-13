@@ -11,6 +11,7 @@ using BindingChaos.Stigmergy.Application.Queries;
 using BindingChaos.Stigmergy.Application.ReadModels;
 using BindingChaos.Stigmergy.Domain.GoverningCommons;
 using BindingChaos.Stigmergy.Domain.UserGroups;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using CharterDto = BindingChaos.Stigmergy.Application.DTOs.CharterDto;
@@ -205,6 +206,48 @@ public sealed class UserGroupsController(
                     view.Charter.ShunningRules.ApprovalThreshold)));
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of members for the specified user group.
+    /// </summary>
+    /// <param name="id">The user group ID.</param>
+    /// <param name="queryRequest">Pagination and sorting parameters from the querystring.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated list of member pseudonyms, or 404 if the group does not exist, or 403 if the member list is private and the caller is not a member.</returns>
+    [HttpGet("{id}/members")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<UserGroupMemberResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [EndpointName("getUserGroupMembers")]
+    public async Task<IActionResult> GetUserGroupMembers(
+        string id,
+        [FromQuery] PaginationQuerySpec queryRequest,
+        CancellationToken cancellationToken)
+    {
+        var participantId = HttpContext.GetParticipantIdOrAnonymous();
+        var callerId = participantId == ParticipantId.Anonymous ? null : participantId;
+
+        try
+        {
+            var result = await messageBus
+                .InvokeAsync<PaginatedResponse<UserGroupMemberView>?>(
+                    new GetUserGroupMembers(UserGroupId.Create(id), callerId, queryRequest),
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result.MapItems(v => new UserGroupMemberResponse(v.Pseudonym)));
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
     }
 
     /// <summary>
