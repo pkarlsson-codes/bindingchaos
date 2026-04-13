@@ -59,4 +59,16 @@ public interface IUserGroupsApiClient
     Task<UserGroupDetailResponse?> GetUserGroupDetailAsync(
         string userGroupId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a paginated list of members belonging to the specified user group.
+    /// </summary>
+    /// <param name="userGroupId">The ID of the user group.</param>
+    /// <param name="querySpec">The pagination and sorting specification.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated response containing the list of members.</returns>
+    Task<PaginatedResponse<UserGroupMemberResponse>> GetUserGroupMembersAsync(
+        string userGroupId,
+        PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken = default);
 }

@@ -92,4 +92,20 @@ public sealed class UserGroupsApiClient(
 
         return apiResponse?.Data;
     }
+
+    /// <inheritdoc />
+    public async Task<PaginatedResponse<UserGroupMemberResponse>> GetUserGroupMembersAsync(
+        string userGroupId,
+        PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userGroupId);
+        ArgumentNullException.ThrowIfNull(querySpec);
+
+        var paginationQuery = querySpec.ToQueryString(false);
+        var url = $"api/usergroups/{Uri.EscapeDataString(userGroupId)}/members?{paginationQuery}";
+
+        return await GetAsync<PaginatedResponse<UserGroupMemberResponse>>(url, cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

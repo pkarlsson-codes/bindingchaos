@@ -102,6 +102,29 @@ public sealed class UserGroupsController(IUserGroupsApiClient userGroupsApiClien
     }
 
     /// <summary>
+    /// Retrieves a paginated list of members belonging to the specified user group.
+    /// </summary>
+    /// <param name="id">The ID of the user group.</param>
+    /// <param name="querySpec">The pagination and sorting specification.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A paginated response containing the list of members.</returns>
+    [HttpGet("{id}/members")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<UserGroupMemberResponse>>), StatusCodes.Status200OK)]
+    [EndpointName("getUserGroupMembers")]
+    public async Task<IActionResult> GetUserGroupMembers(
+        string id,
+        [FromQuery] PaginationQuerySpec querySpec,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(querySpec);
+
+        var result = await userGroupsApiClient.GetUserGroupMembersAsync(id, querySpec, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Retrieves all user groups that the specified participant is a member of.
     /// </summary>
     /// <param name="participantId">The participant ID to filter by.</param>
