@@ -77,6 +77,31 @@ public sealed class UserGroupsController(IUserGroupsApiClient userGroupsApiClien
     }
 
     /// <summary>
+    /// Retrieves the detail of a specific user group by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the user group.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The user group detail, or 404 if not found.</returns>
+    [HttpGet("{id}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<UserGroupDetailResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointName("getUserGroupDetail")]
+    public async Task<IActionResult> GetUserGroupDetail(
+        string id,
+        CancellationToken cancellationToken)
+    {
+        var result = await userGroupsApiClient.GetUserGroupDetailAsync(id, cancellationToken);
+
+        if (result is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Retrieves all user groups that the specified participant is a member of.
     /// </summary>
     /// <param name="participantId">The participant ID to filter by.</param>

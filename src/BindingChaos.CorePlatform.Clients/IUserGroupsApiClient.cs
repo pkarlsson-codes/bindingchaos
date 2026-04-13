@@ -49,4 +49,14 @@ public interface IUserGroupsApiClient
     Task<UserGroupListItemResponse[]> GetUserGroupsForParticipantAsync(
         string participantId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the detail of a user group by its ID.
+    /// </summary>
+    /// <param name="userGroupId">The ID of the user group.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The user group detail, or <c>null</c> if not found.</returns>
+    Task<UserGroupDetailResponse?> GetUserGroupDetailAsync(
+        string userGroupId,
+        CancellationToken cancellationToken = default);
 }

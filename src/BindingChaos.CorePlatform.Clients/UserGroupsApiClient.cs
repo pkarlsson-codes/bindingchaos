@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Http.Json;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -64,5 +66,30 @@ public sealed class UserGroupsApiClient(
             $"api/usergroups/for-participant?participantId={Uri.EscapeDataString(participantId)}",
             cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<UserGroupDetailResponse?> GetUserGroupDetailAsync(
+        string userGroupId,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userGroupId);
+
+        var response = await HttpClient
+            .GetAsync($"api/usergroups/{Uri.EscapeDataString(userGroupId)}", cancellationToken)
+            .ConfigureAwait(false);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        var apiResponse = await response.Content
+            .ReadFromJsonAsync<ApiResponse<UserGroupDetailResponse>>(JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
+
+        return apiResponse?.Data;
     }
 }
