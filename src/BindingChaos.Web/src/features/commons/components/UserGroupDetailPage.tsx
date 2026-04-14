@@ -98,6 +98,106 @@ function ShunningRulesSection({ rules }: { rules: UserGroupShunningRulesResponse
   );
 }
 
+function ActiveProjectsSection({ userGroupId }: { userGroupId: string }) {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError: isLoadMoreError,
+    refetch,
+  } = useActiveProjectsForUserGroup(userGroupId);
+
+  const allProjects: ProjectListItemResponse[] = data?.pages.flatMap(
+    (page) => page?.data?.items ?? []
+  ) ?? [];
+
+  const isInitialLoading = isLoading && !data;
+  const isInitialError = isLoadMoreError && !data;
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-foreground">Active Projects</h2>
+        <Link
+          to={`/user-groups/${userGroupId}/projects`}
+          className="text-sm text-muted-foreground hover:text-foreground"
+        >
+          View all projects →
+        </Link>
+      </div>
+
+      {isInitialLoading ? (
+        <Card content={
+          <div className="animate-pulse space-y-3">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="space-y-1">
+                <div className="h-4 bg-muted rounded w-1/3" />
+                <div className="h-3 bg-muted rounded w-2/3" />
+              </div>
+            ))}
+          </div>
+        } />
+      ) : isInitialError ? (
+        <Card
+          title="Failed to load projects"
+          content={<p className="text-muted-foreground">Could not load active projects.</p>}
+          footer={<Button variant="secondary" size="sm" onClick={() => refetch()}>Retry</Button>}
+        />
+      ) : allProjects.length === 0 ? (
+        <Card content={<p className="text-muted-foreground text-sm">No active projects.</p>} />
+      ) : (
+        <Card content={
+          <div className="space-y-4">
+            {allProjects.map(project => (
+              <Link
+                key={project.id}
+                to={`/projects/${project.id}`}
+                className="block hover:bg-muted/50 rounded p-1 -m-1 transition-colors"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium text-foreground text-sm">{project.title ?? 'Untitled'}</span>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-xs text-muted-foreground">
+                      {project.activeAmendmentCount ?? 0} active amendments
+                    </span>
+                    {(project.contestedAmendmentCount ?? 0) > 0 && (
+                      <Badge variant="destructive" className="text-xs">Contested</Badge>
+                    )}
+                  </div>
+                </div>
+                {project.description && (
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{project.description}</p>
+                )}
+              </Link>
+            ))}
+
+            {hasNextPage && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="mt-1"
+              >
+                {isFetchingNextPage ? 'Loading…' : 'Load more'}
+              </Button>
+            )}
+
+            {isLoadMoreError && !isInitialLoading && (
+              <div className="flex items-center gap-2 text-sm text-destructive">
+                <span>Failed to load more projects.</span>
+                <Button variant="ghost" size="sm" onClick={() => refetch()}>Retry</Button>
+              </div>
+            )}
+          </div>
+        } />
+      )}
+    </div>
+  );
+}
+
 function MembersSection({ userGroupId, memberCount }: { userGroupId: string; memberCount: number }) {
   const {
     data,
