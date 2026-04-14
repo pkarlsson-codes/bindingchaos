@@ -42,14 +42,6 @@ public class EntityReferenceTests
         }
 
         [Fact]
-        public void GivenUnknownEntityType_WhenCreated_ThenThrowsArgumentException()
-        {
-            var act = () => EntityReference.Create("unknown-type", "some-id-123");
-
-            act.Should().Throw<ArgumentException>();
-        }
-
-        [Fact]
         public void GivenNullEntityType_WhenCreated_ThenThrowsArgumentException()
         {
             var act = () => EntityReference.Create(null!, "idea-abc123");
@@ -152,12 +144,5 @@ public class EntityReferenceTests
             sut.Should().BeNull();
         }
 
-        [Fact]
-        public void GivenInvalidEntityType_WhenTryCreated_ThenReturnsNull()
-        {
-            var sut = EntityReference.TryCreate("unknown-type", "some-id-123");
-
-            sut.Should().BeNull();
-        }
     }
 }

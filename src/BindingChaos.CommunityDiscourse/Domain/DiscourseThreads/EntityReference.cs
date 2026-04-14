@@ -7,11 +7,6 @@ namespace BindingChaos.CommunityDiscourse.Domain.DiscourseThreads;
 /// </summary>
 public sealed class EntityReference : ValueObject
 {
-    private static readonly HashSet<string> ValidEntityTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "idea", "signal", "amendment", "project_inquiry", "commons",
-    };
-
     /// <summary>
     /// Initializes a new instance of the EntityReference class.
     /// </summary>
@@ -101,11 +96,6 @@ public sealed class EntityReference : ValueObject
         if (string.IsNullOrWhiteSpace(entityType))
         {
             throw new ArgumentException("Entity type cannot be null, empty, or whitespace.", nameof(entityType));
-        }
-
-        if (!ValidEntityTypes.Contains(entityType))
-        {
-            throw new ArgumentException($"Entity type must be one of: {string.Join(", ", ValidEntityTypes)}.", nameof(entityType));
         }
     }
 

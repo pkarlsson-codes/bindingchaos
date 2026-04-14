@@ -49,7 +49,8 @@ public static class GetProjectsForUserGroupHandler
 
         if (parsedStatuses is { Count: > 0 })
         {
-            baseQuery = baseQuery.Where(v => parsedStatuses.Contains(v.Status));
+            var statusInts = parsedStatuses.Select(s => (int)s).ToList();
+            baseQuery = baseQuery.Where(v => statusInts.Contains((int)v.Status));
         }
 
         var query = baseQuery.Sort(request.QuerySpec.SortDescriptors, ProjectsListItemView.SortMappings);
