@@ -98,6 +98,70 @@ function ShunningRulesSection({ rules }: { rules: UserGroupShunningRulesResponse
   );
 }
 
+function MembersSection({ userGroupId, memberCount }: { userGroupId: string; memberCount: number }) {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    refetch,
+  } = useUserGroupMembers(userGroupId);
+
+  const allMembers: UserGroupMemberResponse[] = data?.pages.flatMap(
+    (page) => page?.data?.items ?? []
+  ) ?? [];
+
+  return (
+    <div className="space-y-3">
+      <h2 className="text-lg font-semibold text-foreground">Members ({memberCount})</h2>
+
+      {isLoading ? (
+        <Card content={
+          <div className="space-y-2">
+            {(['w-1/3', 'w-1/2', 'w-2/3'] as const).map((width, i) => (
+              <div key={i} className={`animate-pulse h-4 bg-muted rounded ${width}`} />
+            ))}
+          </div>
+        } />
+      ) : isError ? (
+        <Card
+          title="Failed to load members"
+          content={<p className="text-muted-foreground">Could not load member list.</p>}
+          footer={<Button variant="secondary" size="sm" onClick={() => refetch()}>Retry</Button>}
+        />
+      ) : (
+        <Card content={
+          <div className="space-y-2">
+            {allMembers.map((member) => (
+              <Link
+                key={member.pseudonym}
+                to={`/profiles/${member.pseudonym}`}
+                className="block text-sm text-foreground hover:underline"
+              >
+                {member.pseudonym}
+              </Link>
+            ))}
+
+            {hasNextPage && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="mt-2"
+              >
+                {isFetchingNextPage ? 'Loading…' : 'Load more'}
+              </Button>
+            )}
+          </div>
+        } />
+      )}
+    </div>
+  );
+}
+
 function GovernanceCard({ charter }: { charter: UserGroupCharterResponse }) {
   const [open, setOpen] = useState(false);
 
