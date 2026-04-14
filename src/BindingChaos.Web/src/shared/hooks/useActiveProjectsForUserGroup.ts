@@ -25,6 +25,5 @@ export function useActiveProjectsForUserGroup(userGroupId: string) {
     enabled: !!userGroupId,
     staleTime: 2 * 60 * 1000,
     retry: 2,
-    placeholderData: (previousData) => previousData,
   });
 }

@@ -205,13 +205,15 @@ function MembersSection({ userGroupId, memberCount }: { userGroupId: string; mem
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isError,
+    isError: isLoadMoreError,
     refetch,
   } = useUserGroupMembers(userGroupId);
 
   const allMembers: UserGroupMemberResponse[] = data?.pages.flatMap(
     (page) => page?.data?.items ?? []
   ) ?? [];
+
+  const isInitialError = isLoadMoreError && !data;
 
   return (
     <div className="space-y-3">
@@ -225,7 +227,7 @@ function MembersSection({ userGroupId, memberCount }: { userGroupId: string; mem
             ))}
           </div>
         } />
-      ) : isError ? (
+      ) : isInitialError ? (
         <Card
           title="Failed to load members"
           content={<p className="text-muted-foreground">Could not load member list.</p>}
@@ -254,6 +256,13 @@ function MembersSection({ userGroupId, memberCount }: { userGroupId: string; mem
               >
                 {isFetchingNextPage ? 'Loading…' : 'Load more'}
               </Button>
+            )}
+
+            {isLoadMoreError && !isInitialError && (
+              <div className="flex items-center gap-2 text-sm text-destructive mt-2">
+                <span>Failed to load more members.</span>
+                <Button variant="ghost" size="sm" onClick={() => refetch()}>Retry</Button>
+              </div>
             )}
           </div>
         } />
