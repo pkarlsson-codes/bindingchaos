@@ -44,6 +44,94 @@ function JoinButton({ joinPolicy, isMember }: { joinPolicy?: string; isMember?: 
   return <Button variant="outline" size="sm">{label}</Button>;
 }
 
+function CharterRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex justify-between items-start gap-4 py-1">
+      <span className="text-sm text-muted-foreground">{label}</span>
+      <span className="text-sm text-foreground text-right">{value}</span>
+    </div>
+  );
+}
+
+function MembershipRulesSection({ rules }: { rules: UserGroupMembershipRulesResponse }) {
+  return (
+    <div className="space-y-1">
+      <h4 className="text-sm font-semibold text-foreground mb-2">Membership Rules</h4>
+      {rules.joinPolicy && <CharterRow label="Join policy" value={rules.joinPolicy} />}
+      {rules.maxMembers != null && <CharterRow label="Max members" value={rules.maxMembers} />}
+      {rules.entryRequirements && <CharterRow label="Entry requirements" value={rules.entryRequirements} />}
+      <CharterRow label="Member list" value={rules.memberListPublic ? 'Public' : 'Private'} />
+      {rules.approvalSettings && (
+        <>
+          {rules.approvalSettings.approvalThreshold != null && (
+            <CharterRow label="Approval threshold" value={`${Math.round(rules.approvalSettings.approvalThreshold * 100)}%`} />
+          )}
+          {rules.approvalSettings.vetoEnabled != null && (
+            <CharterRow label="Veto enabled" value={rules.approvalSettings.vetoEnabled ? 'Yes' : 'No'} />
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function ContestationRulesSection({ rules }: { rules: UserGroupContestationRulesResponse }) {
+  return (
+    <div className="space-y-1">
+      <h4 className="text-sm font-semibold text-foreground mb-2">Contestation Rules</h4>
+      {rules.resolutionWindow && <CharterRow label="Resolution window" value={rules.resolutionWindow} />}
+      {rules.rejectionThreshold != null && (
+        <CharterRow label="Rejection threshold" value={`${Math.round(rules.rejectionThreshold * 100)}%`} />
+      )}
+    </div>
+  );
+}
+
+function ShunningRulesSection({ rules }: { rules: UserGroupShunningRulesResponse }) {
+  return (
+    <div className="space-y-1">
+      <h4 className="text-sm font-semibold text-foreground mb-2">Shunning Rules</h4>
+      {rules.approvalThreshold != null && (
+        <CharterRow label="Approval threshold" value={`${Math.round(rules.approvalThreshold * 100)}%`} />
+      )}
+    </div>
+  );
+}
+
+function GovernanceCard({ charter }: { charter: UserGroupCharterResponse }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <Card
+        title={
+          <CollapsibleTrigger asChild>
+            <button className="flex items-center justify-between w-full text-left">
+              <span className="font-semibold">Governance Charter</span>
+              <span className="text-sm text-muted-foreground">{open ? '▲ Collapse' : '▼ Expand'}</span>
+            </button>
+          </CollapsibleTrigger>
+        }
+        content={
+          <CollapsibleContent>
+            <div className="space-y-6 pt-2">
+              {charter.membershipRules && (
+                <MembershipRulesSection rules={charter.membershipRules} />
+              )}
+              {charter.contestationRules && (
+                <ContestationRulesSection rules={charter.contestationRules} />
+              )}
+              {charter.shunningRules && (
+                <ShunningRulesSection rules={charter.shunningRules} />
+              )}
+            </div>
+          </CollapsibleContent>
+        }
+      />
+    </Collapsible>
+  );
+}
+
 export function UserGroupDetailPage() {
   const { userGroupId } = useParams<{ userGroupId: string }>();
   const { data: group, isLoading, error } = useUserGroup(userGroupId ?? '');
