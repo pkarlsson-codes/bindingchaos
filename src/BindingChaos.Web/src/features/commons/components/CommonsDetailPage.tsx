@@ -43,7 +43,13 @@ function UserGroupCard({ group }: { group: UserGroupListItemResponse }) {
       <Card
         title={
           <div className="flex items-center gap-2">
-            <span className="font-semibold">{group.name ?? 'Unnamed Group'}</span>
+            <Link
+              to={`/user-groups/${group.id}`}
+              className="font-semibold text-foreground hover:underline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {group.name ?? 'Unnamed Group'}
+            </Link>
             {group.joinPolicy && <Badge variant="secondary">{group.joinPolicy}</Badge>}
           </div>
         }

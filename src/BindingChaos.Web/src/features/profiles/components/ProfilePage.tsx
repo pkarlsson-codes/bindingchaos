@@ -157,7 +157,7 @@ function UserGroupsTab({ participantId }: { participantId: string }) {
         <div
           key={g.id}
           className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
-          onClick={() => navigate(`/commons/${g.commonsId}`)}
+          onClick={() => navigate(`/user-groups/${g.id}`)}
         >
           <p className="font-medium text-foreground">{g.name}</p>
           {g.philosophy && (

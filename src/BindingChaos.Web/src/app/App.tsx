@@ -19,6 +19,7 @@ import { CommonsPage } from '../features/commons/components/CommonsPage';
 import { CommonsDetailPage } from '../features/commons/components/CommonsDetailPage';
 import { ProjectsByUserGroupPage } from '../features/projects/components/ProjectsByUserGroupPage';
 import { ProjectDetailPage } from '../features/projects/components/ProjectDetailPage';
+import { UserGroupDetailPage } from '../features/commons/components/UserGroupDetailPage';
 import { AboutPage } from '../features/about/components/AboutPage';
 import { ProfilePage } from '../features/profiles/components/ProfilePage';
 
@@ -73,6 +74,9 @@ function App() {
                       {/* Commons */}
                       <Route path="/commons" element={<CommonsPage />} />
                       <Route path="/commons/:commonsId" element={<CommonsDetailPage />} />
+
+                      {/* User Groups */}
+                      <Route path="/user-groups/:userGroupId" element={<UserGroupDetailPage />} />
 
                       {/* Projects */}
                       <Route path="/user-groups/:userGroupId/projects" element={<ProjectsByUserGroupPage />} />
