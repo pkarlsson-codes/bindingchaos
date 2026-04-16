@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using BindingChaos.CorePlatform.API.IntegrationTests.Endpoints.Concerns;
 using BindingChaos.CorePlatform.Contracts.Requests;
 using BindingChaos.CorePlatform.Contracts.Responses;
 using BindingChaos.Infrastructure.API;
@@ -15,7 +16,7 @@ public class LinkConcernToCommonsTests(ApiFactory factory)
     {
         var client = factory.CreateClient().WithAuthToken();
         var commonsId = await ProposeCommonsTests.CreateCommonsAsync(client);
-        var concernId = await CreateConcernAsync(client);
+        var concernId = await CreateConcernTests.CreateConcernAsync(client);
 
         var response = await factory.CreateClient().PostAsJsonAsync(
             $"/api/commons/{commonsId}/concerns/{concernId}",
@@ -31,7 +32,7 @@ public class LinkConcernToCommonsTests(ApiFactory factory)
         var client = factory.CreateClient().WithAuthToken();
         var commonsId = await ProposeCommonsTests.CreateCommonsAsync(client);
         await FormUserGroupAsync(client, commonsId, "Commons Linkers");
-        var concernId = await CreateConcernAsync(client);
+        var concernId = await CreateConcernTests.CreateConcernAsync(client);
 
         var linkResponse = await client.PostAsJsonAsync(
             $"/api/commons/{commonsId}/concerns/{concernId}",
@@ -63,41 +64,4 @@ public class LinkConcernToCommonsTests(ApiFactory factory)
             TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
     }
-
-    private static async Task<string> CreateConcernAsync(HttpClient client)
-    {
-        var signalId = await CreateSignalAsync(client);
-
-        var response = await client.PostAsJsonAsync(
-            "/api/concerns",
-            ValidRaiseConcernRequest(signalId),
-            TestContext.Current.CancellationToken);
-        response.EnsureSuccessStatusCode();
-        return (await response.Content.ReadFromJsonAsync<ApiResponse<string>>(TestContext.Current.CancellationToken))!.Data!;
-    }
-
-    private static async Task<string> CreateSignalAsync(HttpClient client)
-    {
-        var response = await client.PostAsJsonAsync(
-            "/api/signals",
-            new CaptureSignalRequest(
-                Title: "Signal for concern linkage",
-                Description: "Signal created for LinkConcernToCommons integration tests.",
-                Tags: ["testing"],
-                AttachmentIds: [],
-                Latitude: null,
-                Longitude: null),
-            TestContext.Current.CancellationToken);
-        response.EnsureSuccessStatusCode();
-
-        var signalId = response.Headers.Location?.Segments.LastOrDefault()?.Trim('/');
-        signalId.Should().NotBeNullOrWhiteSpace();
-        return signalId!;
-    }
-
-    private static RaiseConcernRequest ValidRaiseConcernRequest(string signalId) => new(
-        Name: "Test Concern",
-        Tags: ["environment"],
-        SignalIds: [signalId],
-        Origin: ConcernOriginDto.Manual);
 }
