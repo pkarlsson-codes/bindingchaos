@@ -134,7 +134,7 @@ public sealed class ProjectsController(IMessageBus messageBus, IQuerySession que
         var command = new ProposeProjectAmendment(ProjectId.Create(projectId), participantId);
         var amendmentId = await messageBus.InvokeAsync<AmendmentId>(command, cancellationToken).ConfigureAwait(false);
 
-        return Created($"api/projects/{projectId}/amendments/{amendmentId.Value}", amendmentId.Value);
+        return Created($"/api/projects/{projectId}/amendments/{amendmentId.Value}", amendmentId.Value);
     }
 
     /// <summary>
@@ -197,7 +197,7 @@ public sealed class ProjectsController(IMessageBus messageBus, IQuerySession que
 
         var command = new RaiseProjectInquiry(ProjectId.Create(projectId), participantId, request.Body);
         var inquiryId = await messageBus.InvokeAsync<ProjectInquiryId>(command, cancellationToken).ConfigureAwait(false);
-        return Created($"api/projects/{projectId}/inquiries/{inquiryId.Value}", inquiryId.Value);
+        return CreatedAtAction(nameof(GetProjectInquiry), new { projectId, inquiryId = inquiryId.Value }, inquiryId.Value);
     }
 
     /// <summary>

@@ -59,7 +59,7 @@ public sealed class UserGroupsController(
             charter);
         var userGroupId = await messageBus.InvokeAsync<UserGroupId>(command, cancellationToken).ConfigureAwait(false);
 
-        return Created($"api/usergroups/{userGroupId.Value}", userGroupId.Value);
+        return CreatedAtAction(nameof(GetUserGroupDetail), new { id = userGroupId.Value }, userGroupId.Value);
     }
 
     /// <summary>

@@ -50,7 +50,7 @@ public sealed class CommonsController(
         var command = new ProposeCommonsCommand(request.Name, request.Description, participantId);
         var commonsId = await messageBus.InvokeAsync<CommonsId>(command, cancellationToken).ConfigureAwait(false);
 
-        return Created($"api/commons/{commonsId.Value}", commonsId.Value);
+        return Created($"/api/commons/{commonsId.Value}", commonsId.Value);
     }
 
     /// <summary>

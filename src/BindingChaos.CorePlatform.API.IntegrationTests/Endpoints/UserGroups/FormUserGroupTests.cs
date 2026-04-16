@@ -35,7 +35,7 @@ public class FormUserGroupTests(ApiFactory factory)
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         response.Headers.Location.Should().NotBeNull();
-        response.Headers.Location!.ToString().Should().Contain("api/usergroups/");
+        response.Headers.Location!.ToString().Should().Contain("/api/usergroups/");
     }
 
     private static async Task<string> CreateCommonsAsync(HttpClient client)

@@ -51,7 +51,7 @@ public sealed partial class DocumentsController(IDocumentManagementService docum
 
             Logs.LogDocumentStoredSuccessfully(_logger, documentId);
 
-            return Created($"api/documents/{documentId}", documentId);
+            return CreatedAtAction(nameof(GetDocumentMetadata), new { documentId }, documentId);
         }
         catch (Exception ex)
         {
