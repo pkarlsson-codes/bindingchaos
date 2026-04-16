@@ -71,18 +71,13 @@ public sealed class UserGroupsController(
     /// <returns>A paginated list of user groups.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<UserGroupListItemResponse>>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     [EndpointName("getUserGroupsForCommons")]
     public async Task<IActionResult> GetUserGroupsForCommons(
         [FromQuery] string commonsId,
         [FromQuery] PaginationQuerySpec queryRequest,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(commonsId))
-        {
-            return BadRequest("commonsId is required.");
-        }
-
         var userGroups = await messageBus
             .InvokeAsync<PaginatedResponse<UserGroupListItemView>>(
                 new GetUserGroupsForCommons(CommonsId.Create(commonsId), queryRequest),
@@ -258,17 +253,12 @@ public sealed class UserGroupsController(
     /// <returns>A list of user groups the participant belongs to.</returns>
     [HttpGet("for-participant")]
     [ProducesResponseType(typeof(ApiResponse<UserGroupListItemResponse[]>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     [EndpointName("getUserGroupsForParticipant")]
     public async Task<IActionResult> GetUserGroupsForParticipant(
         [FromQuery] string participantId,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(participantId))
-        {
-            return BadRequest("participantId is required.");
-        }
-
         var userGroups = await messageBus
             .InvokeAsync<UserGroupListItemView[]>(
                 new GetMyUserGroups(new ParticipantId(participantId)),

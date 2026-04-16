@@ -93,18 +93,13 @@ public sealed class ProjectsController(IMessageBus messageBus, IQuerySession que
     [HttpGet]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<ProjectListItemResponse>>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     [EndpointName("getProjectsForUserGroup")]
     public async Task<IActionResult> GetProjectsForUserGroup(
         [FromQuery] string userGroupId,
         [FromQuery] PaginationQuerySpec<ProjectsQueryFilter> queryRequest,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(userGroupId))
-        {
-            return BadRequest("userGroupId is required.");
-        }
-
         var query = new GetProjectsForUserGroup(UserGroupId.Create(userGroupId), queryRequest);
         var projects = await messageBus.InvokeAsync<PaginatedResponse<ProjectsListItemView>>(query, cancellationToken).ConfigureAwait(false);
 
