@@ -37,6 +37,7 @@ models/ApiResponseOfPaginatedResponseOfProjectInquiryResponse.ts
 models/ApiResponseOfPaginatedResponseOfProjectListItemResponse.ts
 models/ApiResponseOfPaginatedResponseOfSocietyMemberResponse.ts
 models/ApiResponseOfPaginatedResponseOfUserGroupListItemResponse.ts
+models/ApiResponseOfPaginatedResponseOfUserGroupMemberResponse.ts
 models/ApiResponseOfParticipantProfileResponse.ts
 models/ApiResponseOfProjectContestationStatusResponse.ts
 models/ApiResponseOfProjectInquiryResponse.ts
@@ -48,6 +49,7 @@ models/ApiResponseOfSocietiesFeedViewModel.ts
 models/ApiResponseOfSocietyDetailViewModel.ts
 models/ApiResponseOfString.ts
 models/ApiResponseOfStringOf.ts
+models/ApiResponseOfUserGroupDetailResponse.ts
 models/ApiResponseOfUserGroupListItemResponseOf.ts
 models/AttachmentDetailViewModel.ts
 models/AuthorIdeaRequest.ts
@@ -87,6 +89,7 @@ models/PaginatedResponseOfSignalViewModel.ts
 models/PaginatedResponseOfSocietyListItemResponse.ts
 models/PaginatedResponseOfSocietyMemberResponse.ts
 models/PaginatedResponseOfUserGroupListItemResponse.ts
+models/PaginatedResponseOfUserGroupMemberResponse.ts
 models/ParticipantProfileResponse.ts
 models/PostRepliesViewModel.ts
 models/PostViewModel.ts
@@ -119,12 +122,19 @@ models/SuggestedActionViewModel.ts
 models/TrustInviteLinkViewResponse.ts
 models/UpdateProjectInquiryRequest.ts
 models/UserGroupApprovalSettingsDto.ts
+models/UserGroupApprovalSettingsResponse.ts
 models/UserGroupCharterDto.ts
+models/UserGroupCharterResponse.ts
 models/UserGroupContestationRulesDto.ts
+models/UserGroupContestationRulesResponse.ts
+models/UserGroupDetailResponse.ts
 models/UserGroupJoinPolicyDto.ts
 models/UserGroupListItemResponse.ts
+models/UserGroupMemberResponse.ts
 models/UserGroupMembershipRulesDto.ts
+models/UserGroupMembershipRulesResponse.ts
 models/UserGroupShunningRulesDto.ts
+models/UserGroupShunningRulesResponse.ts
 models/UserInfo.ts
 models/index.ts
 runtime.ts

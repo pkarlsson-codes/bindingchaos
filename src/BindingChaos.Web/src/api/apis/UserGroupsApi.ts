@@ -17,7 +17,9 @@ import * as runtime from '../runtime';
 import type {
   ApiResponseOfIReadOnlyListOfUserGroupListItemResponse,
   ApiResponseOfPaginatedResponseOfUserGroupListItemResponse,
+  ApiResponseOfPaginatedResponseOfUserGroupMemberResponse,
   ApiResponseOfString,
+  ApiResponseOfUserGroupDetailResponse,
   ApiResponseOfUserGroupListItemResponseOf,
   FormUserGroupRequest,
   ProblemDetails,
@@ -28,8 +30,12 @@ import {
     ApiResponseOfIReadOnlyListOfUserGroupListItemResponseToJSON,
     ApiResponseOfPaginatedResponseOfUserGroupListItemResponseFromJSON,
     ApiResponseOfPaginatedResponseOfUserGroupListItemResponseToJSON,
+    ApiResponseOfPaginatedResponseOfUserGroupMemberResponseFromJSON,
+    ApiResponseOfPaginatedResponseOfUserGroupMemberResponseToJSON,
     ApiResponseOfStringFromJSON,
     ApiResponseOfStringToJSON,
+    ApiResponseOfUserGroupDetailResponseFromJSON,
+    ApiResponseOfUserGroupDetailResponseToJSON,
     ApiResponseOfUserGroupListItemResponseOfFromJSON,
     ApiResponseOfUserGroupListItemResponseOfToJSON,
     FormUserGroupRequestFromJSON,
@@ -42,6 +48,17 @@ import {
 
 export interface FormUserGroupOperationRequest {
     formUserGroupRequest: FormUserGroupRequest;
+}
+
+export interface GetUserGroupDetailRequest {
+    id: string;
+}
+
+export interface GetUserGroupMembersRequest {
+    id: string;
+    pageNumber?: number;
+    pageSize?: number;
+    sort?: Array<SortDescriptor>;
 }
 
 export interface GetUserGroupsForCommonsRequest {
@@ -90,6 +107,39 @@ export interface UserGroupsApiInterface {
      * Retrieves all user groups that the authenticated participant is a member of.
      */
     getMyUserGroups(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse>;
+
+    /**
+     * 
+     * @summary Retrieves the detail of a specific user group by its ID.
+     * @param {string} id The ID of the user group.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserGroupsApiInterface
+     */
+    getUserGroupDetailRaw(requestParameters: GetUserGroupDetailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfUserGroupDetailResponse>>;
+
+    /**
+     * Retrieves the detail of a specific user group by its ID.
+     */
+    getUserGroupDetail(requestParameters: GetUserGroupDetailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfUserGroupDetailResponse>;
+
+    /**
+     * 
+     * @summary Retrieves a paginated list of members belonging to the specified user group.
+     * @param {string} id The ID of the user group.
+     * @param {number} [pageNumber] The current page number (1-based).
+     * @param {number} [pageSize] The requested page size.
+     * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserGroupsApiInterface
+     */
+    getUserGroupMembersRaw(requestParameters: GetUserGroupMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfUserGroupMemberResponse>>;
+
+    /**
+     * Retrieves a paginated list of members belonging to the specified user group.
+     */
+    getUserGroupMembers(requestParameters: GetUserGroupMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfUserGroupMemberResponse>;
 
     /**
      * 
@@ -196,6 +246,92 @@ export class UserGroupsApi extends runtime.BaseAPI implements UserGroupsApiInter
      */
     async getMyUserGroups(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfIReadOnlyListOfUserGroupListItemResponse> {
         const response = await this.getMyUserGroupsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves the detail of a specific user group by its ID.
+     */
+    async getUserGroupDetailRaw(requestParameters: GetUserGroupDetailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfUserGroupDetailResponse>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getUserGroupDetail().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/usergroups/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfUserGroupDetailResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves the detail of a specific user group by its ID.
+     */
+    async getUserGroupDetail(requestParameters: GetUserGroupDetailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfUserGroupDetailResponse> {
+        const response = await this.getUserGroupDetailRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves a paginated list of members belonging to the specified user group.
+     */
+    async getUserGroupMembersRaw(requestParameters: GetUserGroupMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiResponseOfPaginatedResponseOfUserGroupMemberResponse>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getUserGroupMembers().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageNumber'] != null) {
+            queryParameters['Page.Number'] = requestParameters['pageNumber'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['Page.Size'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/api/v1/usergroups/{id}/members`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiResponseOfPaginatedResponseOfUserGroupMemberResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves a paginated list of members belonging to the specified user group.
+     */
+    async getUserGroupMembers(requestParameters: GetUserGroupMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiResponseOfPaginatedResponseOfUserGroupMemberResponse> {
+        const response = await this.getUserGroupMembersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

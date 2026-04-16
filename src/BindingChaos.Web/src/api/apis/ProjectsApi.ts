@@ -86,6 +86,7 @@ export interface GetProjectInquiryRequest {
 
 export interface GetProjectsForUserGroupRequest {
     userGroupId?: string;
+    filterStatuses?: string | null;
     pageNumber?: number;
     pageSize?: number;
     sort?: Array<SortDescriptor>;
@@ -229,6 +230,7 @@ export interface ProjectsApiInterface {
      * 
      * @summary Retrieves a paginated list of projects for the specified user group.
      * @param {string} [userGroupId] The user group identifier to filter by.
+     * @param {string} [filterStatuses] Optional comma-separated list of statuses to filter by (e.g. Active,Completed). When omitted or empty, projects of all statuses are returned.
      * @param {number} [pageNumber] The current page number (1-based).
      * @param {number} [pageSize] The requested page size.
      * @param {Array<SortDescriptor>} [sort] Parsed sort descriptors bound from the querystring parameter named \&#39;sort\&#39;.
@@ -607,6 +609,10 @@ export class ProjectsApi extends runtime.BaseAPI implements ProjectsApiInterface
 
         if (requestParameters['userGroupId'] != null) {
             queryParameters['userGroupId'] = requestParameters['userGroupId'];
+        }
+
+        if (requestParameters['filterStatuses'] != null) {
+            queryParameters['Filter.Statuses'] = requestParameters['filterStatuses'];
         }
 
         if (requestParameters['pageNumber'] != null) {

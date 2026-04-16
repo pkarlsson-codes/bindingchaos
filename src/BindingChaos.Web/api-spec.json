@@ -1397,6 +1397,16 @@
             "x-position": 1
           },
           {
+            "name": "Filter.Statuses",
+            "in": "query",
+            "description": "Optional comma-separated list of statuses to filter by (e.g. Active,Completed).\nWhen omitted or empty, projects of all statuses are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
             "name": "Page.Number",
             "in": "query",
             "description": "The current page number (1-based).",
@@ -1404,7 +1414,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "Page.Size",
@@ -1414,7 +1424,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "sort",
@@ -1428,7 +1438,7 @@
                 "$ref": "#/components/schemas/SortDescriptor"
               }
             },
-            "x-position": 4
+            "x-position": 5
           }
         ],
         "responses": {
@@ -3104,6 +3114,116 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseOfIReadOnlyListOfUserGroupListItemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usergroups/{id}": {
+      "get": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Retrieves the detail of a specific user group by its ID.",
+        "operationId": "getUserGroupDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the user group.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user group detail, or 404 if not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfUserGroupDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usergroups/{id}/members": {
+      "get": {
+        "tags": [
+          "UserGroups"
+        ],
+        "summary": "Retrieves a paginated list of members belonging to the specified user group.",
+        "operationId": "getUserGroupMembers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the user group.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page.Number",
+            "in": "query",
+            "description": "The current page number (1-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page.Size",
+            "in": "query",
+            "description": "The requested page size.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Parsed sort descriptors bound from the querystring parameter named 'sort'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortDescriptor"
+              }
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated response containing the list of members.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfPaginatedResponseOfUserGroupMemberResponse"
                 }
               }
             }
@@ -6109,6 +6229,269 @@
             }
           }
         ]
+      },
+      "ApiResponseOfUserGroupDetailResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/UserGroupDetailResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "UserGroupDetailResponse": {
+        "type": "object",
+        "description": "Represents detailed information about a user group.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the user group."
+          },
+          "commonsId": {
+            "type": "string",
+            "description": "The identifier of the commons this group governs."
+          },
+          "commonsName": {
+            "type": "string",
+            "description": "The name of the commons this group governs."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user group."
+          },
+          "philosophy": {
+            "type": "string",
+            "description": "The philosophy of the user group, if set.",
+            "nullable": true
+          },
+          "foundedByPseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the participant who founded the group."
+          },
+          "formedAt": {
+            "type": "string",
+            "description": "The timestamp when the group was formed.",
+            "format": "date-time"
+          },
+          "memberCount": {
+            "type": "integer",
+            "description": "The current number of members in the group.",
+            "format": "int32"
+          },
+          "joinPolicy": {
+            "type": "string",
+            "description": "The join policy of the group."
+          },
+          "isMember": {
+            "type": "boolean",
+            "description": "Whether the requesting participant is a member of the group."
+          },
+          "charter": {
+            "description": "The charter governing the group.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupCharterResponse"
+              }
+            ]
+          }
+        }
+      },
+      "UserGroupCharterResponse": {
+        "type": "object",
+        "description": "Represents the charter of a user group.",
+        "additionalProperties": false,
+        "properties": {
+          "membershipRules": {
+            "description": "The rules governing membership.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupMembershipRulesResponse"
+              }
+            ]
+          },
+          "contestationRules": {
+            "description": "The rules governing contestation.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupContestationRulesResponse"
+              }
+            ]
+          },
+          "shunningRules": {
+            "description": "The rules governing shunning.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupShunningRulesResponse"
+              }
+            ]
+          }
+        }
+      },
+      "UserGroupMembershipRulesResponse": {
+        "type": "object",
+        "description": "Represents the membership rules of a user group charter.",
+        "additionalProperties": false,
+        "properties": {
+          "joinPolicy": {
+            "type": "string",
+            "description": "The policy controlling how participants may join."
+          },
+          "maxMembers": {
+            "type": "integer",
+            "description": "The maximum number of members allowed, if set.",
+            "format": "int32",
+            "nullable": true
+          },
+          "entryRequirements": {
+            "type": "string",
+            "description": "The entry requirements for joining, if any.",
+            "nullable": true
+          },
+          "memberListPublic": {
+            "type": "boolean",
+            "description": "Whether the member list is publicly visible."
+          },
+          "approvalSettings": {
+            "description": "The approval settings, if approval is required.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserGroupApprovalSettingsResponse"
+              }
+            ]
+          }
+        }
+      },
+      "UserGroupApprovalSettingsResponse": {
+        "type": "object",
+        "description": "Represents the approval settings for a user group membership policy.",
+        "additionalProperties": false,
+        "properties": {
+          "approvalThreshold": {
+            "type": "number",
+            "description": "The fraction of approvals required for a join request to succeed.",
+            "format": "double"
+          },
+          "vetoEnabled": {
+            "type": "boolean",
+            "description": "Whether any member may veto a join request."
+          }
+        }
+      },
+      "UserGroupContestationRulesResponse": {
+        "type": "object",
+        "description": "Represents the contestation rules of a user group charter.",
+        "additionalProperties": false,
+        "properties": {
+          "resolutionWindow": {
+            "type": "string",
+            "description": "The duration allowed for resolving a contestation."
+          },
+          "rejectionThreshold": {
+            "type": "number",
+            "description": "The fraction of rejections required to block a contested action.",
+            "format": "double"
+          }
+        }
+      },
+      "UserGroupShunningRulesResponse": {
+        "type": "object",
+        "description": "Represents the shunning rules of a user group charter.",
+        "additionalProperties": false,
+        "properties": {
+          "approvalThreshold": {
+            "type": "number",
+            "description": "The fraction of member votes required to shun a participant.",
+            "format": "double"
+          }
+        }
+      },
+      "ApiResponseOfPaginatedResponseOfUserGroupMemberResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "description": "Standardized API response envelope as defined in ADR-00016.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "description": "Gets or sets the response data.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginatedResponseOfUserGroupMemberResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedResponseOfUserGroupMemberResponse": {
+        "type": "object",
+        "description": "Generic paginated response wrapper for API endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "The items for the current page.",
+            "items": {
+              "$ref": "#/components/schemas/UserGroupMemberResponse"
+            }
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "Indicates whether there is a next page of results."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number (1-based).",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The number of items per page.",
+            "format": "int64"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total number of items across all pages.",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int64"
+          }
+        }
+      },
+      "UserGroupMemberResponse": {
+        "type": "object",
+        "description": "Represents a single member of a user group.",
+        "additionalProperties": false,
+        "properties": {
+          "pseudonym": {
+            "type": "string",
+            "description": "The pseudonym of the member."
+          }
+        }
       },
       "ApiResponseOfUserGroupListItemResponseOf": {
         "allOf": [
